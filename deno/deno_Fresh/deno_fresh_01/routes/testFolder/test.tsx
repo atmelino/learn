@@ -3,7 +3,7 @@
 export default function testPage() {
     return (
       <main>
-        <h1>About</h1>
+        <h1>Test</h1>
         <p>This is the test page.</p>
       </main>
     );
