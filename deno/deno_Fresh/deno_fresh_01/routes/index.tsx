@@ -39,6 +39,9 @@ export default function Home() {
         <p>
         <a href="http://localhost:8000/countdown">http://localhost:8000/countdown</a>
         </p>
+        <p>
+        <a href="http://localhost:8000/showIP">http://localhost:8000/showIP</a>
+        </p>
 
       </div>
     </>
