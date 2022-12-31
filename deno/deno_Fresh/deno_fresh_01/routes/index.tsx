@@ -36,6 +36,9 @@ export default function Home() {
         <p>
         <a href="http://localhost:8000/search">http://localhost:8000/search</a>
         </p>
+        <p>
+        <a href="http://localhost:8000/countdown">http://localhost:8000/countdown</a>
+        </p>
 
       </div>
     </>

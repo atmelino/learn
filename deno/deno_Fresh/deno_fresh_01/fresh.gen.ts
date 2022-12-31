@@ -6,28 +6,32 @@ import config from "./deno.json" assert { type: "json" };
 import * as $0 from "./routes/about.tsx";
 import * as $1 from "./routes/api/joke.ts";
 import * as $2 from "./routes/api/random-uuid.ts";
-import * as $3 from "./routes/github/[username].tsx";
-import * as $4 from "./routes/greet/[name].tsx";
-import * as $5 from "./routes/index.tsx";
-import * as $6 from "./routes/search.tsx";
-import * as $7 from "./routes/testFolder/test.tsx";
-import * as $8 from "./routes/tmpsearch.tsx";
-import * as $$0 from "./islands/Counter.tsx";
+import * as $3 from "./routes/countdown.tsx";
+import * as $4 from "./routes/github/[username].tsx";
+import * as $5 from "./routes/greet/[name].tsx";
+import * as $6 from "./routes/index.tsx";
+import * as $7 from "./routes/search.tsx";
+import * as $8 from "./routes/testFolder/test.tsx";
+import * as $9 from "./routes/tmpsearch.tsx";
+import * as $$0 from "./islands/Countdown.tsx";
+import * as $$1 from "./islands/Counter.tsx";
 
 const manifest = {
   routes: {
     "./routes/about.tsx": $0,
     "./routes/api/joke.ts": $1,
     "./routes/api/random-uuid.ts": $2,
-    "./routes/github/[username].tsx": $3,
-    "./routes/greet/[name].tsx": $4,
-    "./routes/index.tsx": $5,
-    "./routes/search.tsx": $6,
-    "./routes/testFolder/test.tsx": $7,
-    "./routes/tmpsearch.tsx": $8,
+    "./routes/countdown.tsx": $3,
+    "./routes/github/[username].tsx": $4,
+    "./routes/greet/[name].tsx": $5,
+    "./routes/index.tsx": $6,
+    "./routes/search.tsx": $7,
+    "./routes/testFolder/test.tsx": $8,
+    "./routes/tmpsearch.tsx": $9,
   },
   islands: {
-    "./islands/Counter.tsx": $$0,
+    "./islands/Countdown.tsx": $$0,
+    "./islands/Counter.tsx": $$1,
   },
   baseUrl: import.meta.url,
   config,
