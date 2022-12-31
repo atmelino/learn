@@ -19,6 +19,25 @@ export default function Home() {
         </p>
         <Counter start={3} />
       </div>
+      <div>
+        Examples:
+        <p>
+        <a href="http://localhost:8000/about">http://localhost:8000/about</a>
+        </p>
+        <p>
+        <a href="http://localhost:8000/testFolder/test">http://localhost:8000/testFolder/test</a>
+        </p>
+        <p>
+        <a href="http://localhost:8000/greet/Luca">http://localhost:8000/greet/Luca</a>
+        </p>
+        <p>
+        <a href="http://localhost:8000/github/atmelino">http://localhost:8000/github/atmelino</a>
+        </p>
+        <p>
+        <a href="http://localhost:8000/search">http://localhost:8000/search</a>
+        </p>
+
+      </div>
     </>
   );
 }
