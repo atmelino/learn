@@ -20,6 +20,9 @@ export default function AboutPage() {
       <p>This is the about page.<br></br>
         Date: 12/28/2022
       </p>
+      <p>
+        <a href="/">Home</a>
+        </p>
     </main>
   );
 }
