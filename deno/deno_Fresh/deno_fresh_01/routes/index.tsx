@@ -22,6 +22,9 @@ export default function Home() {
       <div>
         Examples:
         <p>
+        <a href="about">about</a>
+        </p>
+        <p>
         <a href="http://localhost:8000/about">http://localhost:8000/about</a>
         </p>
         <p>
@@ -38,9 +41,6 @@ export default function Home() {
         </p>
         <p>
         <a href="http://localhost:8000/countdown">http://localhost:8000/countdown</a>
-        </p>
-        <p>
-        <a href="http://localhost:8000/showIP">http://localhost:8000/showIP</a>
         </p>
 
       </div>
