@@ -25,22 +25,19 @@ export default function Home() {
         <a href="about">about</a>
         </p>
         <p>
-        <a href="http://localhost:8000/about">http://localhost:8000/about</a>
+        <a href="testFolder/test">testFolder/test</a>
         </p>
         <p>
-        <a href="http://localhost:8000/testFolder/test">http://localhost:8000/testFolder/test</a>
+        <a href="greet/Luca">greet/Luca</a>
         </p>
         <p>
-        <a href="http://localhost:8000/greet/Luca">http://localhost:8000/greet/Luca</a>
+        <a href="github/atmelino">github/atmelino</a>
         </p>
         <p>
-        <a href="http://localhost:8000/github/atmelino">http://localhost:8000/github/atmelino</a>
+        <a href="search">search</a>
         </p>
         <p>
-        <a href="http://localhost:8000/search">http://localhost:8000/search</a>
-        </p>
-        <p>
-        <a href="http://localhost:8000/countdown">http://localhost:8000/countdown</a>
+        <a href="countdown">countdown</a>
         </p>
 
       </div>
