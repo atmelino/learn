@@ -8,7 +8,7 @@ const client = await new Client().connect({
   password: "",
 });
 
-const users = await client.query(`select * from users`);
+const users = await client.query(`select * from table1`);
 console.log(users);
 
 await client.close();
