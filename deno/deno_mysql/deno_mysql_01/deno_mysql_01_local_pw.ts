@@ -1,5 +1,5 @@
 import { Client } from "https://deno.land/x/mysql/mod.ts";
-import settings from './settings.js'
+import settings from '../../../../settings.js'
 
 const client = await new Client().connect({
   hostname: settings.dbsettings.hostname,
@@ -9,7 +9,9 @@ const client = await new Client().connect({
   password: settings.dbsettings.password,
 });
 
-const users = await client.query(`select * from table1`);
+const query=`select * from table1`+settings.dbsettings.table;
+const users = await client.query(query);
+//const users = await client.query(`select * from table1`);
 console.log(users);
 
 await client.close();

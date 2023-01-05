@@ -5,6 +5,6 @@ export default {
     "db": "sammydb",
     "poolSize": 3, // connection limit
     "password": "password",
-    "foo": "bar",
+    "table": "table1"
   },
 };
