@@ -1,7 +1,7 @@
 
 echo run
 
-deno run --allow-net read_settings.ts
+deno task start
 
 echo press enter
 
