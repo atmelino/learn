@@ -12,9 +12,9 @@ export function Page({ children }: { children: ComponentChildren }) {
         <div className="flex justify-end p-4">
           <a href="https://fresh.deno.dev" className="bottom-0 right-0">
             <img
-              width="197"
-              height="37"
-              src="https://fresh.deno.dev/fresh-badge.svg"
+              width="32"
+              height="32"
+              src="/logo.svg"
               alt="Made with Fresh"
             />
           </a>
