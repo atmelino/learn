@@ -5,7 +5,7 @@ const client = await new Client().connect({
   username: "sammy",
   db: "sammydb",
   poolSize: 3, // connection limit
-  password: "",
+  password: "password",
 });
 
 const users = await client.query(`select * from table1`);

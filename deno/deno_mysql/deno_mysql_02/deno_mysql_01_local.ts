@@ -15,3 +15,4 @@ const users = await client.query(query);
 console.log(users);
 
 await client.close();
+
