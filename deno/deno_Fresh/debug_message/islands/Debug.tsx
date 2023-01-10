@@ -8,36 +8,32 @@ interface debugProps {
 }
 
 export default function Debug(props: debugProps) {
-  const [text, setText] = useState(props.initmessage);
   const [debugMessage, setdebugMessage] = useState(props.initmessage);
-
-  function setDebugText1(message: string) {
-    //alert("hi");
-    setText(message);
-  }
+  const [text_ta, setText_ta] = useState(props.initmessage);
+  const [text_tac, setText_tac] = useState(props.initmessage);
 
   function setDebugText(message: string) {
     //alert("hi");
     setdebugMessage(message);
   }
 
+  function setDebugText_ta(message: string) {
+    //alert("hi");
+    setText_ta(message);
+  }
+
   return (
     <div class="flex flex-col w-full pt-5">
-      <TextArea
-        placeholder="text here..."
-        rows={15}
-        onChange={(e) => setText((e.target as HTMLInputElement).value)}
-      />
-      <div>
-        {debugMessage}
-      </div>
       <div class="flex gap-2 w-full">
         <Button onClick={() => setDebugText(debugMessage + "text")}>
           debug message in div
         </Button>
       </div>
+      <div>
+        {debugMessage}
+      </div>
       <div class="flex gap-2 w-full">
-        <Button onClick={() => setDebugText1(text + "text")}>
+        <Button onClick={() => setDebugText_ta(text_ta + "text")}>
           debug message in textarea
         </Button>
       </div>
@@ -45,9 +41,19 @@ export default function Debug(props: debugProps) {
         <textarea
           class={`w-full p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500 `}
         >
-          {text}
+          {text_ta}
         </textarea>
       </div>
+      <div class="flex gap-2 w-full">
+        <Button onClick={() => setText_tac(text_tac + "text")}>
+          debug message in Textarea component
+        </Button>
+      </div>
+      <TextArea
+        placeholder="text here..."
+        rows={3}
+        onChange={(e) => setText_tac((e.target as HTMLInputElement).value)}
+      />
     </div>
   );
 }
