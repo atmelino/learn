@@ -4,7 +4,7 @@ import { Tasks } from "../components/Tasks.tsx";
 export interface ITask {
   uuid: string;
   desc: string;
-  param1:number
+  param1: number;
 }
 
 export default function Todo() {
@@ -14,6 +14,9 @@ export default function Todo() {
   function removeTask(uuid: string) {
     setTasks((tasks) => tasks.filter((task) => task.uuid != uuid));
   }
+
+  //function addTask()
+  //}
 
   return (
     <div class="flex flex-col w-full pt-5">
@@ -27,13 +30,14 @@ export default function Todo() {
           ) => [...p, {
             desc: taskRef?.current?.value ?? "",
             uuid: crypto.randomUUID(),
-            param1:4
+            param1: 4,
           }]);
           taskRef.current.value = "";
         }}
       >
         <input
           class="w-5/6 border-1 border-gray-500 h-10 rounded p-2"
+          defaultValue="test"
           placeholder="Write your task here..."
           type="text"
           ref={taskRef}
