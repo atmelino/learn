@@ -5,7 +5,6 @@ import { Button } from "../components/Button.tsx";
 export interface ITask {
   uuid: string;
   desc: string;
-  param1: number;
 }
 
 export default function Todo() {
@@ -23,7 +22,6 @@ export default function Todo() {
     ) => [...p, {
       desc: taskRef?.current?.value ?? "",
       uuid: crypto.randomUUID(),
-      param1: 4,
     }]);
   }
 
