@@ -7,7 +7,7 @@ export interface ITask {
   desc: string;
 }
 
-export default function Todo() {
+export default function NoteKeeper() {
   const [tasks, setTasks] = useState<ITask[]>([]);
   const taskRef = useRef<HTMLInputElement | null>(null);
 
