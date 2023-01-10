@@ -64,8 +64,7 @@ export default function Todo() {
         </button>
       </form>
       <Tasks tasks={tasks} removeTask={removeTask} />
-      <Button onClick={() => addTask("text")}>debug message</Button>
-
+      <Button onClick={() => addTask("text")}>add a new note</Button>
     </div>
   );
 }
