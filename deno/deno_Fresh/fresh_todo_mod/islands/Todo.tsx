@@ -1,5 +1,6 @@
 import { useRef, useState } from "preact/hooks";
 import { Tasks } from "../components/Tasks.tsx";
+import { Button } from "../components/Button.tsx";
 
 export interface ITask {
   uuid: string;
@@ -15,8 +16,16 @@ export default function Todo() {
     setTasks((tasks) => tasks.filter((task) => task.uuid != uuid));
   }
 
-  //function addTask()
-  //}
+  function addTask(uuid: string) {
+    //setTasks((tasks) => tasks.filter((task) => task.uuid != uuid));
+    setTasks((
+      p,
+    ) => [...p, {
+      desc: taskRef?.current?.value ?? "",
+      uuid: crypto.randomUUID(),
+      param1: 4,
+    }]);
+  }
 
   return (
     <div class="flex flex-col w-full pt-5">
@@ -57,6 +66,8 @@ export default function Todo() {
         </button>
       </form>
       <Tasks tasks={tasks} removeTask={removeTask} />
+      <Button onClick={() => addTask("text")}>debug message</Button>
+
     </div>
   );
 }
