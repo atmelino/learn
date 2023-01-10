@@ -11,7 +11,7 @@ export default function Home() {
       </Head>
       <main class="p-4 mx-auto max-w-screen-md flex flex-col justify-center items-center">
         <Todo />
-        <Debug start={1} initmessage="hello"/>
+        <Debug initmessage="hello" />
       </main>
     </div>
   );
