@@ -9,11 +9,6 @@ export default function Debug(props: debugProps) {
   const [text, setText] = useState("");
   const [debugMessage, setdebugMessage] = useState(props.initmessage);
 
-  function setDebugText1(message: string) {
-    alert("hi");
-    setText(message);
-  }
-
   function setDebugText(message: string) {
     //alert("hi");
     setdebugMessage(message);
