@@ -1,5 +1,5 @@
 import { INote } from "../islands/NoteKeeper.tsx";
-import { Task } from "./Task.tsx";
+import { Note } from "./Note.tsx";
 
 interface TasksProps {
   tasks: INote[];
@@ -9,7 +9,7 @@ interface TasksProps {
 export function Notes({ tasks, removeNote }: TasksProps) {
   return (
     <div class="flex flex-col gap-2 pt-2 w-full">
-      {tasks?.map((task) => <Task task={task} removeNote={removeNote} />)}
+      {tasks?.map((task) => <Note task={task} removeNote={removeNote} />)}
     </div>
   );
 }
