@@ -1,18 +1,18 @@
 import { INote } from "../islands/NoteKeeper.tsx";
 
 interface NoteProps {
-  task: INote;
+  note: INote;
   removeNote: (s: string) => void;
 }
 
-export function Note({ task, removeNote }: NoteProps) {
+export function Note({ note, removeNote }: NoteProps) {
   return (
     <div class="w-full bg-gray-50 h-12 text-black rounded shadow flex justify-between items-center content-between">
       <p class="p-2 w-5/6">
-        {task.desc}
+        {note.desc}
       </p>
       <button
-        onClick={() => removeNote(task.uuid)}
+        onClick={() => removeNote(note.uuid)}
         class="w-1/6 bg-gray-100 hover:bg-gray-200 h-full flex justify-center items-center"
       >
         <svg

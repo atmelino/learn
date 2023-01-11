@@ -12,11 +12,11 @@ export default function NoteKeeper() {
   const noteRef = useRef<HTMLInputElement | null>(null);
 
   function removeNote(uuid: string) {
-    setNotes((notes) => notes.filter((task) => task.uuid != uuid));
+    setNotes((notes) => notes.filter((note) => note.uuid != uuid));
   }
 
   function addNote(uuid: string) {
-    //setNotes((notes) => notes.filter((task) => task.uuid != uuid));
+    //setNotes((notes) => notes.filter((note) => note.uuid != uuid));
     setNotes((
       p,
     ) => [...p, {
@@ -45,7 +45,7 @@ export default function NoteKeeper() {
         <input
           class="w-5/6 border-1 border-gray-500 h-10 rounded p-2"
           defaultValue="test"
-          placeholder="Write your task here..."
+          placeholder="Write your note here..."
           type="text"
           ref={noteRef}
         />
