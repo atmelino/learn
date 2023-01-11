@@ -2,25 +2,25 @@ import { useRef, useState } from "preact/hooks";
 import { Tasks } from "../components/Tasks.tsx";
 import { Button } from "../components/Button.tsx";
 
-export interface ITask {
+export interface INote {
   uuid: string;
   desc: string;
 }
 
 export default function NoteKeeper() {
-  const [tasks, setTasks] = useState<ITask[]>([]);
-  const taskRef = useRef<HTMLInputElement | null>(null);
+  const [tasks, setNotes] = useState<INote[]>([]);
+  const noteRef = useRef<HTMLInputElement | null>(null);
 
-  function removeTask(uuid: string) {
-    setTasks((tasks) => tasks.filter((task) => task.uuid != uuid));
+  function removeNote(uuid: string) {
+    setNotes((tasks) => tasks.filter((task) => task.uuid != uuid));
   }
 
-  function addTask(uuid: string) {
-    //setTasks((tasks) => tasks.filter((task) => task.uuid != uuid));
-    setTasks((
+  function addNote(uuid: string) {
+    //setNotes((tasks) => tasks.filter((task) => task.uuid != uuid));
+    setNotes((
       p,
     ) => [...p, {
-      desc: taskRef?.current?.value ?? "",
+      desc: noteRef?.current?.value ?? "",
       uuid: crypto.randomUUID(),
     }]);
   }
@@ -31,15 +31,15 @@ export default function NoteKeeper() {
         class="flex gap-2 w-full"
         onSubmit={(e) => {
           e.preventDefault();
-          if (!taskRef?.current?.value) return;
-          setTasks((
+          if (!noteRef?.current?.value) return;
+          setNotes((
             p,
           ) => [...p, {
-            desc: taskRef?.current?.value ?? "",
+            desc: noteRef?.current?.value ?? "",
             uuid: crypto.randomUUID(),
             param1: 4,
           }]);
-          taskRef.current.value = "";
+          noteRef.current.value = "";
         }}
       >
         <input
@@ -47,7 +47,7 @@ export default function NoteKeeper() {
           defaultValue="test"
           placeholder="Write your task here..."
           type="text"
-          ref={taskRef}
+          ref={noteRef}
         />
         <button
           type="submit"
@@ -63,8 +63,8 @@ export default function NoteKeeper() {
           </svg>
         </button>
       </form>
-      <Tasks tasks={tasks} removeTask={removeTask} />
-      <Button onClick={() => addTask("text")}>add a new note</Button>
+      <Tasks tasks={tasks} removeNote={removeNote} />
+      <Button onClick={() => addNote("text")}>add a new note</Button>
     </div>
   );
 }
