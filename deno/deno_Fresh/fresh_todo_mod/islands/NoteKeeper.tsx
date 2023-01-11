@@ -1,5 +1,5 @@
 import { useRef, useState } from "preact/hooks";
-import { Tasks } from "../components/Tasks.tsx";
+import { Notes } from "../components/Notes.tsx";
 import { Button } from "../components/Button.tsx";
 
 export interface INote {
@@ -63,7 +63,7 @@ export default function NoteKeeper() {
           </svg>
         </button>
       </form>
-      <Tasks tasks={tasks} removeNote={removeNote} />
+      <Notes tasks={tasks} removeNote={removeNote} />
       <Button onClick={() => addNote("text")}>add a new note</Button>
     </div>
   );
