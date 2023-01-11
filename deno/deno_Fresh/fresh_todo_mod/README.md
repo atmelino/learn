@@ -1,4 +1,4 @@
-# fresh-todo-list
+# fresh-NoteKeeper
 
 [![Made with Fresh](https://fresh.deno.dev/fresh-badge.svg)](https://fresh.deno.dev)
 
@@ -15,5 +15,5 @@ This will watch the project directory and restart as necessary.
 ## Preview
 
 ```
-https://fresh-todo-list.deno.dev/
+
 ```
