@@ -1,11 +1,11 @@
 import { INote } from "../islands/NoteKeeper.tsx";
 
-interface TaskProps {
+interface NoteProps {
   task: INote;
   removeNote: (s: string) => void;
 }
 
-export function Note({ task, removeNote }: TaskProps) {
+export function Note({ task, removeNote }: NoteProps) {
   return (
     <div class="w-full bg-gray-50 h-12 text-black rounded shadow flex justify-between items-center content-between">
       <p class="p-2 w-5/6">

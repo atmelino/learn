@@ -8,15 +8,15 @@ export interface INote {
 }
 
 export default function NoteKeeper() {
-  const [tasks, setNotes] = useState<INote[]>([]);
+  const [notes, setNotes] = useState<INote[]>([]);
   const noteRef = useRef<HTMLInputElement | null>(null);
 
   function removeNote(uuid: string) {
-    setNotes((tasks) => tasks.filter((task) => task.uuid != uuid));
+    setNotes((notes) => notes.filter((task) => task.uuid != uuid));
   }
 
   function addNote(uuid: string) {
-    //setNotes((tasks) => tasks.filter((task) => task.uuid != uuid));
+    //setNotes((notes) => notes.filter((task) => task.uuid != uuid));
     setNotes((
       p,
     ) => [...p, {
@@ -63,7 +63,7 @@ export default function NoteKeeper() {
           </svg>
         </button>
       </form>
-      <Notes tasks={tasks} removeNote={removeNote} />
+      <Notes notes={notes} removeNote={removeNote} />
       <Button onClick={() => addNote("text")}>add a new note</Button>
     </div>
   );
