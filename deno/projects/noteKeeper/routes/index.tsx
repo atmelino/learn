@@ -1,5 +1,4 @@
 import { Head } from "$fresh/runtime.ts";
-import Debug from "../islands/Debug.tsx";
 import NoteKeeper from "../islands/NoteKeeper.tsx";
 
 export default function Home() {
@@ -11,7 +10,6 @@ export default function Home() {
       </Head>
       <main class="p-4 mx-auto max-w-screen-md flex flex-col justify-center items-center">
         <NoteKeeper />
-        <Debug initmessage="hello" />
       </main>
     </div>
   );
