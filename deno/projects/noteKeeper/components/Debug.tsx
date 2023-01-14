@@ -8,6 +8,14 @@ interface NoteProps {
 export function Debug({ note, removeNote }: NoteProps) {
   return (
     <div class="w-full bg-gray-50 h-12 text-black rounded shadow flex justify-between items-center content-between">
+      <div>
+        <textarea
+          class={`w-full p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500 `}
+        >
+          {note.desc}
+        </textarea>
+      </div>
+
       <p class="p-2 w-5/6">
         {note.desc}
       </p>
