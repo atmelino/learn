@@ -1,7 +1,6 @@
 import { useRef, useState } from "preact/hooks";
 import { Notes } from "../components/Notes.tsx";
 import { Button } from "../components/Button.tsx";
-import { Debugs } from "../components/Debugs.tsx";
 import { NewDebug } from "../components/NewDebug.tsx";
 
 export interface INote {
@@ -9,39 +8,13 @@ export interface INote {
   desc: string;
 }
 
-export interface IDebug {
-  uuid: string;
-  desc: string;
-}
-
 export default function NoteKeeper() {
   const [notes, setNotes] = useState<INote[]>([]);
   const noteRef = useRef<HTMLInputElement | null>(null);
-  const [debugs, setDebugs] = useState<IDebug[]>([]);
   const [debug, setDebug] = useState("initial");
-
-  // function setDebugText(message: string) {
-  //   //alert("hi");
-  //   setdebugMessage(message);
-  // }
-
-  function removeDebug(desc: string) {
-    setDebugs((debug) => debug.filter((note) => note.desc != desc));
-  }
 
   function addNewDebug(message: string) {
     setDebug(message);
-  }
-
-
-  function addDebug(desc: string) {
-    setDebugs((
-      p,
-    ) => [...p, {
-      desc: "new debug message",
-      uuid: crypto.randomUUID(),
-    }]);
-    addNewDebug("a");
   }
 
   function removeNote(uuid: string) {
@@ -56,7 +29,7 @@ export default function NoteKeeper() {
       desc: noteRef?.current?.value ?? "",
       uuid: crypto.randomUUID(),
     }]);
-    addDebug("text");
+    addNewDebug("a");
   }
 
   return (
@@ -98,8 +71,7 @@ export default function NoteKeeper() {
       </form>
       <Notes notes={notes} removeNote={removeNote} />
       <Button onClick={() => addNote("text")}>add a new note</Button>
-      <Debugs debugs={debugs} removeNote={removeDebug} />
-      <Button onClick={() => addDebug("text")}>debug message</Button>
+      <Button onClick={() => addNewDebug("text")}>debug message</Button>
       <NewDebug debug={debug} />
     </div>
   );

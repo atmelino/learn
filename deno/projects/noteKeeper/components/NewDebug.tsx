@@ -1,4 +1,3 @@
-import { IDebug } from "../islands/NoteKeeper.tsx";
 import { Button } from "../components/Button.tsx";
 
 interface debugProps {
@@ -17,7 +16,6 @@ export function NewDebug({ debug }: debugProps) {
           </textarea>
         </div>
       }
-
     </div>
   );
 }
