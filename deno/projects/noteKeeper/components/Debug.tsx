@@ -4,7 +4,7 @@ interface debugProps {
   debug: string;
 }
 
-export function NewDebug({ debug }: debugProps) {
+export function Debug({ debug }: debugProps) {
   return (
     <div class="flex flex-col gap-2 pt-2 w-full">
       {
