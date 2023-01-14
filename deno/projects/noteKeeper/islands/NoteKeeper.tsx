@@ -48,6 +48,7 @@ export default function NoteKeeper() {
       desc: noteRef?.current?.value ?? "",
       uuid: crypto.randomUUID(),
     }]);
+    addDebug("text");
   }
 
   return (
