@@ -16,9 +16,6 @@ export function Debug({ note, removeNote }: NoteProps) {
         </textarea>
       </div>
 
-      <p class="p-2 w-5/6">
-        {note.desc}
-      </p>
       <button
         onClick={() => removeNote(note.uuid)}
         class="w-1/6 bg-gray-100 hover:bg-gray-200 h-full flex justify-center items-center"
