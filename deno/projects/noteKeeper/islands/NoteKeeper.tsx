@@ -14,6 +14,17 @@ export default function NoteKeeper() {
   const [debug, setDebug] = useState("initial");
   let my_uuid = "";
 
+  function makeid(length:number) {
+    let result = "";
+    const characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  }
+
   function addDebug(message: string) {
     setDebug(message);
   }
@@ -24,7 +35,9 @@ export default function NoteKeeper() {
 
   function addNote(uuid: string) {
     //setDebugText();
-    my_uuid=crypto.randomUUID();
+    //my_uuid=crypto.randomUUID();
+    my_uuid=makeid(36);
+    //my_uuid = Math.random() * 10000;
     setNotes((
       p,
     ) => [...p, {
@@ -40,13 +53,15 @@ export default function NoteKeeper() {
         class="flex gap-2 w-full"
         onSubmit={(e) => {
           e.preventDefault();
+
           if (!noteRef?.current?.value) return;
-          setNotes((
-            p,
-          ) => [...p, {
-            desc: noteRef?.current?.value ?? "",
-            uuid: crypto.randomUUID(),
-          }]);
+          addNote("");
+          // setNotes((
+          //   p,
+          // ) => [...p, {
+          //   desc: noteRef?.current?.value ?? "",
+          //   uuid: crypto.randomUUID(),
+          // }]);
           noteRef.current.value = "";
         }}
       >
