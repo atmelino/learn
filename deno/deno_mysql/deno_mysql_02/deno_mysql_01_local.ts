@@ -1,6 +1,8 @@
 import { Client } from "https://deno.land/x/mysql/mod.ts";
 import settings from '../../../../settings.js'
 
+console.log("settings:");
+
 const client = await new Client().connect({
   hostname: settings.dbsettings.hostname,
   username: settings.dbsettings.username,
