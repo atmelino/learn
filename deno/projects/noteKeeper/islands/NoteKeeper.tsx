@@ -2,6 +2,8 @@ import { useRef, useState } from "preact/hooks";
 import { Notes } from "../components/Notes.tsx";
 import { Button } from "../components/Button.tsx";
 import { Debug } from "../components/Debug.tsx";
+import { Debug2 } from "../components/Debug2.tsx";
+import { dbRead } from "../components/dbRead.tsx";
 
 export interface INote {
   uuid: string;
@@ -90,6 +92,8 @@ export default function NoteKeeper() {
       <Debug debug={debug} />
       <Notes notes={notes} removeNote={removeNote} />
       <Button onClick={() => addNote("text")}>add a new note</Button>
+      <Debug2 debug={debug} />
     </div>
+
   );
 }
