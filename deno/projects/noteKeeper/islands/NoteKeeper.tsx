@@ -14,7 +14,7 @@ export default function NoteKeeper() {
   const [debug, setDebug] = useState("initial");
   let my_uuid = "";
 
-  function makeid(length:number) {
+  function makeid(length: number) {
     let result = "";
     const characters =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -36,7 +36,7 @@ export default function NoteKeeper() {
   function addNote(uuid: string) {
     //setDebugText();
     //my_uuid=crypto.randomUUID();
-    my_uuid=makeid(36);
+    my_uuid = makeid(36);
     //my_uuid = Math.random() * 10000;
     setNotes((
       p,
