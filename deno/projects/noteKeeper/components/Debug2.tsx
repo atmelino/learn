@@ -10,15 +10,15 @@ interface debugProps {
 export function Debug2({ debug }: debugProps) {
   const [dbread, setdbRead] = useState("database");
 
-  async function init() {
-    const client = await new Client().connect({
-      hostname: settings.dbsettings.hostname,
-      username: settings.dbsettings.username,
-      db: settings.dbsettings.db,
-      poolSize: settings.dbsettings.poolSize, // connection limit
-      password: settings.dbsettings.password,
-    });
-  }
+  // async function init() {
+  //   const client = await new Client().connect({
+  //     hostname: settings.dbsettings.hostname,
+  //     username: settings.dbsettings.username,
+  //     db: settings.dbsettings.db,
+  //     poolSize: settings.dbsettings.poolSize, // connection limit
+  //     password: settings.dbsettings.password,
+  //   });
+  // }
 
   return (
     <div class="flex flex-col gap-2 pt-2 w-full">
