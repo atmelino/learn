@@ -1,7 +1,7 @@
 
 echo run
 
-deno run --allow-net --allow-env deno_postgre_01.ts
+deno run --allow-net --allow-env --allow-read deno_postgre_02.ts
 
 echo press enter
 

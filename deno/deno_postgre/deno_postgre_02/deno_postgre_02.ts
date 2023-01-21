@@ -4,9 +4,15 @@
 
 import { serve } from "https://deno.land/std@0.114.0/http/server.ts";
 import * as postgres from "https://deno.land/x/postgres@v0.14.2/mod.ts";
+import { config } from "https://deno.land/x/dotenv/mod.ts";
+
+const greeting = config().GREETING;
+
 
 // Get the connection string from the environment variable "DATABASE_URL"
-const databaseUrl = Deno.env.get("DATABASE_URL")!;
+//const databaseUrl = Deno.env.get("DATABASE_URL")!;
+//const databaseUrl = config().DATABASE_URL;
+const databaseUrl = "postgres://postgres:deno1pass2word3@db.lwbjwhxdyxafkxjdldmn.supabase.co:6543/postgres";
 
 // Create a database pool with three connections that are lazily established
 const pool = new postgres.Pool(databaseUrl, 3, true);
