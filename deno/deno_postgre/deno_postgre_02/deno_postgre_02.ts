@@ -50,6 +50,7 @@ serve(async (req) => {
         const result = await connection.queryObject`
           SELECT * FROM todos
         `;
+        console.log(result);
 
         // Encode the result as JSON
         const body = JSON.stringify(result.rows, null, 2);
