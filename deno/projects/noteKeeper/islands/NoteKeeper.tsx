@@ -35,12 +35,19 @@ export default function NoteKeeper() {
     setNotes((notes) => notes.filter((note) => note.uuid != uuid));
   }
 
-  async function  getNotes(uuid: string) {
+  // async function  getNotes(uuid: string) {
+  //   const req = new Request("http://localhost:8000/todos", {
+  //     method: "GET",
+  //   });
+  //   const resp = await fetch(req);
+  //   alert(req);
+  // }
+  async function getNotes(uuid: string) {
     const req = new Request("http://localhost:8000/todos", {
       method: "GET",
     });
     const resp = await fetch(req);
-    alert(req);
+    console.log(await resp.text());
   }
 
   function addNote(uuid: string) {
@@ -102,8 +109,6 @@ export default function NoteKeeper() {
       <Button onClick={() => addNote("text")}>add a new note</Button>
       <Debug2 debug={debug} />
       <Button onClick={() => getNotes("text")}>get notes</Button>
-
     </div>
-
   );
 }
