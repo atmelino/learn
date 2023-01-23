@@ -35,6 +35,14 @@ export default function NoteKeeper() {
     setNotes((notes) => notes.filter((note) => note.uuid != uuid));
   }
 
+  async function  getNotes(uuid: string) {
+    const req = new Request("http://localhost:8000/todos", {
+      method: "GET",
+    });
+    const resp = await fetch(req);
+    alert(req);
+  }
+
   function addNote(uuid: string) {
     //setDebugText();
     //my_uuid=crypto.randomUUID();
@@ -93,6 +101,8 @@ export default function NoteKeeper() {
       <Notes notes={notes} removeNote={removeNote} />
       <Button onClick={() => addNote("text")}>add a new note</Button>
       <Debug2 debug={debug} />
+      <Button onClick={() => getNotes("text")}>get notes</Button>
+
     </div>
 
   );
