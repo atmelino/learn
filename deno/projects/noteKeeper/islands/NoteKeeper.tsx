@@ -4,6 +4,9 @@ import { Button } from "../components/Button.tsx";
 import { Debug } from "../components/Debug.tsx";
 import { Debug2 } from "../components/Debug2.tsx";
 import { dbRead } from "../components/dbRead.tsx";
+import { oakCors } from "https://deno.land/x/cors/mod.ts";
+
+app.use(oakCors({ origin: "*" }));
 
 export interface INote {
   uuid: string;
