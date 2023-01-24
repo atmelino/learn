@@ -1,7 +1,6 @@
 import { Application, Router } from "https://deno.land/x/oak/mod.ts";
 import { Client } from "https://deno.land/x/postgres@v0.17.0/mod.ts";
 import { oakCors } from "https://deno.land/x/cors/mod.ts";
-import { v4 } from "https://deno.land/std/uuid/mod.ts";
 
 async function createTable() {
   try {
