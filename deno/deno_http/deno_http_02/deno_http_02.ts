@@ -1,22 +1,29 @@
-let resp1 = await fetch("http://localhost");
-console.log(resp1.status); // 200
-console.log(resp1.headers.get("Content-Type")); // "text/html"
-console.log(await resp1.text()); 
+//let resp1 = await fetch("http://localhost");
+//console.log(resp1.status); // 200
+// console.log(resp1.headers.get("Content-Type")); // "text/html"
+// console.log(await resp1.text());
 
+/*
 const req = new Request("http://localhost:8000/todos", {
   method: "GET",
 });
 const resp = await fetch(req);
-console.log(await resp.text()); 
+console.log(resp);
+console.log(await resp.text());
+*/
 
-//  async function  getNotes(uuid: string) {
-//   const req = new Request("http://localhost:8000/todos", {
-//     method: "GET",
-//   });
-//   const resp = await fetch(req);
-//   alert(req);
-// }
+async function getNotes() {
+  const req = new Request("http://localhost:8000/todos", {
+    method: "GET",
+  });
+  const resp = await fetch(req);
+  let ret = await resp.text();
+  return ret;
+}
 
-// getNotes("");
+let myre = getNotes();
+console.log(await myre);
+
+//console.log(await getNotes());
 
 export {};
