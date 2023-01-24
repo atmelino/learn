@@ -1,9 +1,11 @@
-// password for supabase is deno1pass2word3
-// connection string: postgres://postgres:deno1pass2word3@db.lwbjwhxdyxafkxjdldmn.supabase.co:6543/postgres
-
 import { serve } from "https://deno.land/std@0.114.0/http/server.ts";
 import * as postgres from "https://deno.land/x/postgres@v0.14.2/mod.ts";
 import { Client } from "https://deno.land/x/postgres@v0.17.0/mod.ts";
+import { oakCors } from "https://deno.land/x/cors/mod.ts";
+// password for supabase is deno1pass2word3
+// connection string: postgres://postgres:deno1pass2word3@db.lwbjwhxdyxafkxjdldmn.supabase.co:6543/postgres
+
+app.use(oakCors({ origin: "*" }));
 
 
 // Connect to the database
