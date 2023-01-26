@@ -43,6 +43,7 @@ export default function NoteKeeper() {
   //   alert(req);
   // }
   async function getNotes(uuid: string) {
+    //    const req = new Request("http://45.79.28.148:8000/todos", {
     const req = new Request("http://localhost:8000/todos", {
       method: "GET",
     });
