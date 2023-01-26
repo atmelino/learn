@@ -1,8 +1,8 @@
 import { getIP } from "https://deno.land/x/get_ip/mod.ts";
 
 const getMyIP = async () => {
-  console.log(`Your public IP is ${await getIP({ipv6: true})}`);
-}
+  const myIP = await getIP({ ipv6: true });
+  return myIP;
+};
 
-getMyIP();
-
+console.log("Your public IP is " + await getMyIP());

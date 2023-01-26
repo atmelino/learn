@@ -3,18 +3,27 @@ import { Notes } from "../components/Notes.tsx";
 import { Button } from "../components/Button.tsx";
 import { Debug } from "../components/Debug.tsx";
 import { Debug2 } from "../components/Debug2.tsx";
-import { dbRead } from "../components/dbRead.tsx";
+import { Debug3 } from "../components/Debug3.tsx";
+import { getIP } from "https://deno.land/x/get_ip/mod.ts";
 
 export interface INote {
   uuid: string;
   desc: string;
 }
 
+
+// const getMyIP = async () => {
+//   const myIP = await getIP({ ipv6: true });
+//   return myIP;
+// };
+
 export default function NoteKeeper() {
   const [notes, setNotes] = useState<INote[]>([]);
   const noteRef = useRef<HTMLInputElement | null>(null);
   const [debug, setDebug] = useState("initial");
   let my_uuid = "";
+  //let myIP = "127.0.0.1";
+//  const myIP = getMyIP();
 
   function makeid(length: number) {
     let result = "";
@@ -35,13 +44,6 @@ export default function NoteKeeper() {
     setNotes((notes) => notes.filter((note) => note.uuid != uuid));
   }
 
-  // async function  getNotes(uuid: string) {
-  //   const req = new Request("http://localhost:8000/todos", {
-  //     method: "GET",
-  //   });
-  //   const resp = await fetch(req);
-  //   alert(req);
-  // }
   async function getNotes(uuid: string) {
     //    const req = new Request("http://45.79.28.148:8000/todos", {
     const req = new Request("http://localhost:8000/todos", {
@@ -64,6 +66,7 @@ export default function NoteKeeper() {
     }]);
     addDebug(my_uuid);
   }
+
 
   return (
     <div class="flex flex-col w-full pt-5">
@@ -110,6 +113,7 @@ export default function NoteKeeper() {
       <Button onClick={() => addNote("text")}>add a new note</Button>
       <Debug2 debug={debug} />
       <Button onClick={() => getNotes("text")}>get notes</Button>
+      <Debug3 debug={debug} />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { Application, Router } from "https://deno.land/x/oak/mod.ts";
 import { Client } from "https://deno.land/x/postgres@v0.17.0/mod.ts";
 import { oakCors } from "https://deno.land/x/cors/mod.ts";
+//import settings from "../../../../../settings.js";
 
 async function createTable() {
   try {
@@ -27,6 +28,16 @@ const client = new Client({
   port: 5432,
 });
 await client.connect();
+
+// const client = await new Client().connect({
+//   hostname: settings.dbsettings.hostname,
+//   username: settings.dbsettings.username,
+//   db: settings.dbsettings.db,
+//   poolSize: settings.dbsettings.poolSize, // connection limit
+//   password: settings.dbsettings.password,
+// });
+
+
 
 //createTable();
 
