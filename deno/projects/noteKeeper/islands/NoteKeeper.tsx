@@ -1,20 +1,15 @@
 import { useRef, useState } from "preact/hooks";
 import { Notes } from "../components/Notes.tsx";
 import { Button } from "../components/Button.tsx";
-//import { Debug } from "../components/Debug.tsx";
 import { Debug2 } from "../components/Debug2.tsx";
 import { Debug3 } from "../components/Debug3.tsx";
-import { getIP } from "https://deno.land/x/get_ip/mod.ts";
+import settings from "../../../../../settings_nk.js";
 
 export interface INote {
   uuid: string;
   desc: string;
 }
 
-// const getMyIP = async () => {
-//   const myIP = await getIP({ ipv6: true });
-//   return myIP;
-// };
 
 export default function NoteKeeper() {
   const [notes, setNotes] = useState<INote[]>([]);
@@ -45,8 +40,10 @@ export default function NoteKeeper() {
 
   async function getNotes(uuid: string) {
     //    const req = new Request("http://45.79.28.148:7000/todos", {
-    const req = new Request("http://localhost:7000/todos", {
-      method: "GET",
+    const dbURL=  "http://"+settings.IPsettings.myIPstring+":7000/todos";
+    //const req = new Request("http://localhost:7000/todos", {
+      const req = new Request(dbURL, {
+        method: "GET",
     });
     const resp = await fetch(req);
     const myData = await resp.text();
@@ -113,6 +110,7 @@ export default function NoteKeeper() {
       <Debug2 debug={debug} />
       <Button onClick={() => addDebug("text")}>debug message</Button>
       <Button onClick={() => getNotes("text")}>get notes</Button>
+      <Button onClick={() => addDebug(settings.IPsettings.myIPstring)}>my IP string</Button>
       <Debug3 debug={debug} />
     </div>
   );
