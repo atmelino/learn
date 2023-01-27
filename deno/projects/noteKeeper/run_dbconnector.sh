@@ -1,7 +1,7 @@
 
 echo run
 
-deno run --allow-net --allow-env --allow-read request_server_oak.ts
+deno run --watch --allow-net --allow-env --allow-read dbconnector_oak.ts
 
 echo press enter
 

@@ -44,7 +44,8 @@ router.get("/todos", async (ctx) => {
   const result = await client.queryArray`
  SELECT * FROM todos
 `;
-  console.log(result);
+console.log("result");
+console.log(result);
 
   ctx.response.body = JSON.stringify(result.rows);
 
