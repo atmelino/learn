@@ -31,7 +31,7 @@ await client.connect();
 
 //createTable();
 
-const port = 8000;
+const port = 7000;
 const app = new Application();
 app.use(oakCors({ origin: "*" }));
 
