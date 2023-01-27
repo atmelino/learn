@@ -50,7 +50,10 @@ export default function NoteKeeper() {
       method: "GET",
     });
     const resp = await fetch(req);
-    console.log(await resp.text());
+    const myData=await resp.text();
+    //console.log(await resp.text());
+    console.log(myData);
+    addDebug(myData);
   }
 
   function addNote(uuid: string) {
