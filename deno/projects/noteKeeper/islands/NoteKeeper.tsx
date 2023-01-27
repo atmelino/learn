@@ -1,7 +1,7 @@
 import { useRef, useState } from "preact/hooks";
 import { Notes } from "../components/Notes.tsx";
 import { Button } from "../components/Button.tsx";
-import { Debug } from "../components/Debug.tsx";
+//import { Debug } from "../components/Debug.tsx";
 import { Debug2 } from "../components/Debug2.tsx";
 import { Debug3 } from "../components/Debug3.tsx";
 import { getIP } from "https://deno.land/x/get_ip/mod.ts";
@@ -10,7 +10,6 @@ export interface INote {
   uuid: string;
   desc: string;
 }
-
 
 // const getMyIP = async () => {
 //   const myIP = await getIP({ ipv6: true });
@@ -23,7 +22,7 @@ export default function NoteKeeper() {
   const [debug, setDebug] = useState("initial");
   let my_uuid = "";
   //let myIP = "127.0.0.1";
-//  const myIP = getMyIP();
+  //  const myIP = getMyIP();
 
   function makeid(length: number) {
     let result = "";
@@ -50,7 +49,7 @@ export default function NoteKeeper() {
       method: "GET",
     });
     const resp = await fetch(req);
-    const myData=await resp.text();
+    const myData = await resp.text();
     //console.log(await resp.text());
     console.log(myData);
     addDebug(myData);
@@ -69,7 +68,6 @@ export default function NoteKeeper() {
     }]);
     addDebug(my_uuid);
   }
-
 
   return (
     <div class="flex flex-col w-full pt-5">
@@ -110,11 +108,10 @@ export default function NoteKeeper() {
           </svg>
         </button>
       </form>
-      <Button onClick={() => addDebug("text")}>debug message</Button>
-      <Debug debug={debug} />
       <Notes notes={notes} removeNote={removeNote} />
       <Button onClick={() => addNote("text")}>add a new note</Button>
       <Debug2 debug={debug} />
+      <Button onClick={() => addDebug("text")}>debug message</Button>
       <Button onClick={() => getNotes("text")}>get notes</Button>
       <Debug3 debug={debug} />
     </div>

@@ -6,30 +6,23 @@ interface debugProps {
   debug: string;
 }
 
-const getMyIP = async () => {
-  console.log("getmyIP");
-  const myIP = await getIP({ ipv6: true });
-  console.log(myIP);
-  return myIP;
-};
-
-
 export function Debug3({ debug }: debugProps) {
   const [dbread, setdbRead] = useState("database");
-  //const myIP = getMyIP();
-  function init() {
-    console.log("clicked");
-    const myIP= getMyIP()
-    setdbRead(myIP+"");
-    return getMyIP()
-  }
+
+  const getMyIP = async () => {
+    console.log("getmyIP");
+    const myIP = await getIP({ ipv6: true });
+    console.log(myIP);
+    setdbRead(myIP+"");    
+    return myIP;
+  };
   
   return (
     <div class="flex flex-col gap-2 pt-2 w-full">
       {
         <div>
-          <Button  onClick={() => init()}>
-            debug message
+          <Button  onClick={async () => await getMyIP()}>
+            get IP
           </Button>
 
           <textarea
@@ -44,3 +37,4 @@ export function Debug3({ debug }: debugProps) {
 }
 
 //onLoad={() => console.log("hi")}
+//<Button  onClick={() => init()}>
