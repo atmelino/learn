@@ -45,8 +45,8 @@ export default function NoteKeeper() {
   }
 
   async function getNotes(uuid: string) {
-    //    const req = new Request("http://45.79.28.148:8000/todos", {
-    const req = new Request("http://localhost:8000/todos", {
+    //    const req = new Request("http://45.79.28.148:7000/todos", {
+    const req = new Request("http://localhost:7000/todos", {
       method: "GET",
     });
     const resp = await fetch(req);
