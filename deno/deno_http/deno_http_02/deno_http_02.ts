@@ -21,6 +21,15 @@ async function getNotes() {
   return ret;
 }
 
+async function addNote() {
+  const req = new Request("http://localhost:8000/todos", {
+    method: "GET",
+  });
+  const resp = await fetch(req);
+  let ret = await resp.text();
+  return ret;
+}
+
 let myre = getNotes();
 console.log(await myre);
 

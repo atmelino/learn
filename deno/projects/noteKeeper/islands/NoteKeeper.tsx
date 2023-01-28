@@ -9,15 +9,13 @@ export interface INote {
   uuid: string;
   desc: string;
 }
-
+const dbURL = "http://" + settings.IPsettings.myIPstring + ":7000/todos";
 
 export default function NoteKeeper() {
   const [notes, setNotes] = useState<INote[]>([]);
   const noteRef = useRef<HTMLInputElement | null>(null);
   const [debug, setDebug] = useState("initial");
   let my_uuid = "";
-  //let myIP = "127.0.0.1";
-  //  const myIP = getMyIP();
 
   function makeid(length: number) {
     let result = "";
@@ -39,11 +37,8 @@ export default function NoteKeeper() {
   }
 
   async function getNotes(uuid: string) {
-    //    const req = new Request("http://45.79.28.148:7000/todos", {
-    const dbURL=  "http://"+settings.IPsettings.myIPstring+":7000/todos";
-    //const req = new Request("http://localhost:7000/todos", {
-      const req = new Request(dbURL, {
-        method: "GET",
+    const req = new Request(dbURL, {
+      method: "GET",
     });
     const resp = await fetch(req);
     const myData = await resp.text();
@@ -52,18 +47,25 @@ export default function NoteKeeper() {
     addDebug(myData);
   }
 
-  function addNote(uuid: string) {
-    //setDebugText();
-    //my_uuid=crypto.randomUUID();
+  async function addNote(newNote: string) {
     my_uuid = makeid(36);
-    //my_uuid = Math.random() * 10000;
     setNotes((
       p,
     ) => [...p, {
-      desc: noteRef?.current?.value ?? "",
+      //desc: noteRef?.current?.value ?? "",
+      desc: newNote,
       uuid: my_uuid,
     }]);
     addDebug(my_uuid);
+
+    console.log("send POST request");
+    const req = new Request(dbURL, {
+      method: "POST",
+      //body: '{"body":"test"}',
+      body: '{"body":"'+newNote+'"}',
+      //body: "{'" + newNote + "'}",
+    });
+    const resp = await fetch(req);
   }
 
   return (
@@ -74,13 +76,7 @@ export default function NoteKeeper() {
           e.preventDefault();
 
           if (!noteRef?.current?.value) return;
-          addNote("");
-          // setNotes((
-          //   p,
-          // ) => [...p, {
-          //   desc: noteRef?.current?.value ?? "",
-          //   uuid: crypto.randomUUID(),
-          // }]);
+          addNote(noteRef?.current?.value ?? "");
           noteRef.current.value = "";
         }}
       >
@@ -106,11 +102,13 @@ export default function NoteKeeper() {
         </button>
       </form>
       <Notes notes={notes} removeNote={removeNote} />
-      <Button onClick={() => addNote("text")}>add a new note</Button>
+      <Button onClick={() => addNote(makeid(8))}>add a new note</Button>
       <Debug2 debug={debug} />
       <Button onClick={() => addDebug("text")}>debug message</Button>
       <Button onClick={() => getNotes("text")}>get notes</Button>
-      <Button onClick={() => addDebug(settings.IPsettings.myIPstring)}>my IP string</Button>
+      <Button onClick={() => addDebug(settings.IPsettings.myIPstring)}>
+        my IP string
+      </Button>
       <Debug3 debug={debug} />
     </div>
   );
