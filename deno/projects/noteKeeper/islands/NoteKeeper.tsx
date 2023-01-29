@@ -48,7 +48,7 @@ export default function NoteKeeper() {
   }
 
   async function addNote(newNote: string) {
-    //    my_uuid = makeid(36);
+    let date_ob = new Date();
     my_uuid = makeid(10);
     setNotes((
       p,
@@ -60,8 +60,21 @@ export default function NoteKeeper() {
     addDebug(my_uuid);
 
     console.log("send POST request");
+
+    const start = '{"SQL":{';
+    const part1 = '"date":"';
+    const part2 = "1999-01-08";
+    const part3 = '","time":"';
+    const part4 = "040506";
+    const part5 = '","noteId":"';
+    const part6 = my_uuid;
+    const part7 = '","note":"';
+    const part8 = newNote;
+    const end = '"}}';
+
+    const postBody =start+part1+part2+part3+part4+part5+part6+part7+part8+end;
     //const postBody = '{"note":"' + newNote + '","noteId":"' + my_uuid + '"}';
-    const postBody = '{"SQL":{"noteId":"' + my_uuid + '","note":"' + newNote +
+    //const postBody = '{"SQL":{"noteId":"' + my_uuid + '","note":"' + newNote +
       '"}}';
     console.log(postBody);
 

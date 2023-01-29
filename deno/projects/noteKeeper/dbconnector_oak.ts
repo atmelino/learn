@@ -9,10 +9,19 @@ async function createTable() {
     const result = await client.queryArray`
   CREATE TABLE IF NOT EXISTS todos (
     id SERIAL PRIMARY KEY,
+    date DATE NOT NULL,
+    time DATE NOT NULL,
     noteId TEXT NOT NULL,
     note TEXT NOT NULL
   )
   `;
+    // const result = await client.queryArray`
+    // CREATE TABLE IF NOT EXISTS todos (
+    //   id SERIAL PRIMARY KEY,
+    //   noteId TEXT NOT NULL,
+    //   note TEXT NOT NULL
+    // )
+    // `;
     console.log(result);
   } finally {
     // Release the connection back into the pool
@@ -62,12 +71,23 @@ router.post("/todos", async (ctx) => {
   console.log(reqBody.SQL.note);
 
   //Insert the new todo into the database
-  const SQL = `INSERT INTO todos (noteId,note) VALUES ('` + reqBody.SQL.noteId +
-    `','` + reqBody.SQL.note + `')`;
+
+  const sstart = `INSERT INTO todos (date,time,noteId,note) VALUES ('`;
+  const spart1 = reqBody.SQL.date;
+  const spart2 = `','`;
+  const spart3 = reqBody.SQL.time;
+  const spart4 = `','`;
+  const spart5 = reqBody.SQL.noteId;
+  const spart6 = `','`;
+  const spart7 = reqBody.SQL.note;
+  const send = `')`;
+  const SQL =sstart+spart1+spart2+spart3+spart4+spart5+spart6+spart7+send;
+
   //const SQL = `INSERT INTO todos (noteId,note) VALUES (${reqBody})`;
   // these SQL statements work:
   //INSERT INTO todos (id,noteId,note) VALUES (5,'asdf','rew')
   //INSERT INTO todos (noteId,note) VALUES ('asdf','rew')
+  //INSERT INTO todos (date, time,noteId,note) VALUES ('1999-01-08','040506','asdf','rew')
   console.log(SQL);
 
   // await client.queryObject`
