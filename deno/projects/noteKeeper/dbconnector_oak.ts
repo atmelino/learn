@@ -9,7 +9,8 @@ async function createTable() {
     const result = await client.queryArray`
   CREATE TABLE IF NOT EXISTS todos (
     id SERIAL PRIMARY KEY,
-    title TEXT NOT NULL
+    noteId TEXT NOT NULL,
+    note TEXT NOT NULL
   )
   `;
     console.log(result);
@@ -29,7 +30,7 @@ const client = new Client({
 });
 await client.connect();
 
-//createTable();
+createTable();
 
 const port = 7000;
 const app = new Application();
@@ -39,13 +40,13 @@ const router = new Router();
 
 router.get("/todos", async (ctx) => {
   //ctx.response.body = "Received a GET HTTP method";
-  console.log("GET");
+  console.log("dbconnector_oak.ts GET");
   // Run the query
   const result = await client.queryArray`
  SELECT * FROM todos
 `;
-console.log("result");
-console.log(result);
+  console.log("result");
+  console.log(result);
 
   ctx.response.body = JSON.stringify(result.rows);
 
@@ -54,17 +55,29 @@ console.log(result);
 });
 
 router.post("/todos", async (ctx) => {
+  console.log("dbconnector_oak.ts POST");
+
   const reqBody = await (await ctx.request.body({ type: "json" })).value;
   console.log(reqBody);
+  console.log(reqBody.SQL.note);
 
   //Insert the new todo into the database
-  await client.queryObject`
-  INSERT INTO todos (title) VALUES (${reqBody})
-`;
+  const SQL = `INSERT INTO todos (noteId,note) VALUES ('` + reqBody.SQL.noteId +
+    `','` + reqBody.SQL.note + `')`;
+  //const SQL = `INSERT INTO todos (noteId,note) VALUES (${reqBody})`;
+  // these SQL statements work:
+  //INSERT INTO todos (id,noteId,note) VALUES (5,'asdf','rew')
+  //INSERT INTO todos (noteId,note) VALUES ('asdf','rew')
+  console.log(SQL);
+
+  // await client.queryObject`
+  // INSERT INTO todos () VALUES (${reqBody})
+  // `;
+
+  await client.queryObject(SQL);
 
   ctx.response.body = "Received a POST HTTP method";
 });
-
 
 router.put("/", (ctx) => {
   ctx.response.body = "Received a PUT HTTP method";

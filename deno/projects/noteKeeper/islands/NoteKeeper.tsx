@@ -48,7 +48,8 @@ export default function NoteKeeper() {
   }
 
   async function addNote(newNote: string) {
-    my_uuid = makeid(36);
+    //    my_uuid = makeid(36);
+    my_uuid = makeid(10);
     setNotes((
       p,
     ) => [...p, {
@@ -59,10 +60,17 @@ export default function NoteKeeper() {
     addDebug(my_uuid);
 
     console.log("send POST request");
+    //const postBody = '{"note":"' + newNote + '","noteId":"' + my_uuid + '"}';
+    const postBody = '{"SQL":{"noteId":"' + my_uuid + '","note":"' + newNote +
+      '"}}';
+    console.log(postBody);
+
     const req = new Request(dbURL, {
       method: "POST",
+      body: postBody,
       //body: '{"body":"test"}',
-      body: '{"body":"'+newNote+'"}',
+      //body: '{"body":"'+newNote+'"}',
+      //body: '{"body":"'+newNote+'","noteId":my_uuid}',
       //body: "{'" + newNote + "'}",
     });
     const resp = await fetch(req);
