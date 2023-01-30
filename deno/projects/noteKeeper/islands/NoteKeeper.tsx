@@ -49,11 +49,9 @@ export default function NoteKeeper() {
       body: postBody,
     });
     const resp = await fetch(req);
-
-
   }
 
-  async function getNotes(uuid: string) {
+  async function getNotes() {
     const req = new Request(dbURL, {
       method: "GET",
     });
@@ -62,9 +60,28 @@ export default function NoteKeeper() {
     //console.log(await resp.text());
     console.log(myData);
     addDebug(myData);
+
+    const myArr = JSON.parse(myData);
+    console.log(myArr[0]);
+    const uuid = myArr[0][2];
+    const timestamp = myArr[0][1];
+    const desc = myArr[0][3];
+
+    addNote(uuid, timestamp, desc);
   }
 
-  async function addNote(newNote: string) {
+  async function addNote(uuid: string, timestamp: string, desc: string) {
+    setNotes((
+      p,
+    ) => [...p, {
+      //desc: noteRef?.current?.value ?? "",
+      desc: desc,
+      timestamp: timestamp,
+      uuid: uuid,
+    }]);
+  }
+
+  async function addNewNote(desc: string) {
     const date_ob = new Date();
     console.log(format(date_ob, "yyyy-MM-dd HH:mm:ss"));
     const timestamp = format(date_ob, "yyyy-MM-dd HH:mm:ss");
@@ -73,7 +90,7 @@ export default function NoteKeeper() {
       p,
     ) => [...p, {
       //desc: noteRef?.current?.value ?? "",
-      desc: newNote,
+      desc: desc,
       timestamp: timestamp,
       uuid: my_uuid,
     }]);
@@ -87,7 +104,7 @@ export default function NoteKeeper() {
     const part3 = '","noteId":"';
     const part4 = my_uuid;
     const part5 = '","note":"';
-    const part6 = newNote;
+    const part6 = desc;
     const end = '"}}';
 
     const postBody = start + part1 + part2 + part3 + part4 + part5 + part6 +
@@ -102,6 +119,10 @@ export default function NoteKeeper() {
     const resp = await fetch(req);
   }
 
+  function readDatabase(): void {
+    throw new Error("Function not implemented.");
+  }
+
   return (
     <div class="flex flex-col w-full pt-5">
       <form
@@ -110,7 +131,7 @@ export default function NoteKeeper() {
           e.preventDefault();
 
           if (!noteRef?.current?.value) return;
-          addNote(noteRef?.current?.value ?? "");
+          addNewNote(noteRef?.current?.value ?? "");
           noteRef.current.value = "";
         }}
       >
@@ -136,10 +157,11 @@ export default function NoteKeeper() {
         </button>
       </form>
       <Notes notes={notes} removeNote={removeNote} />
-      <Button onClick={() => addNote(makeid(8))}>add random note</Button>
+      <Button onClick={() => addNewNote(makeid(8))}>add random note</Button>
+      <Button onClick={() => readDatabase()}>read database</Button>
       <Debug2 debug={debug} />
       <Button onClick={() => addDebug("text")}>debug message</Button>
-      <Button onClick={() => getNotes("text")}>get notes</Button>
+      <Button onClick={() => getNotes()}>get notes</Button>
       <Button onClick={() => addDebug(settings.IPsettings.myIPstring)}>
         my IP string
       </Button>
