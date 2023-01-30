@@ -14,16 +14,6 @@ async function createTable() {
     note TEXT NOT NULL
   )
   `;
-  // date DATE NOT NULL,
-  // time DATE NOT NULL,
-
-  // const result = await client.queryArray`
-    // CREATE TABLE IF NOT EXISTS todos (
-    //   id SERIAL PRIMARY KEY,
-    //   noteId TEXT NOT NULL,
-    //   note TEXT NOT NULL
-    // )
-    // `;
     console.log(result);
   } finally {
     // Release the connection back into the pool
@@ -50,7 +40,6 @@ app.use(oakCors({ origin: "*" }));
 const router = new Router();
 
 router.get("/todos", async (ctx) => {
-  //ctx.response.body = "Received a GET HTTP method";
   console.log("dbconnector_oak.ts GET");
   // Run the query
   const result = await client.queryArray`
@@ -60,9 +49,6 @@ router.get("/todos", async (ctx) => {
   console.log(result);
 
   ctx.response.body = JSON.stringify(result.rows);
-
-  // Encode the result as JSON
-  //const body = JSON.stringify(result.rows, null, 2);
 });
 
 router.post("/todos", async (ctx) => {
@@ -81,19 +67,8 @@ router.post("/todos", async (ctx) => {
   const spart4 = `','`;
   const spart5 = reqBody.SQL.note;
   const send = `')`;
-  const SQL =sstart+spart1+spart2+spart3+spart4+spart5+send;
-
-  //const SQL = `INSERT INTO todos (noteId,note) VALUES (${reqBody})`;
-  // these SQL statements work:
-  //INSERT INTO todos (id,noteId,note) VALUES (5,'asdf','rew')
-  //INSERT INTO todos (noteId,note) VALUES ('asdf','rew')
-  //INSERT INTO todos (date, time,noteId,note) VALUES ('1999-01-08','040506','asdf','rew')
+  const SQL = sstart + spart1 + spart2 + spart3 + spart4 + spart5 + send;
   console.log(SQL);
-
-  // await client.queryObject`
-  // INSERT INTO todos () VALUES (${reqBody})
-  // `;
-
   await client.queryObject(SQL);
 
   ctx.response.body = "Received a POST HTTP method";
@@ -103,7 +78,18 @@ router.put("/", (ctx) => {
   ctx.response.body = "Received a PUT HTTP method";
 });
 
-router.delete("/", (ctx) => {
+router.delete("/todos", async (ctx) => {
+  console.log("dbconnector_oak.ts DELETE");
+  const reqBody = await (await ctx.request.body({ type: "json" })).value;
+  console.log(reqBody);
+
+  const sstart = `DELETE FROM todos WHERE noteid = '`;
+  const spart1 = reqBody.SQL.noteId;
+  const send = `'`;
+  const SQL =sstart+spart1+send;
+  console.log(SQL);
+  await client.queryObject(SQL);
+
   ctx.response.body = "Received a DELETE HTTP method";
 });
 
@@ -115,3 +101,9 @@ app.addEventListener("listen", () => {
 });
 
 await app.listen({ port });
+
+// these SQL statements work:
+//INSERT INTO todos (id,noteId,note) VALUES (5,'asdf','rew')
+//INSERT INTO todos (noteId,note) VALUES ('asdf','rew')
+//INSERT INTO todos (date, time,noteId,note) VALUES ('1999-01-08','040506','asdf','rew')
+//DELETE FROM todos WHERE noteid = 'g4YJeL2jVF';

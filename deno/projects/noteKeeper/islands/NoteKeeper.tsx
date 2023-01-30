@@ -8,6 +8,7 @@ import { format } from "https://deno.land/std@0.91.0/datetime/mod.ts";
 
 export interface INote {
   uuid: string;
+  timestamp: string;
   desc: string;
 }
 const dbURL = "http://" + settings.IPsettings.myIPstring + ":7000/todos";
@@ -16,7 +17,6 @@ export default function NoteKeeper() {
   const [notes, setNotes] = useState<INote[]>([]);
   const noteRef = useRef<HTMLInputElement | null>(null);
   const [debug, setDebug] = useState("initial");
-  let my_uuid = "";
 
   function makeid(length: number) {
     let result = "";
@@ -33,8 +33,24 @@ export default function NoteKeeper() {
     setDebug(message);
   }
 
-  function removeNote(uuid: string) {
+  async function removeNote(uuid: string) {
+    console.log("removeNote called");
     setNotes((notes) => notes.filter((note) => note.uuid != uuid));
+    console.log("send DELETE request");
+
+    const start = '{"SQL":{';
+    const part1 = '"noteId":"';
+    const part2 = uuid;
+    const end = '"}}';
+
+    const postBody = start + part1 + part2 + end;
+    const req = new Request(dbURL, {
+      method: "DELETE",
+      body: postBody,
+    });
+    const resp = await fetch(req);
+
+
   }
 
   async function getNotes(uuid: string) {
@@ -52,12 +68,13 @@ export default function NoteKeeper() {
     const date_ob = new Date();
     console.log(format(date_ob, "yyyy-MM-dd HH:mm:ss"));
     const timestamp = format(date_ob, "yyyy-MM-dd HH:mm:ss");
-    my_uuid = makeid(10);
+    const my_uuid = makeid(10);
     setNotes((
       p,
     ) => [...p, {
       //desc: noteRef?.current?.value ?? "",
       desc: newNote,
+      timestamp: timestamp,
       uuid: my_uuid,
     }]);
     addDebug(my_uuid);
@@ -75,18 +92,12 @@ export default function NoteKeeper() {
 
     const postBody = start + part1 + part2 + part3 + part4 + part5 + part6 +
       end;
-    //const postBody = '{"note":"' + newNote + '","noteId":"' + my_uuid + '"}';
-    //const postBody = '{"SQL":{"noteId":"' + my_uuid + '","note":"' + newNote +
     '"}}';
     console.log(postBody);
 
     const req = new Request(dbURL, {
       method: "POST",
       body: postBody,
-      //body: '{"body":"test"}',
-      //body: '{"body":"'+newNote+'"}',
-      //body: '{"body":"'+newNote+'","noteId":my_uuid}',
-      //body: "{'" + newNote + "'}",
     });
     const resp = await fetch(req);
   }
