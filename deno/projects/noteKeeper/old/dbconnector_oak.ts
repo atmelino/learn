@@ -74,14 +74,16 @@ router.post("/todos", async (ctx) => {
 
   //Insert the new todo into the database
 
-  const sstart = `INSERT INTO todos (timestamp,noteId,note) VALUES ('`;
-  const spart1 = reqBody.SQL.timestamp;
+  const sstart = `INSERT INTO todos (date,time,noteId,note) VALUES ('`;
+  const spart1 = reqBody.SQL.date;
   const spart2 = `','`;
-  const spart3 = reqBody.SQL.noteId;
+  const spart3 = reqBody.SQL.time;
   const spart4 = `','`;
-  const spart5 = reqBody.SQL.note;
+  const spart5 = reqBody.SQL.noteId;
+  const spart6 = `','`;
+  const spart7 = reqBody.SQL.note;
   const send = `')`;
-  const SQL =sstart+spart1+spart2+spart3+spart4+spart5+send;
+  const SQL =sstart+spart1+spart2+spart3+spart4+spart5+spart6+spart7+send;
 
   //const SQL = `INSERT INTO todos (noteId,note) VALUES (${reqBody})`;
   // these SQL statements work:

@@ -4,7 +4,6 @@ import { Button } from "../components/Button.tsx";
 import { Debug2 } from "../components/Debug2.tsx";
 import { Debug3 } from "../components/Debug3.tsx";
 import settings from "../../../../../settings_nk.js";
-import { format } from "https://deno.land/std@0.91.0/datetime/mod.ts";
 
 export interface INote {
   uuid: string;
@@ -49,9 +48,7 @@ export default function NoteKeeper() {
   }
 
   async function addNote(newNote: string) {
-    const date_ob = new Date();
-    console.log(format(date_ob, "yyyy-MM-dd HH:mm:ss"));
-    const timestamp = format(date_ob, "yyyy-MM-dd HH:mm:ss");
+    let date_ob = new Date();
     my_uuid = makeid(10);
     setNotes((
       p,
@@ -65,19 +62,20 @@ export default function NoteKeeper() {
     console.log("send POST request");
 
     const start = '{"SQL":{';
-    const part1 = '"timestamp":"';
-    const part2 = timestamp;
-    const part3 = '","noteId":"';
-    const part4 = my_uuid;
-    const part5 = '","note":"';
-    const part6 = newNote;
+    const part1 = '"date":"';
+    const part2 = "1999-01-08";
+    const part3 = '","time":"';
+    const part4 = "040506";
+    const part5 = '","noteId":"';
+    const part6 = my_uuid;
+    const part7 = '","note":"';
+    const part8 = newNote;
     const end = '"}}';
 
-    const postBody = start + part1 + part2 + part3 + part4 + part5 + part6 +
-      end;
+    const postBody =start+part1+part2+part3+part4+part5+part6+part7+part8+end;
     //const postBody = '{"note":"' + newNote + '","noteId":"' + my_uuid + '"}';
     //const postBody = '{"SQL":{"noteId":"' + my_uuid + '","note":"' + newNote +
-    '"}}';
+      '"}}';
     console.log(postBody);
 
     const req = new Request(dbURL, {
@@ -125,7 +123,7 @@ export default function NoteKeeper() {
         </button>
       </form>
       <Notes notes={notes} removeNote={removeNote} />
-      <Button onClick={() => addNote(makeid(8))}>add random note</Button>
+      <Button onClick={() => addNote(makeid(8))}>add a new note</Button>
       <Debug2 debug={debug} />
       <Button onClick={() => addDebug("text")}>debug message</Button>
       <Button onClick={() => getNotes("text")}>get notes</Button>
