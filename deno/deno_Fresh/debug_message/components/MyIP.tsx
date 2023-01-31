@@ -6,7 +6,7 @@ interface debugProps {
   debug: string;
 }
 
-export function Debug3({ debug }: debugProps) {
+export function MyIP({ debug }: debugProps) {
   const [dbread, setdbRead] = useState("database");
 
   const getMyIP = async () => {

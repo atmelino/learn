@@ -1,7 +1,7 @@
 import { useRef, useState } from "preact/hooks";
 import TextArea from "../components/Textarea.tsx";
 import { Button } from "../components/Button.tsx";
-import {Debug3}  from "../components/Debug3.tsx";
+import { MyIP } from "../components/MyIP.tsx";
 
 interface debugProps {
   start: number;
@@ -56,7 +56,7 @@ export default function Debug(props: debugProps) {
         rows={3}
         onChange={(e) => setText_tac((e.target as HTMLInputElement).value)}
       />
-      <Debug3 debug={debug} />
+      <MyIP debug={debug} />
     </div>
   );
 }
