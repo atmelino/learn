@@ -62,15 +62,25 @@ export default function NoteKeeper() {
     addDebug(myData);
 
     const myArr = JSON.parse(myData);
-    console.log(myArr[0]);
-    const uuid = myArr[0][2];
-    const timestamp = myArr[0][1];
-    const desc = myArr[0][3];
 
-    addNote(uuid, timestamp, desc);
+    myArr.forEach((row: any) => {
+      console.log(row);
+      const uuid = row[2];
+      const timestamp = row[1];
+      const desc = row[3];
+      addNote(uuid, timestamp, desc);
+
+      });
+
+    // console.log(myArr[0]);
+    // const uuid = myArr[0][2];
+    // const timestamp = myArr[0][1];
+    // const desc = myArr[0][3];
+
+    // addNote(uuid, timestamp, desc);
   }
 
-  async function addNote(uuid: string, timestamp: string, desc: string) {
+  function addNote(uuid: string, timestamp: string, desc: string) {
     setNotes((
       p,
     ) => [...p, {
