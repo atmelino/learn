@@ -10,6 +10,7 @@ export default function Home() {
       </Head>
       <main class="p-4 mx-auto max-w-screen-md flex flex-col justify-center items-center">
         <Debug start={1} initmessage="hello"/>
+
       </main>
     </div>
   );

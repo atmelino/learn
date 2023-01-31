@@ -2,7 +2,6 @@ import { useRef, useState } from "preact/hooks";
 import { Notes } from "../components/Notes.tsx";
 import { Button } from "../components/Button.tsx";
 import { Debug2 } from "../components/Debug2.tsx";
-import { Debug3 } from "../components/Debug3.tsx";
 import settings from "../../../../../settings_nk.js";
 import { format } from "https://deno.land/std@0.91.0/datetime/mod.ts";
 
@@ -72,12 +71,6 @@ export default function NoteKeeper() {
 
       });
 
-    // console.log(myArr[0]);
-    // const uuid = myArr[0][2];
-    // const timestamp = myArr[0][1];
-    // const desc = myArr[0][3];
-
-    // addNote(uuid, timestamp, desc);
   }
 
   function addNote(uuid: string, timestamp: string, desc: string) {
@@ -175,7 +168,6 @@ export default function NoteKeeper() {
       <Button onClick={() => addDebug(settings.IPsettings.myIPstring)}>
         my IP string
       </Button>
-      <Debug3 debug={debug} />
     </div>
   );
 }

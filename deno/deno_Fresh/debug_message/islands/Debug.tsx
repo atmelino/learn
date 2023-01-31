@@ -1,6 +1,7 @@
 import { useRef, useState } from "preact/hooks";
 import TextArea from "../components/Textarea.tsx";
 import { Button } from "../components/Button.tsx";
+import {Debug3}  from "../components/Debug3.tsx";
 
 interface debugProps {
   start: number;
@@ -11,6 +12,7 @@ export default function Debug(props: debugProps) {
   const [debugMessage, setdebugMessage] = useState(props.initmessage);
   const [text_ta, setText_ta] = useState(props.initmessage);
   const [text_tac, setText_tac] = useState(props.initmessage);
+  const [debug, setDebug] = useState("initial");
 
   function setDebugText(message: string) {
     //alert("hi");
@@ -54,6 +56,7 @@ export default function Debug(props: debugProps) {
         rows={3}
         onChange={(e) => setText_tac((e.target as HTMLInputElement).value)}
       />
+      <Debug3 debug={debug} />
     </div>
   );
 }
