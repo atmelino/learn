@@ -50,7 +50,7 @@ export default function NoteKeeper() {
     const resp = await fetch(req);
   }
 
-  async function getNotes() {
+  async function readDatabase() {
     const req = new Request(dbURL, {
       method: "GET",
     });
@@ -122,9 +122,6 @@ export default function NoteKeeper() {
     const resp = await fetch(req);
   }
 
-  function readDatabase(): void {
-    throw new Error("Function not implemented.");
-  }
 
   return (
     <div class="flex flex-col w-full pt-5">
@@ -141,7 +138,7 @@ export default function NoteKeeper() {
         <input
           class="w-5/6 border-1 border-gray-500 h-10 rounded p-2"
           defaultValue="test"
-          placeholder="Write your note here..."
+          placeholder="Write a new note here..."
           type="text"
           ref={noteRef}
         />
@@ -164,7 +161,6 @@ export default function NoteKeeper() {
       <Button onClick={() => readDatabase()}>read database</Button>
       <Debug2 debug={debug} />
       <Button onClick={() => addDebug("text")}>debug message</Button>
-      <Button onClick={() => getNotes()}>get notes</Button>
       <Button onClick={() => addDebug(settings.IPsettings.myIPstring)}>
         my IP string
       </Button>
