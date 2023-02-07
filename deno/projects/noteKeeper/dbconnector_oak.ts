@@ -107,3 +107,4 @@ await app.listen({ port });
 //INSERT INTO todos (noteId,note) VALUES ('asdf','rew')
 //INSERT INTO todos (date, time,noteId,note) VALUES ('1999-01-08','040506','asdf','rew')
 //DELETE FROM todos WHERE noteid = 'g4YJeL2jVF';
+//INSERT INTO todos (id, timestamp,noteid,note) VALUES (12,'2012-02-08 14:03:34','asdffwe','rew');

@@ -17,7 +17,7 @@ export default function NoteKeeper() {
   const noteRef = useRef<HTMLInputElement | null>(null);
   const [debug, setDebug] = useState("initial");
 
-  function makeid(length: number) {
+  function makeRandomId(length: number) {
     let result = "";
     const characters =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -35,8 +35,8 @@ export default function NoteKeeper() {
   async function removeNote(uuid: string) {
     console.log("removeNote called");
     setNotes((notes) => notes.filter((note) => note.uuid != uuid));
-    console.log("send DELETE request");
 
+    console.log("send DELETE request");
     const start = '{"SQL":{';
     const part1 = '"noteId":"';
     const part2 = uuid;
@@ -57,20 +57,17 @@ export default function NoteKeeper() {
     const resp = await fetch(req);
     const myData = await resp.text();
     //console.log(await resp.text());
+    setNotes([]);
     console.log(myData);
     addDebug(myData);
-
     const myArr = JSON.parse(myData);
-
     myArr.forEach((row: any) => {
       console.log(row);
       const uuid = row[2];
       const timestamp = row[1];
       const desc = row[3];
       addNote(uuid, timestamp, desc);
-
       });
-
   }
 
   function addNote(uuid: string, timestamp: string, desc: string) {
@@ -88,7 +85,7 @@ export default function NoteKeeper() {
     const date_ob = new Date();
     console.log(format(date_ob, "yyyy-MM-dd HH:mm:ss"));
     const timestamp = format(date_ob, "yyyy-MM-dd HH:mm:ss");
-    const my_uuid = makeid(10);
+    const my_uuid = makeRandomId(10);
     setNotes((
       p,
     ) => [...p, {
@@ -157,7 +154,7 @@ export default function NoteKeeper() {
         </button>
       </form>
       <Notes notes={notes} removeNote={removeNote} />
-      <Button onClick={() => addNewNote(makeid(8))}>add random note</Button>
+      <Button onClick={() => addNewNote(makeRandomId(8))}>add random note</Button>
       <Button onClick={() => readDatabase()}>read database</Button>
       <Debug2 debug={debug} />
       <Button onClick={() => addDebug("text")}>debug message</Button>
