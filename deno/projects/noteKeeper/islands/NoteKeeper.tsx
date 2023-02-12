@@ -4,6 +4,7 @@ import { Button } from "../components/Button.tsx";
 import { Debug2 } from "../components/Debug2.tsx";
 import settings from "../../../../../settings_nk.js";
 import { format } from "https://deno.land/std@0.91.0/datetime/mod.ts";
+import { useEffect } from "preact/hooks";
 
 export interface INote {
   uuid: string;
@@ -16,6 +17,12 @@ export default function NoteKeeper() {
   const [notes, setNotes] = useState<INote[]>([]);
   const noteRef = useRef<HTMLInputElement | null>(null);
   const [debug, setDebug] = useState("initial");
+
+  // Similar to componentDidMount and componentDidUpdate:
+  useEffect(() => {
+
+    readDatabase();
+  });
 
   function makeRandomId(length: number) {
     let result = "";
@@ -67,7 +74,7 @@ export default function NoteKeeper() {
       const timestamp = row[1];
       const desc = row[3];
       addNote(uuid, timestamp, desc);
-      });
+    });
   }
 
   function addNote(uuid: string, timestamp: string, desc: string) {
@@ -119,7 +126,6 @@ export default function NoteKeeper() {
     const resp = await fetch(req);
   }
 
-
   return (
     <div class="flex flex-col w-full pt-5">
       <form
@@ -154,7 +160,9 @@ export default function NoteKeeper() {
         </button>
       </form>
       <Notes notes={notes} removeNote={removeNote} />
-      <Button onClick={() => addNewNote(makeRandomId(8))}>add random note</Button>
+      <Button onClick={() => addNewNote(makeRandomId(8))}>
+        add random note
+      </Button>
       <Button onClick={() => readDatabase()}>read database</Button>
       <Debug2 debug={debug} />
       <Button onClick={() => addDebug("text")}>debug message</Button>
