@@ -2,7 +2,7 @@ import { useRef } from "preact/hooks";
 import { IS_BROWSER } from "$fresh/runtime.ts";
 import { apply, tw } from "twind";
 import { animation, css } from "twind/css";
-import IconCart from "../components/IconCart.tsx";
+import IconCart from "@/components/IconCart.tsx";
 import {
   CartData,
   formatCurrency,
