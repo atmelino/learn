@@ -2,13 +2,13 @@ import { useRef } from "preact/hooks";
 import { IS_BROWSER } from "$fresh/runtime.ts";
 import { apply, tw } from "twind";
 import { animation, css } from "twind/css";
-import IconCart from "@/components/IconCart.tsx";
+import IconCart from "../components/IconCart.tsx";
 import {
   CartData,
   formatCurrency,
   removeFromCart,
   useCart,
-} from "@/utils/data.ts";
+} from "../utils/data.ts";
 
 // Lazy load a <dialog> polyfill.
 // @ts-expect-error HTMLDialogElement is not just a type!

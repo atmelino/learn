@@ -8,7 +8,7 @@ export function Header() {
         backgroundImage: "url(/header_bg.svg)",
       }}
     >
-      <div class="rainfall w-full h-full absolute" />
+      <div class="w-full h-full absolute" />
       <nav class="w-11/12 h-24 max-w-5xl mx-auto flex items-center justify-between relative">
         <a href="/">
           <img
@@ -31,3 +31,4 @@ export function Header() {
     </header>
   );
 }
+//<div class="rainfall w-full h-full absolute" />
