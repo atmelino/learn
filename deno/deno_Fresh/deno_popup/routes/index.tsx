@@ -1,5 +1,4 @@
 import { Head } from "$fresh/runtime.ts";
-import Counter from "../islands/Counter.tsx";
 import IconCart from "../components/IconCart.tsx";
 import { Header } from "../components/Header.tsx";
 
@@ -20,7 +19,6 @@ export default function Home() {
           Welcome to `fresh`. Try updating this message in the
           ./routes/index.tsx file, and refresh.
         </p>
-        <Counter start={3} />
       </div>
         <IconCart size={40} />
       <div>some text</div>
