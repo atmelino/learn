@@ -2,15 +2,12 @@ import { useRef } from "preact/hooks";
 import { IS_BROWSER } from "$fresh/runtime.ts";
 import { apply, tw } from "twind";
 import { animation, css } from "twind/css";
-import IconCart from "../components/IconCart.tsx";
 import IconSettings from "../components/IconSettings.tsx";
 
-interface CartData {
+interface PopupProps {
   length: number;
-  id: string;
-  quantity: number;
-  estimatedCost: number;
-  checkoutUrl: string;
+  Url: string;
+  functionToCall: (s: string) => void;
 }
 
 // Lazy load a <dialog> polyfill.
@@ -44,8 +41,7 @@ const backdrop = css({
   },
 });
 
-export default function Cart() {
-  const data: CartData = { length: 5 ,id:"3", quantity:2, estimatedCost:20, checkoutUrl:"www.something.com"};
+export default function Popup({ length, Url, functionToCall }: PopupProps) {
 
   const ref = useRef<HTMLDialogElement | null>(null);
 
@@ -68,13 +64,15 @@ export default function Cart() {
         class={tw`bg-transparent p-0 m-0 pt-[50%] sm:pt-0 sm:ml-auto max-w-full sm:max-w-lg w-full max-h-full h-full ${slideBottom} sm:${slideRight} ${backdrop}`}
         onClick={onDialogClick}
       >
-        <CartInner cart={data} />
+        <PopupInner length={length} Url={Url} functionToCall={functionToCall} />
       </dialog>
     </div>
   );
 }
 
-function CartInner(props: { cart: CartData | undefined }) {
+function PopupInner({ length, Url, functionToCall }: PopupProps) {
+  //  function PopupInner(props: { cart: CartData | undefined },length:number) {
+
   const corners = "rounded(tl-2xl tr-2xl sm:(tr-none bl-2xl))";
   const card =
     `py-8 px-6 h-full bg-white ${corners} flex flex-col justify-between`;
@@ -82,21 +80,13 @@ function CartInner(props: { cart: CartData | undefined }) {
 
   const checkout = (e: Event) => {
     e.preventDefault();
-    if (props.cart) {
-      location.href = props.cart.checkoutUrl;
-    }
-  };
-
-  const remove = (itemId: string) => {
-    if (props.cart) {
-      //removeFromCart(cart.id, itemId);
-    }
+    location.href = Url;
   };
 
   return (
     <div class={card}>
       <div class="flex justify-between">
-        <h2 class="text-lg font-medium text-gray-900">Shopping Cart</h2>
+        <h2 class="text-lg font-medium text-gray-900">Popup window</h2>
         <button
           class="py-1"
           onClick={(e) => {
@@ -112,46 +102,23 @@ function CartInner(props: { cart: CartData | undefined }) {
           </svg>
         </button>
       </div>
-      {props.cart && (
-        <div class="flex-grow-1 my-4">
-          
+      <div class="flex-grow-1 my-4">
+      </div>
+      <div class="border-t border-gray-200 py-6 px-4 sm:px-6">
+        <div class="flex justify-between text-lg font-medium">
+          <p>A Number:</p>
+          <p>{length}</p>
         </div>
-      )}
-      {props.cart && (
-        <div class="border-t border-gray-200 py-6 px-4 sm:px-6">
-          <div class="flex justify-between text-lg font-medium">
-            <p>Subtotal</p>
-            <p>{props.cart.estimatedCost}</p>
-          </div>
-          <p class="mt-0.5 text-sm text-gray-500">
-            Shipping and taxes calculated at checkout.
-          </p>
-          <div class="mt-6">
-            <button
-              type="button"
-              class="w-full bg-gray-700 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-gray-700"
-              disabled={props.cart.length === 0}
-              onClick={checkout}
-            >
-              Checkout
-            </button>
-          </div>
-          <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
-            <p>
-              or&nbsp;
-              <button
-                type="button"
-                class="font-medium"
-                onClick={(e) => {
-                  (e.target as HTMLButtonElement).closest("dialog")!.close();
-                }}
-              >
-                Continue Shopping <span aria-hidden="true">&rarr;</span>
-              </button>
-            </p>
-          </div>
+        <div class="mt-6">
+          <button
+            type="button"
+            class="w-full bg-gray-700 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-gray-700"
+            onClick={checkout}
+          >
+            Checkout
+          </button>
         </div>
-      )}
+      </div>
     </div>
   );
 }

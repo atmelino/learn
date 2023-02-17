@@ -3,12 +3,10 @@ export default function IconSettings({ size = 16 }: { size?: number }) {
     <svg
       width={Math.round((15 / 16) * size)}
       height={size}
-      //      width="800px"
       version="1.1"
       id="_x32_"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 512 512"
-      //viewBox="0 0 15 16"
     >
       <g>
         <path d="M502.325,307.303l-39.006-30.805c-6.215-4.908-9.665-12.429-9.668-20.348c0-0.084,0-0.168,0-0.252
