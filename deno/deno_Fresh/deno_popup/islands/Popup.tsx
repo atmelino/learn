@@ -7,7 +7,8 @@ import IconSettings from "../components/IconSettings.tsx";
 interface PopupProps {
   length: number;
   Url: string;
-  functionToCall: (s: string) => void;
+  //functionToCall: (s: string) => void;
+  functionToCall: () => void;
 }
 
 // Lazy load a <dialog> polyfill.
@@ -42,7 +43,6 @@ const backdrop = css({
 });
 
 export default function Popup({ length, Url, functionToCall }: PopupProps) {
-
   const ref = useRef<HTMLDialogElement | null>(null);
 
   const onDialogClick = (e: MouseEvent) => {
@@ -71,17 +71,21 @@ export default function Popup({ length, Url, functionToCall }: PopupProps) {
 }
 
 function PopupInner({ length, Url, functionToCall }: PopupProps) {
-  //  function PopupInner(props: { cart: CartData | undefined },length:number) {
-
   const corners = "rounded(tl-2xl tr-2xl sm:(tr-none bl-2xl))";
   const card =
     `py-8 px-6 h-full bg-white ${corners} flex flex-col justify-between`;
-  //const data= cart ;
 
-  const checkout = (e: Event) => {
-    e.preventDefault();
-    location.href = Url;
-  };
+    const goToUrl = (e: Event) => {
+      e.preventDefault();
+      location.href = Url;
+    };
+  
+    const callAFunction = (e: Event) => {
+      e.preventDefault();
+      functionToCall;
+    };
+  
+      
 
   return (
     <div class={card}>
@@ -104,6 +108,17 @@ function PopupInner({ length, Url, functionToCall }: PopupProps) {
       </div>
       <div class="flex-grow-1 my-4">
       </div>
+
+      <div class="mt-6">
+          <button
+            type="button"
+            class="w-full bg-gray-700 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-gray-700"
+            onClick={callAFunction}
+          >
+            call a function
+          </button>
+        </div>
+
       <div class="border-t border-gray-200 py-6 px-4 sm:px-6">
         <div class="flex justify-between text-lg font-medium">
           <p>A Number:</p>
@@ -113,9 +128,9 @@ function PopupInner({ length, Url, functionToCall }: PopupProps) {
           <button
             type="button"
             class="w-full bg-gray-700 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-gray-700"
-            onClick={checkout}
+            onClick={goToUrl}
           >
-            Checkout
+            Go to a URL
           </button>
         </div>
       </div>

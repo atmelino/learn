@@ -1,12 +1,24 @@
 import { Head } from "$fresh/runtime.ts";
+import { useRef, useState } from "preact/hooks";
 import Popup from "../islands/Popup.tsx";
+import { Button } from "../components/Button.tsx";
 
 export default function Home() {
-  //  const p: PopupData = { length: 5, id: "3", Url: "www.something.com" };
-  function myFunction(s: string) {
-    return ("hello");
+  const [text_ta, setText_ta] = useState("initial text");
+  let myText = "my text";
+
+  // function myFunction(s: string) {
+  //   myText = "changed text";
+  // }
+
+  function myFunction() {
+    setDebugText_ta("new text");
   }
 
+  function setDebugText_ta(message: string) {
+    //alert("hi");
+    setText_ta(message);
+  }
   return (
     <>
       <Head>
@@ -29,7 +41,19 @@ export default function Home() {
           Click on the settings icon to open the popup window
         </p>
       </div>
-      x
+
+      <div class="flex gap-2 w-full">
+        <Button onClick={() => setDebugText_ta(text_ta + "text")}>
+          debug message in textarea
+        </Button>
+      </div>
+      <div>
+        <textarea
+          class={`w-full p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500 `}
+        >
+          {text_ta}
+        </textarea>
+      </div>
     </>
   );
 }
