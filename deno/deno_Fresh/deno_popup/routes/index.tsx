@@ -19,6 +19,7 @@ export default function Home() {
     //alert("hi");
     setText_ta(message);
   }
+  
   return (
     <>
       <Head>

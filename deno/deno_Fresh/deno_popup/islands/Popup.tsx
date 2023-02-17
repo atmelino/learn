@@ -1,4 +1,4 @@
-import { useRef } from "preact/hooks";
+import { useRef, useState } from "preact/hooks";
 import { IS_BROWSER } from "$fresh/runtime.ts";
 import { apply, tw } from "twind";
 import { animation, css } from "twind/css";
@@ -71,21 +71,31 @@ export default function Popup({ length, Url, functionToCall }: PopupProps) {
 }
 
 function PopupInner({ length, Url, functionToCall }: PopupProps) {
+  const [text_ta, setText_ta] = useState("initial text");
+
   const corners = "rounded(tl-2xl tr-2xl sm:(tr-none bl-2xl))";
   const card =
     `py-8 px-6 h-full bg-white ${corners} flex flex-col justify-between`;
 
-    const goToUrl = (e: Event) => {
-      e.preventDefault();
-      location.href = Url;
-    };
-  
-    const callAFunction = (e: Event) => {
-      e.preventDefault();
-      functionToCall;
-    };
-  
-      
+  const goToUrl = (e: Event) => {
+    e.preventDefault();
+    location.href = Url;
+  };
+
+  // const callAFunction = (e: Event) => {
+  //   e.preventDefault();
+  //   functionToCall;
+  // };
+
+  const callAFunction = (e: Event) => {
+    e.preventDefault();
+    setDebugText_ta("new text");
+  };
+
+  function setDebugText_ta(message: string) {
+    //alert("hi");
+    setText_ta(message);
+  }
 
   return (
     <div class={card}>
@@ -108,16 +118,23 @@ function PopupInner({ length, Url, functionToCall }: PopupProps) {
       </div>
       <div class="flex-grow-1 my-4">
       </div>
+      <div>
+        <textarea
+          class={`w-full p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500 `}
+        >
+          {text_ta}
+        </textarea>
+      </div>
 
       <div class="mt-6">
-          <button
-            type="button"
-            class="w-full bg-gray-700 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-gray-700"
-            onClick={callAFunction}
-          >
-            call a function
-          </button>
-        </div>
+        <button
+          type="button"
+          class="w-full bg-gray-700 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-gray-700"
+          onClick={callAFunction}
+        >
+          call a function
+        </button>
+      </div>
 
       <div class="border-t border-gray-200 py-6 px-4 sm:px-6">
         <div class="flex justify-between text-lg font-medium">
