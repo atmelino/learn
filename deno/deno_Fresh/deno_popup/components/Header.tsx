@@ -1,4 +1,4 @@
-import Cart from "../islands/Cart.tsx";
+import Popup from "../islands/Popup.tsx";
 
 export function Header() {
   return (
@@ -19,7 +19,7 @@ export function Header() {
             height="24"
           />
         </h1>
-        <Cart />
+        <Popup />
       </nav>
     </header>
   );

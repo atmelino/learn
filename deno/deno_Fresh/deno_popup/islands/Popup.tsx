@@ -3,6 +3,7 @@ import { IS_BROWSER } from "$fresh/runtime.ts";
 import { apply, tw } from "twind";
 import { animation, css } from "twind/css";
 import IconCart from "../components/IconCart.tsx";
+import IconSettings from "../components/IconSettings.tsx";
 
 interface CartData {
   length: number;
@@ -60,8 +61,7 @@ export default function Cart() {
         onClick={() => ref.current!.showModal()}
         class="flex items-center gap-2 items-center border-2 border-gray-800 rounded-full px-5 py-1 font-semibold text-gray-800 hover:bg-gray-800 hover:text-white transition-colors duration-300"
       >
-        <IconCart />
-        {data?.length ?? "0"}
+        <IconSettings size={20} />
       </button>
       <dialog
         ref={ref}

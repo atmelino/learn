@@ -1,27 +1,19 @@
 import { Head } from "$fresh/runtime.ts";
-import IconCart from "../components/IconCart.tsx";
 import { Header } from "../components/Header.tsx";
+import IconSettings from "../components/IconSettings.tsx";
 
 export default function Home() {
   return (
     <>
       <Head>
-        <title>Fresh App</title>
+        <title>deno popup demo</title>
       </Head>
       <Header />
-      <div class="p-4 mx-auto max-w-screen-md">
-        <img
-          src="/logo.svg"
-          class="w-32 h-32"
-          alt="the fresh logo: a sliced lemon dripping with juice"
-        />
-        <p class="my-6">
-          Welcome to `fresh`. Try updating this message in the
-          ./routes/index.tsx file, and refresh.
-        </p>
+      <div>
+        Click on the settings icon to open the popup window
       </div>
-        <IconCart size={40} />
-      <div>some text</div>
+      <IconSettings size={20} />
+
     </>
   );
 }
