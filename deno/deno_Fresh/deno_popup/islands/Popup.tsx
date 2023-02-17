@@ -92,6 +92,11 @@ function PopupInner({ length, Url, functionToCall }: PopupProps) {
     setDebugText_ta("new text");
   };
 
+  const callAFunction2 = (e: Event) => {
+    e.preventDefault();
+    functionToCall();
+  };
+
   function setDebugText_ta(message: string) {
     //alert("hi");
     setText_ta(message);
@@ -118,13 +123,19 @@ function PopupInner({ length, Url, functionToCall }: PopupProps) {
       </div>
       <div class="flex-grow-1 my-4">
       </div>
-      <div>
-        <textarea
-          class={`w-full p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500 `}
+
+
+      <div class="mt-6">
+        <button
+          type="button"
+          class="w-full bg-gray-700 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-gray-700"
+          onClick={callAFunction2}
         >
-          {text_ta}
-        </textarea>
+          call a function passed as parameter
+        </button>
       </div>
+
+
 
       <div class="mt-6">
         <button
@@ -132,8 +143,15 @@ function PopupInner({ length, Url, functionToCall }: PopupProps) {
           class="w-full bg-gray-700 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-gray-700"
           onClick={callAFunction}
         >
-          call a function
+          call a function in popup
         </button>
+      </div>
+      <div>
+        <textarea
+          class={`w-full p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500 `}
+        >
+          {text_ta}
+        </textarea>
       </div>
 
       <div class="border-t border-gray-200 py-6 px-4 sm:px-6">

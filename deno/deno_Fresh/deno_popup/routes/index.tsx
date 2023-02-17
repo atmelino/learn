@@ -12,6 +12,7 @@ export default function Home() {
   // }
 
   function myFunction() {
+    alert("hi");
     setDebugText_ta("new text");
   }
 
@@ -19,7 +20,7 @@ export default function Home() {
     //alert("hi");
     setText_ta(message);
   }
-  
+
   return (
     <>
       <Head>
