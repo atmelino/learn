@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>textarea test</title>
+        <title>Debug widget</title>
         <meta name="description" content="textarea test" />
       </Head>
       <main class="p-4 mx-auto max-w-screen-md flex flex-col justify-center items-center">
