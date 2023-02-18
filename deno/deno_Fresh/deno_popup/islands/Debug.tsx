@@ -24,7 +24,6 @@ export default function Debug(props: debugProps) {
       <div>
         {debugMessage}
       </div>
-
     </div>
   );
 }

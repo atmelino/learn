@@ -80,6 +80,8 @@ function PopupInner({ length, Url, functionToCall }: PopupProps) {
   const goToUrl = (e: Event) => {
     e.preventDefault();
     location.href = Url;
+    console.log("test");
+
   };
 
   // const callAFunction = (e: Event) => {
