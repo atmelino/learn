@@ -16,13 +16,8 @@ export default function Home() {
       <main class="p-4 mx-auto max-w-screen-md flex flex-col justify-center items-center">
         <Debug_user start={1} initmessage="hello" />
 
-        <div>
-          <div class={card}>
-            <div class="border-t border-gray-200 py-6 px-4 sm:px-6">
-              <div class="flex justify-between text-lg font-medium">
-                <p>A Number:</p>
-              </div>
-            </div>
+        <div class={card}>
+          <div class="border-t border-gray-200 py-6 px-4 sm:px-6">
           </div>
         </div>
 

@@ -16,12 +16,12 @@ export default function Debug_user(props: debugProps) {
 
   return (
     <div class="flex flex-col w-full pt-5">
-      <h2>Debug user</h2>
+      <h2 class="text-lg font-medium text-gray-900 ">Debug User</h2>
       This element uses the debug element by sending a message to it<br>
       </br>
       <div class="flex gap-2 w-full">
         <Button onClick={() => setDebugText(debugMessage + "text")}>
-          debug message in div
+          send debug message
         </Button>
       </div>
     </div>
