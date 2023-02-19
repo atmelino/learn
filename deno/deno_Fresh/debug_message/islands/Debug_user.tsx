@@ -1,4 +1,3 @@
-import { useRef, useState } from "preact/hooks";
 import { Button } from "../components/Button.tsx";
 import * as mydebug from "../islands/Debug.tsx";
 
@@ -8,7 +7,6 @@ interface debugProps {
 }
 
 export default function Debug_user(props: debugProps) {
-  const [debugMessage, setdebugMessage] = useState(props.initmessage);
 
   function setDebugText(message: string) {
     //alert("hi");
