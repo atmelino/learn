@@ -6,6 +6,7 @@ export default function Home() {
   const corners = "rounded(tl-2xl tr-2xl sm:(tr-none bl-2xl))";
   const card =
     `py-8 px-6 h-full bg-white ${corners} flex flex-col justify-between`;
+
   return (
     <div>
       <Head>
@@ -21,7 +22,7 @@ export default function Home() {
           </div>
         </div>
 
-        <Debug start={1} initmessage="hello" />
+        <Debug start={1} initmessage="hello" newmessage="init" />
       </main>
     </div>
   );
