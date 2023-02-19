@@ -25,7 +25,9 @@ export default function Debug(props: debugProps) {
   }
 
   return (
-    <div class="flex flex-col w-full pt-5">
+    <div class="flex flex-col w-full ">
+      <h2>Debug element</h2>
+
       <div class="flex gap-2 w-full">
         <Button onClick={() => setDebugText(debugMessage + "text")}>
           debug message in div
