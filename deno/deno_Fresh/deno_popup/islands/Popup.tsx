@@ -84,11 +84,6 @@ function PopupInner({ length, Url, functionToCall }: PopupProps) {
 
   };
 
-  // const callAFunction = (e: Event) => {
-  //   e.preventDefault();
-  //   functionToCall;
-  // };
-
   const callAFunction = (e: Event) => {
     e.preventDefault();
     setDebugText_ta("new text");

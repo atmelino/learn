@@ -9,7 +9,7 @@ export default function Body() {
 
   function myFunction() {
     //    alert("hi");
-    setDebugText(debugMessage + "by golly it works!");
+    setdebugMessage(debugMessage + "changed");
   }
 
   function setDebugText(message: string) {

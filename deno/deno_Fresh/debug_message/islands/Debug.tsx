@@ -8,19 +8,15 @@ interface debugProps {
   initmessage: string;
   newmessage:string
 }
-export let myvar: string;
 
 declare global {
-  export let globalvar: string;
-}
-
-declare global {
-  export var AGlobalString: string;
+  export let AGlobalString: string;
 }
 let AGlobalString = "new";
 
 export function setAGlobalString(newcontent: string) {
   AGlobalString = newcontent;
+  
 }
 
 export default function Debug(props: debugProps) {
@@ -36,7 +32,6 @@ export default function Debug(props: debugProps) {
 
   function setDebugText_ta(message: string) {
     //alert("hi");
-    setText_ta(message);
     setText_ta(AGlobalString);
   }
 

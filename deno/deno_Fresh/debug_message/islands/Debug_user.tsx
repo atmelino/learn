@@ -21,10 +21,11 @@ export default function Debug_user(props: debugProps) {
       This element uses the debug element by sending a message to it<br>
       </br>
       <div class="flex gap-2 w-full">
-        <Button onClick={() => setDebugText("text from debug user")}>
+      <Button onClick={() => mydebug.setAGlobalString("text from debug user")}>
           send debug message
         </Button>
       </div>
     </div>
   );
 }
+//<Button onClick={() => setDebugText("text from debug user")}>
