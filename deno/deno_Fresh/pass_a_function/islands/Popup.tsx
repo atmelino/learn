@@ -3,12 +3,12 @@ import { IS_BROWSER } from "$fresh/runtime.ts";
 import { apply, tw } from "twind";
 import { animation, css } from "twind/css";
 import IconSettings from "../components/IconSettings.tsx";
-import * as mydebug from "../islands/Debug.tsx";
-import { Button } from "../components/Button.tsx";
 
 interface PopupProps {
   length: number;
   Url: string;
+  //functionToCall: (s: string) => void;
+  functionToCall: () => void;
 }
 
 // Lazy load a <dialog> polyfill.
@@ -42,7 +42,7 @@ const backdrop = css({
   },
 });
 
-export default function Popup({ length, Url }: PopupProps) {
+export default function Popup({ length, Url, functionToCall }: PopupProps) {
   const ref = useRef<HTMLDialogElement | null>(null);
 
   const onDialogClick = (e: MouseEvent) => {
@@ -64,13 +64,13 @@ export default function Popup({ length, Url }: PopupProps) {
         class={tw`bg-transparent p-0 m-0 pt-[50%] sm:pt-0 sm:ml-auto max-w-full sm:max-w-lg w-full max-h-full h-full ${slideBottom} sm:${slideRight} ${backdrop}`}
         onClick={onDialogClick}
       >
-        <PopupInner length={length} Url={Url} />
+        <PopupInner length={length} Url={Url} functionToCall={functionToCall} />
       </dialog>
     </div>
   );
 }
 
-function PopupInner({ length, Url }: PopupProps) {
+function PopupInner({ length, Url, functionToCall }: PopupProps) {
   const [text_ta, setText_ta] = useState("initial text");
 
   const corners = "rounded(tl-2xl tr-2xl sm:(tr-none bl-2xl))";
@@ -81,12 +81,23 @@ function PopupInner({ length, Url }: PopupProps) {
     e.preventDefault();
     location.href = Url;
     console.log("test");
+
   };
 
   const callAFunction = (e: Event) => {
     e.preventDefault();
-    setText_ta("new text");
+    setDebugText_ta("new text");
   };
+
+  const callAFunction2 = (e: Event) => {
+    e.preventDefault();
+    functionToCall();
+  };
+
+  function setDebugText_ta(message: string) {
+    //alert("hi");
+    setText_ta(message);
+  }
 
   return (
     <div class={card}>
@@ -110,23 +121,18 @@ function PopupInner({ length, Url }: PopupProps) {
       <div class="flex-grow-1 my-4">
       </div>
 
+
       <div class="mt-6">
         <button
           type="button"
           class="w-full bg-gray-700 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-gray-700"
-          onClick={() => mydebug.setAGlobalString("text from debug user")}
+          onClick={callAFunction2}
         >
           call a function passed as parameter
         </button>
-
-        <div class="flex gap-2 w-full">
-          <Button
-            onClick={() => mydebug.setAGlobalString("text from debug user")}
-          >
-            send debug message
-          </Button>
-        </div>
       </div>
+
+
 
       <div class="mt-6">
         <button
