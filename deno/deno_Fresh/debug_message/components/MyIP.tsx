@@ -2,11 +2,11 @@ import { Button } from "../components/Button.tsx";
 import { getIP } from "https://deno.land/x/get_ip/mod.ts";
 import { useRef, useState } from "preact/hooks";
 
-interface debugProps {
-  debug: string;
+interface myIPProps {
+  myIPstring: string;
 }
 
-export function MyIP({ debug }: debugProps) {
+export function MyIP({ myIPstring }: myIPProps) {
   const [dbread, setdbRead] = useState("database");
 
   const getMyIP = async () => {

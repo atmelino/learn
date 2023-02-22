@@ -10,29 +10,28 @@ interface debugProps {
 }
 
 declare global {
-  export let AGlobalString: string;
+  export let MyGlobalString: string;
 }
-let AGlobalString = "new";
+let MyGlobalString = "new";
 
-export function setAGlobalString(newcontent: string) {
-  AGlobalString = newcontent;
-  
+export function setMyGlobalString(newcontent: string) {
+  MyGlobalString = newcontent;
 }
 
 export default function Debug(props: debugProps) {
-  const [debugMessage, setdebugMessage] = useState(props.initmessage);
-  const [text_ta, setText_ta] = useState(props.initmessage);
-  const [text_tac, setText_tac] = useState(props.initmessage);
-  const [debug, setDebug] = useState("initial");
+  const [message_in_div, setmessage_in_div] = useState(props.initmessage);
+  const [message_in_textarea, setmessage_in_textarea] = useState(props.initmessage);
+  const [message_in_textarea_component, setmessage_in_textarea_component] = useState(props.initmessage);
+  const [myIPstring, setDebug] = useState("initial");
 
   function setDebugText(message: string) {
     //alert("hi");
-    setdebugMessage(message);
+    setmessage_in_div(message);
   }
 
-  function setDebugText_ta(message: string) {
+  function setDebugmessage_in_textarea(message: string) {
     //alert("hi");
-    setText_ta(AGlobalString);
+    setmessage_in_textarea(MyGlobalString);
   }
 
   return (
@@ -40,15 +39,15 @@ export default function Debug(props: debugProps) {
       <h2 class="text-lg font-medium text-gray-900 ">Debug Widget</h2>
 
       <div class="flex gap-2 w-full">
-        <Button onClick={() => setDebugText(debugMessage + "text")}>
+        <Button onClick={() => setDebugText(message_in_div + "text")}>
           debug message in div
         </Button>
       </div>
       <div>
-        {debugMessage}
+        {message_in_div}
       </div>
       <div class="flex gap-2 w-full">
-        <Button onClick={() => setDebugText_ta(text_ta + "text")}>
+        <Button onClick={() => setDebugmessage_in_textarea(message_in_textarea + "text")}>
           debug message in textarea
         </Button>
       </div>
@@ -56,20 +55,20 @@ export default function Debug(props: debugProps) {
         <textarea
           class={`w-full p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500 `}
         >
-          {text_ta}
+          {message_in_textarea}
         </textarea>
       </div>
       <div class="flex gap-2 w-full">
-        <Button onClick={() => setText_tac(text_tac + "text")}>
+        <Button onClick={() => setmessage_in_textarea_component(message_in_textarea_component + "text")}>
           debug message in Textarea component
         </Button>
       </div>
       <TextArea
         placeholder="text here..."
         rows={3}
-        onChange={(e) => setText_tac((e.target as HTMLInputElement).value)}
+        onChange={(e) => setmessage_in_textarea_component((e.target as HTMLInputElement).value)}
       />
-      <MyIP debug={debug} />
+      <MyIP myIPstring={myIPstring} />
     </div>
   );
 }

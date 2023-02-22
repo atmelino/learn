@@ -7,12 +7,12 @@ interface debugProps {
 }
 
 export default function Debug_user(props: debugProps) {
-
   function setDebugText(message: string) {
     //alert("hi");
     //setdebugMessage(message);
-    //mydebug.setAGlobalString("test3");
-    mydebug.setAGlobalString(message);
+    //mydebug.setMyGlobalString("test3");
+    console.log("button pressed");
+    mydebug.setMyGlobalString(message);
   }
 
   return (
@@ -21,11 +21,11 @@ export default function Debug_user(props: debugProps) {
       This element uses the debug element by sending a message to it<br>
       </br>
       <div class="flex gap-2 w-full">
-      <Button onClick={() => mydebug.setAGlobalString("text from debug user")}>
+        <Button onClick={() => setDebugText("text from debug user")}>
           send debug message
         </Button>
       </div>
     </div>
   );
 }
-//<Button onClick={() => setDebugText("text from debug user")}>
+//<Button onClick={() => mydebug.setMyGlobalString("text from debug user")}>
