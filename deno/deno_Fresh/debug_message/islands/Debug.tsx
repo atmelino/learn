@@ -15,6 +15,7 @@ declare global {
 let MyGlobalString = "new";
 
 export function setMyGlobalString(newcontent: string) {
+  console.log("setMyGlobalString called");
   MyGlobalString = newcontent;
 }
 
@@ -26,6 +27,7 @@ export default function Debug(props: debugProps) {
 
   function setDebugText(message: string) {
     //alert("hi");
+    setMyGlobalString("test2");
     setmessage_in_div(message);
   }
 
