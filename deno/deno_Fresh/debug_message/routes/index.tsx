@@ -22,7 +22,7 @@ export default function Home() {
           </div>
         </div>
 
-        <Debug start={1} initmessage="hello" newmessage="init" />
+        <Debug start={1} initmessage="hello"  />
       </main>
     </div>
   );
