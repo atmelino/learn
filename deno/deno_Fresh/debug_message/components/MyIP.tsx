@@ -13,15 +13,18 @@ export function MyIP({ myIPstring }: myIPProps) {
     console.log("getmyIP");
     const myIP = await getIP({ ipv6: true });
     console.log(myIP);
-    setdbRead(myIP+"");    
+    setdbRead(myIP + "");
     return myIP;
   };
-  
+
   return (
     <div class="flex flex-col gap-2 pt-2 w-full">
       {
         <div>
-          <Button  onClick={async () => await getMyIP()}>
+          <Button
+            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-1/2"
+            onClick={async () => await getMyIP()}
+          >
             get IP
           </Button>
 

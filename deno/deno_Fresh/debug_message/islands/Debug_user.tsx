@@ -21,7 +21,10 @@ export default function Debug_user(props: debugProps) {
       This element uses the debug element by sending a message to it<br>
       </br>
       <div class="flex gap-2 w-full">
-        <Button onClick={() => setDebugText("text from debug user")}>
+        <Button
+          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-1/2"
+          onClick={() => setDebugText("text from debug user")}
+        >
           send debug message
         </Button>
       </div>
