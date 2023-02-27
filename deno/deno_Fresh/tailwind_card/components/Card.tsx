@@ -10,4 +10,3 @@ export function Card(props: JSX.HTMLAttributes<HTMLDivElement>) {
     />
   );
 }
-//      class="py-8 px-6 h-full bg-white ${corners} flex flex-col justify-between hover:bg-gray-200"
