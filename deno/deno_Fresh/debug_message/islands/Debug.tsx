@@ -36,7 +36,7 @@ export default function Debug(props: debugProps) {
 
 	return (
 		<div class="flex flex-col w-full ">
-			<h2 class="text-lg font-medium text-gray-900 ">Debug Widget</h2>
+			<h2>Debug Widget</h2>
 
 			<ButtonGreen
 				onClick={() => setMyGlobalString(MyGlobalString)}

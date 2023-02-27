@@ -8,15 +8,15 @@ import * as $$0 from "./islands/Debug.tsx";
 import * as $$1 from "./islands/Debug_user.tsx";
 
 const manifest = {
-  routes: {
-    "./routes/index.tsx": $0,
-  },
-  islands: {
-    "./islands/Debug.tsx": $$0,
-    "./islands/Debug_user.tsx": $$1,
-  },
-  baseUrl: import.meta.url,
-  config,
+	routes: {
+		"./routes/index.tsx": $0,
+	},
+	islands: {
+		"./islands/Debug.tsx": $$0,
+		"./islands/Debug_user.tsx": $$1,
+	},
+	baseUrl: import.meta.url,
+	config,
 };
 
 export default manifest;

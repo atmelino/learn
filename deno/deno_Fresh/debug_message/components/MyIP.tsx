@@ -1,6 +1,6 @@
-import { Button } from "../components/Button.tsx";
 import { getIP } from "https://deno.land/x/get_ip/mod.ts";
 import { useRef, useState } from "preact/hooks";
+import { ButtonGreen } from "./ButtonGreen.tsx";
 
 interface myIPProps {
   myIPstring: string;
@@ -21,12 +21,12 @@ export function MyIP({ myIPstring }: myIPProps) {
     <div class="flex flex-col gap-2 pt-2 w-full">
       {
         <div>
-          <Button
+          <ButtonGreen
             className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-1/2"
             onClick={async () => await getMyIP()}
           >
             get IP
-          </Button>
+          </ButtonGreen>
 
           <textarea
             class={`w-full p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500 `}
