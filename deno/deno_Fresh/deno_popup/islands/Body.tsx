@@ -1,7 +1,14 @@
 import Debug from "../islands/Debug.tsx";
 import Popup from "../islands/Popup.tsx";
+import { useRef, useState } from "preact/hooks";
 
 export default function Body() {
+  function setDebugMesssage(message: string) {
+    console.log("setDebugMesssage called");
+    setdebugMessageState(message);
+  }
+
+  const [debugMessage, setdebugMessageState] = useState("123");
 
   return (
     <div class="flex flex-col w-full pt-5">
@@ -11,13 +18,17 @@ export default function Body() {
         <Popup
           length={4}
           Url={"http://www.something.com"}
+          setDebugMesssage={setDebugMesssage}
+          debugMessage={debugMessage}
         />
       </nav>
 
       <div class="p-4 mx-auto max-w-screen-md">
-      <Debug start={1} initmessage="hello" newmessage="init" />
+        <Debug
+          setDebugMesssage={setDebugMesssage}
+          debugMessage={debugMessage}
+        />
       </div>
-
     </div>
   );
 }
