@@ -1,12 +1,11 @@
 import TextArea from "../components/Textarea.tsx";
 
-interface debugProps {
-	initmessage: string;
+export interface IDebug {
 	setDebugMesssage: (s: string) => void;
 	debugMessage: string;
 }
 
-export default function Debug({ initmessage, setDebugMesssage, debugMessage }: debugProps) {
+export default function Debug({ setDebugMesssage, debugMessage }: IDebug) {
 	return (
 		<div class="w-full pt-5">
 			<h2 class="text-lg font-medium text-gray-900 ">Debug Widget</h2>

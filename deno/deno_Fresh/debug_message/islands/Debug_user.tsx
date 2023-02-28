@@ -1,18 +1,9 @@
 import { useRef, useState } from "preact/hooks";
 import { ButtonGreen } from "../components/ButtonGreen.tsx";
+import { IDebug } from "../islands/Debug.tsx";
 
-interface debugProps {
-	initmessage: string;
-	setDebugMesssage: (s: string) => void;
-}
-
-export default function Debug_user(props: debugProps) {
+export default function Debug_user({ setDebugMesssage}: IDebug)  {
 	const noteRef = useRef<HTMLInputElement | null>(null);
-
-	function setDebugText(message: string) {
-		console.log("button pressed");
-		props.setDebugMesssage(message);
-	}
 
 	return (
 		<div class="w-full pt-5">
@@ -25,10 +16,10 @@ export default function Debug_user(props: debugProps) {
 					onSubmit={(e) => {
 						e.preventDefault();
 						if (!noteRef?.current?.value) {
-							setDebugText("empty");
+							setDebugMesssage("empty");
 							return;
 						}
-						setDebugText(noteRef?.current?.value ?? "");
+						setDebugMesssage(noteRef?.current?.value ?? "");
 						noteRef.current.value = "";
 					}}
 				>
