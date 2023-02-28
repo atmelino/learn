@@ -1,32 +1,40 @@
 import { useRef, useState } from "preact/hooks";
 import TextArea from "../components/Textarea.tsx";
 import { ButtonGreen } from "../components/ButtonGreen.tsx";
-import { MyIP } from "../components/MyIP.tsx";
 
 interface debugProps {
 	start: number;
 	initmessage: string;
+	removeNote: (s: string) => void;
+	debugMessage:string;
 }
 
 declare global {
 	export let MyGlobalString: string;
+	export function myGlobalFunction(): string;
 }
 let MyGlobalString = "text from external module";
+
+export function myGlobalFunction() {
+	console.log("myGlobalFunction called");
+	return "hello";
+}
 
 export function setMyGlobalString(newcontent: string) {
 	console.log("setMyGlobalString called");
 	MyGlobalString = newcontent;
 }
 
-export default function Debug(props: debugProps) {
-	const [message_in_div, setmessage_in_div] = useState(props.initmessage);
-	const [message_in_textarea, setmessage_in_textarea] = useState(props.initmessage);
-	const [message_in_textarea_component, setmessage_in_textarea_component] = useState(props.initmessage);
-	const [myIPstring, setDebug] = useState("initial");
-	const [message_external, setMyGlobalString] = useState("initial");
+//export default function Debug(props: debugProps) {
+export default function Debug({ start, initmessage, removeNote,debugMessage }: debugProps) {
+	const [message_in_div, setmessage_in_div] = useState(initmessage);
+	const [message_in_textarea, setmessage_in_textarea] = useState(initmessage);
+	const [message_in_textarea_component, setmessage_in_textarea_component] = useState(initmessage);
+	const [message_external, setmessage_external] = useState("initial");
 
 	function setDebugText(message: string) {
 		setmessage_in_div(message);
+		removeNote("");
 	}
 
 	function setDebugmessage_in_textarea(message: string) {
@@ -37,10 +45,10 @@ export default function Debug(props: debugProps) {
 	return (
 		<div class="w-full pt-5">
 			<h2>Debug Widget</h2>
-
+			{debugMessage}
 			<p>
 				<ButtonGreen
-					onClick={() => setMyGlobalString(MyGlobalString)}
+					onClick={() => setmessage_external(MyGlobalString)}
 				>
 					update external message
 				</ButtonGreen>

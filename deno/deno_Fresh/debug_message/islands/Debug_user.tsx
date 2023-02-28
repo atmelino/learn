@@ -4,6 +4,8 @@ import * as mydebug from "../islands/Debug.tsx";
 interface debugProps {
 	start: number;
 	initmessage: string;
+	removeNote: (s: string) => void;
+
 }
 
 export default function Debug_user(props: debugProps) {
@@ -13,6 +15,9 @@ export default function Debug_user(props: debugProps) {
 		//mydebug.setMyGlobalString("test3");
 		console.log("button pressed");
 		mydebug.setMyGlobalString(message);
+		props.removeNote("");
+		mydebug.myGlobalFunction();
+
 	}
 
 	return (
