@@ -20,48 +20,18 @@ export default function Debug({ start, initmessage, setDebugMesssage, debugMessa
 		setDebugMesssage("");
 	}
 
-	function setDebugmessage_in_textarea(message: string) {
-		//alert("hi");
-		setmessage_in_textarea(message);
-	}
-
 	return (
 		<div class="w-full pt-5">
 			<h2 class="text-lg font-medium text-gray-900 ">Debug Widget</h2>
 
-			{debugMessage}
 			<p>
-				<ButtonGreen
-					onClick={() => setmessage_external(debugMessage)}
-				>
-					update external message
-				</ButtonGreen>
-				<textarea
-					placeholder="text from external module"
-					class={`w-full p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500 `}
-				>
-					{debugMessage}
-				</textarea>
-			</p>
-			<p>
-				<ButtonGreen
-					onClick={() => setDebugText(message_in_div + "text")}
-				>
-					debug message in div
-				</ButtonGreen>
-				<br></br>
-				<div class="border-4 border-green-900 border-solid bg-green-400 w-full h-12">
+				debug message in div
+				<div class="border-1 border-green-900 border-solid  w-full h-12">
 					{debugMessage}
 				</div>
 			</p>
 			<p>
-				<ButtonGreen
-					onClick={() => setDebugmessage_in_textarea(message_in_textarea + "text")}
-				>
-					debug message in textarea
-				</ButtonGreen>
-			</p>
-			<p>
+				debug message in textarea
 				<textarea
 					class={`w-full p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500 `}
 				>
@@ -69,14 +39,7 @@ export default function Debug({ start, initmessage, setDebugMesssage, debugMessa
 				</textarea>
 			</p>
 			<p>
-				<ButtonGreen
-					onClick={() =>
-						setmessage_in_textarea_component(
-							message_in_textarea_component + "text",
-						)}
-				>
-					debug message in Textarea component
-				</ButtonGreen>
+				debug message in Textarea component
 				<TextArea
 					placeholder="text here..."
 					rows={3}
