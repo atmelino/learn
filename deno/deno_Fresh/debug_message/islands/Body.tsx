@@ -7,9 +7,9 @@ import { useRef, useState } from "preact/hooks";
 export default function Body() {
 	function removeNote(uuid: string) {
 		console.log("removenote called");
-    setmessage_in_div("456");
+    setdebugMessage("456");
 	}
-	const [debugMessage, setmessage_in_div] = useState("123");
+	const [debugMessage, setdebugMessage] = useState("123");
 
 	return (
 		<div class=" space-y-4 mx-auto max-w-screen-md flex flex-col justify-center items-center">
