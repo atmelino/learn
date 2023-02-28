@@ -2,7 +2,6 @@ import { useRef, useState } from "preact/hooks";
 import { ButtonGreen } from "../components/ButtonGreen.tsx";
 
 interface debugProps {
-	start: number;
 	initmessage: string;
 	setDebugMesssage: (s: string) => void;
 }
