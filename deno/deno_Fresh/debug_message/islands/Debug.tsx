@@ -6,27 +6,10 @@ interface debugProps {
 	start: number;
 	initmessage: string;
 	setDebugMesssage: (s: string) => void;
-	debugMessage:string;
+	debugMessage: string;
 }
 
-declare global {
-	export let MyGlobalString: string;
-	export function myGlobalFunction(): string;
-}
-let MyGlobalString = "text from external module";
-
-export function myGlobalFunction() {
-	console.log("myGlobalFunction called");
-	return "hello";
-}
-
-export function setMyGlobalString(newcontent: string) {
-	console.log("setMyGlobalString called");
-	MyGlobalString = newcontent;
-}
-
-//export default function Debug(props: debugProps) {
-export default function Debug({ start, initmessage, setDebugMesssage,debugMessage }: debugProps) {
+export default function Debug({ start, initmessage, setDebugMesssage, debugMessage }: debugProps) {
 	const [message_in_div, setmessage_in_div] = useState(initmessage);
 	const [message_in_textarea, setmessage_in_textarea] = useState(initmessage);
 	const [message_in_textarea_component, setmessage_in_textarea_component] = useState(initmessage);
@@ -44,11 +27,12 @@ export default function Debug({ start, initmessage, setDebugMesssage,debugMessag
 
 	return (
 		<div class="w-full pt-5">
-			<h2>Debug Widget</h2>
+			<h2 class="text-lg font-medium text-gray-900 ">Debug Widget</h2>
+
 			{debugMessage}
 			<p>
 				<ButtonGreen
-					onClick={() => setmessage_external(MyGlobalString)}
+					onClick={() => setmessage_external(debugMessage)}
 				>
 					update external message
 				</ButtonGreen>
@@ -56,7 +40,7 @@ export default function Debug({ start, initmessage, setDebugMesssage,debugMessag
 					placeholder="text from external module"
 					class={`w-full p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500 `}
 				>
-					{message_external}
+					{debugMessage}
 				</textarea>
 			</p>
 			<p>
@@ -66,7 +50,9 @@ export default function Debug({ start, initmessage, setDebugMesssage,debugMessag
 					debug message in div
 				</ButtonGreen>
 				<br></br>
-				{message_in_div}
+				<div class="border-4 border-green-900 border-solid bg-green-400 w-full h-12">
+					{debugMessage}
+				</div>
 			</p>
 			<p>
 				<ButtonGreen
@@ -79,7 +65,7 @@ export default function Debug({ start, initmessage, setDebugMesssage,debugMessag
 				<textarea
 					class={`w-full p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500 `}
 				>
-					{message_in_textarea}
+					{debugMessage}
 				</textarea>
 			</p>
 			<p>
@@ -96,7 +82,7 @@ export default function Debug({ start, initmessage, setDebugMesssage,debugMessag
 					rows={3}
 					onChange={() => alert("changed")}
 				>
-					{message_in_textarea_component}
+					{debugMessage}
 				</TextArea>
 			</p>
 		</div>
