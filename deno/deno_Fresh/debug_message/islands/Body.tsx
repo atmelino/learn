@@ -5,8 +5,8 @@ import * as mydebug from "../islands/Debug.tsx";
 import { useRef, useState } from "preact/hooks";
 
 export default function Body() {
-	function removeNote(uuid: string) {
-		console.log("removenote called");
+	function setDebugMesssage(uuid: string) {
+		console.log("setDebugMesssage called");
     setdebugMessage("456");
 	}
 	const [debugMessage, setdebugMessage] = useState("123");
@@ -14,10 +14,10 @@ export default function Body() {
 	return (
 		<div class=" space-y-4 mx-auto max-w-screen-md flex flex-col justify-center items-center">
 			<Card>
-				<Debug_user start={1} initmessage="hello" removeNote={removeNote} />
+				<Debug_user start={1} initmessage="hello" setDebugMesssage={setDebugMesssage} />
 			</Card>
 			<Card>
-				<Debug start={1} initmessage="hello" removeNote={removeNote} debugMessage={debugMessage}/>
+				<Debug start={1} initmessage="hello" setDebugMesssage={setDebugMesssage} debugMessage={debugMessage}/>
 			</Card>
 		</div>
 	);

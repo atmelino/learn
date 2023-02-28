@@ -4,20 +4,13 @@ import * as mydebug from "../islands/Debug.tsx";
 interface debugProps {
 	start: number;
 	initmessage: string;
-	setDebugMesssage: (s: string) => void;
-
 }
 
 export default function Debug_user(props: debugProps) {
 	function setDebugText(message: string) {
-		//alert("hi");
-		//setdebugMessage(message);
-		//mydebug.setMyGlobalString("test3");
 		console.log("button pressed");
 		mydebug.setMyGlobalString(message);
-		props.setDebugMesssage("");
 		mydebug.myGlobalFunction();
-
 	}
 
 	return (
@@ -36,4 +29,3 @@ export default function Debug_user(props: debugProps) {
 		</div>
 	);
 }
-//<Button onClick={() => mydebug.setMyGlobalString("text from debug user")}>

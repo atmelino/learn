@@ -5,7 +5,7 @@ import { ButtonGreen } from "../components/ButtonGreen.tsx";
 interface debugProps {
 	start: number;
 	initmessage: string;
-	removeNote: (s: string) => void;
+	setDebugMesssage: (s: string) => void;
 	debugMessage:string;
 }
 
@@ -26,7 +26,7 @@ export function setMyGlobalString(newcontent: string) {
 }
 
 //export default function Debug(props: debugProps) {
-export default function Debug({ start, initmessage, removeNote,debugMessage }: debugProps) {
+export default function Debug({ start, initmessage, setDebugMesssage,debugMessage }: debugProps) {
 	const [message_in_div, setmessage_in_div] = useState(initmessage);
 	const [message_in_textarea, setmessage_in_textarea] = useState(initmessage);
 	const [message_in_textarea_component, setmessage_in_textarea_component] = useState(initmessage);
@@ -34,7 +34,7 @@ export default function Debug({ start, initmessage, removeNote,debugMessage }: d
 
 	function setDebugText(message: string) {
 		setmessage_in_div(message);
-		removeNote("");
+		setDebugMesssage("");
 	}
 
 	function setDebugmessage_in_textarea(message: string) {
