@@ -5,6 +5,7 @@ import { Debug2 } from "../components/Debug2.tsx";
 import settings from "../../../../../settings_nk.js";
 import { format } from "https://deno.land/std@0.91.0/datetime/mod.ts";
 import { useEffect } from "preact/hooks";
+import Popup from "./Popup.tsx";
 
 export interface INote {
   uuid: string;
@@ -17,13 +18,18 @@ export default function NoteKeeper() {
   const [notes, setNotes] = useState<INote[]>([]);
   const noteRef = useRef<HTMLInputElement | null>(null);
   const [debug, setDebug] = useState("initial");
+  const [debugMessage, setdebugMessageState] = useState("123");
 
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
-
     readDatabase();
   });
 
+  function setDebugMesssage(message: string) {
+    console.log("setDebugMesssage called");
+    setdebugMessageState(message);
+  }
+  
   function makeRandomId(length: number) {
     let result = "";
     const characters =
@@ -128,6 +134,17 @@ export default function NoteKeeper() {
 
   return (
     <div class="flex flex-col w-full pt-5">
+      <nav class="w-11/12 h-24 max-w-5xl mx-auto flex items-center justify-between relative">
+        <h1>
+        </h1>
+        <Popup
+          length={4}
+          Url={"http://www.something.com"}
+          setDebugMesssage={setDebugMesssage}
+          debugMessage={debugMessage}
+        />
+      </nav>
+
       <form
         class="flex gap-2 w-full"
         onSubmit={(e) => {
