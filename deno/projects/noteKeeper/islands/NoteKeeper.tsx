@@ -20,7 +20,6 @@ export default function NoteKeeper() {
   const [debug, setDebug] = useState("initial");
   const [debugMessage, setdebugMessageState] = useState("123");
   const [showDebug, setShowDebug] = useState(false);
-  const [checked, setChecked] = useState(false);
 
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
@@ -152,16 +151,6 @@ export default function NoteKeeper() {
     </div>
   );
 
-  const handleChange = () => {
-    setShowDebug(!showDebug);
-    setChecked(!checked);
-    if (checked) {
-      console.log("checked");
-    } else {
-      console.log("not checked");
-    }
-  };
-
   return (
     <div class="flex flex-col w-full pt-5">
       <form
@@ -196,8 +185,8 @@ export default function NoteKeeper() {
         </button>
         <Popup
           title="Settings"
-          length={4}
-          Url={"http://www.something.com"}
+          showDebug={showDebug}
+          setShowDebug={setShowDebug}
           setDebugMesssage={setDebugMesssage}
           debugMessage={debugMessage}
         />
@@ -205,16 +194,6 @@ export default function NoteKeeper() {
       <Notes notes={notes} removeNote={removeNote} />
 
       <div>
-        <Button onClick={() => setShowDebug(true)}>show Debug</Button>
-        <label>
-          <input
-            type="checkbox"
-            checked={checked}
-            onChange={handleChange}
-          />
-          Show Debug Interface
-        </label>
-
         {showDebug ? <Debug /> : null}
       </div>
     </div>

@@ -6,8 +6,8 @@ import IconSettings from "../components/IconSettings.tsx";
 
 interface PopupProps {
   title: string;
-  length: number;
-  Url: string;
+  showDebug: boolean;
+  setShowDebug: (s: boolean) => void;
   setDebugMesssage: (s: string) => void;
   debugMessage: string;
 }
@@ -44,7 +44,8 @@ const backdrop = css({
 });
 
 export default function Popup(
-  { title, length, Url, setDebugMesssage, debugMessage }: PopupProps,
+  { title, showDebug, setShowDebug, setDebugMesssage, debugMessage }:
+    PopupProps,
 ) {
   const ref = useRef<HTMLDialogElement | null>(null);
 
@@ -69,8 +70,8 @@ export default function Popup(
       >
         <PopupInner
           title={title}
-          length={length}
-          Url={Url}
+          showDebug={showDebug}
+          setShowDebug={setShowDebug}
           setDebugMesssage={setDebugMesssage}
           debugMessage={debugMessage}
         />
@@ -80,22 +81,17 @@ export default function Popup(
 }
 
 function PopupInner(
-  { title, length, Url, setDebugMesssage, debugMessage }: PopupProps,
+  { title, showDebug, setShowDebug, setDebugMesssage, debugMessage }: PopupProps,
 ) {
-  const [text_ta, setText_ta] = useState("initial text");
   const [checked, setChecked] = useState(false);
 
   const corners = "rounded(tl-2xl tr-2xl sm:(tr-none bl-2xl))";
   const card =
     `py-8 px-6 h-full bg-white ${corners} flex flex-col justify-between`;
 
-  const handleChange = () => {
-    setChecked(!checked);
-    if (checked) {
-      console.log("checked");
-    }else
-    console.log("not checked");
-  };
+    const handleChange = () => {
+      setShowDebug(!showDebug);
+    };
 
   return (
     <div class={card}>
@@ -120,13 +116,10 @@ function PopupInner(
         <label>
           <input
             type="checkbox"
-            checked={checked}
             onChange={handleChange}
           />
           Show Debug Interface
         </label>
-        <p>Is "My Value" checked? {checked.toString()}</p>
-
       </div>
     </div>
   );
