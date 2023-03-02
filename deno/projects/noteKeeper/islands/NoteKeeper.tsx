@@ -22,14 +22,17 @@ export default function NoteKeeper() {
 
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
+    const date_ob = new Date();
+    console.log(format(date_ob, "yyyy-MM-dd HH:mm:ss"));
+    console.log("useEffect called");
     readDatabase();
-  });
+  }, []);
 
   function setDebugMesssage(message: string) {
     console.log("setDebugMesssage called");
     setdebugMessageState(message);
   }
-  
+
   function makeRandomId(length: number) {
     let result = "";
     const characters =
@@ -134,16 +137,19 @@ export default function NoteKeeper() {
 
   return (
     <div class="flex flex-col w-full pt-5">
-      <nav class="w-11/12 h-24 max-w-5xl mx-auto flex items-center justify-between relative">
-        <h1>
-        </h1>
-        <Popup
-          length={4}
-          Url={"http://www.something.com"}
-          setDebugMesssage={setDebugMesssage}
-          debugMessage={debugMessage}
-        />
-      </nav>
+      {
+        <nav class="w-11/12 h-24 max-w-5xl mx-auto flex items-center justify-between relative">
+          <h1>
+          </h1>
+          <Popup
+            title="Settings"
+            length={4}
+            Url={"http://www.something.com"}
+            setDebugMesssage={setDebugMesssage}
+            debugMessage={debugMessage}
+          />
+        </nav>
+      }
 
       <form
         class="flex gap-2 w-full"

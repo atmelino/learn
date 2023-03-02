@@ -5,6 +5,7 @@ import { animation, css } from "twind/css";
 import IconSettings from "../components/IconSettings.tsx";
 
 interface PopupProps {
+  title: string;
   length: number;
   Url: string;
   setDebugMesssage: (s: string) => void;
@@ -43,7 +44,7 @@ const backdrop = css({
   },
 });
 
-export default function Popup({ length, Url ,setDebugMesssage, debugMessage }: PopupProps) {
+export default function Popup({ title, length, Url ,setDebugMesssage, debugMessage }: PopupProps) {
   const ref = useRef<HTMLDialogElement | null>(null);
 
   const onDialogClick = (e: MouseEvent) => {
@@ -65,13 +66,13 @@ export default function Popup({ length, Url ,setDebugMesssage, debugMessage }: P
         class={tw`bg-transparent p-0 m-0 pt-[50%] sm:pt-0 sm:ml-auto max-w-full sm:max-w-lg w-full max-h-full h-full ${slideBottom} sm:${slideRight} ${backdrop}`}
         onClick={onDialogClick}
       >
-        <PopupInner length={length} Url={Url} setDebugMesssage={setDebugMesssage} debugMessage={debugMessage} />
+        <PopupInner title={title} length={length} Url={Url} setDebugMesssage={setDebugMesssage} debugMessage={debugMessage} />
       </dialog>
     </div>
   );
 }
 
-function PopupInner({ length, Url ,setDebugMesssage, debugMessage  }: PopupProps) {
+function PopupInner({ title, length, Url ,setDebugMesssage, debugMessage  }: PopupProps) {
   const [text_ta, setText_ta] = useState("initial text");
 
   const corners = "rounded(tl-2xl tr-2xl sm:(tr-none bl-2xl))";
@@ -92,7 +93,7 @@ function PopupInner({ length, Url ,setDebugMesssage, debugMessage  }: PopupProps
   return (
     <div class={card}>
       <div class="flex justify-between">
-        <h2 class="text-lg font-medium text-gray-900">Popup window</h2>
+        <h2 class="text-lg font-medium text-gray-900">{title}</h2>
         <button
           class="py-1"
           onClick={(e) => {
