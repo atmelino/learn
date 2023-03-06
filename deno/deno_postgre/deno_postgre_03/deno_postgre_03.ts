@@ -1,23 +1,19 @@
+/*
+Test with local Postgre installation.
 
-// password for supabase is deno1pass2word3
-// connection string: postgres://postgres:deno1pass2word3@db.lwbjwhxdyxafkxjdldmn.supabase.co:6543/postgres
+
+open another terminal and run:
+
+curl -X GET http://localhost:8000/todos
+or
+
+curl -X POST -d '"Buy cereal"' http://localhost:8000/todos
+
+*/ 
 
 import { serve } from "https://deno.land/std@0.114.0/http/server.ts";
 import * as postgres from "https://deno.land/x/postgres@v0.14.2/mod.ts";
 import { Client } from "https://deno.land/x/postgres@v0.17.0/mod.ts";
-
-//const databaseUrl = "postgres://postgres:deno1pass2word3@db.lwbjwhxdyxafkxjdldmn.supabase.co:6543/postgres";
-//const databaseUrl = "postgres://postgres:password@localhost:6543/postgres";
-
-// Create a database pool with three connections that are lazily established
-//const pool = new postgres.Pool(databaseUrl, 3, true);
-
-// Connect to the database
-//const connection = await pool.connect();
-
-
-
-
 
 
 const client = new Client({
