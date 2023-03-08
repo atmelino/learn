@@ -1,3 +1,8 @@
+import { serve } from "https://deno.land/std@0.114.0/http/server.ts";
+import * as postgres from "https://deno.land/x/postgres@v0.14.2/mod.ts";
+import { Client } from "https://deno.land/x/postgres@v0.17.0/mod.ts";
+import { type ConnectionString } from "https://deno.land/x/postgres@v0.17.0/mod.ts";
+
 /*
 Test with local Postgre installation.
 
@@ -11,16 +16,9 @@ curl -X POST -d '"Buy cereal"' http://localhost:8000/todos
 
 */ 
 
-import { serve } from "https://deno.land/std@0.114.0/http/server.ts";
-import * as postgres from "https://deno.land/x/postgres@v0.14.2/mod.ts";
-import { Client } from "https://deno.land/x/postgres@v0.17.0/mod.ts";
-
-//const dbUrl = "postgres://postgres:password@localhost:5432/at_data"
 const dbUrl = "postgres://postgres:password@localhost:5432/sammy"
-//postgres://user:password@hostname:port/database?sslmode=mode...
+const client = new Client( dbUrl );
 
-
-const client = new Client({ connectionString: dbUrl });
 
 // const client = new Client({
 //   user: "postgres",
