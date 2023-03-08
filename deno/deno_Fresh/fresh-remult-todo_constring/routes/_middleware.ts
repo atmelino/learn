@@ -6,7 +6,7 @@ export const remultServer = remultFresh({
   entities: [Task],
   dataProvider: async () => {
     //const dbUrl = Deno.env.get("DATABASE_URL");
-    const dbUrl = "postgres://postgres:password@localhost:5432/at_data";
+    const dbUrl = "postgres://postgres:password@localhost:5432/sammy";
     if (dbUrl) {
       return createPostgresConnection({ connectionString: dbUrl });
     }
