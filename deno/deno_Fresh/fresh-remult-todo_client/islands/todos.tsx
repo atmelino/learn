@@ -11,7 +11,6 @@ export default function Todos({ data }: { data: Task[] }) {
   const [tasks, setTasks] = useState<Task[]>(data);
 
   const addTask = () => {
-    console.log("addTask called");
     setTasks([...tasks, new Task()]);
   };
 
@@ -23,7 +22,6 @@ export default function Todos({ data }: { data: Task[] }) {
         };
 
         const saveTask = async () => {
-          console.log("addTask called");
           const savedTask = await taskRepo.save(task);
           setTasks(tasks.map((t) => t === task ? savedTask : t));
         };
