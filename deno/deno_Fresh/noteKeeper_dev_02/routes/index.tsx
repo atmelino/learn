@@ -17,7 +17,7 @@ export default function Home({ data }: PageProps<Task[]>) {
   return (
     <div>
       <Head>
-        <title>Remult with conf object</title>
+        <title>Notekeeper</title>
         <meta name="description" content="textarea test" />
       </Head>
       <Todos data={data} />

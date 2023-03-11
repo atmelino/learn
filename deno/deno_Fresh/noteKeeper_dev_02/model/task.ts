@@ -5,11 +5,20 @@ import { Entity, Fields } from "remult";
 })
 export class Task {
     @Fields.uuid()
-    id!: string;
+    id!: number;
+
+    @Fields.date()
+    timestamp='';
 
     @Fields.string()
     title = '';
 
-    @Fields.boolean()
-    completed = false;
+    @Fields.string()
+    noteId = '';
+
 }
+
+// id SERIAL PRIMARY KEY,
+// timestamp TIMESTAMP NOT NULL,
+// noteId TEXT NOT NULL,
+// note TEXT NOT NULL
