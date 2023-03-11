@@ -21,29 +21,4 @@ export const remultServer = remultFresh({
 }, Response);
 export const handler = remultServer.handle;
 
-/* connection string */
-// export const remultServer = remultFresh({
-//   entities: [Task],
-//   dataProvider: async () => {
-//     //const dbUrl = Deno.env.get("DATABASE_URL");
-//     const dbUrl = "postgres://postgres:password@localhost:5432/sammy";
-//     if (dbUrl) {
-//       return createPostgresConnection({ connectionString: dbUrl });
-//     }
-//     return await undefined;
-//   },
-// }, Response);
-//export const handler = remultServer.handle;
 
-/* original */
-// export const remultServer = remultFresh({
-//   entities: [Task],
-//   dataProvider: async () => {
-//     const dbUrl = Deno.env.get("DATABASE_URL");
-//     if (dbUrl) {
-//       return createPostgresConnection({ connectionString: dbUrl });
-//     }
-//     return await undefined;
-//   },
-// }, Response);
-// export const handler = remultServer.handle;
