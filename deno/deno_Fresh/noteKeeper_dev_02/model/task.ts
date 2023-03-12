@@ -15,7 +15,6 @@ export class Task {
 
     @Fields.string()
     note = '';
-
 }
 
 // id SERIAL PRIMARY KEY,
