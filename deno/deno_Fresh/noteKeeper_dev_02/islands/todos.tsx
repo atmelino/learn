@@ -1,5 +1,3 @@
-/** @jsx h */
-import { h } from "preact";
 import { Remult } from "remult";
 import { useState } from "preact/hooks";
 import { Task } from "../model/task.ts";

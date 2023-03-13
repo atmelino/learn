@@ -1,5 +1,3 @@
-/** @jsx h */
-import { h } from "preact";
 import { Handlers, PageProps } from "$fresh/server.ts";
 import Todos from "../islands/todos.tsx";
 import { Task } from "../model/task.ts";
