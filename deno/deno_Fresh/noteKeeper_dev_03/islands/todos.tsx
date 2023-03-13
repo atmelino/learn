@@ -1,5 +1,3 @@
-/** @jsx h */
-import { h } from "preact";
 import { Remult } from "remult";
 import { useState } from "preact/hooks";
 import { Task } from "../model/task.ts";
@@ -14,6 +12,7 @@ export default function Todos({ data }: { data: Task[] }) {
   const addTask = () => {
     setTasks([...tasks, new Task()]);
   };
+
 
   function getDate() {
     const date_ob = new Date();

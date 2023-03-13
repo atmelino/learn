@@ -1,5 +1,20 @@
+// import { Head } from "$fresh/runtime.ts";
+// import Counter from "../islands/Counter.tsx";
+
 import { Head } from "$fresh/runtime.ts";
+import { Handlers, PageProps } from "$fresh/server.ts";
+import { Task } from "../model/task.ts";
+import { remultServer } from "./_middleware.ts";
 import Counter from "../islands/Counter.tsx";
+
+export const handler: Handlers<Task[]> = {
+  async GET(req, ctx) {
+    const remult = await remultServer.getRemult(req);
+    return ctx.render(await remult.repo(Task).find());
+  },
+};
+
+
 
 export default function Home() {
   return (

@@ -15,6 +15,7 @@ export default function Todos({ data }: { data: Task[] }) {
     setTasks([...tasks, new Task()]);
   };
 
+
   function getDate() {
     const date_ob = new Date();
     console.log(format(date_ob, "yyyy-MM-dd HH:mm:ss"));
