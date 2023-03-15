@@ -1,10 +1,10 @@
 import { remultFresh } from "remult/remult-fresh";
-import { Task } from "../model/note.ts";
+import { Note } from "../model/note.ts";
 import { createPostgresConnection } from "https://deno.land/x/remult/postgres.ts";
 
 /* configuration sammy */
 export const remultServer = remultFresh({
-  entities: [Task],
+  entities: [Note],
   dataProvider: async () => {
     return createPostgresConnection({
       configuration: {
@@ -23,7 +23,7 @@ export const handler = remultServer.handle;
 
 /* connection string */
 // export const remultServer = remultFresh({
-//   entities: [Task],
+//   entities: [Note],
 //   dataProvider: async () => {
 //     //const dbUrl = Deno.env.get("DATABASE_URL");
 //     const dbUrl = "postgres://postgres:password@localhost:5432/sammy";
@@ -37,7 +37,7 @@ export const handler = remultServer.handle;
 
 /* original */
 // export const remultServer = remultFresh({
-//   entities: [Task],
+//   entities: [Note],
 //   dataProvider: async () => {
 //     const dbUrl = Deno.env.get("DATABASE_URL");
 //     if (dbUrl) {

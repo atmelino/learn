@@ -3,7 +3,7 @@ import { Entity, Fields } from "remult";
 @Entity("notes", {
     allowApiCrud: true
 })
-export class Task {
+export class Note {
     @Fields.uuid()
     id!: string;
 
