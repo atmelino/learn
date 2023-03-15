@@ -3,7 +3,6 @@ import { h } from "preact";
 import { Remult } from "remult";
 import { useState } from "preact/hooks";
 import { Task } from "../model/note.ts";
-import { format } from "https://deno.land/std@0.91.0/datetime/mod.ts";
 
 const remult = new Remult();
 const taskRepo = remult.repo(Task);
@@ -14,14 +13,6 @@ export default function Todos({ data }: { data: Task[] }) {
   const addTask = () => {
     setTasks([...tasks, new Task()]);
   };
-
-  function getDate() {
-    const date_ob = new Date();
-    console.log(format(date_ob, "yyyy-MM-dd HH:mm:ss"));
-    const timestamp = format(date_ob, "yyyy-MM-dd HH:mm:ss");
-    return timestamp;
-  }
-
 
   return (
     <div>
@@ -42,8 +33,7 @@ export default function Todos({ data }: { data: Task[] }) {
 
         return (
           <div key={task.id}>
-            Date:{task.timestamp}
-
+            
             <input
               value={task.note}
               onInput={(e) => handleChange({ note: e.currentTarget.value })}
