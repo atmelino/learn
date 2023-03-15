@@ -1,5 +1,5 @@
 import { remultFresh } from "remult/remult-fresh";
-import { Task } from "../model/task.ts";
+import { Task } from "../model/note.ts";
 import { createPostgresConnection } from "https://deno.land/x/remult/postgres.ts";
 
 /* configuration sammy */
