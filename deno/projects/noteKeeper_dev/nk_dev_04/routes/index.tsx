@@ -1,5 +1,5 @@
-/** @jsx h */
-import { h } from "preact";
+
+
 import { Head } from "$fresh/runtime.ts";
 import { Handlers, PageProps } from "$fresh/server.ts";
 import Notekeeper from "../islands/notekeeper.tsx";
@@ -17,10 +17,14 @@ export default function Home({ data }: PageProps<Note[]>) {
   return (
     <div>
       <Head>
-        <title>Remult with conf object</title>
+        <title>Notekeeper</title>
         <meta name="description" content="textarea test" />
       </Head>
+
+      <main class="p-4 mx-auto max-w-screen-md flex flex-col justify-center items-center">
       <Notekeeper data={data} />
+      </main>
+
     </div>
   );
 }

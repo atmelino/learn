@@ -3,15 +3,18 @@ import { Entity, Fields } from "remult";
 @Entity("notes", {
     allowApiCrud: true
 })
-export class Task {
+export class Note {
     @Fields.uuid()
     id!: string;
 
-    //@Fields.date()
-    //timestamp='';
-
     @Fields.date()
-    timestamp = new Date()
+    timestamp='';
+
+    //@Fields.updatedAt()
+    //timestamp = new Date()
+
+    //@Fields.date()
+    //timestamp = new Date()
 
     @Fields.string()
     note = '';

@@ -1,9 +1,8 @@
-/** @jsx h */
-import { h } from "preact";
 import { Remult } from "remult";
 import { useState } from "preact/hooks";
 import { Note } from "../model/note.ts";
 import { format } from "https://deno.land/std@0.91.0/datetime/mod.ts";
+import { Button } from "../components/Button.tsx";
 
 const remult = new Remult();
 const noteRepo = remult.repo(Note);
@@ -22,17 +21,17 @@ export default function Notekeeper({ data }: { data: Note[] }) {
     return timestamp;
   }
 
-  function formatDate(date_ob:Date) {
+  function formatDate(date_ob: Date) {
     console.log(format(date_ob, "yyyy-MM-dd HH:mm:ss"));
     const timestamp = format(date_ob, "yyyy-MM-dd HH:mm:ss");
     return timestamp;
   }
 
   return (
-    <div>
+    <div class="flex flex-col gap-2 pt-2 w-full">
       {notes.map((note) => {
         const handleChange = (values: Partial<Note>) => {
-          note.timestamp= getDate();
+          note.timestamp = getDate();
           setNotes(notes.map((t) => t === note ? { ...note, ...values } : t));
         };
 
@@ -54,12 +53,12 @@ export default function Notekeeper({ data }: { data: Note[] }) {
               value={note.note}
               onInput={(e) => handleChange({ note: e.currentTarget.value })}
             />
-            <button onClick={saveNote}>Save</button>
-            <button onClick={deleteNote}>Delete</button>
+            <Button onClick={saveNote}>Save</Button>
+            <Button onClick={deleteNote}>Delete</Button>
           </div>
         );
       })}
-      <button onClick={addNote}>Add Note</button>
+      <Button onClick={addNote}>Add Note</Button>
     </div>
   );
 }

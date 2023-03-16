@@ -1,10 +1,10 @@
 import { remultFresh } from "remult/remult-fresh";
-import { Task } from "../model/task.ts";
+import { Note } from "../model/note.ts";
 import { createPostgresConnection } from "https://deno.land/x/remult/postgres.ts";
 
 /* configuration sammy */
 export const remultServer = remultFresh({
-  entities: [Task],
+  entities: [Note],
   dataProvider: async () => {
     return createPostgresConnection({
       configuration: {
@@ -20,5 +20,3 @@ export const remultServer = remultFresh({
   },
 }, Response);
 export const handler = remultServer.handle;
-
-
