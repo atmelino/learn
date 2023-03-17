@@ -10,6 +10,14 @@ const noteRepo = remult.repo(Note);
 export default function Notekeeper({ data }: { data: Note[] }) {
   const [notes, setNotes] = useState<Note[]>(data);
 
+  const printNotes = () => {
+    console.log(JSON.stringify(notes, null, 4));
+    const sortedNotes = notes.sort((a, b) =>
+      (a.timestamp < b.timestamp) ? -1 : 1
+    );
+    console.log(JSON.stringify(sortedNotes, null, 4));
+  };
+
   const addNote = () => {
     setNotes([...notes, new Note()]);
   };
@@ -59,6 +67,7 @@ export default function Notekeeper({ data }: { data: Note[] }) {
         );
       })}
       <Button onClick={addNote}>Add Note</Button>
+      <Button onClick={printNotes}>Print Notes</Button>
     </div>
   );
 }
