@@ -1,5 +1,3 @@
-
-
 import { Head } from "$fresh/runtime.ts";
 import { Handlers, PageProps } from "$fresh/server.ts";
 import Notekeeper from "../islands/notekeeper.tsx";
@@ -21,10 +19,9 @@ export default function Home({ data }: PageProps<Note[]>) {
         <meta name="description" content="textarea test" />
       </Head>
 
-      <main class="p-4 mx-auto max-w-screen-md flex flex-col justify-center items-center">
-      <Notekeeper data={data} />
+      <main class="p-4 mx-auto justify-center items-center">
+        <Notekeeper data={data} />
       </main>
-
     </div>
   );
 }

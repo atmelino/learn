@@ -36,7 +36,7 @@ export default function Notekeeper({ data }: { data: Note[] }) {
   }
 
   return (
-    <div class="flex flex-col gap-2 pt-2 w-full">
+    <div class="flex flex-col gap-1 w-full">
       {notes.map((note) => {
         const handleChange = (values: Partial<Note>) => {
           note.timestamp = getDate();
@@ -55,12 +55,14 @@ export default function Notekeeper({ data }: { data: Note[] }) {
         };
 
         return (
-          <div key={note.id}>
-            {formatDate(new Date(note.timestamp))}
-            <input
-              value={note.note}
-              onInput={(e) => handleChange({ note: e.currentTarget.value })}
-            />
+          <div class="flex gap-4 w-full" key={note.id}>
+            <p class="p-2 w-1/6">
+              {formatDate(new Date(note.timestamp))}
+            </p>
+              <input class="flex-grow-1 w-full p-2 text-xl rounded shadow bg-gray-50"
+                value={note.note}
+                onInput={(e) => handleChange({ note: e.currentTarget.value })}
+              />
             <Button onClick={saveNote}>Save</Button>
             <Button onClick={deleteNote}>Delete</Button>
           </div>
@@ -71,3 +73,4 @@ export default function Notekeeper({ data }: { data: Note[] }) {
     </div>
   );
 }
+//class="w-full bg-gray-50 h-12 text-black rounded shadow flex justify-between items-center content-between"
