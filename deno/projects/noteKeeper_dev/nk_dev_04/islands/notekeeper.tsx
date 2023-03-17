@@ -73,4 +73,3 @@ export default function Notekeeper({ data }: { data: Note[] }) {
     </div>
   );
 }
-//class="w-full bg-gray-50 h-12 text-black rounded shadow flex justify-between items-center content-between"
