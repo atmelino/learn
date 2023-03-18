@@ -9,28 +9,37 @@ const noteRepo = remult.repo(Note);
 
 export default function Notekeeper({ data }: { data: Note[] }) {
   const [notes, setNotes] = useState<Note[]>(data);
-
-  const printNotes = () => {
-    console.log(JSON.stringify(notes, null, 4));
+  
+  const sortNotes = () => {
+    console.log("sorting records");
     const sortedNotes = notes.sort((a, b) =>
       (a.timestamp < b.timestamp) ? -1 : 1
     );
-    console.log(JSON.stringify(sortedNotes, null, 4));
+    setNotes(sortedNotes);
+    //console.log(JSON.stringify(sortedNotes, null, 4));
+  };
+  sortNotes();
+  
+  const printNotes = () => {
+    console.log(JSON.stringify(notes, null, 4));
   };
 
   const addNote = () => {
-    setNotes([...notes, new Note()]);
+    console.log("addNote called");
+    const myNote = new Note();
+    //myNote.timestamp == getDate();
+    setNotes([...notes, myNote]);
   };
 
   function getDate() {
     const date_ob = new Date();
-    console.log(format(date_ob, "yyyy-MM-dd HH:mm:ss"));
+    //console.log(format(date_ob, "yyyy-MM-dd HH:mm:ss"));
     const timestamp = format(date_ob, "yyyy-MM-dd HH:mm:ss");
     return timestamp;
   }
 
   function formatDate(date_ob: Date) {
-    console.log(format(date_ob, "yyyy-MM-dd HH:mm:ss"));
+    //console.log(format(date_ob, "yyyy-MM-dd HH:mm:ss"));
     const timestamp = format(date_ob, "yyyy-MM-dd HH:mm:ss");
     return timestamp;
   }
@@ -38,8 +47,10 @@ export default function Notekeeper({ data }: { data: Note[] }) {
   return (
     <div class="flex flex-col gap-1 w-full">
       {notes.map((note) => {
+        console.log("return div");
+
         const handleChange = (values: Partial<Note>) => {
-          note.timestamp = getDate();
+          //note.timestamp = getDate();
           setNotes(notes.map((t) => t === note ? { ...note, ...values } : t));
         };
 
@@ -59,10 +70,11 @@ export default function Notekeeper({ data }: { data: Note[] }) {
             <p class="p-2 w-1/6">
               {formatDate(new Date(note.timestamp))}
             </p>
-              <input class="flex-grow-1 w-full p-2 text-xl rounded shadow bg-gray-50"
-                value={note.note}
-                onInput={(e) => handleChange({ note: e.currentTarget.value })}
-              />
+            <input
+              class="flex-grow-1 w-full p-2 text-xl rounded shadow bg-gray-50"
+              value={note.note}
+              onInput={(e) => handleChange({ note: e.currentTarget.value })}
+            />
             <Button onClick={saveNote}>Save</Button>
             <Button onClick={deleteNote}>Delete</Button>
           </div>

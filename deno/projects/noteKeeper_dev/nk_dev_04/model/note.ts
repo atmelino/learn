@@ -7,11 +7,11 @@ export class Note {
     @Fields.uuid()
     id!: string;
 
-    @Fields.date()
-    timestamp='';
+    // @Fields.date()
+    // timestamp='';
 
-    //@Fields.updatedAt()
-    //timestamp = new Date()
+    @Fields.updatedAt()
+    timestamp = new Date()
 
     //@Fields.date()
     //timestamp = new Date()
