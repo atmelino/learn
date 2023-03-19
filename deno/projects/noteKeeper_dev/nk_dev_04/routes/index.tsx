@@ -1,6 +1,6 @@
 import { Head } from "$fresh/runtime.ts";
 import { Handlers, PageProps } from "$fresh/server.ts";
-import Notekeeper from "../islands/notekeeper.tsx";
+import Notekeeper from "../islands/Notekeeper.tsx";
 import { Note } from "../model/note.ts";
 import { remultServer } from "./_middleware.ts";
 

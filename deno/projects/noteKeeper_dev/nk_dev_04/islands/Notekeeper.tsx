@@ -3,13 +3,27 @@ import { useState } from "preact/hooks";
 import { Note } from "../model/note.ts";
 import { format } from "https://deno.land/std@0.91.0/datetime/mod.ts";
 import { Button } from "../components/Button.tsx";
+import Popup from "./Popup.tsx";
+import { Debug2 } from "../components/Debug2.tsx";
 
 const remult = new Remult();
 const noteRepo = remult.repo(Note);
 
 export default function Notekeeper({ data }: { data: Note[] }) {
   const [notes, setNotes] = useState<Note[]>(data);
-  
+  const [debug, setDebug] = useState("initial");
+  const [debugMessage, setdebugMessageState] = useState("123");
+  const [showDebug, setShowDebug] = useState(false);
+
+  function setDebugMesssage(message: string) {
+    console.log("setDebugMesssage called");
+    setdebugMessageState(message);
+  }
+
+  function addDebug(message: string) {
+    setDebug(message);
+  }
+
   const sortNotes = () => {
     console.log("sorting records");
     const sortedNotes = notes.sort((a, b) =>
@@ -19,9 +33,10 @@ export default function Notekeeper({ data }: { data: Note[] }) {
     //console.log(JSON.stringify(sortedNotes, null, 4));
   };
   sortNotes();
-  
+
   const printNotes = () => {
     console.log(JSON.stringify(notes, null, 4));
+    addDebug(JSON.stringify(notes, null, 4));
   };
 
   const addNote = () => {
@@ -44,8 +59,23 @@ export default function Notekeeper({ data }: { data: Note[] }) {
     return timestamp;
   }
 
+  const Debug = () => (
+    <div id="results">
+      <Button onClick={printNotes}>Print Notes</Button>
+      <Debug2 debug={debug} />
+    </div>
+  );
+
   return (
     <div class="flex flex-col gap-1 w-full">
+      <Popup
+        title="Settings"
+        showDebug={showDebug}
+        setShowDebug={setShowDebug}
+        setDebugMesssage={setDebugMesssage}
+        debugMessage={debugMessage}
+      />
+
       {notes.map((note) => {
         console.log("return div");
 
@@ -81,7 +111,9 @@ export default function Notekeeper({ data }: { data: Note[] }) {
         );
       })}
       <Button onClick={addNote}>Add Note</Button>
-      <Button onClick={printNotes}>Print Notes</Button>
+      <div>
+        {showDebug ? <Debug /> : null}
+      </div>
     </div>
   );
 }
