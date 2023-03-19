@@ -77,7 +77,7 @@ export default function Notekeeper({ data }: { data: Note[] }) {
       />
 
       {notes.map((note) => {
-        console.log("return div");
+        //        console.log("return div");
 
         const handleChange = (values: Partial<Note>) => {
           //note.timestamp = getDate();
