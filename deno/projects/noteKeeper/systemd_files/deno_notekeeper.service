@@ -6,7 +6,7 @@ After=network.target
 [Service]
 Type=simple
 User=atmelino
-WorkingDirectory=/home/atmelino/github/learn/deno/projects/noteKeeper_dev/nk_dev_04
+WorkingDirectory=/home/atmelino/github/learn/deno/projects/noteKeeper
 ExecStart=/usr/local/bin/deno run -A --watch=static/,routes/ dev.ts                                 
 #ExecStart=/usr/local/bin/deno run --allow-env --allow-read --allow-write --allow-net --allow-run main.ts
 
