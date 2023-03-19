@@ -2,7 +2,7 @@ import { useRef, useState } from "preact/hooks";
 import { Notes } from "../components/Notes.tsx";
 import { Button } from "../components/Button.tsx";
 import { Debug2 } from "../components/Debug2.tsx";
-import settings from "../../../../../settings_nk.js";
+import settings from "../../../../../../settings_nk.js";
 import { format } from "https://deno.land/std@0.91.0/datetime/mod.ts";
 import { useEffect } from "preact/hooks";
 import Popup from "./Popup.tsx";

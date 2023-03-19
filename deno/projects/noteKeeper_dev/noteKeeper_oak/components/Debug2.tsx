@@ -7,6 +7,7 @@ interface debugProps {
 }
 
 export function Debug2({ debug }: debugProps) {
+  const [dbread, setdbRead] = useState("database");
 
   return (
     <div class="flex flex-col gap-2 pt-2 w-full">

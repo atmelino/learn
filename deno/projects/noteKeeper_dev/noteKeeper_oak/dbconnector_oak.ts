@@ -1,7 +1,7 @@
 import { Application, Router } from "https://deno.land/x/oak/mod.ts";
 import { Client } from "https://deno.land/x/postgres@v0.17.0/mod.ts";
 import { oakCors } from "https://deno.land/x/cors/mod.ts";
-import settings from "../../../../settings_nk.js";
+import settings from "../../../../../settings_nk.js";
 
 async function createTable() {
   try {

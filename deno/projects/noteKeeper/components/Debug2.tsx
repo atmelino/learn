@@ -1,14 +1,12 @@
 import { useRef, useState } from "preact/hooks";
 import { Button } from "../components/Button.tsx";
 import { Client } from "https://deno.land/x/mysql@v2.11.0/mod.ts";
-import settings from "../../../../../settings.js";
 
 interface debugProps {
   debug: string;
 }
 
 export function Debug2({ debug }: debugProps) {
-  const [dbread, setdbRead] = useState("database");
 
   return (
     <div class="flex flex-col gap-2 pt-2 w-full">
