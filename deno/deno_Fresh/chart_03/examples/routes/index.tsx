@@ -31,7 +31,8 @@ export default function Home() {
           <Counter start={3} />
         </div>
         <div>
-        <MyIsland/>
+        <MyIsland  mynumbers={mynumbers} setmynumbers={setmynumbers} />
+
         </div>
         <h1 class="text(xl gray-600) font-medium mt-4">Bar Chart - Inline</h1>
         <Chart
