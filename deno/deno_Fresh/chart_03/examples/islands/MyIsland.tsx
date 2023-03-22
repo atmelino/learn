@@ -9,13 +9,16 @@ export interface IDebug {
   setmynumbers: (s: typeof numbers) => void;
 }
 
-export default function MyIsland({ mynumbers, setmynumbers }: IDebug) {
+//export default function MyIsland({ mynumbers, setmynumbers }: IDebug) {
+export default function MyIsland() {
   const barCfg = { count: 7, min: -100, max: 100 };
-  // const [mynumbers, setmynumbers] = useState(numbers(barCfg));
+  const [mynumbers, setmynumbers] = useState(numbers(barCfg));
+  //let mynumbers = numbers(barCfg);
 
   const addNote = () => {
     console.log("addNote called");
     setmynumbers(numbers(barCfg));
+    //mynumbers = numbers(barCfg);
   };
 
   return (

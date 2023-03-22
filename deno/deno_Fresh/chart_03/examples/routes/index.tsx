@@ -9,7 +9,6 @@ import MyIsland from "../islands/MyIsland.tsx";
 
 export default function Home() {
   const barCfg = { count: 7, min: -100, max: 100 };
-  const [mynumbers, setmynumbers] = useState(numbers(barCfg));
   return (
     <>
       <Head>
@@ -31,7 +30,7 @@ export default function Home() {
           <Counter start={3} />
         </div>
         <div>
-        <MyIsland  mynumbers={mynumbers} setmynumbers={setmynumbers} />
+        <MyIsland  />
 
         </div>
         <h1 class="text(xl gray-600) font-medium mt-4">Bar Chart - Inline</h1>
@@ -62,8 +61,4 @@ export default function Home() {
       </div>
     </>
   );
-}
-
-function useState(arg0: (number|null)[]): [any,any] {
-throw new Error("Function not implemented.");
 }
