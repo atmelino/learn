@@ -29,10 +29,11 @@ export default function Home() {
         <div>
           <Counter start={3} />
         </div>
-        <div>
-        <MyIsland  />
 
+        <div>
+          <MyIsland />
         </div>
+
         <h1 class="text(xl gray-600) font-medium mt-4">Bar Chart - Inline</h1>
         <Chart
           type="bar"
