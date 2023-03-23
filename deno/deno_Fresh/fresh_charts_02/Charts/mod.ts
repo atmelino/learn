@@ -57,4 +57,4 @@ export {
   defaults,
   plugins,
 } from "./core.ts";
-export { renderChart } from "./render.ts";
+export { renderChart } from "$fresh_charts/render.ts";
