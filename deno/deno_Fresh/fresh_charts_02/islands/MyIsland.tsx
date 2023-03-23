@@ -1,0 +1,28 @@
+import { useState } from "preact/hooks";
+import { Button } from "../components/Button.tsx";
+import { months, numbers } from "../utils.ts";
+
+export interface IDebug {
+  mynumbers: typeof numbers;
+  setmynumbers: (s: typeof numbers) => void;
+}
+
+//export default function MyIsland({ mynumbers, setmynumbers }: IDebug) {
+export default function MyIsland() {
+  const barCfg = { count: 7, min: -100, max: 100 };
+  const [mynumbers, setmynumbers] = useState(numbers(barCfg));
+  //let mynumbers = numbers(barCfg);
+
+  const addNote = () => {
+    console.log("addNote called");
+    setmynumbers(numbers(barCfg));
+    //mynumbers = numbers(barCfg);
+  };
+
+  return (
+    <div class="p-4 mx-auto max-w-screen-md">
+      <Button onClick={addNote}>Add Note</Button>
+      <div>{mynumbers}</div>
+    </div>
+  );
+}
