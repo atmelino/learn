@@ -1,7 +1,7 @@
 897
 61/media/data/github/learn/nodejs/chartjs/dynamic_01/.gitignore1679698757210482000 0
 73/media/data/github/learn/nodejs/chartjs/dynamic_01/dist/index.de55d53e.js1679709780960724261 0
-65/media/data/github/learn/nodejs/chartjs/dynamic_01/src/index.html1679709764740998398 0
+65/media/data/github/learn/nodejs/chartjs/dynamic_01/src/index.html1679710001201924528 0
 54/media/data/github/learn/nodejs/chartjs/dynamic_01/src1679708514398108000 1
 63/media/data/github/learn/nodejs/chartjs/dynamic_01/package.json1679708998304735349 0
 57/media/data/github/learn/nodejs/chartjs/dynamic_01/run.sh1679708760499461292 0
@@ -325,12 +325,12 @@
 162/media/data/github/learn/nodejs/chartjs/dynamic_01/.yarn/unplugged/@lmdb-lmdb-linux-x64-npm-2.5.2-ca846c82b3/node_modules/@lmdb/lmdb-linux-x64/node.napi.musl.node456789000000000000 0
 130/media/data/github/learn/nodejs/chartjs/dynamic_01/.yarn/unplugged/node-gyp-npm-9.3.1-43540bab9c/node_modules/node-gyp/gyp/LICENSE456789000000000000 0
 141/media/data/github/learn/nodejs/chartjs/dynamic_01/.yarn/unplugged/node-gyp-npm-9.3.1-43540bab9c/node_modules/node-gyp/gyp/tools/emacs/gyp.el456789000000000000 0
-55/media/data/github/learn/nodejs/chartjs/dynamic_01/dist1679709787036624313 1
+55/media/data/github/learn/nodejs/chartjs/dynamic_01/dist1679710359059916653 1
 111/media/data/github/learn/nodejs/chartjs/dynamic_01/.yarn/cache/@parcel-hash-npm-2.8.3-48d5e2907f-29cef199fe.zip1679708811926074270 0
 125/media/data/github/learn/nodejs/chartjs/dynamic_01/.yarn/unplugged/lmdb-npm-2.5.2-76ec56235a/node_modules/lmdb/dist/index.cjs456789000000000000 0
 141/media/data/github/learn/nodejs/chartjs/dynamic_01/.yarn/unplugged/@parcel-watcher-npm-2.1.0-f3d437f336/node_modules/@parcel/watcher/src/unix456789000000000000 1
 155/media/data/github/learn/nodejs/chartjs/dynamic_01/.yarn/unplugged/@parcel-watcher-npm-2.1.0-f3d437f336/node_modules/@parcel/watcher/prebuilds/darwin-arm64456789000000000000 1
-66/media/data/github/learn/nodejs/chartjs/dynamic_01/dist/index.html1679709787036624313 0
+66/media/data/github/learn/nodejs/chartjs/dynamic_01/dist/index.html1679710359055916663 0
 136/media/data/github/learn/nodejs/chartjs/dynamic_01/.yarn/unplugged/node-gyp-npm-9.3.1-43540bab9c/node_modules/node-gyp/.github/workflows456789000000000000 1
 160/media/data/github/learn/nodejs/chartjs/dynamic_01/.yarn/unplugged/msgpackr-extract-npm-3.0.2-93e8773fad/node_modules/msgpackr-extract/bin/download-prebuilds.js456789000000000000 0
 107/media/data/github/learn/nodejs/chartjs/dynamic_01/.yarn/cache/domutils-npm-2.8.0-0325139e5c-abf7434315.zip1679708811958075767 0
@@ -397,7 +397,7 @@
 105/media/data/github/learn/nodejs/chartjs/dynamic_01/.yarn/cache/abbrev-npm-1.1.1-3659247eab-a4a97ec07d.zip1679708811894072773 0
 213/media/data/github/learn/nodejs/chartjs/dynamic_01/.yarn/unplugged/@msgpackr-extract-msgpackr-extract-linux-x64-npm-3.0.2-262fca760d/node_modules/@msgpackr-extract/msgpackr-extract-linux-x64/node.abi108.glibc.node456789000000000000 0
 117/media/data/github/learn/nodejs/chartjs/dynamic_01/.yarn/cache/@parcel-runtime-js-npm-2.8.3-a82379279f-ee5e04f84d.zip1679708811870071649 0
-73/media/data/github/learn/nodejs/chartjs/dynamic_01/dist/index.f5c48570.js1679709787020624573 0
+73/media/data/github/learn/nodejs/chartjs/dynamic_01/dist/index.f5c48570.js1679710359055916663 0
 152/media/data/github/learn/nodejs/chartjs/dynamic_01/.yarn/unplugged/@parcel-transformer-js-virtual-1cead0d210/node_modules/@parcel/transformer-js/LICENSE456789000000000000 0
 110/media/data/github/learn/nodejs/chartjs/dynamic_01/.yarn/cache/safe-buffer-npm-5.2.1-3481c8aa9b-b99c4b41fd.zip1679708812078081372 0
 135/media/data/github/learn/nodejs/chartjs/dynamic_01/.yarn/unplugged/lmdb-npm-2.5.2-76ec56235a/node_modules/lmdb/dependencies/lz4/LICENSE456789000000000000 0
@@ -432,7 +432,7 @@
 108/media/data/github/learn/nodejs/chartjs/dynamic_01/.yarn/cache/path-type-npm-4.0.0-10d47fc86a-5b1e2daa24.zip1679708812058080438 0
 145/media/data/github/learn/nodejs/chartjs/dynamic_01/.yarn/unplugged/node-gyp-npm-9.3.1-43540bab9c/node_modules/node-gyp/docs/Linking-to-OpenSSL.md456789000000000000 0
 108/media/data/github/learn/nodejs/chartjs/dynamic_01/.yarn/cache/callsites-npm-3.1.0-268f989910-072d17b6ab.zip1679708811930074457 0
-77/media/data/github/learn/nodejs/chartjs/dynamic_01/dist/index.f5c48570.js.map1679709787032624378 0
+77/media/data/github/learn/nodejs/chartjs/dynamic_01/dist/index.f5c48570.js.map1679710359059916653 0
 116/media/data/github/learn/nodejs/chartjs/dynamic_01/.yarn/cache/lines-and-columns-npm-1.2.4-d6c7cc5799-0c37f9f7fa.zip1679708812018078573 0
 129/media/data/github/learn/nodejs/chartjs/dynamic_01/.yarn/unplugged/term-size-npm-2.2.1-77ce7141d0/node_modules/term-size/index.js456789000000000000 0
 82/media/data/github/learn/nodejs/chartjs/dynamic_01/dist/dynamic_01.59712999.js.map1679709157844314566 0
