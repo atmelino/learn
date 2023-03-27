@@ -1,3 +1,10 @@
+
+[https://blog.logrocket.com/using-chart-js-react/]
+and
+[https://github.com/reactchartjs/react-chartjs-2/blob/master/sandboxes/pie/default/App.tsx]
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
