@@ -1,9 +1,6 @@
-import React from "react";
 import "./App.css";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Doughnut } from "react-chartjs-2";
 import PieChart from "./components/PieChart";
-import { Data } from "./Data";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
