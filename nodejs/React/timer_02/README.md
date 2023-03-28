@@ -1,8 +1,4 @@
-
-[https://blog.logrocket.com/using-chart-js-react/]
-and
-[https://github.com/reactchartjs/react-chartjs-2/blob/master/sandboxes/pie/default/App.tsx]
-
+[https://blog.greenroots.info/how-to-create-a-countdown-timer-using-react-hooks]
 
 
 # Getting Started with Create React App
