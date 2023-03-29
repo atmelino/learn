@@ -1,4 +1,5 @@
-[https://medium.com/@peterjd42/building-timers-in-react-stopwatch-and-countdown-bc06486560a2]
+[https://blog.greenroots.info/how-to-create-a-countdown-timer-using-react-hooks]
+
 
 # Getting Started with Create React App
 

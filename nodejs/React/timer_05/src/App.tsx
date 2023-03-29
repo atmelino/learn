@@ -1,26 +1,30 @@
-import React, { Component } from "react";
-//import { Helmet } from 'react-helmet';
-import Helmet from 'react-helmet';
+// https://blog.greenroots.info/how-to-create-a-countdown-timer-using-react-hooks
 
-import Stopwatch from "./components/Stopwatch";
-import Countdown from "./components/Countdown";
+import React, { useEffect } from 'react';
+import CountdownTimer from './CountdownTimer.js';
+import './App.css';
 
-class App extends Component {
-  render() {
-    return (
-      
-      <div className="App">
-        <Helmet>
-          <title>timer_04</title>
-        </Helmet>
-        <div className="App-title">Timers Demo</div>
-        <div className="Timers">
-          <Stopwatch />
-          <Countdown />
-        </div>
-      </div>
-    );
-  }
+export default function App() {
+  useEffect(() => {
+    document.title = "timer_02";
+  }, []);
+
+  const THREE_DAYS_IN_MS = 3 * 24 * 60 * 60 * 1000;
+  const SEVEN_DAYS_IN_MS = 7 * 24 * 60 * 60 * 1000;
+  const NOW_IN_MS = new Date().getTime();
+
+  const dateTimeAfterThreeDays = NOW_IN_MS + THREE_DAYS_IN_MS;
+  const dateTimeAfterSevenDays = NOW_IN_MS + SEVEN_DAYS_IN_MS;
+
+  return (
+    <div>
+      <h1>Countdown Timer</h1>
+
+      <h2>Expires after 3 days!!!</h2>
+      {/* <CountdownTimer targetDate={dateTimeAfterThreeDays} /> */}
+
+      <h2>Expires after 7 days!!!</h2>
+      <CountdownTimer targetDate={dateTimeAfterSevenDays} />
+    </div>
+  );
 }
-
-export default App;
