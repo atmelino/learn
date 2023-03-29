@@ -1,10 +1,14 @@
 // https://blog.greenroots.info/how-to-create-a-countdown-timer-using-react-hooks
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import CountdownTimer from './CountdownTimer.js';
 import './App.css';
 
 export default function App() {
+  useEffect(() => {
+    document.title = "timer_02";
+  }, []);
+
   const THREE_DAYS_IN_MS = 3 * 24 * 60 * 60 * 1000;
   const SEVEN_DAYS_IN_MS = 7 * 24 * 60 * 60 * 1000;
   const NOW_IN_MS = new Date().getTime();
