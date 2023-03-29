@@ -1,6 +1,5 @@
 
 echo run
-echo chartjs_03
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -8,10 +7,7 @@ export NVM_DIR="$HOME/.nvm"
 
 cd /media/data/github/learn/nodejs/chartjs/chartjs_03
 
-yarn dev
-
-#~/.nvm/versions/node/v19.2.0/bin/npm run dev
-#yarn dev
+yarn install
 
 echo press enter
 
