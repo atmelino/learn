@@ -1,5 +1,5 @@
 
-echo run
+echo build
 echo chartjs_codepen_01
 
 export NVM_DIR="$HOME/.nvm"
@@ -8,7 +8,7 @@ export NVM_DIR="$HOME/.nvm"
 
 cd /media/data/github/learn/nodejs/react_chartjs/chartjs_codepen_01
 
-npm start
+npm install
 
 echo press enter
 

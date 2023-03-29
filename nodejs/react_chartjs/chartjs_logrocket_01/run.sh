@@ -1,5 +1,6 @@
 
 echo run
+echo chartjs_logrocket_01
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -10,6 +11,6 @@ cd /media/data/github/learn/nodejs/react_chartjs/chartjs_logrocket_01
 npm start
 
 echo press enter
-`
+
 read input
 
