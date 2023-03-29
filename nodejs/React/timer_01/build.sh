@@ -1,5 +1,5 @@
 
-echo run
+echo build
 echo timer_01
 
 export NVM_DIR="$HOME/.nvm"
@@ -8,9 +8,9 @@ export NVM_DIR="$HOME/.nvm"
 
 cd /media/data/github/learn/nodejs/React/timer_01
 
-npm start
+npm install
 
 echo press enter
-`
+
 read input
 

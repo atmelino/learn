@@ -1,21 +1,26 @@
-import React, { useEffect } from "react";
-import PeriodicTask from "./components/PeriodicTask";
+import React, { Component } from "react";
+//import { Helmet } from 'react-helmet';
+import Helmet from 'react-helmet';
 
-import logo from "./logo.svg";
-import "./App.css";
+import Stopwatch from "./components/Stopwatch";
+import Countdown from "./components/Countdown";
 
-function App() {
-  useEffect(() => {
-    document.title = "timer_05";
-  }, []);
-
-  return (
-    <div className="App">
-      <div>
-        <PeriodicTask />
+class App extends Component {
+  render() {
+    return (
+      
+      <div className="App">
+        <Helmet>
+          <title>timer_04</title>
+        </Helmet>
+        <div className="App-title">Timers Demo</div>
+        <div className="Timers">
+          <Stopwatch />
+          <Countdown />
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default App;
