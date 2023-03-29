@@ -1,18 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
+import PeriodicTask from "./components/PeriodicTask";
+
 import logo from "./logo.svg";
 import "./App.css";
-import PeriodicTask from "./components/PeriodicTask";
-import Helmet from "react-helmet";
 
 function App() {
+  useEffect(() => {
+    document.title = "timer_05";
+  }, []);
+
   return (
     <div className="App">
-      <Helmet>
-        <title>timer_05</title>
-      </Helmet>
-      <header className="App-header">
-      </header>
-      <PeriodicTask />
+      <div>
+        <PeriodicTask />
+      </div>
     </div>
   );
 }
