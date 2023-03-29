@@ -9,11 +9,18 @@ const PeriodicTask = ({ targetDate }) => {
   //const [myTimer, setmyTimer] = useState(null);
 
   let count = 1;
+  let myTimer = setInterval(myTask, 2000);
+  clearInterval(myTimer);
 
   function startTask() {
-    console.log("startTask called")
-    setInterval(myTask, 2000);
-    //setCounter(counter => counter + 1);
+    console.log("startTask called");
+    myTimer=setInterval(myTask, 2000);
+    console.log("myTimer="+myTimer);
+  }
+
+  function stopTask() {
+    console.log("stopTask called")
+    clearInterval(myTimer);
   }
 
   function myTask() {
@@ -32,6 +39,7 @@ const PeriodicTask = ({ targetDate }) => {
       seconds = {seconds}
 
       <button onClick={() => startTask()}>Start</button>
+      <button onClick={() => stopTask()}>Stop</button>
       {counter}
 
     </div>
