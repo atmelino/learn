@@ -8,6 +8,7 @@ const PeriodicTask = ({ targetDate }) => {
   const [counter, setCounter] = useState(0);
   //const [myTimer, setmyTimer] = useState(null);
 
+  let count = 1;
 
   function startTask() {
     console.log("startTask called")
@@ -17,9 +18,11 @@ const PeriodicTask = ({ targetDate }) => {
 
   function myTask() {
     console.log("myTask called")
-    console.log("counter=" + counter)
+    //console.log("counter=" + counter)
     //let tmpvar = counter + 1;
-    setCounter(15);
+    setCounter(count);
+    count++;
+    console.log("count=" + count)
   }
 
 
