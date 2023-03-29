@@ -7,10 +7,7 @@ export NVM_DIR="$HOME/.nvm"
 
 cd /media/data/github/learn/nodejs/chartjs/chartjs_02
 
-yarn dev
-
-#~/.nvm/versions/node/v19.2.0/bin/npm run dev
-#yarn dev
+yarn install
 
 echo press enter
 
