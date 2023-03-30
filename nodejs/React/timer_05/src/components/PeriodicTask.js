@@ -1,26 +1,29 @@
 import React from 'react';
 import { useSeconds } from '../hooks/useSeconds';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef  } from 'react';
 
 
 const PeriodicTask = ({ targetDate }) => {
   const [days, hours, minutes, seconds] = useSeconds(targetDate);
   const [counter, setCounter] = useState(0);
-  //const [myTimer, setmyTimer] = useState(null);
+  //const [myTimer, setmyTimer] = useState(0);
+  let myTimer = useRef();
 
   let count = 1;
-  let myTimer = setInterval(myTask, 2000);
-  clearInterval(myTimer);
+  //let myTimer = setInterval(myTask, 2000);
+  //clearInterval(myTimer);
 
   function startTask() {
     console.log("startTask called");
     myTimer=setInterval(myTask, 2000);
-    console.log("myTimer="+myTimer);
+    console.log(JSON.stringify(myTimer, null, 4));
+    //console.log("myTimer="+myTimer);
   }
 
   function stopTask() {
     console.log("stopTask called")
     clearInterval(myTimer);
+    console.log(JSON.stringify(myTimer, null, 4));
   }
 
   function myTask() {
