@@ -1,8 +1,7 @@
 // https://blog.greenroots.info/how-to-create-a-countdown-timer-using-react-hooks
 
 import React, { useEffect } from 'react';
-import CountdownTimer from './components/CountdownTimer.js';
-import PeriodicTask from "./components/PeriodicTask.js";
+import PeriodicTask from "./components/PeriodicTask.jsx";
 
 import './App.css';
 
@@ -20,7 +19,7 @@ export default function App() {
   return (
     <div>
 
-      <PeriodicTask targetDate={dateTimeAfterSevenDays} />
+      <PeriodicTask flag={true} />
 
     </div>
   );
