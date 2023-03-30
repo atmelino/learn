@@ -9,6 +9,7 @@ const PeriodicTask = () => {
   let flag = true;
   //const [counter] = useSeconds(flag);
   let count = 1;
+  let interval=null;
 
   function startTask() {
     console.log("startTask called");
@@ -18,6 +19,7 @@ const PeriodicTask = () => {
   function stopTask() {
     console.log("stopTask called")
     flag = false;
+    clearInterval(interval);
     //console.log("myTimer=" + JSON.stringify(myTimer, null, 4));
   }
 
@@ -31,7 +33,7 @@ const PeriodicTask = () => {
   }
 
   useEffect(() => {
-    const interval = setInterval(myTask, 1000);
+    interval = setInterval(myTask, 1000);
     if (!flag) {
       return () => clearInterval(interval);
     }
