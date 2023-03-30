@@ -9,10 +9,13 @@ const PeriodicTask = () => {
   let flag = true;
   //const [counter] = useSeconds(flag);
   let count = 1;
-  let interval=null;
+ let interval=null;
+  // let interval=useRef();
 
   function startTask() {
     console.log("startTask called");
+    //interval = setInterval(myTask, 1000);
+
     //console.log("myTimer=" + JSON.stringify(myTimer, null, 4));
   }
 
