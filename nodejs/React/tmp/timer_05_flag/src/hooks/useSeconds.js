@@ -5,17 +5,14 @@ const useSeconds = (flag) => {
   let count = 1;
 
   useEffect(() => {
-    console.log("useEffect called");
-
     const interval = setInterval(() => {
       count++;
       setCounter(count);
     }, 1000);
-    return () => {
-      console.log("clearInterval in useEffect called");
-      clearInterval(interval);
-    };
-  }, [count]);
+    if (!flag) {
+      return () => clearInterval(interval);
+    }
+  }, [flag]);
 
   return [counter];
 };
