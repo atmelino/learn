@@ -19,7 +19,7 @@ export default function App() {
   return (
     <div>
 
-      <PeriodicTask flag={true} />
+      <PeriodicTask  />
 
     </div>
   );

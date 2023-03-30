@@ -9,8 +9,9 @@ const useSeconds = (flag) => {
       count++;
       setCounter(count);
     }, 1000);
-
-    //return () => clearInterval(interval);
+    if (!flag) {
+      return () => clearInterval(interval);
+    }
   }, [flag]);
 
   return [counter];

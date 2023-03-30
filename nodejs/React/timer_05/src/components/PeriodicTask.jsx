@@ -3,11 +3,11 @@ import { useSeconds } from '../hooks/useSeconds';
 import { useEffect, useState, useRef } from 'react';
 
 
-const PeriodicTask = ({ flag }) => {
-  const [counter] = useSeconds(flag);
-  //const [counter, setCounter] = useState(0);
-  const [taskOnOff, settaskOnOff] = useState(false);
-
+const PeriodicTask = () => {
+  const [counter, setCounter] = useState(0);
+  //const [flag, setFlag] = useState(false);
+  let flag = true;
+  //const [counter] = useSeconds(flag);
   let count = 1;
 
   function startTask() {
@@ -17,6 +17,7 @@ const PeriodicTask = ({ flag }) => {
 
   function stopTask() {
     console.log("stopTask called")
+    flag = false;
     //console.log("myTimer=" + JSON.stringify(myTimer, null, 4));
   }
 
@@ -26,7 +27,16 @@ const PeriodicTask = ({ flag }) => {
     //setCounter(count);
     count++;
     console.log("count=" + count)
+    setCounter(count); 
   }
+
+  useEffect(() => {
+    const interval = setInterval(myTask, 1000);
+    if (!flag) {
+      return () => clearInterval(interval);
+    }
+  }, [flag]);
+
 
   // useEffect(() => {
   //   const interval = setInterval(() => {
