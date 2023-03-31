@@ -1,52 +1,61 @@
 //[https://blog.openreplay.com/build-a-react-timer-with-useref/]
 
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from "react";
 
-import './App.css';
-  
-  
+import "./App.css";
+
 function App() {
-  const [insert, setInsert] = useState('');
+  const [insert, setInsert] = useState("");
   const [secs, setSecs] = useState(0);
   const reference = useRef(0);
-  const time = useRef();
-  
-  const handleOnchange = (e) => {
-    setInsert(e.target.value);
-    reference.current++;
-  }
-  
+  //const time = useRef();
+  const time: { current: NodeJS.Timeout | null } = useRef(null);
+  useEffect(() => {
+    document.title = "timer_01";
+  }, []);
+
+  // const handleOnchange = (e) => {
+  //   setInsert(e.target.value);
+  //   reference.current++;
+  // }
+
   const startTime = () => {
     time.current = setInterval(() => {
       reference.current++;
-      setSecs(prev => prev + 1)
-    }, 1000)
-  }
-  
+      setSecs((prev) => prev + 1);
+    }, 1000);
+  };
+
   const stopTime = () => {
-    clearInterval(time.current);
-    time.current = 0;
-  }
-  
+    clearInterval(time.current as NodeJS.Timeout);
+
+    //    time.current = 0;
+  };
+
   const resetTime = () => {
     stopTime();
     if (secs) {
       reference.current++;
       setSecs(0);
     }
-  }
+  };
   return (
-    <div className='App'>
-      <input
+    <div className="App">
+      {
+        /* <input
         type="text"
         placeholder='use reference'
         value={insert}
         onChange={handleOnchange}
         className="input"
-      />
-      <br /><br />
-      <div className='text'> <p className='text'>Please input your name: {insert}</p></div>
-      <div >
+      /> */
+      }
+      <br />
+      <br />
+      <div className="text">
+        <p className="text">Please input your name: {insert}</p>
+      </div>
+      <div>
       </div>
       <input type="button" value="start time" onClick={startTime} />
       <input type="button" value="stop time" onClick={stopTime} />
@@ -58,5 +67,5 @@ function App() {
     </div>
   );
 }
-  
+
 export default App;
