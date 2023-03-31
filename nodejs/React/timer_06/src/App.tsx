@@ -7,7 +7,7 @@ import './App.css';
 
 export default function App() {
   useEffect(() => {
-    document.title = "timer_05";
+    document.title = "timer_06";
   }, []);
 
   return (

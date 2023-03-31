@@ -8,11 +8,7 @@ const PeriodicTask = () => {
 
   function startTask() {
     console.log("startTimer called");
-    const id = setInterval(() => {
-      console.log("Timer function called");
-      count++;
-      setCounter(count);
-    }, 1000);
+    const id = setInterval(myTask, 1000);
     intervalRef.current = id;
   }
 
@@ -20,6 +16,13 @@ const PeriodicTask = () => {
     console.log("stopTimer called");
     clearInterval(intervalRef.current as NodeJS.Timeout);
   }
+
+  function myTask() {
+    console.log("myTask called");
+    count++;
+    setCounter(count);
+  }
+
 
   return (
     <div>
