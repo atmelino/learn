@@ -1,7 +1,7 @@
 // https://blog.greenroots.info/how-to-create-a-countdown-timer-using-react-hooks
 
 import React, { useEffect } from 'react';
-import PeriodicTask from "./components/PeriodicTask.jsx";
+import PeriodicTask from "./components/PeriodicTask";
 
 import './App.css';
 
