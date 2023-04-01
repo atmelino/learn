@@ -28,13 +28,13 @@ const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
 export const data = {
   labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
   datasets: [
-    // {
-    //   type: "line" as const,
-    //   label: "Dataset 1",
-    //   borderColor: "rgb(255, 99, 132)",
-    //   data: [12, 19, 3, 5, 2, 30],
-    //   borderWidth: 2,
-    // },
+    {
+      type: "line" as const,
+      label: "Dataset 1",
+      borderColor: "rgb(255, 99, 132)",
+      data: [12, 19, 3, 5, 2, 30],
+      borderWidth: 2,
+    },
     {
       type: "bar" as const,
       label: "Dataset 2",
@@ -43,12 +43,12 @@ export const data = {
       borderColor: "white",
       borderWidth: 1,
     },
-    // {
-    //   type: "bar" as const,
-    //   label: "Dataset 3",
-    //   data: [12, 19, 3, 5, 2, 3],
-    //   backgroundColor: "rgb(53, 162, 235)",
-    // },
+    {
+      type: "bar" as const,
+      label: "Dataset 3",
+      data: [12, 19, 3, 5, 2, 3],
+      backgroundColor: "rgb(53, 162, 235)",
+    },
   ],
 };
 

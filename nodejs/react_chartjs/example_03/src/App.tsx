@@ -51,7 +51,8 @@ export const data = {
       type: "line" as const,
       label: "Dataset 1",
       borderColor: "rgb(255, 99, 132)",
-      data: [12, 19, 3, 5, 2, 30],
+      //data: [12, 19, 3, 5, 2, 30],
+      data: [12, 19],
       borderWidth: 2,
     },
     {
@@ -123,7 +124,8 @@ export default function App() {
     }
 
     console.log(JSON.stringify(data.datasets[0], null, 4));
-    data.datasets[0].data = [1, 2, 3, 4, 5, 3];
+    //data.datasets[0].data = [1, 2, 3, 4, 5, 3];
+    data.datasets[0].data.push(29);
     console.log(JSON.stringify(data.datasets[0], null, 4));
 
     chart.update();
