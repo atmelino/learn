@@ -46,7 +46,7 @@ export const data = {
       type: "line" as const,
       label: "Dataset 1",
       borderColor: "rgb(255, 99, 132)",
-      data: [12, 19, 3, 5, 2, 3],
+      data: [12, 19, 3, 5, 2, 30],
       borderWidth: 2,
     },
     {
@@ -72,7 +72,12 @@ export default function App() {
   }, []);
 
   const printDatasetAtEvent = (dataset: InteractionItem[]) => {
+    console.log("printDatasetAtEvent called");
+    console.log("printDatasetAtEvent dataset.length="+dataset.length);
+
     if (!dataset.length) return;
+
+    console.log("printDatasetAtEvent dataset.length="+dataset.length);
 
     const datasetIndex = dataset[0].datasetIndex;
 
