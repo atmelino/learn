@@ -1,5 +1,10 @@
 import { MouseEvent, useRef } from "react";
-import type { InteractionItem } from "chart.js";
+import type {
+  BubbleDataPoint,
+  ChartTypeRegistry,
+  InteractionItem,
+  Point,
+} from "chart.js";
 import React, { useEffect } from "react";
 
 import {
@@ -57,12 +62,12 @@ export const data = {
       borderColor: "white",
       borderWidth: 1,
     },
-    {
-      type: "bar" as const,
-      label: "Dataset 3",
-      data: [12, 19, 3, 5, 2, 3],
-      backgroundColor: "rgb(53, 162, 235)",
-    },
+    // {
+    //   type: "bar" as const,
+    //   label: "Dataset 3",
+    //   data: [12, 19, 3, 5, 2, 3],
+    //   backgroundColor: "rgb(53, 162, 235)",
+    // },
   ],
 };
 
@@ -71,30 +76,29 @@ export default function App() {
     document.title = "example_03";
   }, []);
 
-  const printDatasetAtEvent = (dataset: InteractionItem[]) => {
-    console.log("printDatasetAtEvent called");
-    console.log("printDatasetAtEvent dataset.length="+dataset.length);
-
+  const getInfo = (
+    chart: ChartJS<
+      keyof ChartTypeRegistry,
+      (number | [number, number] | Point | BubbleDataPoint | null)[],
+      unknown
+    >,
+    event: MouseEvent<HTMLCanvasElement, globalThis.MouseEvent>,
+  ) => {
+    const dataset = getDatasetAtEvent(chart, event);
+    console.log("printDatasetAtEvent dataset.length=" + dataset.length);
     if (!dataset.length) return;
+    const datasetIndex1 = dataset[0].datasetIndex;
+    console.log(data.datasets[datasetIndex1].label);
 
-    console.log("printDatasetAtEvent dataset.length="+dataset.length);
-
-    const datasetIndex = dataset[0].datasetIndex;
-
-    console.log(data.datasets[datasetIndex].label);
-  };
-
-  const printElementAtEvent = (element: InteractionItem[]) => {
+    const element = getElementAtEvent(chart, event);
+    console.log("printElementAtEvent element.length=" + element.length);
     if (!element.length) return;
-
     const { datasetIndex, index } = element[0];
-
     console.log(data.labels[index], data.datasets[datasetIndex].data[index]);
-  };
 
-  const printElementsAtEvent = (elements: InteractionItem[]) => {
+    const elements = getElementsAtEvent(chart, event);
+    console.log("printElementsAtEvent elements.length=" + elements.length);
     if (!elements.length) return;
-
     console.log(elements.length);
   };
 
@@ -107,9 +111,7 @@ export default function App() {
       return;
     }
 
-    printDatasetAtEvent(getDatasetAtEvent(chart, event));
-    printElementAtEvent(getElementAtEvent(chart, event));
-    printElementsAtEvent(getElementsAtEvent(chart, event));
+    getInfo(chart, event);
   };
 
   function updateChart() {
@@ -120,7 +122,10 @@ export default function App() {
       return;
     }
 
-    data.datasets[0].data=[1, 2, 3, 4, 5, 3];
+    console.log(JSON.stringify(data.datasets[0], null, 4));
+    data.datasets[0].data = [1, 2, 3, 4, 5, 3];
+    console.log(JSON.stringify(data.datasets[0], null, 4));
+
     chart.update();
   }
 
