@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import "./App.css";
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
 import PieChart from "./components/PieChart";
@@ -31,7 +32,10 @@ export const data = {
     },
   ],
 };
+
 function App() {
+  const chartRef = useRef();
+
   return (
     <div className="App">
     <div>

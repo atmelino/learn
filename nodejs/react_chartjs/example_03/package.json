@@ -1,5 +1,5 @@
 {
-  "name": "chartjs_timer_01",
+  "name": "example_03",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -11,6 +11,7 @@
     "@types/react": "^18.0.29",
     "@types/react-dom": "^18.0.11",
     "chart.js": "^4.2.1",
+    "faker": "^5.5.3",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
@@ -19,7 +20,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "PORT=2002 react-scripts start",
+    "start": "PORT=2003 react-scripts start",
     "_comment1": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -42,5 +43,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/faker": "^6.6.9"
   }
 }
