@@ -1,6 +1,6 @@
-import  { MouseEvent, useRef } from "react";
+import { MouseEvent, useRef } from "react";
 import type { InteractionItem } from "chart.js";
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 
 import {
   BarElement,
@@ -18,7 +18,6 @@ import {
   getElementAtEvent,
   getElementsAtEvent,
 } from "react-chartjs-2";
-//import faker from "faker";
 
 ChartJS.register(
   LinearScale,
@@ -39,34 +38,6 @@ export const options = {
 };
 
 const labels = ["January", "February", "March", "April", "May", "June", "July"];
-
-// export const dataf = {
-//   labels,
-//   datasets: [
-//     {
-//       type: "line" as const,
-//       label: "Dataset 1",
-//       borderColor: "rgb(255, 99, 132)",
-//       borderWidth: 2,
-//       fill: false,
-//       data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
-//     },
-//     {
-//       type: "bar" as const,
-//       label: "Dataset 2",
-//       backgroundColor: "rgb(75, 192, 192)",
-//       data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
-//       borderColor: "white",
-//       borderWidth: 2,
-//     },
-//     {
-//       type: "bar" as const,
-//       label: "Dataset 3",
-//       backgroundColor: "rgb(53, 162, 235)",
-//       data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
-//     },
-//   ],
-// };
 
 export const data = {
   labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
@@ -136,13 +107,31 @@ export default function App() {
     printElementsAtEvent(getElementsAtEvent(chart, event));
   };
 
+  function updateChart() {
+    console.log("updateChart called");
+    const { current: chart } = chartRef;
+
+    if (!chart) {
+      return;
+    }
+
+    data.datasets[0].data=[1, 2, 3, 4, 5, 3];
+    chart.update();
+  }
+
   return (
-    <Chart
-      ref={chartRef}
-      type="bar"
-      onClick={onClick}
-      options={options}
-      data={data}
-    />
+    <div>
+      <div>
+        <button onClick={() => updateChart()}>Update Chart</button>
+      </div>
+
+      <Chart
+        ref={chartRef}
+        type="bar"
+        onClick={onClick}
+        options={options}
+        data={data}
+      />
+    </div>
   );
 }

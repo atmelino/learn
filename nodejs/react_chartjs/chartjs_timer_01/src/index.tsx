@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 //import App from './App';
 //import App from './App_logrocket';
-import App from './App_quickstart';
+import App from './App';
 
 
 const root = ReactDOM.createRoot(
