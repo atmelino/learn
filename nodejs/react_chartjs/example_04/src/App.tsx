@@ -1,16 +1,15 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useEffect, useRef } from "react";
 import {
-  Chart as ChartJS,
-  LinearScale,
-  CategoryScale,
   BarElement,
-  PointElement,
-  LineElement,
+  CategoryScale,
+  Chart as ChartJS,
   Legend,
+  LinearScale,
+  LineElement,
+  PointElement,
   Tooltip,
-} from 'chart.js';
-import { Chart } from 'react-chartjs-2';
-//import faker from 'faker';
+} from "chart.js";
+import { Chart } from "react-chartjs-2";
 
 ChartJS.register(
   LinearScale,
@@ -19,20 +18,18 @@ ChartJS.register(
   PointElement,
   LineElement,
   Legend,
-  Tooltip
+  Tooltip,
 );
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-
-
 export const data = {
-  labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+  labels: ["January", "February", "March", "April", "May", "June", "July"],
   datasets: [
     {
       type: "line" as const,
       label: "Dataset 1",
       borderColor: "rgb(255, 99, 132)",
-      data: [12, 19, 3, 5, 2, 30],
+      //data: [12, 19, 3, 5, 2, 30],
+      data: [12, 19],
       borderWidth: 2,
     },
     {
@@ -52,7 +49,6 @@ export const data = {
   ],
 };
 
-
 function triggerTooltip(chart: ChartJS | null) {
   const tooltip = chart?.tooltip;
 
@@ -68,7 +64,7 @@ function triggerTooltip(chart: ChartJS | null) {
     tooltip.setActiveElements(
       [
         {
-          datasetIndex: 0,
+          datasetIndex: 1,
           index: 2,
         },
         {
@@ -79,7 +75,7 @@ function triggerTooltip(chart: ChartJS | null) {
       {
         x: (chartArea.left + chartArea.right) / 2,
         y: (chartArea.top + chartArea.bottom) / 2,
-      }
+      },
     );
   }
 
@@ -99,5 +95,29 @@ export default function App() {
     triggerTooltip(chart);
   }, []);
 
-  return <Chart ref={chartRef} type='bar' data={data} />;
+
+  function updateChart() {
+    console.log("updateChart called");
+    const { current: chart } = chartRef;
+
+    if (!chart) {
+      return;
+    }
+
+    console.log(JSON.stringify(data.datasets[0], null, 4));
+    //data.datasets[0].data = [1, 2, 3, 4, 5, 3];
+    data.datasets[0].data.push(29);
+    data.labels.push("August");
+    console.log(JSON.stringify(data.datasets[0], null, 4));
+
+    chart.update();
+  }
+
+  return (
+    <div>
+      <button onClick={() => updateChart()}>Update Chart</button>
+
+      <Chart ref={chartRef} type="bar" data={data} />
+    </div>
+  );
 }
