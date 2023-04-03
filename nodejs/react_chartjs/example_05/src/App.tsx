@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import PeriodicTask from "./components/PeriodicTask";
-import PeriodicTask2 from "./components/PeriodicTask2";
 
 import {
   BarElement,
@@ -81,19 +80,8 @@ export const data = {
 
 var zero = 7;
 
-type ButtonProps = {
-  onClick(): void;
-  name: string;
-  children: React.ReactNode;
-};
 
 export default function App() {
-  const [count, setCount] = useState(0);
-
-  function handleClick() {
-    console.log("Function ran in Child component");
-    setCount(count + 1);
-  }
 
   useEffect(() => {
     document.title = "example_05";
@@ -123,9 +111,9 @@ export default function App() {
   return (
     <div>
       <div>
-        <PeriodicTask2 name="James" onClick={addData}>
+        <PeriodicTask name="chart update" onClick={addData}>
           <span>Click me</span>
-        </PeriodicTask2>
+        </PeriodicTask>
       </div>
 
       <button onClick={() => addData()}>Add Data</button>
