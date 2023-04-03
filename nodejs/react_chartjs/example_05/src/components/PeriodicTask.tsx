@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect, useRef, useState } from "react";
 
 type TaskProps = {
-  onClick(): void;
+  TaskName(): void;
   name: string;
   children: React.ReactNode;
 };
@@ -12,7 +12,7 @@ const PeriodicTask: React.FunctionComponent<TaskProps> = function ({ children, .
   let count = 1;
   const intervalRef: { current: NodeJS.Timeout | null; } = useRef(null);
 
-  const { onClick, name } = props;
+  const { TaskName, name } = props;
   function startTask() {
     console.log("startTimer called");
     const id = setInterval(myTask, 1000);
@@ -28,12 +28,12 @@ const PeriodicTask: React.FunctionComponent<TaskProps> = function ({ children, .
     console.log("myTask called");
     count++;
     setCounter(count);
-    onClick();
+    TaskName();
   }
 
   return (
     <div>
-      <button onClick={onClick}>{children}</button>
+      <button onClick={TaskName}>{children}</button>
       <div>
         <button onClick={() => startTask()}>Start</button>
         <button onClick={() => stopTask()}>Stop</button>

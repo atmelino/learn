@@ -51,7 +51,7 @@ export const options = {
 };
 
 export const data = {
-  labels: [1, 2, 3, 4, 5, 6],
+  labels: [1, 2, 3, 4, 5, 6,7,8,9,10],
 
   datasets: [
     {
@@ -73,7 +73,7 @@ export const data = {
       pointHoverBorderWidth: 2,
       pointRadius: 5,
       pointHitRadius: 10,
-      data: [65, 59, 80, 0, 56, 55, 40],
+      data: [65, 59, 80, 0, 56, 55, 40, 56, 55, 40],
     },
   ],
 };
@@ -111,7 +111,7 @@ export default function App() {
   return (
     <div>
       <div>
-        <PeriodicTask name="chart update" onClick={addData}>
+        <PeriodicTask name="chart update" TaskName={addData}>
           <span>Click me</span>
         </PeriodicTask>
       </div>
@@ -120,7 +120,7 @@ export default function App() {
 
       <Chart
         // width={"5%"}
-        height={"50%"}
+        height={"70%"}
         ref={chartRef}
         type="line"
         options={options}
