@@ -37,6 +37,7 @@ export const options1 = {
       },
     }],
   },
+  maintainAspectRatio: false,
 };
 
 export const options = {
@@ -86,19 +87,6 @@ type ButtonProps = {
   children: React.ReactNode;
 };
 
-const Button: React.FunctionComponent<ButtonProps> = (
-  { children, ...props },
-) => {
-  const { onClick, name } = props;
-
-  return (
-    <div>
-      <h1>Hello {name}</h1>
-      <button onClick={onClick}>{children}</button>
-    </div>
-  );
-};
-
 export default function App() {
   const [count, setCount] = useState(0);
 
@@ -135,22 +123,16 @@ export default function App() {
   return (
     <div>
       <div>
-        <Button name="James" onClick={() => console.log("Button clicked")}>
-          <span>Click me</span>
-        </Button>
-      </div>
-
-      <div>
         <PeriodicTask2 name="James" onClick={addData}>
           <span>Click me</span>
         </PeriodicTask2>
       </div>
 
-      <PeriodicTask  />
-
       <button onClick={() => addData()}>Add Data</button>
 
       <Chart
+        // width={"5%"}
+        height={"50%"}
         ref={chartRef}
         type="line"
         options={options}

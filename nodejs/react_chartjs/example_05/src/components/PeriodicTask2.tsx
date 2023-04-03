@@ -7,35 +7,18 @@ type ButtonProps = {
   children: React.ReactNode;
 };
 
-
 const PeriodicTask2: React.FunctionComponent<ButtonProps> = (
   { children, ...props },
 ) => {
-  const { onClick, name } = props;
-
-  return (
-    <div>
-      <h1>Hello {name}</h1>
-      <button onClick={onClick}>{children}</button>
-    </div>
-  );
-};
-
-
-
-
-
-
-const PeriodicTask = (Task: any) => {
   const [counter, setCounter] = useState(0);
   let count = 1;
   const intervalRef: { current: NodeJS.Timeout | null } = useRef(null);
 
+  const { onClick, name } = props;
   function startTask() {
     console.log("startTimer called");
     const id = setInterval(myTask, 1000);
     intervalRef.current = id;
-    Task();
   }
 
   function stopTask() {
@@ -47,18 +30,17 @@ const PeriodicTask = (Task: any) => {
     console.log("myTask called");
     count++;
     setCounter(count);
-  }
+    onClick();
 
+  }
 
   return (
     <div>
+      <button onClick={onClick}>{children}</button>
       <div>
         <button onClick={() => startTask()}>Start</button>
         <button onClick={() => stopTask()}>Stop</button>
       </div>
-      <p>
-        counter = {counter}
-      </p>
     </div>
   );
 };
