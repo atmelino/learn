@@ -379,6 +379,7 @@ export default function BarChart(props: BarChartProps) {
   useEffect(() => {
     console.log("useEffect called in BarChart.tsx");
     cleanDatasets();
+    
     configureScale();
     if (toolTip) {
       updateTooltip();
