@@ -16,7 +16,11 @@ export default function MyChart() {
           y: 3,
           x: "x2",
         },
-      ],
+        {
+          y: 5,
+          x: "x2",
+        },
+          ],
     },
   ];
 
