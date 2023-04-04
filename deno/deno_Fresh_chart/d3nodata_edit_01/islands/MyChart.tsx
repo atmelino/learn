@@ -18,9 +18,9 @@ export default function MyChart() {
         },
         {
           y: 5,
-          x: "x2",
+          x: "x3",
         },
-          ],
+      ],
     },
   ];
 
@@ -42,27 +42,21 @@ export default function MyChart() {
   const [datasets, setData] = useState(datasets1);
   const [test, setTest] = useState("initial");
 
-
   let titleOnOff = true;
 
   const changeData = () => {
     console.log("changeData called");
 
-    console.log("datasets before"+JSON.stringify(datasets, null, 4));
-    datasets1[0].data[0]={
+    console.log("datasets before" + JSON.stringify(datasets, null, 4));
+    datasets1[0].data[0] = {
       y: 8,
       x: "x1",
-    };;
+    };
     setData(datasets1);
-    console.log("datasets after"+JSON.stringify(datasets, null, 4));
+    console.log("datasets after" + JSON.stringify(datasets, null, 4));
     setTest("changed");
     titleOnOff = false;
-
-    
   };
-
-
-
 
   return (
     <div>
@@ -71,7 +65,13 @@ export default function MyChart() {
         {JSON.stringify(datasets, null, 4)}
         {test}
       </div>
-      <BarChart datasets={datasets} data={data1} addTitle={titleOnOff} passedDown={test}></BarChart>
+      <BarChart
+        datasets={datasets}
+        data={data1}
+        addTitle={titleOnOff}
+        passedDown={test}
+      >
+      </BarChart>
     </div>
   );
 }

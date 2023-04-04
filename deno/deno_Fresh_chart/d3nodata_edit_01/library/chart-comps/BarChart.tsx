@@ -380,7 +380,6 @@ export default function BarChart(props: BarChartProps) {
     console.log("useEffect called in BarChart.tsx");
     cleanDatasets();
     configureScale();
-    updateChart();
     if (toolTip) {
       updateTooltip();
     }
@@ -393,16 +392,9 @@ export default function BarChart(props: BarChartProps) {
     if (addLegend) {
       updateLegend();
     }
-  }, []);
-
-  useEffect(() => {
-    console.log('Do something after counter has changed', props.passedDown);
-    cleanDatasets();
-    configureScale();
     updateChart();
+  }, [props]);
 
-
- }, [props.passedDown]);
 
   return (
     <>
