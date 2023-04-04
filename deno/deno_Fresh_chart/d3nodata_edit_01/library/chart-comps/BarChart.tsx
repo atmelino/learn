@@ -1,4 +1,4 @@
-import { useEffect, d3 } from "../mod.ts";
+import { d3, useEffect } from "../mod.ts";
 import { BarChartProps } from "../chart-props/BarChartProps.ts";
 
 // need to work on paddings that dynamically update to avoid overlapping with the graph
@@ -12,10 +12,10 @@ export default function BarChart(props: BarChartProps) {
     bottom: (props.paddingBottom || 50) + yLabelPadding,
     left: (props.paddingLeft || 50) + xLabelPadding,
   };
-  const width =
-    (props.width || 800) - padding.left - padding.right - yLabelPadding * 2;
-  const height =
-    (props.height || 600) - padding.bottom - padding.top - xLabelPadding * 2;
+  const width = (props.width || 800) - padding.left - padding.right -
+    yLabelPadding * 2;
+  const height = (props.height || 600) - padding.bottom - padding.top -
+    xLabelPadding * 2;
   const barPadding = 3; // padding provided between each bar
   const toolTip = props.toolTip == false ? props.toolTip : true;
   const addAxesLabel = props.addAxesLabel == true ? props.addAxesLabel : false;
@@ -83,7 +83,7 @@ export default function BarChart(props: BarChartProps) {
       .attr("width", width + padding.left + padding.right + 2 * yLabelPadding)
       .attr(
         "height",
-        height + padding.top + padding.bottom + 2 * xLabelPadding
+        height + padding.top + padding.bottom + 2 * xLabelPadding,
       );
 
     const yAxis = d3.axisLeft(yScale);
@@ -154,7 +154,7 @@ export default function BarChart(props: BarChartProps) {
         "transform",
         `translate(${padding.left + yLabelPadding}, ${
           padding.top + xLabelPadding
-        })`
+        })`,
       )
       .attr("font-size", "0.5em")
       .attr("font-family", fontFamily)
@@ -172,7 +172,7 @@ export default function BarChart(props: BarChartProps) {
         "transform",
         `translate(${padding.left + yLabelPadding}, ${
           height + padding.bottom + xLabelPadding
-        })`
+        })`,
       )
       .attr("font-size", "0.5em")
       .attr("font-family", fontFamily)
@@ -275,7 +275,7 @@ export default function BarChart(props: BarChartProps) {
         "transform",
         `translate(${yLabelPadding}, ${
           (height + padding.top + padding.bottom) / 2
-        }) rotate(-90)`
+        }) rotate(-90)`,
       )
       .attr("fill", axesLabelColor)
       .attr("font-family", fontFamily)
@@ -290,7 +290,7 @@ export default function BarChart(props: BarChartProps) {
         "transform",
         `translate(${
           (width + padding.left + padding.right + 2 * yLabelPadding) / 2
-        }, ${height + padding.top + padding.bottom + yLabelPadding})`
+        }, ${height + padding.top + padding.bottom + yLabelPadding})`,
       )
       .attr("font-family", fontFamily)
       .attr("font-size", "0.8em")
@@ -395,8 +395,18 @@ export default function BarChart(props: BarChartProps) {
     }
   }, []);
 
+  useEffect(() => {
+    console.log('Do something after counter has changed', props.passedDown);
+    cleanDatasets();
+    configureScale();
+    updateChart();
+
+
+ }, [props.passedDown]);
+
   return (
     <>
+      {props.passedDown}
       <div className="chart-container">
         <svg className="bar-chart">
           <g>

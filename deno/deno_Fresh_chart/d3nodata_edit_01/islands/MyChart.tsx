@@ -57,7 +57,12 @@ export default function MyChart() {
     console.log("datasets after"+JSON.stringify(datasets, null, 4));
     setTest("changed");
     titleOnOff = false;
+
+    
   };
+
+
+
 
   return (
     <div>
@@ -66,7 +71,7 @@ export default function MyChart() {
         {JSON.stringify(datasets, null, 4)}
         {test}
       </div>
-      <BarChart datasets={datasets} data={data1} addTitle={titleOnOff}></BarChart>
+      <BarChart datasets={datasets} data={data1} addTitle={titleOnOff} passedDown={test}></BarChart>
     </div>
   );
 }

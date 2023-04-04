@@ -35,4 +35,5 @@ export interface BarChartProps {
   setTitleColor?: string;
   setTitlePaddingTop?: number;
   addLegend?: boolean;
+  passedDown?:string;
 }
