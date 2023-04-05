@@ -34,6 +34,8 @@ export default function BarChart(props: BarChartProps) {
   const setTitleColor = props.setTitleColor || axesLabelColor;
   const setTitlePadding = props.setTitlePaddingTop || 40;
   const addLegend = props.addLegend == false ? props.addLegend : true;
+  const font_size = "1.5em";     // .style("font", "14px times")
+
 
   let datasets: {
     label:
@@ -48,8 +50,8 @@ export default function BarChart(props: BarChartProps) {
 
   function cleanDatasets() { //cleans data sets by reading from receivedDatasets
     const receivedDatasets = props.datasets || [];
-    datasets=[];
-    drawPoints=[];
+    datasets = [];
+    drawPoints = [];
     for (let ds of receivedDatasets) {
       const tempData = [];
       for (let obj of ds.data) {
@@ -68,20 +70,25 @@ export default function BarChart(props: BarChartProps) {
     }
   }
 
-  let xScale: d3.ScaleBand<string> | d3.AxisScale<d3.AxisDomain> | null = null;
+  let xScale:
+    | d3.ScaleBand<string>
+    | d3.AxisScale<d3.AxisDomain>
+    | null = null;
   let yScale:
     | d3.ScaleLinear<number, number, never>
     | d3.AxisScale<d3.AxisDomain>
     | { (arg0: any): number; invert: (arg0: any) => number }
     | null = null;
+
   function configureScale() {
     const labels: any[] | Iterable<string> = [];
     datasets[0].data.forEach((name: { x: any }) => {
       labels.push(name.x);
     });
 
-    xScale = d3.scaleBand().domain(labels).range([0, width]);
-    console.log("xScale=" + JSON.stringify(xScale, null, 4));
+    xScale = d3.scaleBand()
+      .domain(labels)
+      .range([0, width]);
 
     const maxObj = drawPoints.reduce((obj1, obj2) => {
       return obj1.y > obj2.y ? obj1 : obj2;
@@ -90,7 +97,11 @@ export default function BarChart(props: BarChartProps) {
       return obj1.y < obj2.y ? obj1 : obj2;
     });
 
-    yScale = d3.scaleLinear().domain([0, maxObj.y]).range([height, 0]);
+    yScale = d3.scaleLinear()
+      .domain([0, maxObj.y])
+      .range([height, 0]);
+
+    console.log("xScale=" + JSON.stringify(xScale, null, 4));
     console.log("yScale=" + JSON.stringify(yScale, null, 4));
   }
 
@@ -158,8 +169,7 @@ export default function BarChart(props: BarChartProps) {
           .attr("rx", "3")
           .attr("fill", datasets[j].color);
 
-          console.log("currGroup=" + JSON.stringify(currGroup, null, 4));
-
+        console.log("currGroup=" + JSON.stringify(currGroup, null, 4));
       }
     }
 
@@ -176,7 +186,8 @@ export default function BarChart(props: BarChartProps) {
           padding.top + xLabelPadding
         })`,
       )
-      .attr("font-size", "0.5em")
+      // .attr("font-size", "0.5em")
+      .attr("font-size", font_size)
       .attr("font-family", fontFamily)
       .attr("color", axesColor)
       .selectAll(".tick line")
@@ -194,13 +205,14 @@ export default function BarChart(props: BarChartProps) {
           height + padding.bottom + xLabelPadding
         })`,
       )
-      .attr("font-size", "0.5em")
+      .attr("font-size", font_size)
       .attr("font-family", fontFamily)
       .attr("color", axesColor)
       .selectAll(".tick line")
       .attr("stroke-width", "0.5")
       .attr("opacity", "0.3")
       .attr("y2", -height);
+
   }
 
   function updateTooltip() {
@@ -418,6 +430,7 @@ export default function BarChart(props: BarChartProps) {
       updateLegend();
     }
     updateChart();
+
   }, [props]);
 
   return (
