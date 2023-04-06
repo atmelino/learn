@@ -431,6 +431,8 @@ export default function BarChart(props: BarChartProps) {
     updateChart();
   }, []);
 
+  let myxaxis: d3.Selection<d3.BaseType, unknown, SVGGElement, unknown>;
+
   function updateChartShort() {
     d3.select(".bar-chart")
       .attr("width", width + padding.left + padding.right + 2 * yLabelPadding)
@@ -521,7 +523,7 @@ export default function BarChart(props: BarChartProps) {
       .attr("opacity", "0.3");
 
     // render x Axis
-    barChart
+    myxaxis = barChart
       .insert("g", "g")
       .call(xAxis)
       .attr(
@@ -542,7 +544,6 @@ export default function BarChart(props: BarChartProps) {
   useEffect(() => {
     console.log("useEffect short update");
     // console.log("props=" + JSON.stringify(props, null, 4));
-
     cleanDatasets();
 
     printDebug("useEffect() before configureScale()");
@@ -552,6 +553,11 @@ export default function BarChart(props: BarChartProps) {
     // console.log("yScale=" + JSON.stringify(yScale, null, 4));
 
     updateChartShort();
+
+    // these work:
+    // d3.selectAll('g').remove(); // removes all 'g' elements from the DOM.
+    // d3.selectAll('.bars').remove(); // removes all 'g' elements from the DOM.
+    // d3.selectAll('.bar-chart').remove(); // removes all 'g' elements from the DOM.
   }, [props.passedDown]);
 
   function printDebug(calledFrom: string) {
