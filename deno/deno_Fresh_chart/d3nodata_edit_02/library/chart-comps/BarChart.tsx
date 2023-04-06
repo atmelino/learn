@@ -98,12 +98,12 @@ export default function BarChart(props: BarChartProps) {
     const moy = maxObj.y;
     console.log("maxObj.y=" + JSON.stringify(moy, null, 4));
 
-    printDebug("configureScale() before");
+    // printDebug("configureScale() before");
     yScale = d3.scaleLinear()
       .domain([0, maxObj.y])
       .range([height, 0]);
     // yScale = d3.scaleLinear().domain([0, 20]).range([height, 0]);
-    printDebug("configureScale() after");
+    // printDebug("configureScale() after");
   }
 
   function updateChart() {
@@ -113,7 +113,6 @@ export default function BarChart(props: BarChartProps) {
         "height",
         height + padding.top + padding.bottom + 2 * xLabelPadding,
       );
-    console.log("yScale=" + JSON.stringify(yScale, null, 4));
 
     const yAxis = d3.axisLeft(yScale);
     const xAxis = d3.axisBottom(xScale);
@@ -502,25 +501,27 @@ export default function BarChart(props: BarChartProps) {
     }
 
     const barChart = d3.select(".bar-chart");
+    // svg.selectAll("g.x.axis")
+    //     .call(xAxis);
 
     // render y Axis
-    barChart
-      .insert("g", "g")
-      .call(yAxis)
-      // have to make this data to show for charts dynamic
-      .attr(
-        "transform",
-        `translate(${padding.left + yLabelPadding}, ${
-          padding.top + xLabelPadding
-        })`,
-      )
-      .attr("font-size", font_size)
-      .attr("font-family", fontFamily)
-      .attr("color", axesColor)
-      .selectAll(".tick line")
-      .attr("x2", width)
-      .attr("stroke-width", "0.5")
-      .attr("opacity", "0.3");
+    // barChart
+    //   .insert("g", "g")
+    //   .call(yAxis)
+    //   // have to make this data to show for charts dynamic
+    //   .attr(
+    //     "transform",
+    //     `translate(${padding.left + yLabelPadding}, ${
+    //       padding.top + xLabelPadding
+    //     })`,
+    //   )
+    //   .attr("font-size", font_size)
+    //   .attr("font-family", fontFamily)
+    //   .attr("color", axesColor)
+    //   .selectAll(".tick line")
+    //   .attr("x2", width)
+    //   .attr("stroke-width", "0.5")
+    //   .attr("opacity", "0.3");
 
     // render x Axis
     myxaxis = barChart
@@ -554,9 +555,21 @@ export default function BarChart(props: BarChartProps) {
 
     updateChartShort();
 
+    d3.select(".y.axis")
+      .append("g")
+      .remove();
+
+    d3.selectAll("g.y.axis")
+      .append("g")
+      .remove();
+
+    d3.selectAll(".bars")
+      .append("g")
+      .remove();
+
     // these work:
     // d3.selectAll('g').remove(); // removes all 'g' elements from the DOM.
-    // d3.selectAll('.bars').remove(); // removes all 'g' elements from the DOM.
+    d3.selectAll(".bars").remove(); // removes all 'g' elements from the DOM.
     // d3.selectAll('.bar-chart').remove(); // removes all 'g' elements from the DOM.
   }, [props.passedDown]);
 
