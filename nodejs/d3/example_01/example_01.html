@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" path1tent="width=device-width,
+            initial-scale=1.0">
+    <script src="https://d3js.org/d3.v4.min.js">
+    </script>
+
+    <style>
+        h1 {
+            color: green;
+        }
+
+        p {
+            background-color: #f2f2f2;
+            padding: 10px;
+            width: 300px;
+            line-height: 5px;
+        }
+
+        p:hover {
+            background-color: grey;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        div {
+            width: 50px;
+            height: 50px;
+            background-color: green;
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>GeeksforGeeks</h1>
+    <h4>D3.js | selection.append() Function</h4>
+
+    <p><b>Click me</b></p>
+    <p><b>Click me</b></p>
+
+    <script>
+        function func() {
+            // Selecting all p and
+            // Appending a DIV to each p tag
+            var chk = d3.selectAll("p")
+                .append("div");
+            var div = document.querySelector("div");
+            console.log(div)
+        }
+        let btn = document.querySelector("p");
+        btn.addEventListener("click", func);
+    </script>
+</body>
+
+</html>

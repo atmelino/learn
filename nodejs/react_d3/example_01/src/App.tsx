@@ -1,35 +1,19 @@
-import styled from "styled-components";
-import Chart from "./Chart";
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+import BarChart from './BarChart';
 
-const Background = styled.div`
-  background-color: #2c2b5a;
-  padding: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  width: 100%;
-  box-sizing: border-box;
-`;
-
-const Container = styled.div`
-  position: relative;
-  background-color: #201d47;
-  width: 600px;
-  min-width: 300px;
-  height: 400px;
-  border-radius: 40px;
-  overflow: hidden;
-`;
-
-const App = () => {
+function App() {
   return (
-    <Background>
-      <Container>
-        <Chart />
-      </Container>
-    </Background>
+    <div className="App">
+      <header className="App-header">
+        <p>
+        </p>
+     
+      </header>
+      <BarChart /> 
+    </div>
   );
-};
+}
 
 export default App;
