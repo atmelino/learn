@@ -1,5 +1,6 @@
 import { d3, useEffect } from "../mod.ts";
 import { BarChartProps } from "../chart-props/BarChartProps.ts";
+import { Button } from "../../components/Button.tsx";
 
 // need to work on paddings that dynamically update to avoid overlapping with the graph
 
@@ -23,7 +24,6 @@ export default function BarChartShort(props: BarChartProps) {
   const barHoverColor = props.barHoverColor || "#90BE6D";
   const fontFamily = props.fontFamily || "Verdana";
   const axesColor = props.axesColor || "#4D908E";
-  const addLegend = props.addLegend == false ? props.addLegend : true;
   const font_size = "1.5em"; // .style("font", "14px times")
 
   let datasets: {
@@ -204,74 +204,6 @@ export default function BarChartShort(props: BarChartProps) {
       .attr("y2", -height);
   }
 
-
-  function updateLegend() {
-    const squareHeight = 15;
-    const squareWidth = 30;
-
-    const legendTitle = d3.select(".bar-chart").append("g");
-    for (let i = 0; i < datasets.length; i++) {
-      // parent to group the label square and the label name
-      const legendBox = legendTitle.append("g");
-
-      // legend box for different cateogries
-      legendBox
-        .data([datasets[i]])
-        .append("rect")
-        .attr("x", function (d) {
-          return i * squareWidth;
-        })
-        .attr("y", -squareHeight / 2)
-        .attr("width", squareWidth)
-        .attr("height", squareHeight)
-        .attr("fill", function (d) {
-          return datasets[i].color;
-        })
-        .attr("stroke", "black");
-
-      // must be after square / rectangle to get the area where it is at
-      legendBox
-        .data([datasets[i]])
-        .append("text")
-        .text(datasets[i].label)
-        .attr("x", function () {
-          return (
-            d3.select(this.parentNode).selectChild().node().getBBox().width *
-              (i + 1) +
-            5
-          );
-        })
-        .attr("font-family", "Verdana")
-        .attr("font-size", "0.8em")
-        .attr("text-anchor", "right")
-        .attr("alignment-baseline", "middle");
-
-      legendBox.attr("transform", function () {
-        const childrenArray = d3
-          .select(this.parentNode)
-          .selectChildren()
-          .nodes();
-        return `translate(${
-          childrenArray[childrenArray.length - 1]?.getBBox().width * i
-        }, 0)`;
-      });
-    }
-
-    legendTitle.attr("transform", function () {
-      const legendWidth = d3.select(this).node()?.getBBox().width;
-      // to center the legends
-      // decreasing barPaddinggroup so 10 pixels to the left
-      return `translate(${
-        (width +
-          padding.left +
-          padding.right +
-          xLabelPadding * 2 -
-          legendWidth) /
-        2
-      }, ${padding.top - 10})`;
-    });
-  }
-
   useEffect(() => {
     console.log("useEffect called in BarChart.tsx");
     // console.log("props=" + JSON.stringify(props, null, 4));
@@ -280,9 +212,6 @@ export default function BarChartShort(props: BarChartProps) {
 
     configureScale();
 
-    if (addLegend) {
-      updateLegend();
-    }
     updateChart();
   }, []);
 
@@ -410,22 +339,6 @@ export default function BarChartShort(props: BarChartProps) {
     // console.log("yScale=" + JSON.stringify(yScale, null, 4));
 
     updateChartShort();
-
-    d3.select(".y.axis")
-      .append("g")
-      .remove();
-
-    d3.selectAll("g.y.axis")
-      .append("g")
-      .remove();
-
-    d3.selectAll(".bars").append("g").remove();
-
-    // these work:
-    //d3.select(".bars").remove(); // removes all 'g' elements from the DOM.
-    // d3.selectAll('g').remove(); // removes all 'g' elements from the DOM.
-    // d3.selectAll(".bars").remove(); // removes all 'g' elements from the DOM.
-    // d3.selectAll('.bar-chart').remove(); // removes all 'g' elements from the DOM.
   }, [props.passedDown]);
 
   function printDebug(calledFrom: string) {
@@ -438,6 +351,35 @@ export default function BarChartShort(props: BarChartProps) {
     }
   }
 
+  const changeData = () => {
+    console.log("changeData called");
+    // console.log("datasets before" + JSON.stringify(datasets, null, 4));
+    // datasets1[0].data[0] = {
+    //   y: 8,
+    //   x: "x1",
+    // };
+    // setData(datasets1);
+    // console.log("datasets after" + JSON.stringify(datasets, null, 4));
+    // setTest("changed");
+    // titleOnOff = false;
+
+    d3.select(".y.axis")
+      .append("g")
+      .remove();
+
+    d3.selectAll("g.y.axis")
+      .append("g")
+      .remove();
+
+    d3.selectAll(".bars").append("g").remove();
+
+    // these work:
+    d3.select(".bars").remove(); // removes all 'g' elements from the DOM.
+    // d3.selectAll('g').remove(); // removes all 'g' elements from the DOM.
+    // d3.selectAll(".bars").remove(); // removes all 'g' elements from the DOM.
+    // d3.selectAll('.bar-chart').remove(); // removes all 'g' elements from the DOM.
+  };
+
   return (
     <>
       {props.passedDown}
@@ -448,6 +390,7 @@ export default function BarChartShort(props: BarChartProps) {
             <g className="bars"></g>
           </g>
         </svg>
+        <Button onClick={changeData}>change Data</Button>
       </div>
     </>
   );
