@@ -2,6 +2,8 @@
 <html>
 
 <head>
+    <title>bar chart example</title>
+
     <style>
         .bar {
             fill: steelblue;
@@ -10,6 +12,11 @@
     <script src="https://d3js.org/d3.v4.min.js"></script>
 
 <body>
+    <a href="https://www.tutorialsteacher.com/d3js/create-bar-chart-using-d3js">
+        https://www.tutorialsteacher.com/d3js/create-bar-chart-using-d3js
+    </a><br>
+    <button id="removeabar">Remove a bar</button>
+
     <svg width="600" height="500"></svg>
     <script>
 
@@ -31,15 +38,6 @@
         var g = svg.append("g")
             .attr("transform", "translate(" + 100 + "," + 100 + ")");
 
-        var myData = [
-            {
-                year: 2011,
-                value: 45
-            }
-        ];
-
-
-
         var data = [
             {
                 "year": 2011,
@@ -49,32 +47,11 @@
                 "year": 2012,
                 "value": 47
             },
+            {
+                "year": 2013,
+                "value": 52
+            },
         ];
-
-
-
-        // d3.csv("XYZ.csv", function (error, data) {
-        //     if (error) {
-        //         throw error;
-        //     }
-
-
-        // d3.json(myData, function (error, data) {
-
-        //     if (error) {
-        //         return console.warn(error);
-        //     }
-
-        //     d3.select("body")
-        //         .selectAll("p")
-        //         .data(data)
-        //         .enter()
-        //         .append("p")
-        //         .text(function (d) {
-        //             return d.name + ", " + d.location;
-        //         });
-        // });
-
 
         xScale.domain(data.map(function (d) { return d.year; }));
         yScale.domain([0, d3.max(data, function (d) { return d.value; })]);
@@ -104,14 +81,29 @@
 
         g.selectAll(".bar")
             .data(data)
-            .enter().append("rect")
+            .enter()
+            .append("rect")
             .attr("class", "bar")
             .attr("x", function (d) { return xScale(d.year); })
             .attr("y", function (d) { return yScale(d.value); })
             .attr("width", xScale.bandwidth())
             .attr("height", function (d) { return height - yScale(d.value); });
 
+
+        // g.select(".bar")
+        //     .remove();
+
+        d3.select("#removeabar").on("click", removeabar);
+
+        function removeabar() {
+            console.log("remove bar called");
+            g.select(".bar")
+                .remove();
+        }
+
     </script>
+
+
 </body>
 
 </html>

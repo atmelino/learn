@@ -3,7 +3,7 @@ import { BarChartProps } from "../chart-props/BarChartProps.ts";
 
 // need to work on paddings that dynamically update to avoid overlapping with the graph
 
-export default function BarChart(props: BarChartProps) {
+export default function BarChartShort(props: BarChartProps) {
   const yLabelPadding = 20;
   const xLabelPadding = 20;
   const padding = {
@@ -17,22 +17,12 @@ export default function BarChart(props: BarChartProps) {
   const height = (props.height || 600) - padding.bottom - padding.top -
     xLabelPadding * 2;
   const barPadding = 3; // padding provided between each bar
-  const toolTip = props.toolTip == false ? props.toolTip : true;
-  const addAxesLabel = props.addAxesLabel == true ? props.addAxesLabel : false;
   const animation = props.animation == false ? props.animation : true;
   const animationDuration = props.animationDuration || 800;
   const animationDelay = props.animationDelay || 100;
-  const xAxisLabel = props.xAxisLabel || "x label";
-  const yAxisLabel = props.yAxisLabel || "ylabel";
   const barHoverColor = props.barHoverColor || "#90BE6D";
   const fontFamily = props.fontFamily || "Verdana";
   const axesColor = props.axesColor || "#4D908E";
-  const axesLabelColor = props.axesLabelColor || "#277DA1";
-  const addTitle = props.addTitle || false;
-  const setTitle = props.setTitle || "TITLE";
-  const setTitleSize = props.setTitleSize || "1.5em";
-  const setTitleColor = props.setTitleColor || axesLabelColor;
-  const setTitlePadding = props.setTitlePaddingTop || 40;
   const addLegend = props.addLegend == false ? props.addLegend : true;
   const font_size = "1.5em"; // .style("font", "14px times")
 
@@ -214,131 +204,6 @@ export default function BarChart(props: BarChartProps) {
       .attr("y2", -height);
   }
 
-  function updateTooltip() {
-    const maxObj = drawPoints.reduce((obj1, obj2) => {
-      return obj1.y > obj2.y ? obj1 : obj2;
-    });
-    const toolTip = d3.select(".bar-chart");
-
-    function handleMouseOver(this: any): void {
-      // switch opacity and turn cursor to pointer
-      d3.select(this)
-        .transition()
-        .duration(200)
-        .style("opacity", 0.8)
-        .style("cursor", "pointer");
-
-      // add and style tooltip
-      const toolTipPaddingLeft = 15;
-      const toolTipPaddingTop = 10;
-      const padding = 20;
-
-      const { width, height } = toolTip
-        .select(".tool-tip text")
-        .node()
-        .getBBox();
-      toolTip
-        .select(".tool-tip text")
-        .text(() => {
-          return `${
-            maxObj.y - yScale.invert(d3.select(this).node().getBBox().height)
-          }`;
-        })
-        .attr("x", padding / 2)
-        .attr("y", padding / 2);
-
-      toolTip
-        .select(".tool-tip")
-        .transition()
-        .duration(400)
-        .attr("opacity", 1)
-        .attr("transform", () => {
-          return `translate(${
-            d3.select(this).node().getBBox().x + toolTipPaddingLeft
-          }, ${d3.select(this).node().getBBox().y - toolTipPaddingTop})`;
-        });
-
-      toolTip
-        .select(".tool-tip rect")
-        .attr("width", (): number => {
-          return width + padding;
-        })
-        .attr("height", height + padding);
-    }
-
-    function handleMouseLeave(): void {
-      toolTip
-        .select(".tool-tip")
-        .transition()
-        .duration(400)
-        .attr("transform", `translate(${Math.random() * width}, 0)`)
-        .attr("opacity", 0);
-    }
-
-    toolTip
-      .append("g")
-      .classed("tool-tip", true)
-      .attr("opacity", 0)
-      .attr("font-family", fontFamily);
-
-    toolTip
-      .select(".tool-tip")
-      .append("rect")
-      .attr("fill", "#2d8fc0")
-      .attr("width", 20)
-      .attr("height", 20)
-      .attr("transform", `translate(0, -15)`)
-      .attr("rx", 5);
-
-    toolTip.select(".tool-tip").append("text").attr("fill", "white");
-
-    d3.select(".bars")
-      .selectAll("rect")
-      .on("mouseover", handleMouseOver)
-      .on("mouseleave", handleMouseLeave);
-  }
-
-  function updateLabel() {
-    // add label to the chart
-    d3.select(".bar-chart")
-      .append("text")
-      .attr(
-        "transform",
-        `translate(${yLabelPadding}, ${
-          (height + padding.top + padding.bottom) / 2
-        }) rotate(-90)`,
-      )
-      .attr("fill", axesLabelColor)
-      .attr("font-family", fontFamily)
-      .attr("font-size", "0.8em")
-      .attr("text-anchor", "middle")
-      .text(`${yAxisLabel}`);
-
-    d3.select(".bar-chart")
-      .append("text")
-      .text(`${xAxisLabel}`)
-      .attr(
-        "transform",
-        `translate(${
-          (width + padding.left + padding.right + 2 * yLabelPadding) / 2
-        }, ${height + padding.top + padding.bottom + yLabelPadding})`,
-      )
-      .attr("font-family", fontFamily)
-      .attr("font-size", "0.8em")
-      .attr("text-anchor", "middle")
-      .attr("fill", axesLabelColor);
-  }
-
-  function updateTitle() {
-    d3.select(".bar-chart")
-      .append("text")
-      .attr("x", (width + padding.left + yLabelPadding * 2) / 2)
-      .attr("y", setTitlePadding)
-      .attr("font-family", fontFamily)
-      .attr("font-size", setTitleSize)
-      .attr("fill", setTitleColor)
-      .text(setTitle);
-  }
 
   function updateLegend() {
     const squareHeight = 15;
@@ -415,15 +280,6 @@ export default function BarChart(props: BarChartProps) {
 
     configureScale();
 
-    if (toolTip) {
-      updateTooltip();
-    }
-    if (addAxesLabel) {
-      updateLabel();
-    }
-    if (addTitle) {
-      updateTitle();
-    }
     if (addLegend) {
       updateLegend();
     }
@@ -563,13 +419,12 @@ export default function BarChart(props: BarChartProps) {
       .append("g")
       .remove();
 
-    d3.selectAll(".bars")
-      .append("g")
-      .remove();
+    d3.selectAll(".bars").append("g").remove();
 
     // these work:
+    //d3.select(".bars").remove(); // removes all 'g' elements from the DOM.
     // d3.selectAll('g').remove(); // removes all 'g' elements from the DOM.
-    d3.selectAll(".bars").remove(); // removes all 'g' elements from the DOM.
+    // d3.selectAll(".bars").remove(); // removes all 'g' elements from the DOM.
     // d3.selectAll('.bar-chart').remove(); // removes all 'g' elements from the DOM.
   }, [props.passedDown]);
 

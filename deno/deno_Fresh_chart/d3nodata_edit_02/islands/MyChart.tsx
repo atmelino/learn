@@ -1,6 +1,6 @@
 import { useState } from "preact/hooks";
 import { Button } from "../components/Button.tsx";
-import { BarChart } from "../library/charts.ts";
+import { BarChartShort } from "../library/charts.ts";
 
 export default function MyChart() {
   const datasets1 = [
@@ -50,13 +50,13 @@ export default function MyChart() {
         {JSON.stringify(datasets, null, 4)}
         {test}
       </div>
-      <BarChart
+      <BarChartShort
         datasets={datasets}
         data={data1}
         addTitle={titleOnOff}
         passedDown={test}
       >
-      </BarChart>
+      </BarChartShort>
     </div>
   );
 }
