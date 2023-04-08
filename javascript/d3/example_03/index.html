@@ -15,8 +15,10 @@
     <a href="https://www.tutorialsteacher.com/d3js/create-bar-chart-using-d3js">
         https://www.tutorialsteacher.com/d3js/create-bar-chart-using-d3js
     </a><br>
+    <div>
     <button id="removeabar">Remove a bar</button>
-
+    <button id="removexaxis">Remove x axis</button>
+</div>
     <svg width="600" height="500"></svg>
     <script>
 
@@ -94,9 +96,15 @@
         //     .remove();
 
         d3.select("#removeabar").on("click", removeabar);
+        d3.select("#removexaxis").on("click", removexaxis);
 
         function removeabar() {
             console.log("remove bar called");
+            g.select(".bar")
+                .remove();
+        }
+        function removexaxis() {
+            console.log("remove xaxis called");
             g.select(".bar")
                 .remove();
         }
