@@ -16,9 +16,10 @@
         https://www.tutorialsteacher.com/d3js/create-bar-chart-using-d3js
     </a><br>
     <div>
-    <button id="removeabar">Remove a bar</button>
-    <button id="removexaxis">Remove x axis</button>
-</div>
+        <button id="removeabar">Remove a bar</button>
+        <button id="removexaxis">Remove x axis</button>
+        <button id="addxaxis">Add x axis</button>
+    </div>
     <svg width="600" height="500"></svg>
     <script>
 
@@ -61,8 +62,8 @@
         g.append("g")
             .attr("transform", "translate(0," + height + ")")
             .call(d3.axisBottom(xScale))
-            .append("text")
             .attr("id", "xaxis")
+            .append("text")
             .attr("y", height - 250)
             .attr("x", width - 100)
             .attr("text-anchor", "end")
@@ -93,40 +94,35 @@
             .attr("height", function (d) { return height - yScale(d.value); });
 
 
-        // g.select(".bar")
-        //     .remove();
-
         d3.select("#removeabar").on("click", removeabar);
         d3.select("#removexaxis").on("click", removexaxis);
+        d3.select("#addxaxis").on("click", addxaxis);
 
         function removeabar() {
             console.log("remove bar called");
             g.select(".bar")
                 .remove();
         }
+
         function removexaxis() {
             console.log("remove xaxis called");
             g.select("#xaxis")
                 .remove();
         }
 
-
-
-        // g.append("g")
-        //     .call(d3.axisLeft(yScale).tickFormat(function (d) {
-        //         return "$" + d;
-        //     })
-        //         .ticks(10))
-        //     .append("text")
-        //     .attr("transform", "rotate(-90)")
-        //     .attr("y", 6)
-        //     .attr("dy", "-5.1em")
-        //     .attr("text-anchor", "end")
-        //     .attr("stroke", "black")
-        //     .text("Stock Price");
-
-
-
+        function addxaxis() {
+            console.log("add xaxis called");
+            g.append("g")
+                .attr("transform", "translate(0," + height + ")")
+                .call(d3.axisBottom(xScale))
+                .attr("id", "xaxis")
+                .append("text")
+                .attr("y", height - 250)
+                .attr("x", width - 100)
+                .attr("text-anchor", "end")
+                .attr("stroke", "black")
+                .text("Year");
+        }
     </script>
 
 

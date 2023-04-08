@@ -169,6 +169,7 @@ export default function BarChartShort(props: BarChartProps) {
     barChart
       .insert("g", "g")
       .call(yAxis)
+      .attr("id", "xaxis")
       // have to make this data to show for charts dynamic
       .attr(
         "transform",
@@ -362,6 +363,10 @@ export default function BarChartShort(props: BarChartProps) {
     // console.log("datasets after" + JSON.stringify(datasets, null, 4));
     // setTest("changed");
     // titleOnOff = false;
+
+
+    d3.select("#xaxis")
+    .remove();
 
     d3.select(".y.axis").append("g").remove();
 
