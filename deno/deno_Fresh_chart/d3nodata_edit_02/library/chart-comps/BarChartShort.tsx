@@ -363,13 +363,9 @@ export default function BarChartShort(props: BarChartProps) {
     // setTest("changed");
     // titleOnOff = false;
 
-    d3.select(".y.axis")
-      .append("g")
-      .remove();
+    d3.select(".y.axis").append("g").remove();
 
-    d3.selectAll("g.y.axis")
-      .append("g")
-      .remove();
+    d3.selectAll("g.y.axis").remove();
 
     d3.selectAll(".bars").append("g").remove();
 
