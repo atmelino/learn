@@ -169,7 +169,7 @@ export default function BarChartShort(props: BarChartProps) {
     barChart
       .insert("g", "g")
       .call(yAxis)
-      .attr("id", "xaxis")
+      .attr("id", "yaxis")
       // have to make this data to show for charts dynamic
       .attr(
         "transform",
@@ -352,33 +352,31 @@ export default function BarChartShort(props: BarChartProps) {
     }
   }
 
+  const removeyaxis = () => {
+    d3.select("#yaxis").remove();
+  };
+
+  const addyaxis = () => {
+    d3.select("#yaxis").remove();
+  };
+
   const changeData = () => {
-    console.log("changeData called");
-    // console.log("datasets before" + JSON.stringify(datasets, null, 4));
-    // datasets1[0].data[0] = {
-    //   y: 8,
-    //   x: "x1",
-    // };
-    // setData(datasets1);
-    // console.log("datasets after" + JSON.stringify(datasets, null, 4));
-    // setTest("changed");
-    // titleOnOff = false;
+  };
 
-
-    d3.select("#xaxis")
-    .remove();
-
-    d3.select(".y.axis").append("g").remove();
-
-    d3.selectAll("g.y.axis").remove();
-
-    d3.selectAll(".bars").append("g").remove();
+  const testCode = () => {
+    console.log("testCode called");
 
     // these work:
-    d3.select(".bars").remove(); // removes all 'g' elements from the DOM.
+    d3.select("#xaxis").remove();
+    // d3.select(".bars").remove(); // removes all 'g' elements from the DOM.
     // d3.selectAll('g').remove(); // removes all 'g' elements from the DOM.
     // d3.selectAll(".bars").remove(); // removes all 'g' elements from the DOM.
     // d3.selectAll('.bar-chart').remove(); // removes all 'g' elements from the DOM.
+
+    // these don't work:
+    // d3.select(".y.axis").append("g").remove();
+    // d3.selectAll("g.y.axis").remove();
+    // d3.selectAll(".bars").append("g").remove();
   };
 
   return (
@@ -391,6 +389,12 @@ export default function BarChartShort(props: BarChartProps) {
             <g className="bars"></g>
           </g>
         </svg>
+        <div>
+          <Button onClick={removeyaxis}>Remove y axis</Button>
+          <Button onClick={addyaxis}>Add y axis</Button>
+        </div>
+        <Button onClick={testCode}>test Code</Button>
+
         <Button onClick={changeData}>change Data</Button>
       </div>
     </>
