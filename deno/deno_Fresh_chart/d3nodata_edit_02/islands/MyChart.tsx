@@ -37,6 +37,10 @@ export default function MyChart() {
       y: 8,
       x: "x1",
     };
+    datasets1[0].data.push( {
+      y: 2,
+      x: "x4",
+    })
     setData(datasets1);
     // console.log("datasets after" + JSON.stringify(datasets, null, 4));
     setTest("changed");
@@ -48,7 +52,7 @@ export default function MyChart() {
       <div>
         <Button onClick={changeData}>change Data</Button>
         {JSON.stringify(datasets, null, 4)}
-        {test}
+        {/* {test} */}
       </div>
       <BarChartShort
         datasets={datasets}

@@ -69,7 +69,6 @@ export default function BarChartShort(props: BarChartProps) {
     | { (arg0: any): number; invert: (arg0: any) => number }
     | null = null;
 
-
   const addxaxis = () => {
     const labels: any[] | Iterable<string> = [];
     datasets[0].data.forEach((name: { x: any }) => {
@@ -82,7 +81,7 @@ export default function BarChartShort(props: BarChartProps) {
     const barChart = d3.select(".bar-chart");
 
     const xAxis = d3.axisBottom(xScale);
-    xAxis.tickSizeOuter(0);
+    xAxis.tickSizeOuter(10);
 
     // render x Axis
     barChart
@@ -128,7 +127,7 @@ export default function BarChartShort(props: BarChartProps) {
     // printDebug("configureScale() after");
 
     const yAxis = d3.axisLeft(yScale);
-    yAxis.tickSizeOuter(0);
+    yAxis.tickSizeOuter(10);
 
     const barChart = d3.select(".bar-chart");
     // render y Axis
@@ -226,8 +225,7 @@ export default function BarChartShort(props: BarChartProps) {
   function clearChart() {
     removexaxis();
     removeyaxis();
-    d3.selectAll("#bar").remove(); // removes all 'g' elements from the DOM.
-
+    d3.selectAll("#bar").remove();
   }
 
   useEffect(() => {
@@ -235,10 +233,9 @@ export default function BarChartShort(props: BarChartProps) {
     // console.log("props=" + JSON.stringify(props, null, 4));
 
     cleanDatasets();
-    clearChart()
+    clearChart();
     updateChart();
   }, [props]);
-
 
   function printDebug(calledFrom: string) {
     if (yScale) {
@@ -249,7 +246,6 @@ export default function BarChartShort(props: BarChartProps) {
       console.log(calledFrom + " yScale does not exist");
     }
   }
-
 
   const changeData = () => {
   };
@@ -272,8 +268,8 @@ export default function BarChartShort(props: BarChartProps) {
 
   return (
     <>
-      {props.passedDown}
-      {width}
+      {/* {props.passedDown} */}
+      {/* {width} */}
       <div className="chart-container">
         <svg className="bar-chart">
           <g>
@@ -281,12 +277,11 @@ export default function BarChartShort(props: BarChartProps) {
           </g>
         </svg>
         <div>
-        <Button onClick={removexaxis}>Remove x axis</Button>
-        <Button onClick={removeyaxis}>Remove y axis</Button>
+          <Button onClick={removexaxis}>Remove x axis</Button>
+          <Button onClick={removeyaxis}>Remove y axis</Button>
           <Button onClick={addyaxis}>Add y axis</Button>
         </div>
         <Button onClick={testCode}>test Code</Button>
-
         <Button onClick={changeData}>change Data</Button>
       </div>
     </>
