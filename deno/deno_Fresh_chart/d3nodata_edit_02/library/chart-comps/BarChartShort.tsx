@@ -182,6 +182,7 @@ export default function BarChartShort(props: BarChartProps) {
       for (let j = 0; j < datasets.length; j++) {
         currGroup
           .append("rect")
+          .attr("id", "bar")
           .attr("x", function (): number {
             return (
               Number(currGroup.node()?.getAttribute("x")) +
@@ -225,7 +226,7 @@ export default function BarChartShort(props: BarChartProps) {
   function clearChart() {
     removexaxis();
     removeyaxis();
-    // d3.select(".bars").remove(); // removes all 'g' elements from the DOM.
+    d3.selectAll("#bar").remove(); // removes all 'g' elements from the DOM.
 
   }
 
