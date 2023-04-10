@@ -9,35 +9,21 @@ export default function MyLineChart() {
       color: "green",
       data: [
         {
-          y: 2,
           x: new Date(10000000000),
-        },
-        {
-          y: 4,
-          x: new Date(20000000000),
-        },
-        {
-          y: 3,
-          x: new Date(30000000000),
-        },
-      ],
-      data_number: [
-        {
-          x: 1,
           y: 2,
         },
         {
-          x: 2,
+          x: new Date(20000000000),
           y: 4,
         },
         {
-          x: 3,
+          x: new Date(30000000000),
           y: 3,
         },
       ],
     },
   ];
-  const data1: { x: string; y: number }[] = [];
+  const data1: { x: Date; y: number }[] = [];
 
   const [datasets, setData] = useState(datasets1);
   const [test, setTest] = useState("initial");
@@ -48,13 +34,13 @@ export default function MyLineChart() {
     console.log("changeData called");
     // console.log("datasets before" + JSON.stringify(datasets, null, 4));
     datasets1[0].data[0] = {
-      x: 1,
+      x: new Date(10000000000),
       y: 8,
     };
     datasets1[0].data.push({
-      x: 4,
-      y: 2,
-});
+      x: new Date(40000000000),
+      y: 8,
+    });
     setData(datasets1);
     // console.log("datasets after" + JSON.stringify(datasets, null, 4));
     setTest("changed");

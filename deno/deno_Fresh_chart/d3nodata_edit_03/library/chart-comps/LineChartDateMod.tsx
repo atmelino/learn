@@ -90,6 +90,8 @@ export default function LineChartDateMod(props: LineChartProps) {
     yAxis.tickSizeOuter(0);
     xAxis.tickSizeOuter(0);
 
+
+    
     // customizing x axis
     svg
       .append("g")
