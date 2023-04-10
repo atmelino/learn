@@ -39,7 +39,7 @@ export default function MyLineChart() {
     };
     datasets1[0].data.push({
       x: new Date(40000000000),
-      y: 8,
+      y: 2,
     });
     setData(datasets1);
     // console.log("datasets after" + JSON.stringify(datasets, null, 4));

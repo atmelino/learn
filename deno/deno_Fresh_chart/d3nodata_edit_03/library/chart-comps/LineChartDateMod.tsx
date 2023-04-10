@@ -1,5 +1,6 @@
-import { useEffect, d3 } from "../mod.ts";
+import { d3, useEffect } from "../mod.ts";
 import { LineChartProps } from "../chart-props/LineChartProps.ts";
+import { Button } from "../../components/Button.tsx";
 
 export default function LineChartDateMod(props: LineChartProps) {
   const yLabelPadding = 20;
@@ -10,10 +11,10 @@ export default function LineChartDateMod(props: LineChartProps) {
     bottom: (props.paddingBottom || 50) + yLabelPadding,
     left: (props.paddingLeft || 50) + xLabelPadding,
   };
-  const width =
-    (props.width || 800) - padding.left - padding.right - xLabelPadding * 2;
-  const height =
-    (props.height || 600) - padding.bottom - padding.top - yLabelPadding * 2;
+  const width = (props.width || 800) - padding.left - padding.right -
+    xLabelPadding * 2;
+  const height = (props.height || 600) - padding.bottom - padding.top -
+    yLabelPadding * 2;
   const fontFamily = props.fontFamily || "Verdana";
   const xAxisLabel = props.xAxisLabel || "x label";
   const yAxisLabel = props.yAxisLabel || "y label";
@@ -34,7 +35,7 @@ export default function LineChartDateMod(props: LineChartProps) {
 
   // configure scale
   let drawPoints = [];
-  
+
   function cleanDatasets() {
     for (let ds of receivedDatasets) {
       const tempData = [];
@@ -57,50 +58,32 @@ export default function LineChartDateMod(props: LineChartProps) {
   let xScale = null;
   let yScale = null;
 
-  function configureScale() {
+
+  const addxaxis = () => {
     xScale = d3
       .scaleTime()
       .domain(
         d3.extent(drawPoints, function (d: { x: Date; y: number }): number {
           return d.x;
-        })
+        }),
       )
       .range([0, width]);
-    yScale = d3
-      .scaleLinear()
-      .domain(
-        d3.extent(drawPoints, function (d: { x: Date; y: number }): number {
-          return d.y;
-        })
-      )
-      .range([height + padding.bottom, padding.bottom]);
-  }
-
-  function updateChart() {
-    const svg = d3
-      .select(".line-chart")
-      .attr("width", width + padding.left + padding.right + xLabelPadding * 2)
-      .attr(
-        "height",
-        height + padding.top + padding.bottom + yLabelPadding * 2
-      );
-
-    const yAxis = d3.axisLeft(yScale);
     const xAxis = d3.axisBottom(xScale);
-    yAxis.tickSizeOuter(0);
     xAxis.tickSizeOuter(0);
 
-
-    
     // customizing x axis
+    const svg = d3
+      .select(".line-chart");
+
     svg
       .append("g")
       .call(xAxis)
+      .attr("id", "xaxis")
       .attr(
         "transform",
         `translate(${padding.left + xLabelPadding}, ${
           height + padding.bottom + yLabelPadding
-        })`
+        })`,
       )
       .attr("font-size", axesFontSize)
       .attr("font-family", fontFamily)
@@ -108,7 +91,27 @@ export default function LineChartDateMod(props: LineChartProps) {
       .selectAll(".tick text")
       .attr("transform", "translate(-10, 3)rotate(-45)") // have to take into account the variables for rotation too
       .style("text-anchor", "end");
+  };
 
+  const removexaxis = () => {
+    d3.select("#xaxis").remove();
+  };
+
+  const addyaxis = () => {
+    yScale = d3
+      .scaleLinear()
+      .domain(
+        d3.extent(drawPoints, function (d: { x: Date; y: number }): number {
+          return d.y;
+        }),
+      )
+      .range([height + padding.bottom, padding.bottom]);
+
+    const yAxis = d3.axisLeft(yScale);
+    yAxis.tickSizeOuter(0);
+
+    const svg = d3
+      .select(".line-chart");
     // select the first g component which is the y axis in the graph
     svg
       .select("g")
@@ -121,9 +124,10 @@ export default function LineChartDateMod(props: LineChartProps) {
     svg
       .append("g")
       .call(yAxis)
+      .attr("id", "yaxis")
       .attr(
         "transform",
-        `translate(${padding.left + xLabelPadding}, ${yLabelPadding})`
+        `translate(${padding.left + xLabelPadding}, ${yLabelPadding})`,
       )
       .attr("font-family", fontFamily)
       .attr("font-size", axesFontSize)
@@ -132,11 +136,29 @@ export default function LineChartDateMod(props: LineChartProps) {
       .attr("stroke-width", "0.5")
       .attr("x2", width)
       .attr("opacity", "0.3");
+  };
 
+  const removeyaxis = () => {
+    d3.select("#yaxis").remove();
+  };
+
+  function updateChart() {
+    const svg = d3
+      .select(".line-chart")
+      .attr("width", width + padding.left + padding.right + xLabelPadding * 2)
+      .attr(
+        "height",
+        height + padding.top + padding.bottom + yLabelPadding * 2,
+      );
+
+      addxaxis();
+      addyaxis();
+  
     // loop through the datasets to create lines
     for (let line of datasets) {
       svg
         .append("path")
+        .attr("id", "line")
         .classed("data-line", true)
         .data([line])
         .attr("stroke", function (d) {
@@ -145,7 +167,7 @@ export default function LineChartDateMod(props: LineChartProps) {
         .data([line.data])
         .attr(
           "transform",
-          `translate(${padding.left + xLabelPadding}, ${yLabelPadding})`
+          `translate(${padding.left + xLabelPadding}, ${yLabelPadding})`,
         )
         .attr("fill", "none")
         .attr(
@@ -160,7 +182,7 @@ export default function LineChartDateMod(props: LineChartProps) {
               const a = Object.keys(d);
               return yScale(d[a[1]]);
             })
-            .curve(d3.curveLinear)
+            .curve(d3.curveLinear),
         )
         .attr("stroke-width", 2)
         .filter(() => animation)
@@ -234,6 +256,7 @@ export default function LineChartDateMod(props: LineChartProps) {
           .append("g")
           .data([data])
           .append("circle")
+          .attr("id", "dot")
           .style("fill", datasets[i].color)
           .style("stroke", datasets[i].color)
           .attr("cx", function (d) {
@@ -353,7 +376,7 @@ export default function LineChartDateMod(props: LineChartProps) {
         "transform",
         `translate(${xLabelPadding}, ${
           (height + padding.bottom + padding.top) / 2
-        }) rotate(-90)`
+        }) rotate(-90)`,
       )
       .text(yAxisLabel);
 
@@ -368,9 +391,18 @@ export default function LineChartDateMod(props: LineChartProps) {
       .text(xAxisLabel);
   }
 
+  function clearChart() {
+    removexaxis();
+    removeyaxis();
+    d3.selectAll("#line").remove();
+    d3.selectAll("#dot").remove();
+  }
+
   useEffect(() => {
     cleanDatasets();
-    configureScale();
+    // configureScale();
+    clearChart();
+
     updateChart();
     if (addLabel) {
       updateLabel();
@@ -384,13 +416,20 @@ export default function LineChartDateMod(props: LineChartProps) {
     if (addTooltip) {
       updateTooltip();
     }
-  }, []);
+  }, [props]);
 
   return (
     <>
       <div className="chart-container">
         <svg className="line-chart"></svg>
       </div>
+      <div>
+        <Button onClick={addxaxis}>Add x axis</Button>
+        <Button onClick={removexaxis}>Remove x axis</Button>
+        <Button onClick={addyaxis}>Add y axis</Button>
+        <Button onClick={removeyaxis}>Remove y axis</Button>
+      </div>
+      {/* <Button onClick={changeData}>change Data</Button> */}
     </>
   );
 }
