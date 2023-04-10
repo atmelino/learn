@@ -1,8 +1,8 @@
 import { useState } from "preact/hooks";
 import { Button } from "../components/Button.tsx";
-import { BarChartShort } from "../library/charts.ts";
+import { LineChartDateMod } from "../library/charts.ts";
 
-export default function MyBarChart() {
+export default function MyLineChart() {
   const datasets1 = [
     {
       label: "test",
@@ -10,23 +10,37 @@ export default function MyBarChart() {
       data: [
         {
           y: 2,
-          x: "x1",
+          x: new Date(10000000000),
+        },
+        {
+          y: 4,
+          x: new Date(20000000000),
         },
         {
           y: 3,
-          x: "x2",
+          x: new Date(30000000000),
+        },
+      ],
+      data_number: [
+        {
+          x: 1,
+          y: 2,
         },
         {
-          y: 5,
-          x: "x3",
+          x: 2,
+          y: 4,
+        },
+        {
+          x: 3,
+          y: 3,
         },
       ],
     },
   ];
-  const data1: { x: string; y: number; }[] = [];
+  const data1: { x: string; y: number }[] = [];
 
   const [datasets, setData] = useState(datasets1);
-  const [update, setUpdate] = useState("initial");
+  const [test, setTest] = useState("initial");
 
   let titleOnOff = true;
 
@@ -34,16 +48,16 @@ export default function MyBarChart() {
     console.log("changeData called");
     // console.log("datasets before" + JSON.stringify(datasets, null, 4));
     datasets1[0].data[0] = {
+      x: 1,
       y: 8,
-      x: "x1",
     };
-    datasets1[0].data.push( {
+    datasets1[0].data.push({
+      x: 4,
       y: 2,
-      x: "x4",
-    })
+});
     setData(datasets1);
     // console.log("datasets after" + JSON.stringify(datasets, null, 4));
-    setUpdate("changed");
+    setTest("changed");
     titleOnOff = false;
   };
 
@@ -54,13 +68,13 @@ export default function MyBarChart() {
         {JSON.stringify(datasets, null, 4)}
         {/* {test} */}
       </div>
-      <BarChartShort
+      <LineChartDateMod
         datasets={datasets}
         data={data1}
         addTitle={titleOnOff}
-        requestUpdate={update}
+        passedDown={test}
       >
-      </BarChartShort>
+      </LineChartDateMod>
     </div>
   );
 }

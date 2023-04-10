@@ -69,7 +69,7 @@ export default function BarChartShort(props: BarChartProps) {
     | { (arg0: any): number; invert: (arg0: any) => number }
     | null = null;
 
-  const addxaxis = () => {
+  function configureScale() {
     const labels: any[] | Iterable<string> = [];
     datasets[0].data.forEach((name: { x: any }) => {
       labels.push(name.x);
@@ -78,37 +78,6 @@ export default function BarChartShort(props: BarChartProps) {
     xScale = d3.scaleBand()
       .domain(labels)
       .range([0, width]);
-    const barChart = d3.select(".bar-chart");
-
-    const xAxis = d3.axisBottom(xScale);
-    xAxis.tickSizeOuter(10);
-
-    // render x Axis
-    barChart
-      .insert("g", "g")
-      .call(xAxis)
-      .attr("id", "xaxis")
-      .attr(
-        "transform",
-        `translate(${padding.left + yLabelPadding}, ${
-          height + padding.bottom + xLabelPadding
-        })`,
-      )
-      .attr("font-size", font_size)
-      .attr("font-family", fontFamily)
-      .attr("color", axesColor)
-      .selectAll(".tick line")
-      .attr("stroke-width", "0.5")
-      .attr("opacity", "0.3")
-      .attr("y2", -height);
-  };
-
-  const removexaxis = () => {
-    d3.select("#xaxis").remove();
-  };
-
-  const addyaxis = () => {
-    // configureScale();
 
     const maxObj = drawPoints.reduce((obj1, obj2) => {
       return obj1.y > obj2.y ? obj1 : obj2;
@@ -125,36 +94,7 @@ export default function BarChartShort(props: BarChartProps) {
       .range([height, 0]);
     // yScale = d3.scaleLinear().domain([0, 20]).range([height, 0]);
     // printDebug("configureScale() after");
-
-    const yAxis = d3.axisLeft(yScale);
-    yAxis.tickSizeOuter(10);
-
-    const barChart = d3.select(".bar-chart");
-    // render y Axis
-    barChart
-      .insert("g", "g")
-      .call(yAxis)
-      .attr("id", "yaxis")
-      // have to make this data to show for charts dynamic
-      .attr(
-        "transform",
-        `translate(${padding.left + yLabelPadding}, ${
-          padding.top + xLabelPadding
-        })`,
-      )
-      // .attr("font-size", "0.5em")
-      .attr("font-size", font_size)
-      .attr("font-family", fontFamily)
-      .attr("color", axesColor)
-      .selectAll(".tick line")
-      .attr("x2", width)
-      .attr("stroke-width", "0.5")
-      .attr("opacity", "0.3");
-  };
-
-  const removeyaxis = () => {
-    d3.select("#yaxis").remove();
-  };
+  }
 
   function updateChart() {
     d3.select(".bar-chart")
@@ -164,8 +104,11 @@ export default function BarChartShort(props: BarChartProps) {
         height + padding.top + padding.bottom + 2 * xLabelPadding,
       );
 
-    addxaxis();
-    addyaxis();
+    const yAxis = d3.axisLeft(yScale);
+    const xAxis = d3.axisBottom(xScale);
+    yAxis.tickSizeOuter(0);
+    xAxis.tickSizeOuter(0);
+
     // update with width / datasets.length;
 
     const paddingBarGroup = 10;
@@ -181,7 +124,6 @@ export default function BarChartShort(props: BarChartProps) {
       for (let j = 0; j < datasets.length; j++) {
         currGroup
           .append("rect")
-          .attr("id", "bar")
           .attr("x", function (): number {
             return (
               Number(currGroup.node()?.getAttribute("x")) +
@@ -220,12 +162,47 @@ export default function BarChartShort(props: BarChartProps) {
         //console.log("currGroup=" + JSON.stringify(currGroup, null, 4));
       }
     }
-  }
 
-  function clearChart() {
-    removexaxis();
-    removeyaxis();
-    d3.selectAll("#bar").remove();
+    const barChart = d3.select(".bar-chart");
+
+    // render y Axis
+    barChart
+      .insert("g", "g")
+      .call(yAxis)
+      .attr("id", "yaxis")
+      // have to make this data to show for charts dynamic
+      .attr(
+        "transform",
+        `translate(${padding.left + yLabelPadding}, ${
+          padding.top + xLabelPadding
+        })`,
+      )
+      // .attr("font-size", "0.5em")
+      .attr("font-size", font_size)
+      .attr("font-family", fontFamily)
+      .attr("color", axesColor)
+      .selectAll(".tick line")
+      .attr("x2", width)
+      .attr("stroke-width", "0.5")
+      .attr("opacity", "0.3");
+
+    // render x Axis
+    barChart
+      .insert("g", "g")
+      .call(xAxis)
+      .attr(
+        "transform",
+        `translate(${padding.left + yLabelPadding}, ${
+          height + padding.bottom + xLabelPadding
+        })`,
+      )
+      .attr("font-size", font_size)
+      .attr("font-family", fontFamily)
+      .attr("color", axesColor)
+      .selectAll(".tick line")
+      .attr("stroke-width", "0.5")
+      .attr("opacity", "0.3")
+      .attr("y2", -height);
   }
 
   useEffect(() => {
@@ -233,9 +210,137 @@ export default function BarChartShort(props: BarChartProps) {
     // console.log("props=" + JSON.stringify(props, null, 4));
 
     cleanDatasets();
-    clearChart();
+
+    configureScale();
+
     updateChart();
-  }, [props]);
+  }, []);
+
+  let myxaxis: d3.Selection<d3.BaseType, unknown, SVGGElement, unknown>;
+
+  function updateChartShort() {
+    d3.select(".bar-chart")
+      .attr("width", width + padding.left + padding.right + 2 * yLabelPadding)
+      .attr(
+        "height",
+        height + padding.top + padding.bottom + 2 * xLabelPadding,
+      );
+    // console.log("yScale=" + JSON.stringify(yScale, null, 4));
+
+    const yAxis = d3.axisLeft(yScale);
+    const xAxis = d3.axisBottom(xScale);
+    yAxis.tickSizeOuter(0);
+    xAxis.tickSizeOuter(0);
+
+    // update with width / datasets.length;
+
+    const paddingBarGroup = 10;
+    const barContainer = width / datasets[0].data.length - paddingBarGroup;
+    const barWidth = barContainer / datasets.length;
+    // idea is to group chart of specific group into one area and then provide spacing for the other grouped chart
+    for (let i = 0; i < datasets[0].data.length; i++) {
+      // append g first
+      const currGroup = d3
+        .select(".bars")
+        .append("g")
+        .attr("x", paddingBarGroup * i);
+      for (let j = 0; j < datasets.length; j++) {
+        currGroup
+          .append("rect")
+          .attr("x", function (): number {
+            return (
+              Number(currGroup.node()?.getAttribute("x")) +
+              barWidth * i * datasets.length +
+              barWidth * j +
+              yLabelPadding +
+              padding.left +
+              paddingBarGroup / 2
+            );
+          })
+          .attr("width", barWidth)
+          .attr("height", 0)
+          .attr("y", height + padding.top + yLabelPadding - barPadding)
+          .transition()
+          .ease(d3.easeCubic)
+          .delay(function (): number {
+            return i * animationDelay * (animation ? 1 : 0);
+          })
+          .duration(animationDuration * (animation ? 1 : 0))
+          .attr("y", function (): number {
+            return (
+              yScale(datasets[j].data[i].y) +
+              padding.top +
+              yLabelPadding -
+              barPadding
+            );
+          })
+          .attr("height", function (): number {
+            return height - yScale(datasets[j].data[i].y);
+          })
+          .attr("stroke-width", 1)
+          .attr("stroke", barHoverColor)
+          .attr("rx", "3")
+          .attr("fill", datasets[j].color);
+
+        // console.log("currGroup=" + JSON.stringify(currGroup, null, 4));
+      }
+    }
+
+    const barChart = d3.select(".bar-chart");
+    // svg.selectAll("g.x.axis")
+    //     .call(xAxis);
+
+    // render y Axis
+    // barChart
+    //   .insert("g", "g")
+    //   .call(yAxis)
+    //   // have to make this data to show for charts dynamic
+    //   .attr(
+    //     "transform",
+    //     `translate(${padding.left + yLabelPadding}, ${
+    //       padding.top + xLabelPadding
+    //     })`,
+    //   )
+    //   .attr("font-size", font_size)
+    //   .attr("font-family", fontFamily)
+    //   .attr("color", axesColor)
+    //   .selectAll(".tick line")
+    //   .attr("x2", width)
+    //   .attr("stroke-width", "0.5")
+    //   .attr("opacity", "0.3");
+
+    // render x Axis
+    myxaxis = barChart
+      .insert("g", "g")
+      .call(xAxis)
+      .attr(
+        "transform",
+        `translate(${padding.left + yLabelPadding}, ${
+          height + padding.bottom + xLabelPadding
+        })`,
+      )
+      .attr("font-size", font_size)
+      .attr("font-family", fontFamily)
+      .attr("color", axesColor)
+      .selectAll(".tick line")
+      .attr("stroke-width", "0.5")
+      .attr("opacity", "0.3")
+      .attr("y2", -height);
+  }
+
+  useEffect(() => {
+    console.log("useEffect short update");
+    // console.log("props=" + JSON.stringify(props, null, 4));
+    cleanDatasets();
+
+    printDebug("useEffect() before configureScale()");
+    configureScale();
+    printDebug("useEffect() after configureScale()");
+
+    // console.log("yScale=" + JSON.stringify(yScale, null, 4));
+
+    updateChartShort();
+  }, [props.passedDown]);
 
   function printDebug(calledFrom: string) {
     if (yScale) {
@@ -246,6 +351,14 @@ export default function BarChartShort(props: BarChartProps) {
       console.log(calledFrom + " yScale does not exist");
     }
   }
+
+  const removeyaxis = () => {
+    d3.select("#yaxis").remove();
+  };
+
+  const addyaxis = () => {
+    d3.select("#yaxis").remove();
+  };
 
   const changeData = () => {
   };
@@ -268,8 +381,8 @@ export default function BarChartShort(props: BarChartProps) {
 
   return (
     <>
-      {/* {props.requestUpdate} */}
-      {/* {width} */}
+      {props.passedDown}
+      {width}
       <div className="chart-container">
         <svg className="bar-chart">
           <g>
@@ -277,11 +390,11 @@ export default function BarChartShort(props: BarChartProps) {
           </g>
         </svg>
         <div>
-          <Button onClick={removexaxis}>Remove x axis</Button>
           <Button onClick={removeyaxis}>Remove y axis</Button>
           <Button onClick={addyaxis}>Add y axis</Button>
         </div>
         <Button onClick={testCode}>test Code</Button>
+
         <Button onClick={changeData}>change Data</Button>
       </div>
     </>
