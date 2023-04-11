@@ -1,34 +1,33 @@
+import { now } from "https://esm.sh/v112/@types/d3-timer@3.0.0/index";
 import { useEffect, useRef, useState } from "preact/hooks";
 import { Button } from "../components/Button.tsx";
 import { LineChartDateMod } from "../library/charts.ts";
 
 export default function MyData() {
-  let datasets1 = [
+  const timems = Date.now();
+  const datasets1 = [
     {
       label: "test",
       color: "green",
       data: [
         {
-          x: new Date(Date.now()),
+          x: timems,
           y: 2,
         },
         {
-          x: new Date(Date.now() + 10000),
+          x: timems + 10000,
           y: 4,
         },
         {
-          x: new Date(Date.now() + 20000),
+          x: timems + 20000,
           y: 3,
         },
       ],
     },
   ];
 
-
-  return (datasets1  );
+  return (datasets1);
 }
-
-
 
 // let datasets2 = [
 //   {
