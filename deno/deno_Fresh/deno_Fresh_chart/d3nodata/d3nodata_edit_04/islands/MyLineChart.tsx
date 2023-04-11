@@ -1,9 +1,8 @@
-import { useState } from "preact/hooks";
+import { useState, useRef  } from "preact/hooks";
 import { Button } from "../components/Button.tsx";
 import { LineChartDateMod } from "../library/charts.ts";
 
 export default function MyLineChart() {
-  let timems = Date.now();
   let datasets2 = [
     {
       label: "test",
@@ -24,6 +23,9 @@ export default function MyLineChart() {
       ],
     },
   ];
+  const data1: { x: Date; y: number }[] = [];
+  const [timems, settimems] = useState(Date.now());
+
   let datasets1 = [
     {
       label: "test",
@@ -44,7 +46,7 @@ export default function MyLineChart() {
       ],
     },
   ];
-  const data1: { x: Date; y: number }[] = [];
+  let count = useRef(Date.now());
 
   const [datasets, setData] = useState(datasets1);
   const [update, setUpdate] = useState("initial");
@@ -52,17 +54,23 @@ export default function MyLineChart() {
   function addData() {
     console.log("addData called");
 
-    timems += 100000;
-    const value = Math.floor((Math.random() * 10) + 1);
+    // settimems(timems + 100000);
+    count=count+10000;
+    settimems(2);
+    console.log("timems " + timems);
+
+
+
+    // const value = Math.floor((Math.random() * 10) + 1);
     // datasets1[0].data.splice(0, 1);
     // console.log(datasets1[0].data);
-    datasets[0].data.push({
-      x: new Date(timems + 30000),
-      y: value,
-    });
-    console.log("datasets1 " + JSON.stringify(datasets1, null, 4));
+    // datasets[0].data.push({
+    //   x: new Date(timems + 30000),
+    //   y: value,
+    // });
+    // console.log("datasets1 " + JSON.stringify(datasets1, null, 4));
 
-    setData(datasets);
+    // setData(datasets);
 
     setUpdate("changed");
 
@@ -72,11 +80,11 @@ export default function MyLineChart() {
   const changeData = () => {
     console.log("changeData called");
 
-    timems += 1000;
-    datasets1[0].data.push({
-      x: new Date(timems + 30000),
-      y: 2,
-    });
+    settimems(timems + 100000);
+    // datasets1[0].data.push({
+    //   x: new Date(timems + 30000),
+    //   y: 2,
+    // });
     // setData(datasets1);
     // console.log("datasets after" + JSON.stringify(datasets, null, 4));
     setUpdate("changed");
