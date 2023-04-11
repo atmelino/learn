@@ -26,7 +26,7 @@ export default function MyLineChart() {
   const data1: { x: Date; y: number }[] = [];
 
   const [datasets, setData] = useState(datasets1);
-  const [test, setTest] = useState("initial");
+  const [update, setUpdate] = useState("initial");
 
   let titleOnOff = true;
 
@@ -43,7 +43,7 @@ export default function MyLineChart() {
     });
     setData(datasets1);
     // console.log("datasets after" + JSON.stringify(datasets, null, 4));
-    setTest("changed");
+    setUpdate("changed");
     titleOnOff = false;
   };
 
@@ -58,7 +58,7 @@ export default function MyLineChart() {
         datasets={datasets}
         data={data1}
         addTitle={titleOnOff}
-        passedDown={test}
+        requestUpdate={update}
       >
       </LineChartDateMod>
     </div>
