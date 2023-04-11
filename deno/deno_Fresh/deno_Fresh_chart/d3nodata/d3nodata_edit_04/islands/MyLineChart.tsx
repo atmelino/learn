@@ -66,7 +66,7 @@ export default function MyLineChart() {
 
     setUpdate("changed");
 
-    console.log("datasets " + JSON.stringify(datasets, null, 4));
+    // console.log("datasets " + JSON.stringify(datasets, null, 4));
   }
 
   const changeData = () => {

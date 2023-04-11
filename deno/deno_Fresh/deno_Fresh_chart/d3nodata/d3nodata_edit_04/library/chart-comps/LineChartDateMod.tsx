@@ -399,6 +399,7 @@ export default function LineChartDateMod(props: LineChartProps) {
   }
 
   useEffect(() => {
+    console.log("datasets " + JSON.stringify(props.datasets, null, 4));
     cleanDatasets();
     // configureScale();
     clearChart();
