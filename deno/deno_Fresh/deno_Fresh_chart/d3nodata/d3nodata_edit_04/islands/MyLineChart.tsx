@@ -29,7 +29,7 @@ export default function MyLineChart() {
     // console.log("timems " + timestamp);
 
     const value = Math.floor((Math.random() * 10) + 1);
-    // datasets1[0].data.splice(0, 1);
+    datasets1.current[0].data.splice(0, 1);
     // console.log(datasets1[0].data);
     datasets1.current[0].data.push({
       x: timems.current,

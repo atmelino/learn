@@ -22,6 +22,14 @@ export default function MyData() {
           x: timems + 20000,
           y: 3,
         },
+        {
+          x: timems + 40000,
+          y: 5,
+        },
+        {
+          x: timems + 50000,
+          y: 3,
+        },
       ],
     },
   ];
