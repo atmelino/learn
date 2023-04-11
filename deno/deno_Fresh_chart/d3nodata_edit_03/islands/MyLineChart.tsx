@@ -51,7 +51,7 @@ export default function MyLineChart() {
     <div>
       <div>
         <Button onClick={changeData}>change Data</Button>
-        {JSON.stringify(datasets, null, 4)}
+        {/* {JSON.stringify(datasets, null, 4)} */}
         {/* {test} */}
       </div>
       <LineChartDateMod
