@@ -18,6 +18,8 @@ export default function LineChartDateMod(props: LineChartProps) {
   const fontFamily = props.fontFamily || "Verdana";
   const xAxisLabel = props.xAxisLabel || "x label";
   const yAxisLabel = props.yAxisLabel || "y label";
+  const yAxisMin = props.yAxisMax || 0;
+  const yAxisMax = props.yAxisMax || 100;
   const axesLabelColor = props.axesLabelColor || "#277DA1";
   const axesLabelSize = props.axesLabelSize || "0.8em";
   const axesColor = props.axesColor || "#4D908E";
@@ -29,7 +31,7 @@ export default function LineChartDateMod(props: LineChartProps) {
   const setTitleColor = props.setTitleColor || axesLabelColor;
   const receivedDatasets = props.datasets;
   const animation = props.animation || true;
-  const animationDuration = props.animationDuration || 500;
+  const animationDuration = props.animationDuration || 50;
   const addLegend = props.addLegend === false ? props.addLegend : true;
   const datasets = [];
 
@@ -57,7 +59,6 @@ export default function LineChartDateMod(props: LineChartProps) {
 
   let xScale = null;
   let yScale = null;
-
 
   const addxaxis = () => {
     xScale = d3
@@ -98,13 +99,17 @@ export default function LineChartDateMod(props: LineChartProps) {
   };
 
   const addyaxis = () => {
+    // yScale = d3
+    //   .scaleLinear()
+    //   .domain(
+    //     d3.extent(drawPoints, function (d: { x: Date; y: number }): number {
+    //       return d.y;
+    //     }),
+    //   )
+    // .range([height + padding.bottom, padding.bottom]);
     yScale = d3
       .scaleLinear()
-      .domain(
-        d3.extent(drawPoints, function (d: { x: Date; y: number }): number {
-          return d.y;
-        }),
-      )
+      .domain([0, yAxisMax])
       .range([height + padding.bottom, padding.bottom]);
 
     const yAxis = d3.axisLeft(yScale);
@@ -151,9 +156,9 @@ export default function LineChartDateMod(props: LineChartProps) {
         height + padding.top + padding.bottom + yLabelPadding * 2,
       );
 
-      addxaxis();
-      addyaxis();
-  
+    addxaxis();
+    addyaxis();
+
     // loop through the datasets to create lines
     for (let line of datasets) {
       svg
