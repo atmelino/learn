@@ -14,28 +14,17 @@ export default function MyLineChart() {
   const data1: { x: Date; y: number }[] = [];
 
   function addData() {
-    console.log("addData called");
-
     timems.current = timems.current + 50000;
-
     const value = Math.floor((Math.random() * 10) + 1);
     if (datasets1.current[0].data.length > 20) {
       datasets1.current[0].data.splice(0, 1);
     }
-    // console.log(datasets1[0].data);
     datasets1.current[0].data.push({
       x: timems.current,
       y: value,
     });
-    // console.log("datasets1 " + JSON.stringify(datasets1.current, null, 4));
-
-    // printData(datasets1.current);
-
     setData(datasets1.current);
-
     setUpdate(!update);
-
-    // console.log("datasets " + JSON.stringify(datasets, null, 4));
   }
 
   function printtimems() {
