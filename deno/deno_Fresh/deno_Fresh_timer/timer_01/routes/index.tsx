@@ -8,8 +8,8 @@ export default function Home() {
         <title>timer_01</title>
       </Head>
       <div class="p-4 mx-auto max-w-screen-md">
+        <PeriodicTask />
       </div>
-      <PeriodicTask  />
     </>
   );
 }
