@@ -1,6 +1,7 @@
 import Debug from "../islands/Debug.tsx";
 import Popup from "../islands/Popup.tsx";
 import { useRef, useState } from "preact/hooks";
+import PeriodicTask from "./PeriodicTask.tsx";
 
 export default function Body() {
   function setDebugMesssage(message: string) {
@@ -25,6 +26,12 @@ export default function Body() {
 
       <div class="p-4 mx-auto max-w-screen-md">
         <Debug
+          setDebugMesssage={setDebugMesssage}
+          debugMessage={debugMessage}
+        />
+      </div>
+      <div class="p-4 mx-auto max-w-screen-md">
+        <PeriodicTask
           setDebugMesssage={setDebugMesssage}
           debugMessage={debugMessage}
         />
