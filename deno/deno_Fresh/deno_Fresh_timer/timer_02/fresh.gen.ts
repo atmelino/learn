@@ -8,7 +8,6 @@ import * as $$0 from "./islands/Body.tsx";
 import * as $$1 from "./islands/Body_tmp.tsx";
 import * as $$2 from "./islands/Debug.tsx";
 import * as $$3 from "./islands/PeriodicTask.tsx";
-import * as $$4 from "./islands/Popup.tsx";
 
 const manifest = {
   routes: {
@@ -19,7 +18,6 @@ const manifest = {
     "./islands/Body_tmp.tsx": $$1,
     "./islands/Debug.tsx": $$2,
     "./islands/PeriodicTask.tsx": $$3,
-    "./islands/Popup.tsx": $$4,
   },
   baseUrl: import.meta.url,
   config,

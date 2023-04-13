@@ -1,17 +1,15 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 import { Button } from "../components/Button.tsx";
 
-
 interface TaskProps {
-  length: number;
-  Url: string;
-  //functionToCall: (s: string) => void;
-  TaskName: () => void;
+  TaskName: (s: string) => void;
+	debugMessage: string;
 }
 
-function PeriodicTask({ length, Url, TaskName }: TaskProps) {
+
+function PeriodicTask({ TaskName }: TaskProps) {
   const [counter, setCounter] = useState(0);
-  let count = 1;
+  let count = 0;
   const intervalRef = useRef(2000);
 
   // const { TaskName, name } = ;
@@ -31,7 +29,7 @@ function PeriodicTask({ length, Url, TaskName }: TaskProps) {
     console.log("myTask called");
     count++;
     setCounter(count);
-    TaskName();
+    TaskName("count="+count);
   }
 
   return (
