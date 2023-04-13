@@ -1,4 +1,3 @@
-import Debug from "../islands/Debug.tsx";
 import { useRef, useState } from "preact/hooks";
 import PeriodicTask from "./PeriodicTask.tsx";
 import MyLineChart from "../islands/MyLineChart.tsx";
@@ -21,12 +20,6 @@ export default function Body() {
       </div>
       <MyLineChart></MyLineChart>
 
-      <div class="p-4 mx-auto max-w-screen-md">
-        <Debug
-          setDebugMesssage={setDebugMesssage}
-          debugMessage={debugMessage}
-        />
-      </div>
     </div>
   );
 }

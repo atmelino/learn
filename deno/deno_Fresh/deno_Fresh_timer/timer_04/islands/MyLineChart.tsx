@@ -17,7 +17,7 @@ export default function MyLineChart() {
   function addData() {
     timems.current = timems.current + 50000;
     const value = Math.floor((Math.random() * 10) + 1);
-    if (datasets1.current[0].data.length > 20) {
+    if (datasets1.current[0].data.length >= 10) {
       datasets1.current[0].data.splice(0, 1);
     }
     datasets1.current[0].data.push({
@@ -26,6 +26,7 @@ export default function MyLineChart() {
     });
     setData(datasets1.current);
     setUpdate(!update);
+    printData(datasets1.current);
   }
 
   function printtimems() {
@@ -37,6 +38,8 @@ export default function MyLineChart() {
   function printData(
     ds: { label: string; color: string; data: { x: number; y: number }[] }[],
   ) {
+    console.log("length=" + ds[0].data.length);
+
     for (const d of ds[0].data) {
       const timestamp = format(new Date(d.x), "yyyy-MM-dd HH:mm:ss");
 
@@ -46,18 +49,13 @@ export default function MyLineChart() {
 
   return (
     <div>
-      <div>
+      {/* <div class="bg-green-100">
         <Button onClick={addData}>time step</Button>
-        <div class="p-4 mx-auto max-w-screen-md">
         <PeriodicTask
           TaskName={addData}
           name={"debugMessage"}
         />
-      </div>
-
-        {/* {JSON.stringify(datasets, null, 4)} */}
-        {/* {test} */}
-      </div>
+      </div> */}
       <LineChartDateMod
         height={400}
         datasets={datasets}
