@@ -49,13 +49,13 @@ export default function MyLineChart() {
 
   return (
     <div>
-      {/* <div class="bg-green-100">
+      <div class="bg-green-100">
         <Button onClick={addData}>time step</Button>
         <PeriodicTask
           TaskName={addData}
           name={"debugMessage"}
         />
-      </div> */}
+      </div>
       <LineChartDateMod
         height={400}
         datasets={datasets}
