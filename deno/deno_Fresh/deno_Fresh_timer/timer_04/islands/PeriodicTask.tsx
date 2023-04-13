@@ -23,7 +23,7 @@ function PeriodicTask({ TaskName }: TaskProps) {
   }
 
   function myTask() {
-    console.log("myTask called");
+    // console.log("myTask called");
     count++;
     setCounter(count);
     TaskName("count="+count);

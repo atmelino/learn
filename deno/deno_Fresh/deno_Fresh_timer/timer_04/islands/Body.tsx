@@ -3,23 +3,10 @@ import PeriodicTask from "./PeriodicTask.tsx";
 import MyLineChart from "../islands/MyLineChart.tsx";
 
 export default function Body() {
-  function setDebugMesssage(message: string) {
-    console.log("setDebugMesssage called");
-    setdebugMessageState(message);
-  }
-
-  const [debugMessage, setdebugMessageState] = useState("123");
 
   return (
     <div class="flex flex-col w-full pt-5">
-      <div class="p-4 mx-auto max-w-screen-md">
-        <PeriodicTask
-          TaskName={setDebugMesssage}
-          name={debugMessage}
-        />
-      </div>
       <MyLineChart></MyLineChart>
-
     </div>
   );
 }

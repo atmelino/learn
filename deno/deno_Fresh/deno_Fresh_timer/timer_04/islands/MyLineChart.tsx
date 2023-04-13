@@ -10,11 +10,13 @@ export default function MyLineChart() {
   // const [timems, settimems] = useState(Date.now());
   let timems = useRef(Date.now());
   let datasets1 = useRef(MyData());
+  let update = useRef(false);
   const [datasets, setData] = useState(datasets1.current);
-  const [update, setUpdate] = useState(false);
+  const [updateState, setUpdate] = useState(false);
   const data1: { x: Date; y: number }[] = [];
 
   function addData() {
+    console.log("addData called");
     timems.current = timems.current + 50000;
     const value = Math.floor((Math.random() * 10) + 1);
     if (datasets1.current[0].data.length >= 10) {
@@ -25,8 +27,9 @@ export default function MyLineChart() {
       y: value,
     });
     setData(datasets1.current);
-    setUpdate(!update);
-    printData(datasets1.current);
+    update.current=!update.current;
+    setUpdate(update.current);
+    // printData(datasets1.current);
   }
 
   function printtimems() {
@@ -62,7 +65,7 @@ export default function MyLineChart() {
         data={data1}
         yAxisMin={0}
         yAxisMax={10}
-        requestUpdate={update}
+        requestUpdate={updateState}
       >
       </LineChartDateMod>
     </div>

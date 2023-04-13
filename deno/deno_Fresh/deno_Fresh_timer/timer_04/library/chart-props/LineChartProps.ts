@@ -35,5 +35,5 @@ export interface LineChartProps {
   setTitle?: string;
   setTitleColor?: string;
   addLegend?: boolean;
-  requestUpdate?: boolean;
+    requestUpdate?: boolean;
 }
