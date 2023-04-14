@@ -14,6 +14,7 @@ export default function MyLineChart() {
   const [datasets, setData] = useState(datasets1.current);
   const [updateState, setUpdate] = useState(false);
   const data1: { x: Date; y: number }[] = [];
+  let value = 30000;
 
 
   const getBtcData = async () => {
@@ -21,6 +22,7 @@ export default function MyLineChart() {
       .then(response => response.json())
       .then(data => {
         console.log(data);
+        value=data.USD;
         document.getElementById("info").innerHTML = '<b>1 BTC = ' +
           data.USD + ' USD</b>'
       });
@@ -30,8 +32,8 @@ export default function MyLineChart() {
     console.log("addData called");
     timems.current = Date.now();
     getBtcData();
-    const value = Math.floor((Math.random() * 10) + 1);
-    if (datasets1.current[0].data.length >= 10) {
+    // const value = Math.floor((Math.random() * 10) + 1);
+    if (datasets1.current[0].data.length >= 30) {
       datasets1.current[0].data.splice(0, 1);
     }
     datasets1.current[0].data.push({
@@ -68,7 +70,7 @@ export default function MyLineChart() {
         <Button onClick={addData}>time step</Button>
         <PeriodicTask
           Task={addData}
-          interval={3000} />
+          interval={1000} />
       </div>
       <p id='info'></p>
 

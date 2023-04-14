@@ -18,7 +18,7 @@ export default function LineChartDateMod(props: LineChartProps) {
   const fontFamily = props.fontFamily || "Verdana";
   const xAxisLabel = props.xAxisLabel || "x label";
   const yAxisLabel = props.yAxisLabel || "y label";
-  const yAxisMin = props.yAxisMax || 0;
+  const yAxisMin = props.yAxisMin || 0;
   const yAxisMax = props.yAxisMax || 100;
   const axesLabelColor = props.axesLabelColor || "#277DA1";
   const axesLabelSize = props.axesLabelSize || "0.8em";
@@ -110,7 +110,7 @@ export default function LineChartDateMod(props: LineChartProps) {
     // .range([height + padding.bottom, padding.bottom]);
     yScale = d3
       .scaleLinear()
-      .domain([0, yAxisMax])
+      .domain([yAxisMin, yAxisMax])
       .range([height + padding.bottom, padding.bottom]);
 
     const yAxis = d3.axisLeft(yScale);
