@@ -15,9 +15,21 @@ export default function MyLineChart() {
   const [updateState, setUpdate] = useState(false);
   const data1: { x: Date; y: number }[] = [];
 
+
+  const getBtcData = async () => {
+    fetch('https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD')
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        document.getElementById("info").innerHTML = '<b>1 BTC = ' +
+          data.USD + ' USD</b>'
+      });
+  }
+
   function addData() {
     console.log("addData called");
-    timems.current = timems.current + 50000;
+    timems.current = Date.now();
+    getBtcData();
     const value = Math.floor((Math.random() * 10) + 1);
     if (datasets1.current[0].data.length >= 10) {
       datasets1.current[0].data.splice(0, 1);
@@ -56,14 +68,16 @@ export default function MyLineChart() {
         <Button onClick={addData}>time step</Button>
         <PeriodicTask
           Task={addData}
-          interval={1000} />
+          interval={3000} />
       </div>
+      <p id='info'></p>
+
       <LineChartDateMod
         height={400}
         datasets={datasets}
         data={data1}
-        yAxisMin={0}
-        yAxisMax={10}
+        yAxisMin={30000}
+        yAxisMax={31000}
         requestUpdate={updateState}
       >
       </LineChartDateMod>
