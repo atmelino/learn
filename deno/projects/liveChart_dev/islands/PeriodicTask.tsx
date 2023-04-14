@@ -1,18 +1,24 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 import { Button } from "../components/Button.tsx";
 
-const PeriodicTask = () => {
+interface TaskProps {
+  Task: (s: string) => void;
+  name: string;
+  interval: number
+}
+function PeriodicTask(props: TaskProps) {
+  const Task = props.Task;
+  const name = props.name || "default";
+  const interval = props.interval || 1000;
+
+
   const [counter, setCounter] = useState(0);
   let count = 0;
   const intervalRef = useRef(2000);
 
   function startTask() {
     console.log("startTimer called");
-    const id = setInterval(() => {
-      console.log("Timer function called");
-      count++;
-      setCounter(count);
-    }, 1000);
+    const id = setInterval(myTask, interval);
     intervalRef.current = id;
   }
 
@@ -21,17 +27,22 @@ const PeriodicTask = () => {
     clearInterval(intervalRef.current);
   }
 
+  function myTask() {
+    // console.log("myTask called");
+    count++;
+    setCounter(count);
+    Task("count=" + count);
+  }
+
   return (
     <div>
       <div>
         <Button onClick={() => startTask()}>Start</Button>
         <Button onClick={() => stopTask()}>Stop</Button>
-      </div>
-      <p>
         counter = {counter}
-      </p>
+      </div>
     </div>
   );
-};
+}
 
 export default PeriodicTask;

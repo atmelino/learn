@@ -1,39 +1,39 @@
-export interface LineChartProps {
-  data?: {
-    x: Date;
+export interface BarChartProps {
+  data: {
+    x: string;
     y: number;
   }[];
   datasets?: {
     label: string;
     color: string;
     data: {
-      x: Date;
+      x: string;
       y: number;
     }[];
   }[];
-  type?: string;
   paddingTop?: number;
   paddingBottom?: number;
   paddingLeft?: number;
   paddingRight?: number;
-  width?: number;
-  height?: number;
-  axesColor?: string;
-  addLabel?: boolean;
-  axesFontSize?: string;
+  width?: number | string;
+  height?: number | string;
+  addAxesLabel?: boolean;
   xAxisLabel?: string;
   yAxisLabel?: string;
-  yAxisMin: number;
-  yAxisMax: number;
+  axesColor?: string;
   axesLabelColor?: string;
-  axesLabelSize?: string;
+  barColor?: string;
+  barHoverColor?: string;
   animation?: boolean;
   animationDuration?: number;
-  addTooltip?: boolean;
+  animationDelay?: number;
+  toolTip?: boolean;
   fontFamily?: string;
   addTitle?: boolean;
   setTitle?: string;
+  setTitleSize?: string;
   setTitleColor?: string;
+  setTitlePaddingTop?: number;
   addLegend?: boolean;
-    requestUpdate?: boolean;
+  passedDown?:string;
 }

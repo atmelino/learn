@@ -1,6 +1,6 @@
-export interface LineChartProps {
+export interface ScatterChartProps {
   data?: {
-    x: Date;
+    x: number;
     y: number;
   }[];
   datasets?: {
@@ -11,29 +11,26 @@ export interface LineChartProps {
       y: number;
     }[];
   }[];
-  type?: string;
+  width?: number;
+  height?: number;
   paddingTop?: number;
   paddingBottom?: number;
   paddingLeft?: number;
   paddingRight?: number;
-  width?: number;
-  height?: number;
   axesColor?: string;
-  addLabel?: boolean;
-  axesFontSize?: string;
+  fontFamily?: string;
+  addAxesLabel?: boolean;
   xAxisLabel?: string;
   yAxisLabel?: string;
-  yAxisMin: number;
-  yAxisMax: number;
+  axesFontSize?: string;
   axesLabelColor?: string;
-  axesLabelSize?: string;
-  animation?: boolean;
-  animationDuration?: number;
   addTooltip?: boolean;
-  fontFamily?: string;
   addTitle?: boolean;
   setTitle?: string;
+  setTitleSize?: string;
   setTitleColor?: string;
+  animation?: boolean;
+  animationDuration?: number;
+  dotSize?: string;
   addLegend?: boolean;
-    requestUpdate?: boolean;
 }

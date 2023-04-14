@@ -27,7 +27,7 @@ export default function MyLineChart() {
       y: value,
     });
     setData(datasets1.current);
-    update.current=!update.current;
+    update.current = !update.current;
     setUpdate(update.current);
     // printData(datasets1.current);
   }
@@ -55,9 +55,8 @@ export default function MyLineChart() {
       <div class="bg-green-100">
         <Button onClick={addData}>time step</Button>
         <PeriodicTask
-          TaskName={addData}
-          name={"debugMessage"}
-        />
+          Task={addData}
+          interval={1000} />
       </div>
       <LineChartDateMod
         height={400}
