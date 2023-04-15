@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 import { Button } from "../components/Button.tsx";
-import { LineChartDateMod } from "../library/charts.ts";
+import { LineChartDynamic } from "../library/charts.ts";
 import MyData from "./data.tsx";
 import { format } from "https://deno.land/std@0.91.0/datetime/mod.ts";
 import PeriodicTask from "./PeriodicTask.tsx";
@@ -21,7 +21,7 @@ export default function MyLineChart() {
     fetch("https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD")
       .then(response => response.json())
       .then(data => {
-        console.log(data);
+        // console.log(data);
         value = data.USD;
         setValue(data.USD);
         if (datasets1.current[0].data.length >= 30) {
@@ -77,17 +77,18 @@ export default function MyLineChart() {
         />
       </div>
       {timestamp} <b>1 BTC = {valueState} USD</b>
-      <LineChartDateMod
+      <LineChartDynamic
         height={400}
         datasets={datasets}
         data={data1}
         yAxisMin={30000}
         yAxisMax={31000}
+        yAxisAuto={false}
         addLabel={false}
         addLegend={false}
         requestUpdate={updateState}
       >
-      </LineChartDateMod>
+      </LineChartDynamic>
     </div>
   );
 }

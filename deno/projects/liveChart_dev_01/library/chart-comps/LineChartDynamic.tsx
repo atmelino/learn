@@ -1,8 +1,8 @@
 import { d3, useEffect } from "../mod.ts";
-import { LineChartProps } from "../chart-props/LineChartProps.ts";
+import { LineChartDynamicProps } from "../chart-props/LineChartDynamicProps.ts";
 import { Button } from "../../components/Button.tsx";
 
-export default function LineChartDateMod(props: LineChartProps) {
+export default function LineChartDynamic(props: LineChartDynamicProps) {
   const yLabelPadding = 20;
   const xLabelPadding = 20;
   const padding = {
@@ -20,6 +20,7 @@ export default function LineChartDateMod(props: LineChartProps) {
   const yAxisLabel = props.yAxisLabel || "y label";
   const yAxisMin = props.yAxisMin || 0;
   const yAxisMax = props.yAxisMax || 100;
+  const yAxisAuto = props.yAxisAuto || true;
   const axesLabelColor = props.axesLabelColor || "#277DA1";
   const axesLabelSize = props.axesLabelSize || "0.8em";
   const axesColor = props.axesColor || "#4D908E";
@@ -83,8 +84,7 @@ export default function LineChartDateMod(props: LineChartProps) {
       .attr("id", "xaxis")
       .attr(
         "transform",
-        `translate(${padding.left + xLabelPadding}, ${
-          height + padding.bottom + yLabelPadding
+        `translate(${padding.left + xLabelPadding}, ${height + padding.bottom + yLabelPadding
         })`,
       )
       .attr("font-size", axesFontSize)
@@ -100,18 +100,20 @@ export default function LineChartDateMod(props: LineChartProps) {
   };
 
   const addyaxis = () => {
-    // yScale = d3
-    //   .scaleLinear()
-    //   .domain(
-    //     d3.extent(drawPoints, function (d: { x: Date; y: number }): number {
-    //       return d.y;
-    //     }),
-    //   )
-    // .range([height + padding.bottom, padding.bottom]);
-    yScale = d3
-      .scaleLinear()
-      .domain([yAxisMin, yAxisMax])
-      .range([height + padding.bottom, padding.bottom]);
+    if (yAxisAuto)
+      yScale = d3
+        .scaleLinear()
+        .domain(
+          d3.extent(drawPoints, function (d: { x: Date; y: number }): number {
+            return d.y;
+          })
+        ).range([height + padding.bottom, padding.bottom]);
+
+    else
+      yScale = d3
+        .scaleLinear()
+        .domain([yAxisMin, yAxisMax])
+        .range([height + padding.bottom, padding.bottom]);
 
     const yAxis = d3.axisLeft(yScale);
     yAxis.tickSizeOuter(0);
@@ -325,7 +327,7 @@ export default function LineChartDateMod(props: LineChartProps) {
         .attr("x", function () {
           return (
             d3.select(this.parentNode).selectChild().node().getBBox().width *
-              (i + 1) +
+            (i + 1) +
             5
           );
         })
@@ -339,23 +341,21 @@ export default function LineChartDateMod(props: LineChartProps) {
           .select(this.parentNode)
           .selectChildren()
           .nodes();
-        return `translate(${
-          childrenArray[childrenArray.length - 1]?.getBBox().width * i
-        }, 0)`;
+        return `translate(${childrenArray[childrenArray.length - 1]?.getBBox().width * i
+          }, 0)`;
       });
     }
 
     legendTitle.attr("transform", function () {
       const legendWidth = d3.select(this).node()?.getBBox().width;
       // to center the legends
-      return `translate(${
-        (width +
-          padding.left +
-          padding.right -
-          legendWidth +
-          xLabelPadding * 2) /
+      return `translate(${(width +
+        padding.left +
+        padding.right -
+        legendWidth +
+        xLabelPadding * 2) /
         2
-      }, ${padding.top - 10})`;
+        }, ${padding.top - 10})`;
     });
   }
 
@@ -380,8 +380,7 @@ export default function LineChartDateMod(props: LineChartProps) {
       .attr("font-size", axesLabelSize)
       .attr(
         "transform",
-        `translate(${xLabelPadding}, ${
-          (height + padding.bottom + padding.top) / 2
+        `translate(${xLabelPadding}, ${(height + padding.bottom + padding.top) / 2
         }) rotate(-90)`,
       )
       .text(yAxisLabel);
