@@ -9,24 +9,20 @@ export default function MyLineChart() {
   let timems = useRef(Date.now());
   let datasets1 = useRef(MyData());
   let update = useRef(false);
-  // let value = useRef(30000);
-  const [count, setCount] = useState(4);
-
-  const [timestamp, settimestamp] = useState("");
   const [datasets, setData] = useState(datasets1.current);
+  const [timestamp, settimestamp] = useState("");
+  const [valueState, setValue] = useState(30000.0);
   const [updateState, setUpdate] = useState(false);
-  const [valueState, setValue] = useState(30000);
   const data1: { x: Date; y: number }[] = [];
-  // let value = 30000;
-
+  let value = 30000;
 
   const getBtcData = async () => {
     fetch('https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD')
       .then(response => response.json())
       .then(data => {
-        // console.log(data);
+        console.log(data);
+        value = data.USD;
         setValue(data.USD);
-        console.log(valueState);
       });
   }
 
@@ -40,7 +36,7 @@ export default function MyLineChart() {
     }
     datasets1.current[0].data.push({
       x: timems.current,
-      y: valueState,
+      y: value,
     });
     setData(datasets1.current);
     update.current = !update.current;
@@ -67,14 +63,14 @@ export default function MyLineChart() {
 
   return (
     <div>
-      <Button onClick={() => { setCount(count - 1); console.log(count); }}>-1</Button>
-      <Button onClick={() => { setValue(count - 1); console.log(count); }}>-1</Button>
-
       <div class="bg-green-100">
         <Button onClick={addData}>time step</Button>
         <PeriodicTask
           Task={addData}
-          interval={1000} />
+          name={"live BTC"}
+          interval={1000}
+          autostart={true}
+        />
       </div>
       <b>{timestamp} 1 BTC = {valueState} USD</b>
       <LineChartDateMod

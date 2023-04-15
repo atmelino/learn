@@ -5,13 +5,14 @@ interface TaskProps {
   Task: (s: string) => void;
   name: string;
   interval: number
-  autostart: true
+  autostart: boolean 
 }
 function PeriodicTask(props: TaskProps) {
   const Task = props.Task;
   const name = props.name || "default";
   const interval = props.interval || 1000;
-  const autostart = props.autostart || true;
+  // const autostart = props.autostart || true;
+  const autostart = props.autostart;
 
 
   const [counter, setCounter] = useState(0);
@@ -37,6 +38,8 @@ function PeriodicTask(props: TaskProps) {
   }
 
   useEffect(() => {
+    console.log("autostart="+autostart);
+
     if (autostart)
       startTask()
   }, []);
