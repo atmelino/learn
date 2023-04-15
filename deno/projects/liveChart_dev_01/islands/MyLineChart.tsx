@@ -11,23 +11,14 @@ export default function MyLineChart() {
   const update = useRef(false);
   const [datasets, setData] = useState(datasets1.current);
   const [timestamp, settimestamp] = useState("");
-  const [valueState, setValue] = useState(30000.0);
+  const [valueState, setValue] = useState();
   const [updateState, setUpdate] = useState(false);
   const data1: { x: Date; y: number }[] = [];
   let value = 30000;
 
-  // const getBtcData = async () => {
-  //   fetch('https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD')
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       console.log(data);
-  //       value = data.USD;
-  //       setValue(data.USD);
-  //     });
-  // }
 
   const getBtcData = () => {
-    fetch("https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD") // Draws map
+    fetch("https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD")
       .then(response => response.json())
       .then(data => {
         console.log(data);
@@ -44,7 +35,6 @@ export default function MyLineChart() {
         update.current = !update.current;
         setUpdate(update.current);
         // printData(datasets1.current);
-
       })
       .catch(() => {
         console.log('Data failed to load from url');
@@ -93,6 +83,8 @@ export default function MyLineChart() {
         data={data1}
         yAxisMin={30000}
         yAxisMax={31000}
+        addLabel={false}
+        addLegend={false}
         requestUpdate={updateState}
       >
       </LineChartDateMod>

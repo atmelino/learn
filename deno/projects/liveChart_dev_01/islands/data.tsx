@@ -3,7 +3,7 @@ export default function MyData() {
   const timems = Date.now();
   const datasets1 = [
     {
-      label: "test",
+      label: "BTC",
       color: "green",
       data: [
       ],

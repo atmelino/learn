@@ -413,6 +413,7 @@ export default function LineChartDateMod(props: LineChartProps) {
 
     updateChart();
     if (addLabel) {
+      console.log("label requested");
       updateLabel();
     }
     if (addLegend) {
