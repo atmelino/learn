@@ -37,6 +37,9 @@ export default function LineChartDynamic(props: LineChartDynamicProps) {
   const requestUpdate = props.requestUpdate || false;
   const datasets = [];
 
+  // console.log("yAxisAuto="+yAxisAuto)
+  // console.log("height="+height)
+
   // configure scale
   let drawPoints = [];
 
@@ -100,7 +103,9 @@ export default function LineChartDynamic(props: LineChartDynamicProps) {
   };
 
   const addyaxis = () => {
-    if (yAxisAuto)
+    console.log("yAxisAuto="+yAxisAuto)
+
+    if (yAxisAuto) {
       yScale = d3
         .scaleLinear()
         .domain(
@@ -108,7 +113,7 @@ export default function LineChartDynamic(props: LineChartDynamicProps) {
             return d.y;
           })
         ).range([height + padding.bottom, padding.bottom]);
-
+    }
     else
       yScale = d3
         .scaleLinear()

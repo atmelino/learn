@@ -32,8 +32,7 @@ export default function MyLineChart() {
           y: value,
         });
         setData(datasets1.current);
-        update.current = !update.current;
-        setUpdate(update.current);
+        setUpdate(!update.current);
         // printData(datasets1.current);
       })
       .catch(() => {
@@ -78,7 +77,7 @@ export default function MyLineChart() {
       </div>
       {timestamp} <b>1 BTC = {valueState} USD</b>
       <LineChartDynamic
-        height={400}
+        height={500}
         datasets={datasets}
         data={data1}
         yAxisMin={30000}
