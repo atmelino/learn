@@ -77,41 +77,47 @@ export default function MyLineChart() {
   };
 
   return (
-    <div>
-      <div class="bg-green-100">
-        <PeriodicTask
-          Task={addData}
-          name={"live BTC"}
-          interval={1000}
-          autostart={true}
-        />
-        <label>
-          y-axis: auto <input type="checkbox" checked={yAxisAuto.current} onChange={handleChange} />
-        </label>
-
-        <label>
-          min
-          <input disabled={yAxisAuto.current} type="number" value={min} id="min" name="tentacles"
-            min="0" max="100000"></input>
-          max
-          <input disabled={yAxisAuto.current} type="number" value={max} id="max" name="tentacles"
-            min="0" max="100000"></input>
-        </label>
-<Button>Set</Button>
+    <>
+      <div class="p-4 mx-auto max-w-screen-md">
+        <h2 class="text-lg font-medium text-gray-900 ">Live Bitcoin Chart</h2>
       </div>
-      {timestamp} <b>1 BTC = {valueState} USD</b>
-      <LineChartDynamic
-        height={500}
-        datasets={datasets}
-        data={data1}
-        yAxisMin={min}
-        yAxisMax={max}
-        yAxisAuto={yAxisAuto.current}
-        addLabel={false}
-        addLegend={false}
-      // requestUpdate={updateState}
-      >
-      </LineChartDynamic>
-    </div>
+
+      <div class="p-4 mx-auto max-w-screen-md">
+        <div class="bg-green-100">
+          <PeriodicTask
+            Task={addData}
+            name={"live BTC"}
+            interval={1000}
+            autostart={true}
+          />
+          <label>
+            y-axis: auto <input type="checkbox" checked={yAxisAuto.current} onChange={handleChange} />
+          </label>
+
+          <label>
+            min
+            <input disabled={yAxisAuto.current} type="number" value={min} id="min" name="tentacles"
+              min="0" max="100000"></input>
+            max
+            <input disabled={yAxisAuto.current} type="number" value={max} id="max" name="tentacles"
+              min="0" max="100000"></input>
+          </label>
+          <Button>Set</Button>
+        </div>
+        <div class="center">     {timestamp} <b>1 BTC = {valueState} USD</b></div>
+        <LineChartDynamic
+          height={500}
+          datasets={datasets}
+          data={data1}
+          yAxisMin={min}
+          yAxisMax={max}
+          yAxisAuto={yAxisAuto.current}
+          addLabel={false}
+          addLegend={false}
+        // requestUpdate={updateState}
+        >
+        </LineChartDynamic>
+      </div>
+    </>
   );
 }
