@@ -9,6 +9,9 @@ export default function MyLineChart() {
   const timems = useRef(Date.now());
   const datasets1 = useRef(MyData());
   const update = useRef(false);
+  const yAxisAuto = useRef(false);
+  const min = useRef(30000);
+  const max = useRef(31000);
   const [datasets, setData] = useState(datasets1.current);
   const [timestamp, settimestamp] = useState("");
   const [valueState, setValue] = useState();
@@ -32,7 +35,7 @@ export default function MyLineChart() {
           y: value,
         });
         setData(datasets1.current);
-        update.current=!update.current;
+        update.current = !update.current;
         // console.log("update="+update.current)
         setUpdate(update.current);
         // printData(datasets1.current);
@@ -44,7 +47,7 @@ export default function MyLineChart() {
 
 
   function addData() {
-    // console.log("addData called");
+    console.log("addData called");
     timems.current = Date.now();
     settimestamp(format(new Date(timems.current), "yyyy-MM-dd HH:mm:ss"));
     getBtcData();
@@ -67,9 +70,11 @@ export default function MyLineChart() {
     }
   }
 
+  const handleChange = () => {
+    yAxisAuto.current = !yAxisAuto.current;
+  };
   return (
     <div>
-      updateState={updateState}
       <div class="bg-green-100">
         <PeriodicTask
           Task={addData}
@@ -77,18 +82,25 @@ export default function MyLineChart() {
           interval={1000}
           autostart={true}
         />
+        <label>
+          y-axis: auto <input
+            type="checkbox"
+            onChange={handleChange}
+          /> min max
+        </label>
+
       </div>
       {timestamp} <b>1 BTC = {valueState} USD</b>
       <LineChartDynamic
         height={500}
         datasets={datasets}
         data={data1}
-        yAxisMin={30000}
-        yAxisMax={31000}
-        yAxisAuto={update.current}
+        yAxisMin={min.current}
+        yAxisMax={max.current}
+        yAxisAuto={yAxisAuto.current}
         addLabel={false}
         addLegend={false}
-        // requestUpdate={updateState}
+      // requestUpdate={updateState}
       >
       </LineChartDynamic>
     </div>

@@ -109,7 +109,7 @@ export default function LineChartDynamic(props: LineChartDynamicProps) {
 
   const addyaxis = () => {
     // console.log("yAxisAuto="+yAxisAuto)
-    if (yAxisAuto) {
+    if (props.yAxisAuto) {
       yScale = d3
         .scaleLinear()
         .domain(
