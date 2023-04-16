@@ -10,8 +10,10 @@ export default function MyLineChart() {
   const datasets1 = useRef(MyData());
   const update = useRef(false);
   const yAxisAuto = useRef(true);
-  const min = useRef(30000);
-  const max = useRef(31000);
+  // const min = useRef(30000);
+  // const max = useRef(31000);
+  const [min, setMin] = useState(30000);
+  const [max, setMax] = useState(31000);
   const [datasets, setData] = useState(datasets1.current);
   const [timestamp, settimestamp] = useState("");
   const [valueState, setValue] = useState();
@@ -89,10 +91,10 @@ export default function MyLineChart() {
 
         <label>
           min
-          <input disabled={true} type="number" value={min.current} id="min" name="tentacles"
+          <input disabled={yAxisAuto.current} type="number" value={min.current} id="min" name="tentacles"
             min="0" max="100000"></input>
           max
-          <input disabled={true} type="number" value={max.current} id="max" name="tentacles"
+          <input disabled={yAxisAuto.current} type="number" value={max.current} id="max" name="tentacles"
             min="0" max="100000"></input>
         </label>
       </div>
@@ -101,8 +103,8 @@ export default function MyLineChart() {
         height={500}
         datasets={datasets}
         data={data1}
-        yAxisMin={min.current}
-        yAxisMax={max.current}
+        yAxisMin={min}
+        yAxisMax={max}
         yAxisAuto={yAxisAuto.current}
         addLabel={false}
         addLegend={false}
