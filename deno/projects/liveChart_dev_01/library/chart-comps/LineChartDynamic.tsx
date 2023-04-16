@@ -124,7 +124,8 @@ export default function LineChartDynamic(props: LineChartDynamicProps) {
         .domain([yAxisMin, yAxisMax])
         .range([height + padding.bottom, padding.bottom]);
 
-    const yAxis = d3.axisLeft(yScale);
+    const yAxis = d3.axisLeft(yScale).tickFormat(d3.format(",.0f"));
+    
     yAxis.tickSizeOuter(0);
 
     const svg = d3
@@ -150,6 +151,7 @@ export default function LineChartDynamic(props: LineChartDynamicProps) {
       .attr("font-size", axesFontSize)
       .attr("color", axesColor)
       .selectAll(".tick line")
+      // .attr("tickFormat",".0f")
       .attr("stroke-width", "0.5")
       .attr("x2", width)
       .attr("opacity", "0.3");

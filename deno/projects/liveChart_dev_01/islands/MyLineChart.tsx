@@ -91,12 +91,13 @@ export default function MyLineChart() {
 
         <label>
           min
-          <input disabled={yAxisAuto.current} type="number" value={min.current} id="min" name="tentacles"
+          <input disabled={yAxisAuto.current} type="number" value={min} id="min" name="tentacles"
             min="0" max="100000"></input>
           max
-          <input disabled={yAxisAuto.current} type="number" value={max.current} id="max" name="tentacles"
+          <input disabled={yAxisAuto.current} type="number" value={max} id="max" name="tentacles"
             min="0" max="100000"></input>
         </label>
+<Button>Set</Button>
       </div>
       {timestamp} <b>1 BTC = {valueState} USD</b>
       <LineChartDynamic
