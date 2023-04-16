@@ -9,7 +9,7 @@ export default function MyLineChart() {
   const timems = useRef(Date.now());
   const datasets1 = useRef(MyData());
   const update = useRef(false);
-  const yAxisAuto = useRef(false);
+  const yAxisAuto = useRef(true);
   const min = useRef(30000);
   const max = useRef(31000);
   const [datasets, setData] = useState(datasets1.current);
@@ -37,7 +37,7 @@ export default function MyLineChart() {
         setData(datasets1.current);
         update.current = !update.current;
         // console.log("update="+update.current)
-        setUpdate(update.current);
+        // setUpdate(update.current);
         // printData(datasets1.current);
       })
       .catch(() => {
@@ -73,6 +73,7 @@ export default function MyLineChart() {
   const handleChange = () => {
     yAxisAuto.current = !yAxisAuto.current;
   };
+
   return (
     <div>
       <div class="bg-green-100">
@@ -83,12 +84,17 @@ export default function MyLineChart() {
           autostart={true}
         />
         <label>
-          y-axis: auto <input
-            type="checkbox"
-            onChange={handleChange}
-          /> min max
+          y-axis: auto <input type="checkbox" checked={yAxisAuto.current} onChange={handleChange} />
         </label>
 
+        <label>
+          min
+          <input disabled={true} type="number" value={min.current} id="min" name="tentacles"
+            min="0" max="100000"></input>
+          max
+          <input disabled={true} type="number" value={max.current} id="max" name="tentacles"
+            min="0" max="100000"></input>
+        </label>
       </div>
       {timestamp} <b>1 BTC = {valueState} USD</b>
       <LineChartDynamic
