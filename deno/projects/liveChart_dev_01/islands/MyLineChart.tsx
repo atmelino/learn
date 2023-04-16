@@ -81,7 +81,6 @@ export default function MyLineChart() {
       <div class="p-4 mx-auto max-w-screen-md">
         <h2 class="text-lg font-medium text-gray-900 ">Live Bitcoin Chart</h2>
       </div>
-
       <div class="p-4 mx-auto max-w-screen-md">
         <div class="bg-green-100">
           <PeriodicTask
@@ -104,7 +103,6 @@ export default function MyLineChart() {
           </label>
           <Button>Set</Button>
         </div>
-        <div class="center">     {timestamp} <b>1 BTC = {valueState} USD</b></div>
         <LineChartDynamic
           height={500}
           datasets={datasets}
@@ -117,6 +115,9 @@ export default function MyLineChart() {
         // requestUpdate={updateState}
         >
         </LineChartDynamic>
+      </div>
+      <div class="p-4 mx-auto max-w-screen-md">
+        {timestamp} <b>1 BTC = {valueState} USD</b>
       </div>
     </>
   );
