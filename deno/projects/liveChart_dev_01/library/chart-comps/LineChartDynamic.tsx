@@ -39,7 +39,7 @@ export default function LineChartDynamic(props: LineChartDynamicProps) {
   const datasets = [];
   const count = useRef(0);
 
-  console.log(count.current+"props.yAxisAuto=" + props.yAxisAuto)
+  // console.log(count.current+"props.yAxisAuto=" + props.yAxisAuto)
   // console.log("yAxisAuto="+yAxisAuto)
   // console.log("props.requestUpdate="+props.requestUpdate)
   // console.log("requestUpdate="+requestUpdate)

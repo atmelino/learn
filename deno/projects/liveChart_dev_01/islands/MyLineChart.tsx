@@ -10,6 +10,7 @@ export default function MyLineChart() {
   const datasets1 = useRef(MyData());
   const update = useRef(false);
   const yAxisAuto = useRef(true);
+  const start = useRef(true);
   // const min = useRef(30000);
   // const max = useRef(31000);
   const [min, setMin] = useState(30000);
@@ -88,11 +89,11 @@ export default function MyLineChart() {
             name={"live BTC"}
             interval={1000}
             autostart={true}
+            start={start.current}
           />
           <label>
             y-axis: auto <input type="checkbox" checked={yAxisAuto.current} onChange={handleChange} />
           </label>
-
           <label>
             min
             <input disabled={yAxisAuto.current} type="number" value={min} id="min" name="tentacles"

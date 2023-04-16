@@ -5,7 +5,8 @@ interface TaskProps {
   Task: (s: string) => void;
   name: string;
   interval: number
-  autostart: boolean 
+  autostart: boolean
+  start: boolean
 }
 function PeriodicTask(props: TaskProps) {
   const Task = props.Task;
@@ -42,7 +43,7 @@ function PeriodicTask(props: TaskProps) {
 
     if (autostart)
       startTask()
-  }, []);
+  }, [props.start]);
 
 
   return (
