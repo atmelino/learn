@@ -23,9 +23,9 @@ export interface LineChartDynamicProps {
   axesFontSize?: string;
   xAxisLabel?: string;
   yAxisLabel?: string;
-  yAxisMin: number;
-  yAxisMax: number;
-  yAxisAuto: boolean;
+  yAxisMin?: number;
+  yAxisMax?: number;
+  yAxisAuto?: boolean;
   axesLabelColor?: string;
   axesLabelSize?: string;
   animation?: boolean;

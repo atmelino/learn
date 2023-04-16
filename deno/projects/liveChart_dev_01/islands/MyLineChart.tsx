@@ -32,7 +32,9 @@ export default function MyLineChart() {
           y: value,
         });
         setData(datasets1.current);
-        setUpdate(!update.current);
+        update.current=!update.current;
+        // console.log("update="+update.current)
+        setUpdate(update.current);
         // printData(datasets1.current);
       })
       .catch(() => {
@@ -67,6 +69,7 @@ export default function MyLineChart() {
 
   return (
     <div>
+      updateState={updateState}
       <div class="bg-green-100">
         <PeriodicTask
           Task={addData}
@@ -82,10 +85,10 @@ export default function MyLineChart() {
         data={data1}
         yAxisMin={30000}
         yAxisMax={31000}
-        yAxisAuto={false}
+        yAxisAuto={update.current}
         addLabel={false}
         addLegend={false}
-        requestUpdate={updateState}
+        // requestUpdate={updateState}
       >
       </LineChartDynamic>
     </div>

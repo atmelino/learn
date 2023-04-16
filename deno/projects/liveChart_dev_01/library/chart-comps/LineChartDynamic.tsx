@@ -1,6 +1,7 @@
 import { d3, useEffect } from "../mod.ts";
 import { LineChartDynamicProps } from "../chart-props/LineChartDynamicProps.ts";
 import { Button } from "../../components/Button.tsx";
+import { useRef, useState } from "preact/hooks";
 
 export default function LineChartDynamic(props: LineChartDynamicProps) {
   const yLabelPadding = 20;
@@ -36,8 +37,12 @@ export default function LineChartDynamic(props: LineChartDynamicProps) {
   const addLegend = props.addLegend === false ? props.addLegend : true;
   const requestUpdate = props.requestUpdate || false;
   const datasets = [];
+  const count = useRef(0);
 
+  console.log(count.current+"props.yAxisAuto=" + props.yAxisAuto)
   // console.log("yAxisAuto="+yAxisAuto)
+  // console.log("props.requestUpdate="+props.requestUpdate)
+  // console.log("requestUpdate="+requestUpdate)
   // console.log("height="+height)
 
   // configure scale
@@ -103,8 +108,7 @@ export default function LineChartDynamic(props: LineChartDynamicProps) {
   };
 
   const addyaxis = () => {
-    console.log("yAxisAuto="+yAxisAuto)
-
+    // console.log("yAxisAuto="+yAxisAuto)
     if (yAxisAuto) {
       yScale = d3
         .scaleLinear()
@@ -409,6 +413,8 @@ export default function LineChartDynamic(props: LineChartDynamicProps) {
   }
 
   useEffect(() => {
+    count.current = count.current + 1;
+    // console.log("datasets " + JSON.stringify(props, null, 4));
     // console.log("datasets " + JSON.stringify(props.datasets, null, 4));
     // console.log("requestUpdate " + props.requestUpdate);
     cleanDatasets();
