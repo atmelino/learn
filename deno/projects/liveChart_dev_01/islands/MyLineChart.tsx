@@ -86,7 +86,7 @@ export default function MyLineChart() {
             Task={addData}
             name={"live BTC"}
             interval={1000}
-            autostart={true}
+            // autostart={true}
             start={start.current}
           />
           <label>
