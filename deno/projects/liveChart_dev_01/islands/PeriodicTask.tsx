@@ -8,6 +8,13 @@ interface TaskProps {
   autostart: boolean
   start: boolean
 }
+
+interface TaskStatus {
+  id: number
+  running: boolean
+}
+
+
 function PeriodicTask(props: TaskProps) {
   const Task = props.Task;
   const name = props.name || "default";
@@ -15,20 +22,51 @@ function PeriodicTask(props: TaskProps) {
   // const autostart = props.autostart || true;
   const autostart = props.autostart;
 
+  // const ts1: TaskStatus =
+  //   useRef({
+  //     id: interval,
+  //     running: false
+  //   });
+
+  const ts =
+    useRef({
+      id: interval,
+      running: false
+    });
+
 
   const [counter, setCounter] = useState(0);
   let count = 0;
-  const intervalRef = useRef(interval);
+  // const IntervalRef{
+  //   interval: interval,
+  //   running:false
+  // } = useRef(0, false)
+  // const intervalRef = useRef(interval);
 
   function startTask() {
-    console.log("startTimer called");
-    const id = setInterval(myTask, interval);
-    intervalRef.current = id;
+    console.log("startTask called");
+    if (!ts.current.running) {
+      console.log("Interval ID before setInterval=" + ts.current.id);
+      const id = setInterval(myTask, interval);
+      ts.current.id = id;
+      ts.current.running = true
+      console.log("Interval ID after setInterval=" + ts.current.id);
+    } else
+      console.log("Task already running");
+    // intervalRef.current = id;
   }
 
   function stopTask() {
-    console.log("stopTimer called");
-    clearInterval(intervalRef.current);
+    console.log("stopTask called");
+    if (ts.current.running) {
+      console.log("Interval ID before setInterval=" + ts.current.id);
+      clearInterval(ts.current.id);
+      ts.current.running = false;
+      console.log("Interval ID after setInterval=" + ts.current.id);
+      // intervalRef.current = 0;
+    }
+    else
+      console.log("Task not running");
   }
 
   function myTask() {
@@ -39,7 +77,8 @@ function PeriodicTask(props: TaskProps) {
   }
 
   useEffect(() => {
-    console.log("autostart="+autostart);
+    console.log("useEffect in PeriodicTask");
+    console.log("autostart=" + autostart);
 
     if (autostart)
       startTask()

@@ -11,8 +11,6 @@ export default function MyLineChart() {
   const update = useRef(false);
   const yAxisAuto = useRef(true);
   const start = useRef(true);
-  // const min = useRef(30000);
-  // const max = useRef(31000);
   const [min, setMin] = useState(30000);
   const [max, setMax] = useState(31000);
   const [datasets, setData] = useState(datasets1.current);
