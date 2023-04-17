@@ -10,7 +10,8 @@ export default function MyLineChart() {
   const datasets1 = useRef(MyData());
   const update = useRef(false);
   const yAxisAuto = useRef(true);
-  const start = useRef(true);
+  // const start = useRef("start");
+  const [start, setstart] = useState("start");
   const [min, setMin] = useState(30000);
   const [max, setMax] = useState(31000);
   const [datasets, setData] = useState(datasets1.current);
@@ -82,13 +83,21 @@ export default function MyLineChart() {
       </div>
       <div class="p-4 mx-auto max-w-screen-md">
         <div class="bg-green-100">
-          <PeriodicTask
-            Task={addData}
-            name={"live BTC"}
-            interval={1000}
-            // autostart={true}
-            start={start.current}
-          />
+          <Button onClick={() => {
+            console.log("start pressed");
+            setstart("start");
+            // start.current = "start"
+            // console.log("start=" + start.current);
+
+          }}>Start</Button>
+          <Button onClick={() => {
+            setstart("---");
+          }}>---</Button>
+          <Button onClick={() => {
+            setstart("stop");
+            // start.current = "stop"
+          }}>Stop</Button>
+          {"" + start}
           <label>
             y-axis: auto <input type="checkbox" checked={yAxisAuto.current} onChange={handleChange} />
           </label>
@@ -101,6 +110,13 @@ export default function MyLineChart() {
               min="0" max="100000"></input>
           </label>
           <Button>Set</Button>
+
+          <PeriodicTask
+            Task={addData}
+            name={"live BTC"}
+            interval={1000}
+            start={start}
+          />
         </div>
         <LineChartDynamic
           height={500}
