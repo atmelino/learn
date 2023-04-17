@@ -76,6 +76,9 @@ export default function MyLineChart() {
     yAxisAuto.current = !yAxisAuto.current;
   };
 
+  useEffect(() => {
+  }, []);
+
   return (
     <>
       <div class="p-4 mx-auto max-w-screen-md">
