@@ -9,7 +9,7 @@ export default function MyLineChart() {
   const timems = useRef(Date.now());
   const datasets1 = useRef(MyData());
   const update = useRef(false);
-  const yAxisAuto = useRef(false);
+  const yAxisAuto = useRef(true);
   // const start = useRef("start");
   const [start, setstart] = useState("start");
   const [min, setMin] = useState(30000);
@@ -20,8 +20,7 @@ export default function MyLineChart() {
   const [updateState, setUpdate] = useState(false);
   const renderCount = useRef(0);
   const noteRef = useRef<HTMLInputElement | null>(null);
-  const taskRef = useRef<HTMLInputElement | null>(null);
-  const taskRef2 = useRef<HTMLInputElement | null>(null);
+  const [inputValue, setInputValue] = useState("");
 
   const data1: { x: Date; y: number }[] = [];
   let value = 30000;
@@ -89,20 +88,6 @@ export default function MyLineChart() {
     renderCount.current = renderCount.current + 1;
   });
 
-  const handleSubmit = (event: { preventDefault: () => void; }) => {
-    event.preventDefault();
-    // console.log(inputs);
-    (event: { preventDefault: () => void; }) => {
-      event.preventDefault();
-      if (!noteRef?.current?.value) {
-        return;
-      }
-      // noteRef.current.value = "";
-
-
-    }
-  }
-
   return (
     <>
       <h1>Render Count: {renderCount.current}</h1>
@@ -111,46 +96,29 @@ export default function MyLineChart() {
         <h2 class="text-lg font-medium text-gray-900 ">Live Bitcoin Chart</h2>
       </div>
       <div class="p-4 mx-auto max-w-screen-md">
-
         <form
           class="flex gap-2 w-full"
           onSubmit={(e) => {
             e.preventDefault();
-            // console.log("taskRef " + JSON.stringify(taskRef, null, 4));
-            console.log(taskRef?.current?.value);
-            console.log(taskRef2?.current?.value);
-
-            if (!taskRef?.current?.value) return;
-            // taskRef.current.value = "";
+            if (!noteRef?.current?.value) {
+              return;
+            }
+            setInputValue(noteRef?.current?.value ?? "");
+            // noteRef.current.value = "";
           }}
         >
-          min
           <input
             class="w-5/6 border-1 border-gray-500 h-10 rounded p-2"
-            disabled={yAxisAuto.current}
-            type="number"
-            placeholder="0"
-            id="min"
-            min="0" max="100000"
-            ref={taskRef}
-          />
-          max
-          <input
-            class="w-5/6 border-1 border-gray-500 h-10 rounded p-2"
-            disabled={yAxisAuto.current}
-            type="number"
-            placeholder="40000"
-            id="max"
-            min="0" max="100000"
-            ref={taskRef2}
+            type="text"
+            ref={noteRef}
           />
           <Button
             type="submit"
-            // value="Add"
-          >Set
+            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-1/2"
+          >
+            Set
           </Button>
         </form>
-
 
         <div class="bg-green-100">
           <Button onClick={() => {
@@ -161,6 +129,9 @@ export default function MyLineChart() {
 
           }}>Start</Button>
           <Button onClick={() => {
+            setstart("---");
+          }}>---</Button>
+          <Button onClick={() => {
             setstart("stop");
             // start.current = "stop"
           }}>Stop</Button>
@@ -168,6 +139,18 @@ export default function MyLineChart() {
           <label>
             y-axis: auto <input type="checkbox" checked={yAxisAuto.current} onChange={handleChange} />
           </label>
+          <label>
+            min
+            <input disabled={yAxisAuto.current} type="number"
+              placeholder="34"
+              // value={min}
+              id="min" name="tentacles"
+              min="0" max="100000"></input>
+            max
+            <input disabled={yAxisAuto.current} type="number" value={max} id="max" name="tentacles"
+              min="0" max="100000"></input>
+          </label>
+          <Button>Set</Button>
 
           <PeriodicTask
             Task={addData}
