@@ -119,6 +119,10 @@ export default function MyLineChart() {
             // console.log("taskRef " + JSON.stringify(taskRef, null, 4));
             console.log(taskRef?.current?.value);
             console.log(taskRef2?.current?.value);
+            if (taskRef?.current?.value)
+              setMin(+taskRef?.current?.value);
+            if (taskRef2?.current?.value)
+              setMax(+taskRef2?.current?.value);
 
             if (!taskRef?.current?.value) return;
             // taskRef.current.value = "";
@@ -131,7 +135,7 @@ export default function MyLineChart() {
             <div class="space-x-3" disabled={yAxisAuto.current}>
               min
               <input
-                class="w-1/6 border-1 border-gray-500 h-8 rounded p-2"
+                class="w-2/6 border-1 border-gray-500 h-8 rounded p-2"
                 disabled={yAxisAuto.current}
                 type="number"
                 placeholder="0"
@@ -141,7 +145,7 @@ export default function MyLineChart() {
               />
               max
               <input
-                class="w-1/6 border-1 border-gray-500 h-8 rounded p-2"
+                class="w-2/6 border-1 border-gray-500 h-8 rounded p-2"
                 disabled={yAxisAuto.current}
                 type="number"
                 placeholder="40000"
@@ -171,7 +175,7 @@ export default function MyLineChart() {
             setstart("stop");
             // start.current = "stop"
           }}>Stop</Button>
-          {"" + start}
+          {"    " + start}
 
           <PeriodicTask
             Task={addData}
