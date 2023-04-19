@@ -124,31 +124,38 @@ export default function MyLineChart() {
             // taskRef.current.value = "";
           }}
         >
-          min
-          <input
-            class="w-5/6 border-1 border-gray-500 h-10 rounded p-2"
-            disabled={yAxisAuto.current}
-            type="number"
-            placeholder="0"
-            id="min"
-            min="0" max="100000"
-            ref={taskRef}
-          />
-          max
-          <input
-            class="w-5/6 border-1 border-gray-500 h-10 rounded p-2"
-            disabled={yAxisAuto.current}
-            type="number"
-            placeholder="40000"
-            id="max"
-            min="0" max="100000"
-            ref={taskRef2}
-          />
-          <Button
-            type="submit"
-            // value="Add"
-          >Set
-          </Button>
+          <fieldset class="border border-solid border-gray-300 p-3 space-x-3">
+            <legend class="text-sm">
+              y-axis scale auto <input type="checkbox" checked={yAxisAuto.current} onChange={handleChange} />
+            </legend>
+            <div class="space-x-3" disabled={yAxisAuto.current}>
+              min
+              <input
+                class="w-1/6 border-1 border-gray-500 h-8 rounded p-2"
+                disabled={yAxisAuto.current}
+                type="number"
+                placeholder="0"
+                id="min"
+                min="0" max="100000"
+                ref={taskRef}
+              />
+              max
+              <input
+                class="w-1/6 border-1 border-gray-500 h-8 rounded p-2"
+                disabled={yAxisAuto.current}
+                type="number"
+                placeholder="40000"
+                id="max"
+                min="0" max="100000"
+                ref={taskRef2}
+              />
+              <Button
+                type="submit"
+              // value="Add"
+              >Set
+              </Button>
+            </div>
+          </fieldset>
         </form>
 
 
@@ -165,9 +172,6 @@ export default function MyLineChart() {
             // start.current = "stop"
           }}>Stop</Button>
           {"" + start}
-          <label>
-            y-axis: auto <input type="checkbox" checked={yAxisAuto.current} onChange={handleChange} />
-          </label>
 
           <PeriodicTask
             Task={addData}
