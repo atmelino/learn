@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 import { Button } from "../components/Button.tsx";
-import { LineChartDateMod } from "../library/charts.ts";
+import { LineChartDynamic } from "../library/charts.ts";
 import MyData from "./data.tsx";
 import { format } from "https://deno.land/std@0.91.0/datetime/mod.ts";
 
@@ -51,14 +51,13 @@ export default function MyLineChart() {
         {/* {JSON.stringify(datasets, null, 4)} */}
         {/* {test} */}
       </div>
-      <LineChartDateMod
+      <LineChartDynamic
         datasets={datasets}
         data={data1}
         yAxisMax={10}
         yAxisMin={0}
         requestUpdate={update}
       >
-      </LineChartDateMod>
-    </div>
+      </LineChartDynamic>    </div>
   );
 }
