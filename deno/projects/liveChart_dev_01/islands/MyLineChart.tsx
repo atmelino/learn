@@ -11,14 +11,12 @@ export default function MyLineChart() {
   const datasets1 = useRef(MyData());
   const update = useRef(false);
   const yAxisAuto = useRef(false);
-  const yAxisRef = useRef();
   const [start, setstart] = useState("start");
-  const [min, setMin] = useState(30000);
-  const [max, setMax] = useState(31000);
+  const [min, setMin] = useState(0);
+  const [max, setMax] = useState(100000);
   const [datasets, setData] = useState(datasets1.current);
   const [timestamp, settimestamp] = useState("");
   const [valueState, setValue] = useState();
-  const [updateState, setUpdate] = useState(false);
   const renderCount = useRef(0);
   const minRef = useRef<HTMLInputElement | null>(null);
   const maxRef = useRef<HTMLInputElement | null>(null);
@@ -93,18 +91,16 @@ export default function MyLineChart() {
   });
 
   function clickSet() {
-
     if (minRef?.current?.value)
       setMin(+minRef?.current?.value);
     if (maxRef?.current?.value)
       setMax(+maxRef?.current?.value);
-
   }
 
 
   return (
     <>
-      <h1>Render Count: {renderCount.current}</h1>
+      {/* <h1>Render Count: {renderCount.current}</h1> */}
 
       <div class="p-4 mx-auto max-w-screen-md">
         <h2 class="text-lg font-medium text-gray-900 ">Live Bitcoin Chart</h2>
@@ -128,7 +124,6 @@ export default function MyLineChart() {
               // class={{field}+"rounded"}
               disabled={yAxisAuto.current}
               type="number"
-              placeholder="0"
               id="min"
               min="0" max="100000"
               ref={minRef}
@@ -138,7 +133,6 @@ export default function MyLineChart() {
               class="w-1/6 border-1 border-gray-500 h-8 rounded p-2"
               disabled={yAxisAuto.current}
               type="number"
-              placeholder="40000"
               id="max"
               min="0" max="100000"
               ref={maxRef}
@@ -183,7 +177,6 @@ export default function MyLineChart() {
           yAxisAuto={yAxisAuto.current}
           addLabel={false}
           addLegend={false}
-        // requestUpdate={updateState}
         >
         </LineChartDynamic>
       </div>
