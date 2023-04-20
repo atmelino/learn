@@ -19,9 +19,8 @@ export default function MyLineChart() {
   const [valueState, setValue] = useState();
   const [updateState, setUpdate] = useState(false);
   const renderCount = useRef(0);
-  const noteRef = useRef<HTMLInputElement | null>(null);
-  const taskRef = useRef<HTMLInputElement | null>(null);
-  const taskRef2 = useRef<HTMLInputElement | null>(null);
+  const minRef = useRef<HTMLInputElement | null>(null);
+  const maxRef = useRef<HTMLInputElement | null>(null);
 
   const data1: { x: Date; y: number }[] = [];
   let value = 30000;
@@ -82,26 +81,8 @@ export default function MyLineChart() {
   };
 
   useEffect(() => {
-  }, []);
-
-
-  useEffect(() => {
     renderCount.current = renderCount.current + 1;
   });
-
-  const handleSubmit = (event: { preventDefault: () => void; }) => {
-    event.preventDefault();
-    // console.log(inputs);
-    (event: { preventDefault: () => void; }) => {
-      event.preventDefault();
-      if (!noteRef?.current?.value) {
-        return;
-      }
-      // noteRef.current.value = "";
-
-
-    }
-  }
 
   return (
     <>
@@ -116,16 +97,16 @@ export default function MyLineChart() {
           class="flex gap-2 w-full"
           onSubmit={(e) => {
             e.preventDefault();
-            // console.log("taskRef " + JSON.stringify(taskRef, null, 4));
-            console.log(taskRef?.current?.value);
-            console.log(taskRef2?.current?.value);
-            if (taskRef?.current?.value)
-              setMin(+taskRef?.current?.value);
-            if (taskRef2?.current?.value)
-              setMax(+taskRef2?.current?.value);
+            // console.log("minRef " + JSON.stringify(minRef, null, 4));
+            console.log(minRef?.current?.value);
+            console.log(maxRef?.current?.value);
+            if (minRef?.current?.value)
+              setMin(+minRef?.current?.value);
+            if (maxRef?.current?.value)
+              setMax(+maxRef?.current?.value);
 
-            if (!taskRef?.current?.value) return;
-            // taskRef.current.value = "";
+            if (!minRef?.current?.value) return;
+            // minRef.current.value = "";
           }}
         >
           <fieldset class="border border-solid border-gray-300 p-3 space-x-3">
@@ -141,7 +122,7 @@ export default function MyLineChart() {
                 placeholder="0"
                 id="min"
                 min="0" max="100000"
-                ref={taskRef}
+                ref={minRef}
               />
               max
               <input
@@ -151,7 +132,7 @@ export default function MyLineChart() {
                 placeholder="40000"
                 id="max"
                 min="0" max="100000"
-                ref={taskRef2}
+                ref={maxRef}
               />
               <Button
                 type="submit"
