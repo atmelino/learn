@@ -4,7 +4,7 @@ import { LineChartDynamic } from "../library/charts.ts";
 import MyData from "./data.tsx";
 import { format } from "https://deno.land/std@0.91.0/datetime/mod.ts";
 import PeriodicTask from "./PeriodicTask.tsx";
-import { ButtonGreen } from "../components/ButtonGreen.tsx";
+import Popup from "./Popup.tsx";
 
 export default function MyLineChart() {
   const timems = useRef(Date.now());
@@ -22,10 +22,15 @@ export default function MyLineChart() {
   const maxRef = useRef<HTMLInputElement | null>(null);
   const [field, setField] = useState("border border-solid border-gray-300 p-3 space-x-3");
   const [disabled, setDisabled] = useState(" text-gray-300");
-
-
+  const [debugMessage, setdebugMessageState] = useState("123");
+  const [showDebug, setShowDebug] = useState(false);
   const data1: { x: Date; y: number }[] = [];
   let value = 30000;
+
+  function setDebugMesssage(message: string) {
+    console.log("setDebugMesssage called");
+    setdebugMessageState(message);
+  }
 
 
   const getBtcData = () => {
@@ -55,7 +60,7 @@ export default function MyLineChart() {
 
 
   function addData() {
-    console.log("addData called");
+    // console.log("addData called");
     timems.current = Date.now();
     settimestamp(format(new Date(timems.current), "yyyy-MM-dd HH:mm:ss"));
     getBtcData();
@@ -100,7 +105,14 @@ export default function MyLineChart() {
 
   return (
     <>
-      {/* <h1>Render Count: {renderCount.current}</h1> */}
+
+      <Popup
+        title="Settings"
+        showDebug={showDebug}
+        setShowDebug={setShowDebug}
+        setDebugMesssage={setDebugMesssage}
+        debugMessage={debugMessage}
+      />
 
       <div class="mx-auto max-w-screen-md">
         <h2 class="text-lg font-medium text-gray-900 ">Live Bitcoin Chart</h2>
@@ -135,7 +147,7 @@ export default function MyLineChart() {
             />
             <label>     </label>
             <Button
-             class={yAxisAuto.current ? "text-gray-300" : "text-black"} disabled={yAxisAuto.current}
+              class={yAxisAuto.current ? "text-gray-300" : "text-black"} disabled={yAxisAuto.current}
               onClick={clickSet}
             >Set
             </Button>

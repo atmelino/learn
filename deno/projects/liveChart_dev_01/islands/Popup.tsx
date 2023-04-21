@@ -5,11 +5,11 @@ import { animation, css } from "twind/css";
 import IconSettings from "../components/IconSettings.tsx";
 
 interface PopupProps {
-  length: number;
-  Url: string;
+  title: string;
+  showDebug: boolean;
+  setShowDebug: (s: boolean) => void;
   setDebugMesssage: (s: string) => void;
   debugMessage: string;
-
 }
 
 // Lazy load a <dialog> polyfill.
@@ -43,7 +43,10 @@ const backdrop = css({
   },
 });
 
-export default function Popup({ length, Url, setDebugMesssage, debugMessage }: PopupProps) {
+export default function Popup(
+  { title, showDebug, setShowDebug, setDebugMesssage, debugMessage }:
+    PopupProps,
+) {
   const ref = useRef<HTMLDialogElement | null>(null);
 
   const onDialogClick = (e: MouseEvent) => {
@@ -66,8 +69,9 @@ export default function Popup({ length, Url, setDebugMesssage, debugMessage }: P
         onClick={onDialogClick}
       >
         <PopupInner
-          length={length}
-          Url={Url}
+          title={title}
+          showDebug={showDebug}
+          setShowDebug={setShowDebug}
           setDebugMesssage={setDebugMesssage}
           debugMessage={debugMessage}
         />
@@ -76,28 +80,23 @@ export default function Popup({ length, Url, setDebugMesssage, debugMessage }: P
   );
 }
 
-function PopupInner({ length, Url, setDebugMesssage, debugMessage }: PopupProps) {
-  const [text_ta, setText_ta] = useState("initial text");
+function PopupInner(
+  { title, showDebug, setShowDebug, setDebugMesssage, debugMessage }: PopupProps,
+) {
+  const [checked, setChecked] = useState(false);
 
   const corners = "rounded(tl-2xl tr-2xl sm:(tr-none bl-2xl))";
   const card =
     `py-8 px-6 h-full bg-white ${corners} flex flex-col justify-between`;
 
-  const goToUrl = (e: Event) => {
-    e.preventDefault();
-    location.href = Url;
-    console.log("test");
-  };
-
-  const callAFunction = (e: Event) => {
-    e.preventDefault();
-    setText_ta("new text");
-  };
+    const handleChange = () => {
+      setShowDebug(!showDebug);
+    };
 
   return (
     <div class={card}>
       <div class="flex justify-between">
-        <h2 class="text-lg font-medium text-gray-900">Popup window</h2>
+        <h2 class="text-lg font-medium text-gray-900">{title}</h2>
         <button
           class="py-1"
           onClick={(e) => {
@@ -114,50 +113,13 @@ function PopupInner({ length, Url, setDebugMesssage, debugMessage }: PopupProps)
         </button>
       </div>
       <div class="flex-grow-1 my-4">
-      </div>
-
-      <div class="mt-6">
-        <button
-          type="button"
-          class="w-full bg-gray-700 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-gray-700"
-          onClick={() => setDebugMesssage("popup button clicked")}
-        >
-          call a function passed as parameter
-        </button>
-
-      </div>
-
-      <div class="mt-6">
-        <button
-          type="button"
-          class="w-full bg-gray-700 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-gray-700"
-          onClick={callAFunction}
-        >
-          call a function in popup
-        </button>
-      </div>
-      <div>
-        <textarea
-          class={`w-full p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500 `}
-        >
-          {text_ta}
-        </textarea>
-      </div>
-
-      <div class="border-t border-gray-200 py-6 px-4 sm:px-6">
-        <div class="flex justify-between text-lg font-medium">
-          <p>A Number:</p>
-          <p>{length}</p>
-        </div>
-        <div class="mt-6">
-          <button
-            type="button"
-            class="w-full bg-gray-700 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-gray-700"
-            onClick={goToUrl}
-          >
-            Go to a URL
-          </button>
-        </div>
+        <label>
+          <input
+            type="checkbox"
+            onChange={handleChange}
+          />
+          Show Debug Interface
+        </label>
       </div>
     </div>
   );
