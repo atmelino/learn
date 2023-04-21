@@ -10,7 +10,7 @@ export default function MyLineChart() {
   const timems = useRef(Date.now());
   const datasets1 = useRef(MyData());
   const update = useRef(false);
-  const yAxisAuto = useRef(false);
+  const yAxisAuto = useRef(true);
   const [start, setstart] = useState("start");
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(100000);
@@ -102,15 +102,12 @@ export default function MyLineChart() {
     <>
       {/* <h1>Render Count: {renderCount.current}</h1> */}
 
-      <div class="p-4 mx-auto max-w-screen-md">
+      <div class="mx-auto max-w-screen-md">
         <h2 class="text-lg font-medium text-gray-900 ">Live Bitcoin Chart</h2>
       </div>
-      <div class="p-4 mx-auto max-w-screen-md">
+      <div class="mx-auto max-w-screen-md">
 
         <fieldset class="border border-solid border-gray-300 p-2 rounded space-x-3"
-          // <fieldset class={field}
-          // class="flex gap-2 w-full"
-
           disabled={yAxisAuto.current}
         >
           <legend class="text-sm space-x-3">
@@ -121,7 +118,6 @@ export default function MyLineChart() {
             <label>  Min  </label>
             <input
               class={"w-1/6 border-1 border-gray-500 h-8 rounded p-2"}
-              // class={{field}+"rounded"}
               disabled={yAxisAuto.current}
               type="number"
               id="min"
@@ -170,6 +166,7 @@ export default function MyLineChart() {
         </div>
         <LineChartDynamic
           height={500}
+          paddingTop={10}
           datasets={datasets}
           data={data1}
           yAxisMin={min}
@@ -177,10 +174,11 @@ export default function MyLineChart() {
           yAxisAuto={yAxisAuto.current}
           addLabel={false}
           addLegend={false}
+          addTooltip={false}
         >
         </LineChartDynamic>
       </div>
-      <div class="p-4 mx-auto max-w-screen-md">
+      <div class="mx-auto max-w-screen-md">
         {timestamp} <b>1 BTC = {valueState} USD</b>
       </div>
     </>
