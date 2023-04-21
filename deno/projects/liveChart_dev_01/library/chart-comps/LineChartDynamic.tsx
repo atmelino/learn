@@ -92,7 +92,8 @@ export default function LineChartDynamic(props: LineChartDynamicProps) {
       .attr("id", "xaxis")
       .attr(
         "transform",
-        `translate(${padding.left + xLabelPadding}, ${height + padding.bottom + yLabelPadding
+        `translate(${padding.left + xLabelPadding}, ${
+          height + padding.bottom + yLabelPadding
         })`,
       )
       .attr("font-size", axesFontSize)
@@ -101,6 +102,12 @@ export default function LineChartDynamic(props: LineChartDynamicProps) {
       .selectAll(".tick text")
       .attr("transform", "translate(-10, 3)rotate(-45)") // have to take into account the variables for rotation too
       .style("text-anchor", "end");
+
+      d3.select("#xaxis")
+      .selectAll(".tick line")
+      .attr("stroke-width", "0.5")
+      .attr("y2", -height)
+      .attr("opacity", "0.3");
   };
 
   const removexaxis = () => {
@@ -115,28 +122,21 @@ export default function LineChartDynamic(props: LineChartDynamicProps) {
         .domain(
           d3.extent(drawPoints, function (d: { x: Date; y: number }): number {
             return d.y;
-          })
+          }),
         ).range([height + padding.bottom, padding.bottom]);
-    }
-    else
+    } else {
       yScale = d3
         .scaleLinear()
         .domain([yAxisMin, yAxisMax])
         .range([height + padding.bottom, padding.bottom]);
+    }
 
     const yAxis = d3.axisLeft(yScale).tickFormat(d3.format(",.0f"));
-    
+
     yAxis.tickSizeOuter(0);
 
     const svg = d3
       .select(".line-chart");
-    // select the first g component which is the y axis in the graph
-    svg
-      .select("g")
-      .selectAll(".tick line")
-      .attr("stroke-width", "0.5")
-      .attr("y2", -height)
-      .attr("opacity", "0.3");
 
     // customizing y axis
     svg
@@ -338,7 +338,7 @@ export default function LineChartDynamic(props: LineChartDynamicProps) {
         .attr("x", function () {
           return (
             d3.select(this.parentNode).selectChild().node().getBBox().width *
-            (i + 1) +
+              (i + 1) +
             5
           );
         })
@@ -352,21 +352,23 @@ export default function LineChartDynamic(props: LineChartDynamicProps) {
           .select(this.parentNode)
           .selectChildren()
           .nodes();
-        return `translate(${childrenArray[childrenArray.length - 1]?.getBBox().width * i
-          }, 0)`;
+        return `translate(${
+          childrenArray[childrenArray.length - 1]?.getBBox().width * i
+        }, 0)`;
       });
     }
 
     legendTitle.attr("transform", function () {
       const legendWidth = d3.select(this).node()?.getBBox().width;
       // to center the legends
-      return `translate(${(width +
-        padding.left +
-        padding.right -
-        legendWidth +
-        xLabelPadding * 2) /
+      return `translate(${
+        (width +
+          padding.left +
+          padding.right -
+          legendWidth +
+          xLabelPadding * 2) /
         2
-        }, ${padding.top - 10})`;
+      }, ${padding.top - 10})`;
     });
   }
 
@@ -391,7 +393,8 @@ export default function LineChartDynamic(props: LineChartDynamicProps) {
       .attr("font-size", axesLabelSize)
       .attr(
         "transform",
-        `translate(${xLabelPadding}, ${(height + padding.bottom + padding.top) / 2
+        `translate(${xLabelPadding}, ${
+          (height + padding.bottom + padding.top) / 2
         }) rotate(-90)`,
       )
       .text(yAxisLabel);
@@ -444,13 +447,6 @@ export default function LineChartDynamic(props: LineChartDynamicProps) {
       <div className="chart-container">
         <svg className="line-chart"></svg>
       </div>
-      <div>
-        <Button onClick={addxaxis}>Add x axis</Button>
-        <Button onClick={removexaxis}>Remove x axis</Button>
-        <Button onClick={addyaxis}>Add y axis</Button>
-        <Button onClick={removeyaxis}>Remove y axis</Button>
-      </div>
-      {/* <Button onClick={changeData}>change Data</Button> */}
     </>
   );
 }
