@@ -3,6 +3,7 @@ import { IS_BROWSER } from "$fresh/runtime.ts";
 import { apply, tw } from "twind";
 import { animation, css } from "twind/css";
 import IconSettings from "../components/IconSettings.tsx";
+import { Button } from "../components/Button.tsx";
 
 interface PopupProps {
   title: string;
@@ -10,6 +11,7 @@ interface PopupProps {
   setShowDebug: (s: boolean) => void;
   setDebugMesssage: (s: string) => void;
   debugMessage: string;
+  yAxisAuto:boolean
 }
 
 // Lazy load a <dialog> polyfill.
@@ -44,7 +46,7 @@ const backdrop = css({
 });
 
 export default function Popup(
-  { title, showDebug, setShowDebug, setDebugMesssage, debugMessage }:
+  { title, showDebug, setShowDebug, setDebugMesssage, debugMessage,yAxisAuto }:
     PopupProps,
 ) {
   const ref = useRef<HTMLDialogElement | null>(null);
@@ -74,6 +76,8 @@ export default function Popup(
           setShowDebug={setShowDebug}
           setDebugMesssage={setDebugMesssage}
           debugMessage={debugMessage}
+          yAxisAuto={yAxisAuto}
+
         />
       </dialog>
     </div>
@@ -81,18 +85,27 @@ export default function Popup(
 }
 
 function PopupInner(
-  { title, showDebug, setShowDebug, setDebugMesssage, debugMessage }: PopupProps,
+  { title, showDebug, setShowDebug, setDebugMesssage, debugMessage,yAxisAuto }: PopupProps,
 ) {
   const [checked, setChecked] = useState(false);
+  const [disabled, setDisabled] = useState(" text-gray-300");
 
   const corners = "rounded(tl-2xl tr-2xl sm:(tr-none bl-2xl))";
   const card =
     `py-8 px-6 h-full bg-white ${corners} flex flex-col justify-between`;
 
-    const handleChange = () => {
-      setShowDebug(!showDebug);
-    };
+    // const handleChange = () => {
+    //   setShowDebug(!showDebug);
+    // };
 
+    const handleChange = () => {
+      console.log("handleChange called")
+      yAxisAuto.current = !yAxisAuto.current;
+      // setField("border border-solid border-red-300 p-3 space-x-3 text-gray-300");
+      // if(yAxisAuto.current)
+      setDisabled(yAxisAuto.current ? "text-black" : " text-gray-300");
+    };
+  
   return (
     <div class={card}>
       <div class="flex justify-between">
@@ -120,6 +133,45 @@ function PopupInner(
           />
           Show Debug Interface
         </label>
+
+        <fieldset class="border border-solid border-gray-300 p-2 rounded space-x-3"
+          disabled={yAxisAuto.current}
+        >
+          <legend class="text-sm space-x-3">
+            y-Axis Scale<label>   </label><input type="checkbox" checked={yAxisAuto.current} onChange={handleChange} />
+            <label class={disabled}>auto</label>
+          </legend>
+          <div class={yAxisAuto.current ? " text-gray-300" : "text-black"} disabled={yAxisAuto.current}>
+            <label>  Min  </label>
+            <input
+              class={"w-1/6 border-1 border-gray-500 h-8 rounded p-2"}
+              disabled={yAxisAuto.current}
+              type="number"
+              id="min"
+              min="0" max="100000"
+              ref={minRef}
+            />
+            <label>   Max  </label>
+            <input
+              class="w-1/6 border-1 border-gray-500 h-8 rounded p-2"
+              disabled={yAxisAuto.current}
+              type="number"
+              id="max"
+              min="0" max="100000"
+              ref={maxRef}
+            />
+            <label>     </label>
+            <Button
+              class={yAxisAuto.current ? "text-gray-300" : "text-black"} disabled={yAxisAuto.current}
+              onClick={clickSet}
+            >Set
+            </Button>
+          </div>
+        </fieldset>
+
+
+
+
       </div>
     </div>
   );

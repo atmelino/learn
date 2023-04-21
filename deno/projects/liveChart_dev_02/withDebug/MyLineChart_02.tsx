@@ -9,27 +9,21 @@ export default function MyLineChart() {
   const timems = useRef(Date.now());
   const datasets1 = useRef(MyData());
   const update = useRef(false);
-  const yAxisAuto = useRef(true);
+  const yAxisAuto = useRef(false);
+  // const start = useRef("start");
   const [start, setstart] = useState("start");
-  const [min, setMin] = useState(0);
-  const [max, setMax] = useState(100000);
+  const [min, setMin] = useState(30000);
+  const [max, setMax] = useState(31000);
   const [datasets, setData] = useState(datasets1.current);
   const [timestamp, settimestamp] = useState("");
   const [valueState, setValue] = useState();
+  const [updateState, setUpdate] = useState(false);
   const renderCount = useRef(0);
   const minRef = useRef<HTMLInputElement | null>(null);
   const maxRef = useRef<HTMLInputElement | null>(null);
-  const [field, setField] = useState("border border-solid border-gray-300 p-3 space-x-3");
-  const [disabled, setDisabled] = useState(" text-gray-300");
-  const [debugMessage, setdebugMessageState] = useState("123");
-  const [showDebug, setShowDebug] = useState(false);
+
   const data1: { x: Date; y: number }[] = [];
   let value = 30000;
-
-  function setDebugMesssage(message: string) {
-    console.log("setDebugMesssage called");
-    setdebugMessageState(message);
-  }
 
 
   const getBtcData = () => {
@@ -59,7 +53,7 @@ export default function MyLineChart() {
 
 
   function addData() {
-    // console.log("addData called");
+    console.log("addData called");
     timems.current = Date.now();
     settimestamp(format(new Date(timems.current), "yyyy-MM-dd HH:mm:ss"));
     getBtcData();
@@ -83,68 +77,71 @@ export default function MyLineChart() {
   }
 
   const handleChange = () => {
-    console.log("handleChange called")
     yAxisAuto.current = !yAxisAuto.current;
-    // setField("border border-solid border-red-300 p-3 space-x-3 text-gray-300");
-    // if(yAxisAuto.current)
-    setDisabled(yAxisAuto.current ? "text-black" : " text-gray-300");
   };
 
   useEffect(() => {
     renderCount.current = renderCount.current + 1;
   });
 
-  function clickSet() {
-    if (minRef?.current?.value)
-      setMin(+minRef?.current?.value);
-    if (maxRef?.current?.value)
-      setMax(+maxRef?.current?.value);
-  }
-
-
   return (
     <>
+      <h1>Render Count: {renderCount.current}</h1>
 
-
-      <div class="mx-auto max-w-screen-md">
+      <div class="p-4 mx-auto max-w-screen-md">
         <h2 class="text-lg font-medium text-gray-900 ">Live Bitcoin Chart</h2>
       </div>
-      <div class="mx-auto max-w-screen-md">
+      <div class="p-4 mx-auto max-w-screen-md">
 
-        <fieldset class="border border-solid border-gray-300 p-2 rounded space-x-3"
-          disabled={yAxisAuto.current}
+        <form
+          class="flex gap-2 w-full"
+          onSubmit={(e) => {
+            e.preventDefault();
+            // console.log("minRef " + JSON.stringify(minRef, null, 4));
+            console.log(minRef?.current?.value);
+            console.log(maxRef?.current?.value);
+            if (minRef?.current?.value)
+              setMin(+minRef?.current?.value);
+            if (maxRef?.current?.value)
+              setMax(+maxRef?.current?.value);
+
+            if (!minRef?.current?.value) return;
+            // minRef.current.value = "";
+          }}
         >
-          <legend class="text-sm space-x-3">
-            y-Axis Scale<label>   </label><input type="checkbox" checked={yAxisAuto.current} onChange={handleChange} />
-            <label class={disabled}>auto</label>
-          </legend>
-          <div class={yAxisAuto.current ? " text-gray-300" : "text-black"} disabled={yAxisAuto.current}>
-            <label>  Min  </label>
-            <input
-              class={"w-1/6 border-1 border-gray-500 h-8 rounded p-2"}
-              disabled={yAxisAuto.current}
-              type="number"
-              id="min"
-              min="0" max="100000"
-              ref={minRef}
-            />
-            <label>   Max  </label>
-            <input
-              class="w-1/6 border-1 border-gray-500 h-8 rounded p-2"
-              disabled={yAxisAuto.current}
-              type="number"
-              id="max"
-              min="0" max="100000"
-              ref={maxRef}
-            />
-            <label>     </label>
-            <Button
-              class={yAxisAuto.current ? "text-gray-300" : "text-black"} disabled={yAxisAuto.current}
-              onClick={clickSet}
-            >Set
-            </Button>
-          </div>
-        </fieldset>
+          <fieldset class="border border-solid border-gray-300 p-3 space-x-3">
+            <legend class="text-sm">
+              y-axis scale auto <input type="checkbox" checked={yAxisAuto.current} onChange={handleChange} />
+            </legend>
+            <div class="space-x-3" disabled={yAxisAuto.current}>
+              min
+              <input
+                class="w-2/6 border-1 border-gray-500 h-8 rounded p-2"
+                disabled={yAxisAuto.current}
+                type="number"
+                placeholder="0"
+                id="min"
+                min="0" max="100000"
+                ref={minRef}
+              />
+              max
+              <input
+                class="w-2/6 border-1 border-gray-500 h-8 rounded p-2"
+                disabled={yAxisAuto.current}
+                type="number"
+                placeholder="40000"
+                id="max"
+                min="0" max="100000"
+                ref={maxRef}
+              />
+              <Button
+                type="submit"
+              // value="Add"
+              >Set
+              </Button>
+            </div>
+          </fieldset>
+        </form>
 
 
         <div class="bg-green-100">
@@ -170,7 +167,6 @@ export default function MyLineChart() {
         </div>
         <LineChartDynamic
           height={500}
-          paddingTop={10}
           datasets={datasets}
           data={data1}
           yAxisMin={min}
@@ -178,11 +174,11 @@ export default function MyLineChart() {
           yAxisAuto={yAxisAuto.current}
           addLabel={false}
           addLegend={false}
-          addTooltip={false}
+        // requestUpdate={updateState}
         >
         </LineChartDynamic>
       </div>
-      <div class="mx-auto max-w-screen-md">
+      <div class="p-4 mx-auto max-w-screen-md">
         {timestamp} <b>1 BTC = {valueState} USD</b>
       </div>
     </>

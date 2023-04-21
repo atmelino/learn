@@ -4,6 +4,7 @@ import { LineChartDynamic } from "../library/charts.ts";
 import MyData from "./data.tsx";
 import { format } from "https://deno.land/std@0.91.0/datetime/mod.ts";
 import PeriodicTask from "./PeriodicTask.tsx";
+import Popup from "./Popup.tsx";
 
 export default function MyLineChart() {
   const timems = useRef(Date.now());
@@ -20,7 +21,6 @@ export default function MyLineChart() {
   const minRef = useRef<HTMLInputElement | null>(null);
   const maxRef = useRef<HTMLInputElement | null>(null);
   const [field, setField] = useState("border border-solid border-gray-300 p-3 space-x-3");
-  const [disabled, setDisabled] = useState(" text-gray-300");
   const [debugMessage, setdebugMessageState] = useState("123");
   const [showDebug, setShowDebug] = useState(false);
   const data1: { x: Date; y: number }[] = [];
@@ -82,13 +82,6 @@ export default function MyLineChart() {
     }
   }
 
-  const handleChange = () => {
-    console.log("handleChange called")
-    yAxisAuto.current = !yAxisAuto.current;
-    // setField("border border-solid border-red-300 p-3 space-x-3 text-gray-300");
-    // if(yAxisAuto.current)
-    setDisabled(yAxisAuto.current ? "text-black" : " text-gray-300");
-  };
 
   useEffect(() => {
     renderCount.current = renderCount.current + 1;
@@ -105,47 +98,20 @@ export default function MyLineChart() {
   return (
     <>
 
+      <Popup
+        title="Settings"
+        showDebug={showDebug}
+        setShowDebug={setShowDebug}
+        setDebugMesssage={setDebugMesssage}
+        debugMessage={debugMessage}
+        yAxisAuto={yAxisAuto.current}
+        minRef={minRef.current}
+      />
 
       <div class="mx-auto max-w-screen-md">
         <h2 class="text-lg font-medium text-gray-900 ">Live Bitcoin Chart</h2>
       </div>
       <div class="mx-auto max-w-screen-md">
-
-        <fieldset class="border border-solid border-gray-300 p-2 rounded space-x-3"
-          disabled={yAxisAuto.current}
-        >
-          <legend class="text-sm space-x-3">
-            y-Axis Scale<label>   </label><input type="checkbox" checked={yAxisAuto.current} onChange={handleChange} />
-            <label class={disabled}>auto</label>
-          </legend>
-          <div class={yAxisAuto.current ? " text-gray-300" : "text-black"} disabled={yAxisAuto.current}>
-            <label>  Min  </label>
-            <input
-              class={"w-1/6 border-1 border-gray-500 h-8 rounded p-2"}
-              disabled={yAxisAuto.current}
-              type="number"
-              id="min"
-              min="0" max="100000"
-              ref={minRef}
-            />
-            <label>   Max  </label>
-            <input
-              class="w-1/6 border-1 border-gray-500 h-8 rounded p-2"
-              disabled={yAxisAuto.current}
-              type="number"
-              id="max"
-              min="0" max="100000"
-              ref={maxRef}
-            />
-            <label>     </label>
-            <Button
-              class={yAxisAuto.current ? "text-gray-300" : "text-black"} disabled={yAxisAuto.current}
-              onClick={clickSet}
-            >Set
-            </Button>
-          </div>
-        </fieldset>
-
 
         <div class="bg-green-100">
           <Button onClick={() => {
