@@ -83,8 +83,7 @@ export default function LineChartDynamic(props: LineChartDynamicProps) {
     xAxis.tickSizeOuter(0);
 
     // customizing x axis
-    const svg = d3
-      .select(".line-chart");
+    const svg = d3.select(".line-chart");
 
     svg
       .append("g")
@@ -101,19 +100,11 @@ export default function LineChartDynamic(props: LineChartDynamicProps) {
       .selectAll(".tick text")
       .attr("transform", "translate(-10, 3)rotate(-45)") // have to take into account the variables for rotation too
       .style("text-anchor", "end")
-
-
-
-
-
-
-      // svg
-      // .selectAll("g")
-      // .selectAll(".tick line")
-      // .attr("stroke-width", "0.5")
-      // .attr("y2", -height)
-      // .attr("opacity", "0.3");
-
+      .selectAll(".tick line")
+      // .attr("tickFormat",".0f")
+      .attr("stroke-width", "0.5")
+      .attr("x2", width)
+      .attr("opacity", "0.3");
 
   };
 
@@ -139,11 +130,10 @@ export default function LineChartDynamic(props: LineChartDynamicProps) {
         .range([height + padding.bottom, padding.bottom]);
 
     const yAxis = d3.axisLeft(yScale).tickFormat(d3.format(",.0f"));
+
     yAxis.tickSizeOuter(0);
 
-    const svg = d3
-      .select(".line-chart");
-
+    const svg = d3.select(".line-chart");
     // select the first g component which is the y axis in the graph
     svg
       .select("g")
@@ -164,11 +154,6 @@ export default function LineChartDynamic(props: LineChartDynamicProps) {
       .attr("font-family", fontFamily)
       .attr("font-size", axesFontSize)
       .attr("color", axesColor)
-      .selectAll(".tick line")
-      // .attr("tickFormat",".0f")
-      .attr("stroke-width", "0.5")
-      .attr("x2", width)
-      .attr("opacity", "0.3");
   };
 
   const removeyaxis = () => {
