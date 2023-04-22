@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>live Chart dev 01</title>
+        <title>live Chart dev 02</title>
       </Head>
       <Body />
     </>
