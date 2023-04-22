@@ -9,9 +9,11 @@ interface PopupProps {
   title: string;
   showDebug: boolean;
   setShowDebug: (s: boolean) => void;
-  setDebugMesssage: (s: string) => void;
-  debugMessage: string;
-  yAxisAuto:boolean
+  setyAxisAutoRef: (s: boolean) => void;
+  min: number;
+  setMin: (n: number) => void;
+  max: number;
+  setMax: (n: number) => void;
 }
 
 // Lazy load a <dialog> polyfill.
@@ -45,10 +47,17 @@ const backdrop = css({
   },
 });
 
-export default function Popup(
-  { title, showDebug, setShowDebug, setDebugMesssage, debugMessage,yAxisAuto }:
-    PopupProps,
-) {
+export default function Popup(props: PopupProps) {
+  const title = props.title;
+  const showDebug = props.showDebug;
+  const setShowDebug = props.setShowDebug;
+  const setyAxisAutoRef = props.setyAxisAutoRef;
+  const min = props.min;
+  const setMin = props.setMin;
+  const max = props.max;
+  const setMax = props.setMax;
+
+
   const ref = useRef<HTMLDialogElement | null>(null);
 
   const onDialogClick = (e: MouseEvent) => {
@@ -71,41 +80,61 @@ export default function Popup(
         onClick={onDialogClick}
       >
         <PopupInner
-          title={title}
+          title="Settings"
           showDebug={showDebug}
           setShowDebug={setShowDebug}
-          setDebugMesssage={setDebugMesssage}
-          debugMessage={debugMessage}
-          yAxisAuto={yAxisAuto}
-
+          setyAxisAutoRef={setyAxisAutoRef}
+          min={min}
+          setMin={setMin}
+          max={max}
+          setMax={setMax}
         />
       </dialog>
     </div>
   );
 }
 
-function PopupInner(
-  { title, showDebug, setShowDebug, setDebugMesssage, debugMessage,yAxisAuto }: PopupProps,
-) {
+function PopupInner(props: PopupProps) {
+  const title = props.title;
+  const showDebug = props.showDebug;
+  const setShowDebug = props.setShowDebug;
+  const setyAxisAutoRef = props.setyAxisAutoRef;
+  const min = props.min;
+  const setMin = props.setMin;
+  const max = props.max;
+  const setMax = props.setMax;
+
   const [checked, setChecked] = useState(false);
   const [disabled, setDisabled] = useState(" text-gray-300");
+  const minRef = useRef<HTMLInputElement | null>(null);
+  const maxRef = useRef<HTMLInputElement | null>(null);
 
   const corners = "rounded(tl-2xl tr-2xl sm:(tr-none bl-2xl))";
-  const card =
-    `py-8 px-6 h-full bg-white ${corners} flex flex-col justify-between`;
+  const card = `py-8 px-6 h-full bg-white ${corners} flex flex-col justify-between`;
 
-    // const handleChange = () => {
-    //   setShowDebug(!showDebug);
-    // };
+  // let yAxisAuto=true;
+  const yAxisAuto = useRef(true);
 
-    const handleChange = () => {
-      console.log("handleChange called")
-      yAxisAuto.current = !yAxisAuto.current;
-      // setField("border border-solid border-red-300 p-3 space-x-3 text-gray-300");
-      // if(yAxisAuto.current)
-      setDisabled(yAxisAuto.current ? "text-black" : " text-gray-300");
-    };
-  
+  // const handleChange = () => {
+  //   console.log("handleChange called")
+  //   setShowDebug(!showDebug);
+  //   console.log(showDebug);
+  // };
+
+  const handleChange = () => {
+    console.log("handleChange called")
+    yAxisAuto.current=!yAxisAuto.current;
+    setyAxisAutoRef(yAxisAuto.current);
+    // setDisabled(yAxisAuto.current ? "text-black" : " text-gray-300");
+  };
+
+  function clickSet() {
+    if (minRef?.current?.value)
+      setMin(+minRef?.current?.value);
+    if (maxRef?.current?.value)
+      setMax(+maxRef?.current?.value);
+  }
+
   return (
     <div class={card}>
       <div class="flex justify-between">
@@ -138,8 +167,10 @@ function PopupInner(
           disabled={yAxisAuto.current}
         >
           <legend class="text-sm space-x-3">
-            y-Axis Scale<label>   </label><input type="checkbox" checked={yAxisAuto.current} onChange={handleChange} />
-            <label class={disabled}>auto</label>
+            y-Axis Scale<label>   </label>
+            {/* <input type="checkbox" checked={yAxisAuto.current} onChange={handleChange} /> */}
+            <input type="checkbox"  onChange={handleChange} />
+            <label class={disabled}>manual</label>
           </legend>
           <div class={yAxisAuto.current ? " text-gray-300" : "text-black"} disabled={yAxisAuto.current}>
             <label>  Min  </label>
@@ -168,7 +199,6 @@ function PopupInner(
             </Button>
           </div>
         </fieldset>
-
 
 
 

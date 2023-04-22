@@ -9,8 +9,9 @@ import Popup from "./Popup.tsx";
 export default function MyLineChart() {
   const timems = useRef(Date.now());
   const datasets1 = useRef(MyData());
-  const update = useRef(false);
   const yAxisAuto = useRef(true);
+  // const [yAxisAuto, setyAxisAuto] = useState(true);
+  const [showDebug, setShowDebug] = useState(false);
   const [start, setstart] = useState("start");
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(100000);
@@ -18,19 +19,8 @@ export default function MyLineChart() {
   const [timestamp, settimestamp] = useState("");
   const [valueState, setValue] = useState();
   const renderCount = useRef(0);
-  const minRef = useRef<HTMLInputElement | null>(null);
-  const maxRef = useRef<HTMLInputElement | null>(null);
-  const [field, setField] = useState("border border-solid border-gray-300 p-3 space-x-3");
-  const [debugMessage, setdebugMessageState] = useState("123");
-  const [showDebug, setShowDebug] = useState(false);
   const data1: { x: Date; y: number }[] = [];
   let value = 30000;
-
-  function setDebugMesssage(message: string) {
-    console.log("setDebugMesssage called");
-    setdebugMessageState(message);
-  }
-
 
   const getBtcData = () => {
     fetch("https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD")
@@ -47,9 +37,6 @@ export default function MyLineChart() {
           y: value,
         });
         setData(datasets1.current);
-        update.current = !update.current;
-        // console.log("update="+update.current)
-        // setUpdate(update.current);
         // printData(datasets1.current);
       })
       .catch(() => {
@@ -63,6 +50,8 @@ export default function MyLineChart() {
     timems.current = Date.now();
     settimestamp(format(new Date(timems.current), "yyyy-MM-dd HH:mm:ss"));
     getBtcData();
+    // console.log(yAxisAuto);
+    // console.log("showDebug=" + showDebug);
   }
 
   function printtimems() {
@@ -82,18 +71,13 @@ export default function MyLineChart() {
     }
   }
 
+  function setyAxisAutoRef(val: boolean) {
+    yAxisAuto.current = val;
+  }
 
   useEffect(() => {
     renderCount.current = renderCount.current + 1;
   });
-
-  function clickSet() {
-    if (minRef?.current?.value)
-      setMin(+minRef?.current?.value);
-    if (maxRef?.current?.value)
-      setMax(+maxRef?.current?.value);
-  }
-
 
   return (
     <>
@@ -102,10 +86,12 @@ export default function MyLineChart() {
         title="Settings"
         showDebug={showDebug}
         setShowDebug={setShowDebug}
-        setDebugMesssage={setDebugMesssage}
-        debugMessage={debugMessage}
-        yAxisAuto={yAxisAuto.current}
-        minRef={minRef.current}
+        // yAxisAuto={yAxisAuto}
+        setyAxisAutoRef={setyAxisAutoRef}
+        min={min}
+        setMin={setMin}
+        max={max}
+        setMax={setMax}
       />
 
       <div class="mx-auto max-w-screen-md">
@@ -117,6 +103,9 @@ export default function MyLineChart() {
           <Button onClick={() => {
             console.log("start pressed");
             setstart("start");
+            // setyAxisAuto(false);
+            // console.log(yAxisAuto);
+
             // start.current = "start"
             // console.log("start=" + start.current);
 
@@ -134,6 +123,9 @@ export default function MyLineChart() {
             start={start}
           />
         </div>
+        <div class="mx-auto max-w-screen-md">
+          {timestamp} <b>1 BTC = {valueState} USD</b>
+        </div>
         <LineChartDynamic
           height={500}
           paddingTop={10}
@@ -147,9 +139,6 @@ export default function MyLineChart() {
           addTooltip={false}
         >
         </LineChartDynamic>
-      </div>
-      <div class="mx-auto max-w-screen-md">
-        {timestamp} <b>1 BTC = {valueState} USD</b>
       </div>
     </>
   );
