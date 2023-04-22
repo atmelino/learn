@@ -7,8 +7,6 @@ import { Button } from "../components/Button.tsx";
 
 interface PopupProps {
   title: string;
-  showDebug: boolean;
-  setShowDebug: (s: boolean) => void;
   setyAxisAutoRef: (s: boolean) => void;
   min: number;
   setMin: (n: number) => void;
@@ -49,8 +47,6 @@ const backdrop = css({
 
 export default function Popup(props: PopupProps) {
   const title = props.title;
-  const showDebug = props.showDebug;
-  const setShowDebug = props.setShowDebug;
   const setyAxisAutoRef = props.setyAxisAutoRef;
   const min = props.min;
   const setMin = props.setMin;
@@ -81,8 +77,6 @@ export default function Popup(props: PopupProps) {
       >
         <PopupInner
           title="Settings"
-          showDebug={showDebug}
-          setShowDebug={setShowDebug}
           setyAxisAutoRef={setyAxisAutoRef}
           min={min}
           setMin={setMin}
@@ -96,8 +90,6 @@ export default function Popup(props: PopupProps) {
 
 function PopupInner(props: PopupProps) {
   const title = props.title;
-  const showDebug = props.showDebug;
-  const setShowDebug = props.setShowDebug;
   const setyAxisAutoRef = props.setyAxisAutoRef;
   const min = props.min;
   const setMin = props.setMin;
@@ -114,12 +106,6 @@ function PopupInner(props: PopupProps) {
 
   // let yAxisAuto=true;
   const yAxisAuto = useRef(true);
-
-  // const handleChange = () => {
-  //   console.log("handleChange called")
-  //   setShowDebug(!showDebug);
-  //   console.log(showDebug);
-  // };
 
   const handleChange = () => {
     console.log("handleChange called")
@@ -155,13 +141,6 @@ function PopupInner(props: PopupProps) {
         </button>
       </div>
       <div class="flex-grow-1 my-4">
-        <label>
-          <input
-            type="checkbox"
-            onChange={handleChange}
-          />
-          Show Debug Interface
-        </label>
 
         <fieldset class="border border-solid border-gray-300 p-2 rounded space-x-3"
           disabled={yAxisAuto.current}
@@ -199,8 +178,6 @@ function PopupInner(props: PopupProps) {
             </Button>
           </div>
         </fieldset>
-
-
 
       </div>
     </div>

@@ -11,7 +11,6 @@ export default function MyLineChart() {
   const datasets1 = useRef(MyData());
   const yAxisAuto = useRef(true);
   // const [yAxisAuto, setyAxisAuto] = useState(true);
-  const [showDebug, setShowDebug] = useState(false);
   const [start, setstart] = useState("start");
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(100000);
@@ -84,8 +83,6 @@ export default function MyLineChart() {
 
       <Popup
         title="Settings"
-        showDebug={showDebug}
-        setShowDebug={setShowDebug}
         // yAxisAuto={yAxisAuto}
         setyAxisAutoRef={setyAxisAutoRef}
         min={min}
