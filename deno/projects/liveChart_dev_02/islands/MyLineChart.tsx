@@ -5,6 +5,7 @@ import MyData from "./data.tsx";
 import { format } from "https://deno.land/std@0.91.0/datetime/mod.ts";
 import PeriodicTask from "./PeriodicTask.tsx";
 import Popup from "./Popup.tsx";
+import IconSettings from "../components/IconSettings.tsx";
 
 export default function MyLineChart() {
   const timems = useRef(Date.now());
@@ -49,8 +50,6 @@ export default function MyLineChart() {
     timems.current = Date.now();
     settimestamp(format(new Date(timems.current), "yyyy-MM-dd HH:mm:ss"));
     getBtcData();
-    // console.log(yAxisAuto);
-    // console.log("showDebug=" + showDebug);
   }
 
   function printtimems() {
@@ -80,19 +79,19 @@ export default function MyLineChart() {
 
   return (
     <>
-
-      <Popup
-        title="Settings"
-        // yAxisAuto={yAxisAuto}
-        setyAxisAutoRef={setyAxisAutoRef}
-        min={min}
-        setMin={setMin}
-        max={max}
-        setMax={setMax}
-      />
-
-      <div class="mx-auto max-w-screen-md">
-        <h2 class="text-lg font-medium text-gray-900 ">Live Bitcoin Chart</h2>
+      <div id="main" class="flex flex-row justify-evenly">
+        <label class="w-5/6 flex justify-center  text-lg font-medium text-gray-900 ">Live Bitcoin Chart</label>
+        {/* <label > */}
+          <Popup
+            title="Settings"
+            // yAxisAuto={yAxisAuto}
+            setyAxisAutoRef={setyAxisAutoRef}
+            min={min}
+            setMin={setMin}
+            max={max}
+            setMax={setMax}
+          />
+        {/* </label> */}
       </div>
       <div class="mx-auto max-w-screen-md">
 
