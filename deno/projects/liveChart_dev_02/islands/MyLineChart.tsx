@@ -103,7 +103,13 @@ export default function MyLineChart() {
       </div>
 
       <div class="flex flex-row justify-evenly">
-        <b>1 BTC = {valueState} USD</b>{timestamp}
+        <b>1 BTC = {valueState} USD</b>
+        <img
+          src="../static/Bitcoin.svg"
+          class="w-32 h-32"
+          alt="BTC"
+        />
+        {timestamp}
       </div>
       <div class="flex flex-row justify-evenly bg-green-50">
         <LineChartDynamic
