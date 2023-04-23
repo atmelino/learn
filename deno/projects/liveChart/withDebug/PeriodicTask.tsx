@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "preact/hooks";
+import { Button } from "../components/Button.tsx";
 
 interface TaskProps {
   Task: (s: string) => void;
@@ -21,45 +22,56 @@ function PeriodicTask(props: TaskProps) {
   const count = useRef(0);
 
   function startTask() {
+    // console.log("startTask called");
     if (!ts.current.running) {
+      // console.log("Interval ID before setInterval=" + ts.current.id);
       const id = setInterval(myTask, interval);
       ts.current.id = id;
       ts.current.running = true
+      // console.log("Interval ID after setInterval=" + ts.current.id);
     } else
       console.log("Task already running");
   }
 
   function stopTask() {
+    // console.log("stopTask called");
     if (ts.current.running) {
+      // console.log("Interval ID before setInterval=" + ts.current.id);
       clearInterval(ts.current.id);
       ts.current.running = false;
+      // console.log("Interval ID after setInterval=" + ts.current.id);
     }
     else
       console.log("Task not running");
   }
 
   function myTask() {
+    // console.log("myTask called");
     count.current++;
     Task("" + count.current);
   }
 
   useEffect(() => {
+    console.log("useEffect in PeriodicTask");
+    console.log("start=" + start);
+
     if (start == "start")
       startTask()
     if (start == "stop")
-      stopTask();
+    stopTask();
+
   }, [props.start]);
 
-  useEffect(() => {
-    // console.log(interval);
-    if (start == "start") {
-      stopTask();
-      startTask()
-    }
-  }, [props.interval]);
 
-
-  return (<></>);
+  return (
+    <div>
+      <div>
+        <Button onClick={() => startTask()}>Start</Button>
+        <Button onClick={() => stopTask()}>Stop</Button>
+        counter =  {count.current}
+      </div>
+    </div>
+  );
 }
 
 export default PeriodicTask;

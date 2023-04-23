@@ -1,35 +1,54 @@
 import { useEffect, useRef, useState } from "preact/hooks";
-import { Button } from "../components/Button.tsx";
-import { LineChartDateMod } from "../library/charts.ts";
+import { LineChartDynamic } from "../library/charts.ts";
 import MyData from "./data.tsx";
 import { format } from "https://deno.land/std@0.91.0/datetime/mod.ts";
 import PeriodicTask from "./PeriodicTask.tsx";
+import Popup from "./Popup.tsx";
 
 export default function MyLineChart() {
-  // let datasets1=MyData();
-  // const [timems, settimems] = useState(Date.now());
-  let timems = useRef(Date.now());
-  let datasets1 = useRef(MyData());
-  let update = useRef(false);
+  const timems = useRef(Date.now());
+  const datasets1 = useRef(MyData());
+  const yAxisAuto = useRef(true);
+  const [start, setstart] = useState("start");
+  const [interval, setInterval] = useState(1000);
+  const [min, setMin] = useState(0);
+  const [max, setMax] = useState(100000);
   const [datasets, setData] = useState(datasets1.current);
-  const [updateState, setUpdate] = useState(false);
+  const [timestamp, settimestamp] = useState("");
+  const [valueState, setValue] = useState();
+  const renderCount = useRef(0);
   const data1: { x: Date; y: number }[] = [];
+  let value = 30000;
+
+
+  const getBtcData = () => {
+    fetch("https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD")
+      .then(response => response.json())
+      .then(data => {
+        // console.log(data);
+        value = data.USD;
+        setValue(data.USD);
+        if (datasets1.current[0].data.length >= 30) {
+          datasets1.current[0].data.splice(0, 1);
+        }
+        datasets1.current[0].data.push({
+          x: timems.current,
+          y: value,
+        });
+        setData(datasets1.current);
+        // printData(datasets1.current);
+      })
+      .catch(() => {
+        console.log('Data failed to load from url');
+      });
+  }
+
 
   function addData() {
-    console.log("addData called");
-    timems.current = timems.current + 50000;
-    const value = Math.floor((Math.random() * 10) + 1);
-    if (datasets1.current[0].data.length >= 10) {
-      datasets1.current[0].data.splice(0, 1);
-    }
-    datasets1.current[0].data.push({
-      x: timems.current,
-      y: value,
-    });
-    setData(datasets1.current);
-    update.current=!update.current;
-    setUpdate(update.current);
-    // printData(datasets1.current);
+    // console.log("addData called");
+    timems.current = Date.now();
+    settimestamp(format(new Date(timems.current), "yyyy-MM-dd HH:mm:ss"));
+    getBtcData();
   }
 
   function printtimems() {
@@ -45,29 +64,63 @@ export default function MyLineChart() {
 
     for (const d of ds[0].data) {
       const timestamp = format(new Date(d.x), "yyyy-MM-dd HH:mm:ss");
-
       console.log("x= " + timestamp + " y=" + d.y);
     }
   }
 
+  function setyAxisAutoRef(val: boolean) {
+    yAxisAuto.current = val;
+  }
+
+  useEffect(() => {
+    renderCount.current = renderCount.current + 1;
+  });
+
+
   return (
-    <div>
-      <div class="bg-green-100">
-        <Button onClick={addData}>time step</Button>
-        <PeriodicTask
-          TaskName={addData}
-          name={"debugMessage"}
+    <>
+      <PeriodicTask
+        Task={addData}
+        name={"live BTC"}
+        interval={interval}
+        start={start}
+      />
+
+      <div class="flex flex-row justify-evenly">
+        <label class="w-11/12 flex justify-center  text-lg font-medium text-gray-900 ">
+          Live Bitcoin Chart
+        </label>
+        <Popup
+          title="Settings"
+          setyAxisAutoRef={setyAxisAutoRef}
+          min={min}
+          setMin={setMin}
+          max={max}
+          setMax={setMax}
+          setstart={setstart}
+          setInterval={setInterval}
         />
       </div>
-      <LineChartDateMod
-        height={400}
-        datasets={datasets}
-        data={data1}
-        yAxisMin={0}
-        yAxisMax={10}
-        requestUpdate={updateState}
-      >
-      </LineChartDateMod>
-    </div>
+
+      <div class="flex flex-row justify-evenly">
+        <b>1 BTC = {valueState} USD</b>{timestamp}
+      </div>
+      <div class="flex flex-row justify-evenly bg-green-50">
+        <LineChartDynamic
+          height={500}
+          paddingTop={10}
+          datasets={datasets}
+          data={data1}
+          yAxisMin={min}
+          yAxisMax={max}
+          yAxisAuto={yAxisAuto.current}
+          addLabel={false}
+          addLegend={false}
+          addTooltip={false}
+        >
+        </LineChartDynamic>
+      </div>
+
+    </>
   );
 }

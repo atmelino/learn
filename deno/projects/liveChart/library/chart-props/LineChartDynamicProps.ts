@@ -1,4 +1,4 @@
-export interface LineChartProps {
+export interface LineChartDynamicProps {
   data?: {
     x: Date;
     y: number;
@@ -23,8 +23,9 @@ export interface LineChartProps {
   axesFontSize?: string;
   xAxisLabel?: string;
   yAxisLabel?: string;
-  yAxisMin: number;
-  yAxisMax: number;
+  yAxisMin?: number;
+  yAxisMax?: number;
+  yAxisAuto?: boolean;
   axesLabelColor?: string;
   axesLabelSize?: string;
   animation?: boolean;

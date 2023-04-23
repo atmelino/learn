@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "preact/hooks";
-import { Button } from "../components/Button.tsx";
 import { LineChartDynamic } from "../library/charts.ts";
 import MyData from "./data.tsx";
 import { format } from "https://deno.land/std@0.91.0/datetime/mod.ts";
@@ -10,8 +9,8 @@ export default function MyLineChart() {
   const timems = useRef(Date.now());
   const datasets1 = useRef(MyData());
   const yAxisAuto = useRef(true);
-  // const [yAxisAuto, setyAxisAuto] = useState(true);
   const [start, setstart] = useState("start");
+  const [interval, setInterval] = useState(1000);
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(100000);
   const [datasets, setData] = useState(datasets1.current);
@@ -20,6 +19,7 @@ export default function MyLineChart() {
   const renderCount = useRef(0);
   const data1: { x: Date; y: number }[] = [];
   let value = 30000;
+
 
   const getBtcData = () => {
     fetch("https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD")
@@ -76,12 +76,13 @@ export default function MyLineChart() {
     renderCount.current = renderCount.current + 1;
   });
 
+
   return (
     <>
       <PeriodicTask
         Task={addData}
         name={"live BTC"}
-        interval={1000}
+        interval={interval}
         start={start}
       />
 
@@ -97,13 +98,14 @@ export default function MyLineChart() {
           max={max}
           setMax={setMax}
           setstart={setstart}
+          setInterval={setInterval}
         />
       </div>
 
       <div class="flex flex-row justify-evenly">
         <b>1 BTC = {valueState} USD</b>{timestamp}
       </div>
-      <div class="flex flex-row justify-evenly">
+      <div class="flex flex-row justify-evenly bg-green-50">
         <LineChartDynamic
           height={500}
           paddingTop={10}
@@ -118,6 +120,7 @@ export default function MyLineChart() {
         >
         </LineChartDynamic>
       </div>
+
     </>
   );
 }

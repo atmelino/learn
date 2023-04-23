@@ -50,6 +50,14 @@ function PeriodicTask(props: TaskProps) {
       stopTask();
   }, [props.start]);
 
+  useEffect(() => {
+    // console.log(interval);
+    if (start == "start") {
+      stopTask();
+      startTask()
+    }
+  }, [props.interval]);
+
 
   return (<></>);
 }

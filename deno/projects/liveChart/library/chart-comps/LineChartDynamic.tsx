@@ -1,8 +1,9 @@
 import { d3, useEffect } from "../mod.ts";
-import { LineChartProps } from "../chart-props/LineChartProps.ts";
+import { LineChartDynamicProps } from "../chart-props/LineChartDynamicProps.ts";
 import { Button } from "../../components/Button.tsx";
+import { useRef, useState } from "preact/hooks";
 
-export default function LineChartDateMod(props: LineChartProps) {
+export default function LineChartDynamic(props: LineChartDynamicProps) {
   const yLabelPadding = 20;
   const xLabelPadding = 20;
   const padding = {
@@ -18,8 +19,9 @@ export default function LineChartDateMod(props: LineChartProps) {
   const fontFamily = props.fontFamily || "Verdana";
   const xAxisLabel = props.xAxisLabel || "x label";
   const yAxisLabel = props.yAxisLabel || "y label";
-  const yAxisMin = props.yAxisMax || 0;
+  const yAxisMin = props.yAxisMin || 0;
   const yAxisMax = props.yAxisMax || 100;
+  const yAxisAuto = props.yAxisAuto || true;
   const axesLabelColor = props.axesLabelColor || "#277DA1";
   const axesLabelSize = props.axesLabelSize || "0.8em";
   const axesColor = props.axesColor || "#4D908E";
@@ -35,6 +37,13 @@ export default function LineChartDateMod(props: LineChartProps) {
   const addLegend = props.addLegend === false ? props.addLegend : true;
   const requestUpdate = props.requestUpdate || false;
   const datasets = [];
+  const count = useRef(0);
+
+  // console.log(count.current+"props.yAxisAuto=" + props.yAxisAuto)
+  // console.log("yAxisAuto="+yAxisAuto)
+  // console.log("props.requestUpdate="+props.requestUpdate)
+  // console.log("requestUpdate="+requestUpdate)
+  // console.log("height="+height)
 
   // configure scale
   let drawPoints = [];
@@ -93,6 +102,12 @@ export default function LineChartDateMod(props: LineChartProps) {
       .selectAll(".tick text")
       .attr("transform", "translate(-10, 3)rotate(-45)") // have to take into account the variables for rotation too
       .style("text-anchor", "end");
+
+      d3.select("#xaxis")
+      .selectAll(".tick line")
+      .attr("stroke-width", "0.5")
+      .attr("y2", -height)
+      .attr("opacity", "0.3");
   };
 
   const removexaxis = () => {
@@ -100,31 +115,28 @@ export default function LineChartDateMod(props: LineChartProps) {
   };
 
   const addyaxis = () => {
-    // yScale = d3
-    //   .scaleLinear()
-    //   .domain(
-    //     d3.extent(drawPoints, function (d: { x: Date; y: number }): number {
-    //       return d.y;
-    //     }),
-    //   )
-    // .range([height + padding.bottom, padding.bottom]);
-    yScale = d3
-      .scaleLinear()
-      .domain([0, yAxisMax])
-      .range([height + padding.bottom, padding.bottom]);
+    // console.log("yAxisAuto="+yAxisAuto)
+    if (props.yAxisAuto) {
+      yScale = d3
+        .scaleLinear()
+        .domain(
+          d3.extent(drawPoints, function (d: { x: Date; y: number }): number {
+            return d.y;
+          }),
+        ).range([height + padding.bottom, padding.bottom]);
+    } else {
+      yScale = d3
+        .scaleLinear()
+        .domain([yAxisMin, yAxisMax])
+        .range([height + padding.bottom, padding.bottom]);
+    }
 
-    const yAxis = d3.axisLeft(yScale);
+    const yAxis = d3.axisLeft(yScale).tickFormat(d3.format(",.0f"));
+
     yAxis.tickSizeOuter(0);
 
     const svg = d3
       .select(".line-chart");
-    // select the first g component which is the y axis in the graph
-    svg
-      .select("g")
-      .selectAll(".tick line")
-      .attr("stroke-width", "0.5")
-      .attr("y2", -height)
-      .attr("opacity", "0.3");
 
     // customizing y axis
     svg
@@ -139,6 +151,7 @@ export default function LineChartDateMod(props: LineChartProps) {
       .attr("font-size", axesFontSize)
       .attr("color", axesColor)
       .selectAll(".tick line")
+      // .attr("tickFormat",".0f")
       .attr("stroke-width", "0.5")
       .attr("x2", width)
       .attr("opacity", "0.3");
@@ -405,14 +418,17 @@ export default function LineChartDateMod(props: LineChartProps) {
   }
 
   useEffect(() => {
+    count.current = count.current + 1;
+    // console.log("datasets " + JSON.stringify(props, null, 4));
     // console.log("datasets " + JSON.stringify(props.datasets, null, 4));
-    console.log("requestUpdate " + props.requestUpdate);
+    // console.log("requestUpdate " + props.requestUpdate);
     cleanDatasets();
     // configureScale();
     clearChart();
 
     updateChart();
     if (addLabel) {
+      console.log("label requested");
       updateLabel();
     }
     if (addLegend) {
@@ -431,13 +447,6 @@ export default function LineChartDateMod(props: LineChartProps) {
       <div className="chart-container">
         <svg className="line-chart"></svg>
       </div>
-      <div>
-        <Button onClick={addxaxis}>Add x axis</Button>
-        <Button onClick={removexaxis}>Remove x axis</Button>
-        <Button onClick={addyaxis}>Add y axis</Button>
-        <Button onClick={removeyaxis}>Remove y axis</Button>
-      </div>
-      {/* <Button onClick={changeData}>change Data</Button> */}
     </>
   );
 }
