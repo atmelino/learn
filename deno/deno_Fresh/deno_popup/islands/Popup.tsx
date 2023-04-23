@@ -56,7 +56,7 @@ export default function Popup({ length, Url, setDebugMesssage, debugMessage }: P
     <div>
       <button
         onClick={() => ref.current!.showModal()}
-        class="flex items-center gap-2 items-center border-2 border-gray-800 rounded-full px-5 py-1 font-semibold text-gray-800 hover:bg-gray-800 hover:text-white transition-colors duration-300"
+        class=" gap-2 border-2 border-gray-800 rounded-full px-5 py-1 font-semibold text-gray-800 hover:bg-gray-800 hover:text-white transition-colors duration-300"
       >
         <IconSettings size={20} />
       </button>

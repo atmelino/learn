@@ -11,17 +11,19 @@ export default function Body() {
   const [debugMessage, setdebugMessageState] = useState("123");
 
   return (
-    <div class="flex flex-col w-full pt-5">
-      <nav class="w-11/12 h-24 max-w-5xl mx-auto flex items-center justify-between relative">
-        <h1>
-        </h1>
+    <>
+      <div class="flex flex-row justify-evenly">
+        <label class="w-5/6 flex justify-center  text-lg font-medium text-gray-900 ">
+          Popup Window Demonstrator
+        </label>
+
         <Popup
           length={4}
           Url={"http://www.something.com"}
           setDebugMesssage={setDebugMesssage}
           debugMessage={debugMessage}
         />
-      </nav>
+      </div>
 
       <div class="p-4 mx-auto max-w-screen-md">
         <Debug
@@ -29,6 +31,6 @@ export default function Body() {
           debugMessage={debugMessage}
         />
       </div>
-    </div>
+    </>
   );
 }

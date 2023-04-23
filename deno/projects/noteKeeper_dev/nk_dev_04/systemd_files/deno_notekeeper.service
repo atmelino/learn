@@ -1,0 +1,20 @@
+[Unit]
+Description=deno based notes app
+Documentation=https://github.com/atmelino
+After=network.target
+
+[Service]
+Type=simple
+User=atmelino
+WorkingDirectory=/home/atmelino/github/learn/deno/projects/noteKeeper
+ExecStart=/usr/local/bin/deno run -A --watch=static/,routes/ dev.ts                                 
+#ExecStart=/usr/local/bin/deno run --allow-env --allow-read --allow-write --allow-net --allow-run main.ts
+
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+

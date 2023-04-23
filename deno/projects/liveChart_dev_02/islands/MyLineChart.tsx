@@ -79,19 +79,19 @@ export default function MyLineChart() {
 
   return (
     <>
-      <div id="main" class="flex flex-row justify-evenly">
-        <label class="w-5/6 flex justify-center  text-lg font-medium text-gray-900 ">Live Bitcoin Chart</label>
-        {/* <label > */}
-          <Popup
-            title="Settings"
-            // yAxisAuto={yAxisAuto}
-            setyAxisAutoRef={setyAxisAutoRef}
-            min={min}
-            setMin={setMin}
-            max={max}
-            setMax={setMax}
-          />
-        {/* </label> */}
+      <div class="flex flex-row justify-evenly">
+        <label class="w-5/6 flex justify-center  text-lg font-medium text-gray-900 ">
+          Live Bitcoin Chart
+        </label>
+        <Popup
+          title="Settings"
+          // yAxisAuto={yAxisAuto}
+          setyAxisAutoRef={setyAxisAutoRef}
+          min={min}
+          setMin={setMin}
+          max={max}
+          setMax={setMax}
+        />
       </div>
       <div class="mx-auto max-w-screen-md">
 
