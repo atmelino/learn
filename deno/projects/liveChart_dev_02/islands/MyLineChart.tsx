@@ -5,7 +5,6 @@ import MyData from "./data.tsx";
 import { format } from "https://deno.land/std@0.91.0/datetime/mod.ts";
 import PeriodicTask from "./PeriodicTask.tsx";
 import Popup from "./Popup.tsx";
-import IconSettings from "../components/IconSettings.tsx";
 
 export default function MyLineChart() {
   const timems = useRef(Date.now());
@@ -79,49 +78,32 @@ export default function MyLineChart() {
 
   return (
     <>
+      <PeriodicTask
+        Task={addData}
+        name={"live BTC"}
+        interval={1000}
+        start={start}
+      />
+
       <div class="flex flex-row justify-evenly">
-        <label class="w-5/6 flex justify-center  text-lg font-medium text-gray-900 ">
+        <label class="w-11/12 flex justify-center  text-lg font-medium text-gray-900 ">
           Live Bitcoin Chart
         </label>
         <Popup
           title="Settings"
-          // yAxisAuto={yAxisAuto}
           setyAxisAutoRef={setyAxisAutoRef}
           min={min}
           setMin={setMin}
           max={max}
           setMax={setMax}
+          setstart={setstart}
         />
       </div>
-      <div class="mx-auto max-w-screen-md">
 
-        <div class="bg-green-100">
-          <Button onClick={() => {
-            console.log("start pressed");
-            setstart("start");
-            // setyAxisAuto(false);
-            // console.log(yAxisAuto);
-
-            // start.current = "start"
-            // console.log("start=" + start.current);
-
-          }}>Start</Button>
-          <Button onClick={() => {
-            setstart("stop");
-            // start.current = "stop"
-          }}>Stop</Button>
-          {"    " + start}
-
-          <PeriodicTask
-            Task={addData}
-            name={"live BTC"}
-            interval={1000}
-            start={start}
-          />
-        </div>
-        <div class="mx-auto max-w-screen-md">
-          {timestamp} <b>1 BTC = {valueState} USD</b>
-        </div>
+      <div class="flex flex-row justify-evenly">
+        <b>1 BTC = {valueState} USD</b>{timestamp}
+      </div>
+      <div class="flex flex-row justify-evenly">
         <LineChartDynamic
           height={500}
           paddingTop={10}

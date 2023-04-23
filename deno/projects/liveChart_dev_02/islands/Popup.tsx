@@ -7,11 +7,12 @@ import { Button } from "../components/Button.tsx";
 
 interface PopupProps {
   title: string;
-  setyAxisAutoRef: (s: boolean) => void;
+  setyAxisAutoRef: (b: boolean) => void;
   min: number;
   setMin: (n: number) => void;
   max: number;
   setMax: (n: number) => void;
+  setstart: (s: string) => void;
 }
 
 // Lazy load a <dialog> polyfill.
@@ -52,6 +53,7 @@ export default function Popup(props: PopupProps) {
   const setMin = props.setMin;
   const max = props.max;
   const setMax = props.setMax;
+  const setstart = props.setstart;
 
 
   const ref = useRef<HTMLDialogElement | null>(null);
@@ -82,6 +84,7 @@ export default function Popup(props: PopupProps) {
           setMin={setMin}
           max={max}
           setMax={setMax}
+          setstart={setstart}
         />
       </dialog>
     </>
@@ -95,6 +98,8 @@ function PopupInner(props: PopupProps) {
   const setMin = props.setMin;
   const max = props.max;
   const setMax = props.setMax;
+  const setstart = props.setstart;
+
 
   const [checked, setChecked] = useState(false);
   const [disabled, setDisabled] = useState(" text-gray-300");
@@ -109,7 +114,7 @@ function PopupInner(props: PopupProps) {
 
   const handleChange = () => {
     console.log("handleChange called")
-    yAxisAuto.current=!yAxisAuto.current;
+    yAxisAuto.current = !yAxisAuto.current;
     setyAxisAutoRef(yAxisAuto.current);
     // setDisabled(yAxisAuto.current ? "text-black" : " text-gray-300");
   };
@@ -148,7 +153,7 @@ function PopupInner(props: PopupProps) {
           <legend class="text-sm space-x-3">
             y-Axis Scale<label>   </label>
             {/* <input type="checkbox" checked={yAxisAuto.current} onChange={handleChange} /> */}
-            <input type="checkbox"  onChange={handleChange} />
+            <input type="checkbox" onChange={handleChange} />
             <label class={disabled}>manual</label>
           </legend>
           <div class={yAxisAuto.current ? " text-gray-300" : "text-black"} disabled={yAxisAuto.current}>
@@ -179,6 +184,15 @@ function PopupInner(props: PopupProps) {
           </div>
         </fieldset>
 
+        <div class="bg-green-100">
+          <Button onClick={() => {
+            console.log("start pressed");
+            setstart("start");
+          }}>Start</Button>
+          <Button onClick={() => {
+            setstart("stop");
+          }}>Stop</Button>
+        </div>
       </div>
     </div>
   );
