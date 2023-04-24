@@ -1,5 +1,4 @@
-// import { BarChart } from "https://deno.land/x/d3nodata@v0.1.3.1/charts.ts";
-import { BarChart } from "https://raw.githubusercontent.com/atmelino/learn/master/deno/deno_Fresh/deno_Fresh_chart/d3nodata/d3nodata_edit_01/library/charts.ts"
+import { BarChart } from "https://raw.githubusercontent.com/atmelino/d3no-data/main/charts.ts"
 
 export default function MyChart() {
   const datasets = [
