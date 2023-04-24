@@ -1,15 +1,17 @@
 import { Head } from "$fresh/runtime.ts";
-import MyChart from "../islands/MyChart.tsx";
+import MyBarChart from "../islands/MyBarChart.tsx";
+import MyLineChart from "../islands/MyLineChart.tsx";
 
 export default function Home() {
   return (
     <>
       <Head>
-        <title>Fresh App</title>
+        <title>d3nodata_edit_04</title>
       </Head>
       <div class="p-4 mx-auto max-w-screen-md">
       </div>
-      <MyChart></MyChart>
+      {/* <MyBarChart></MyBarChart> */}
+      <MyLineChart></MyLineChart>
     </>
   );
 }

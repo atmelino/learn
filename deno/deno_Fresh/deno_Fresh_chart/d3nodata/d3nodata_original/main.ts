@@ -11,4 +11,4 @@ import twindPlugin from "$fresh/plugins/twind.ts";
 import twindConfig from "./twind.config.ts";
 
 // await start(manifest, { plugins: [twindPlugin(twindConfig)] });
-await start(manifest, { port: 5007, plugins: [twindPlugin(twindConfig)] });
+await start(manifest, { port: 5001, plugins: [twindPlugin(twindConfig)] });
