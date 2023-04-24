@@ -14,7 +14,8 @@ export default function MyLineChart() {
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(100000);
   const [datasets, setData] = useState(datasets1.current);
-  const [timestamp, settimestamp] = useState("");
+  // const [timestamp, settimestamp] = useState("yyyy-mm-dd hh:mm:ss");
+  const [timestamp, settimestamp] = useState("0000-00-00 00:00:00");
   const [valueState, setValue] = useState();
   const renderCount = useRef(0);
   const data1: { x: Date; y: number }[] = [];
@@ -102,14 +103,18 @@ export default function MyLineChart() {
         />
       </div>
 
-      <div class="flex flex-row justify-evenly">
-        <b>1 BTC = {valueState} USD</b>
+      <div class="flex justify-evenly">
+        <label class="w-5/12 text-right">
+          <b>1 BTC = {valueState} USD</b>
+        </label>
         <img
-          src="../static/Bitcoin.svg"
-          class="w-32 h-32"
+          src="/Bitcoin.png"
+          class="w-11/12 w-8 h-8"
           alt="BTC"
         />
-        {timestamp}
+        <label class="w-5/12">
+          {timestamp}
+        </label>
       </div>
       <div class="flex flex-row justify-evenly bg-green-50">
         <LineChartDynamic
