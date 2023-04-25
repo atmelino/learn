@@ -25,8 +25,6 @@ export default function MyLineChart() {
   function addData() {
     // console.log("addData called");
     timems.current = Date.now();
-    console.log(timems.current);
-
     settimestamp(format(new Date(timems.current), "yyyy-MM-dd HH:mm:ss"));
 
     const value = getRandomIntInclusive(1, 25)
@@ -37,6 +35,7 @@ export default function MyLineChart() {
       x: timems.current,
       y: value,
     });
+
     setData(datasets1.current);
   }
 
