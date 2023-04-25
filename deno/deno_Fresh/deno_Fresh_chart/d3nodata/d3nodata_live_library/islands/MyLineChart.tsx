@@ -4,9 +4,9 @@ import { format } from "https://deno.land/std@0.91.0/datetime/mod.ts";
 
 export default function MyLineChart() {
   const timems = useRef(Date.now());
-  const datasets1 = useRef( [
+  const datasets1 = useRef([
     {
-      label: "BTC",
+      label: "data",
       color: "green",
       data: [
       ],
@@ -27,7 +27,6 @@ export default function MyLineChart() {
     timems.current = Date.now();
     console.log(timems.current);
 
-    
     settimestamp(format(new Date(timems.current), "yyyy-MM-dd HH:mm:ss"));
 
     const value = getRandomIntInclusive(1, 25)
@@ -54,8 +53,9 @@ export default function MyLineChart() {
         </label>
       </div>
 
-      <div class="flex flex-row justify-evenly bg-purple-50">
+      <div class="flex flex-row justify-evenly bg-green-50">
         <LineChartDynamic
+          addTitle={true}
           height={500}
           paddingTop={10}
           datasets={datasets}
