@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 // import { LineChartDynamic } from "https://raw.githubusercontent.com/atmelino/d3no-data/livechart/charts.ts"
 import { LineChartDynamic } from "../../../../../../../d3no-data/charts.ts";
-import { format } from "https://deno.land/std@0.91.0/datetime/mod.ts";
 
 export default function MyLineChart() {
   const timems = useRef(Date.now());
@@ -15,6 +14,8 @@ export default function MyLineChart() {
   const [datasets, setData] = useState(datasets1.current);
   const updateTriggerRef = useRef(0);
   const [updateTrigger, setupdateTrigger] = useState(0);
+  const [min, setMin] = useState(0);
+  const [max, setMax] = useState(25);
 
   // used for example purposes
   function getRandomIntInclusive(min: number, max: number) {
@@ -37,20 +38,8 @@ export default function MyLineChart() {
     });
     setData(datasets1.current);
 
-    // updateTrigger.current = !updateTrigger.current;
-    // console.log(updateTrigger.current);
-    // setupdateTrigger(!updateTrigger);
-
-    // updateTriggerRef.current = !updateTriggerRef.current;
-    // console.log(updateTriggerRef.current);
-    // setupdateTrigger(updateTriggerRef.current);
-    // console.log(updateTrigger);
-    // setUpdate("changed" + getRandomIntInclusive(1, 25));
-
     updateTriggerRef.current=updateTriggerRef.current+1
     setupdateTrigger(updateTriggerRef.current);
-
-
   }
 
   useEffect(() => {
@@ -74,11 +63,12 @@ export default function MyLineChart() {
           datasets={datasets}
           data={datasets[0].data}
           yAxisAuto={false}
+          yAxisMin={min}
+          yAxisMax={max}
           addLabel={false}
           addLegend={false}
           addTooltip={false}
           updateTrigger={updateTrigger}
-          // requestUpdate={update}
         >
         </LineChartDynamic>
       </div>
