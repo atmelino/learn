@@ -1,9 +1,12 @@
 import { useEffect, useRef, useState } from "preact/hooks";
-import { LineChartDynamic } from "../library/charts.ts";
 import MyData from "./data.tsx";
 import { format } from "https://deno.land/std@0.91.0/datetime/mod.ts";
 import PeriodicTask from "./PeriodicTask.tsx";
 import Popup from "./Popup.tsx";
+// import { LineChartDynamic } from "../library/charts.ts";
+// import { LineChartDynamic } from "https://raw.githubusercontent.com/atmelino/d3no-data/livechart/charts.ts"
+import { LineChartDynamic } from "../../../../../d3no-data/charts.ts";
+
 
 export default function MyLineChart() {
   const timems = useRef(Date.now());
