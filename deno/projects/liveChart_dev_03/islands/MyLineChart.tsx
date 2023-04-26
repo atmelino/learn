@@ -57,12 +57,6 @@ export default function MyLineChart() {
     getBtcData();
   }
 
-  function printtimems() {
-    // console.log("timems " + JSON.stringify(timems, null, 4));
-    const timestamp = format(new Date(timems.current), "yyyy-MM-dd HH:mm:ss");
-    // console.log("timems " + timestamp);
-  }
-
   function printData(
     ds: { label: string; color: string; data: { x: number; y: number }[] }[],
   ) {

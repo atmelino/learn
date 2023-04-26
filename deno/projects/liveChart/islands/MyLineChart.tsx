@@ -3,12 +3,13 @@ import MyData from "./data.tsx";
 import { format } from "https://deno.land/std@0.91.0/datetime/mod.ts";
 import PeriodicTask from "./PeriodicTask.tsx";
 import Popup from "./Popup.tsx";
-// import { LineChartDynamic } from "../library/charts.ts";
 // import { LineChartDynamic } from "https://raw.githubusercontent.com/atmelino/d3no-data/livechart/charts.ts"
 import { LineChartDynamic } from "../../../../../d3no-data/charts.ts";
 
 
 export default function MyLineChart() {
+  const updateTriggerRef = useRef(0);
+  const [updateTrigger, setupdateTrigger] = useState(0);
   const timems = useRef(Date.now());
   const datasets1 = useRef(MyData());
   const yAxisAuto = useRef(true);
@@ -17,7 +18,6 @@ export default function MyLineChart() {
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(100000);
   const [datasets, setData] = useState(datasets1.current);
-  // const [timestamp, settimestamp] = useState("yyyy-mm-dd hh:mm:ss");
   const [timestamp, settimestamp] = useState("0000-00-00 00:00:00");
   const [valueState, setValue] = useState();
   const renderCount = useRef(0);
@@ -41,6 +41,8 @@ export default function MyLineChart() {
         });
         setData(datasets1.current);
         // printData(datasets1.current);
+        updateTriggerRef.current = updateTriggerRef.current + 1
+        setupdateTrigger(updateTriggerRef.current);
       })
       .catch(() => {
         console.log('Data failed to load from url');
@@ -53,12 +55,6 @@ export default function MyLineChart() {
     timems.current = Date.now();
     settimestamp(format(new Date(timems.current), "yyyy-MM-dd HH:mm:ss"));
     getBtcData();
-  }
-
-  function printtimems() {
-    // console.log("timems " + JSON.stringify(timems, null, 4));
-    const timestamp = format(new Date(timems.current), "yyyy-MM-dd HH:mm:ss");
-    // console.log("timems " + timestamp);
   }
 
   function printData(
@@ -131,6 +127,7 @@ export default function MyLineChart() {
           addLabel={false}
           addLegend={false}
           addTooltip={false}
+          updateTrigger={updateTrigger}
         >
         </LineChartDynamic>
       </div>
