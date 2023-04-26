@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 // import { LineChartDynamic } from "https://raw.githubusercontent.com/atmelino/d3no-data/livechart/charts.ts"
-import { LineChartDynamic } from "../../../../../../../d3no-data/charts.ts"
+import { LineChartDynamic } from "../../../../../../../d3no-data/charts.ts";
 import { format } from "https://deno.land/std@0.91.0/datetime/mod.ts";
 
 export default function MyLineChart() {
@@ -9,13 +9,12 @@ export default function MyLineChart() {
     {
       label: "data",
       color: "green",
-      data: [
-      ],
+      data: [{ x: Date.now(), y: 10 }],
     },
   ]);
   const [datasets, setData] = useState(datasets1.current);
-  const [timestamp, settimestamp] = useState("0000-00-00 00:00:00");
-  const updateTrigger = useRef(true);
+  const updateTriggerRef = useRef(0);
+  const [updateTrigger, setupdateTrigger] = useState(0);
 
   // used for example purposes
   function getRandomIntInclusive(min: number, max: number) {
@@ -27,9 +26,8 @@ export default function MyLineChart() {
   function addData() {
     // console.log("addData called");
     timems.current = Date.now();
-    settimestamp(format(new Date(timems.current), "yyyy-MM-dd HH:mm:ss"));
 
-    const value = getRandomIntInclusive(1, 25)
+    const value = getRandomIntInclusive(1, 25);
     if (datasets1.current[0].data.length >= 10) {
       datasets1.current[0].data.splice(0, 1);
     }
@@ -37,10 +35,22 @@ export default function MyLineChart() {
       x: Date.now(),
       y: value,
     });
-
     setData(datasets1.current);
-    updateTrigger.current=!updateTrigger.current;
-    console.log(updateTrigger.current);
+
+    // updateTrigger.current = !updateTrigger.current;
+    // console.log(updateTrigger.current);
+    // setupdateTrigger(!updateTrigger);
+
+    // updateTriggerRef.current = !updateTriggerRef.current;
+    // console.log(updateTriggerRef.current);
+    // setupdateTrigger(updateTriggerRef.current);
+    // console.log(updateTrigger);
+    // setUpdate("changed" + getRandomIntInclusive(1, 25));
+
+    updateTriggerRef.current=updateTriggerRef.current+1
+    setupdateTrigger(updateTriggerRef.current);
+
+
   }
 
   useEffect(() => {
@@ -63,11 +73,12 @@ export default function MyLineChart() {
           paddingTop={10}
           datasets={datasets}
           data={datasets[0].data}
-          yAxisAuto={true}
+          yAxisAuto={false}
           addLabel={false}
           addLegend={false}
           addTooltip={false}
-          updateTrigger={updateTrigger.current}
+          updateTrigger={updateTrigger}
+          // requestUpdate={update}
         >
         </LineChartDynamic>
       </div>

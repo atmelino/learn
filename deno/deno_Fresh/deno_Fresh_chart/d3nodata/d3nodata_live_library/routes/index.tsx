@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>live BTC Chart</title>
+        <title>d3no data live Chart</title>
       </Head>
       <Body />
     </>
