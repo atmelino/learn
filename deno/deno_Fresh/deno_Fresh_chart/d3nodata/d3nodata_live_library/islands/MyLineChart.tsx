@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "preact/hooks";
-import { LineChartDynamic } from "https://raw.githubusercontent.com/atmelino/d3no-data/livechart/charts.ts"
+// import { LineChartDynamic } from "https://raw.githubusercontent.com/atmelino/d3no-data/livechart/charts.ts"
+import { LineChartDynamic } from "../../../../../../../d3no-data/charts.ts"
 import { format } from "https://deno.land/std@0.91.0/datetime/mod.ts";
 
 export default function MyLineChart() {
@@ -14,6 +15,7 @@ export default function MyLineChart() {
   ]);
   const [datasets, setData] = useState(datasets1.current);
   const [timestamp, settimestamp] = useState("0000-00-00 00:00:00");
+  const updateTrigger = useRef(true);
 
   // used for example purposes
   function getRandomIntInclusive(min: number, max: number) {
@@ -32,11 +34,13 @@ export default function MyLineChart() {
       datasets1.current[0].data.splice(0, 1);
     }
     datasets1.current[0].data.push({
-      x: timems.current,
+      x: Date.now(),
       y: value,
     });
 
     setData(datasets1.current);
+    updateTrigger.current=!updateTrigger.current;
+    console.log(updateTrigger.current);
   }
 
   useEffect(() => {
@@ -63,6 +67,7 @@ export default function MyLineChart() {
           addLabel={false}
           addLegend={false}
           addTooltip={false}
+          updateTrigger={updateTrigger.current}
         >
         </LineChartDynamic>
       </div>
