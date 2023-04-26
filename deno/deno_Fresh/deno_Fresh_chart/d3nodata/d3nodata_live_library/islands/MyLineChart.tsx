@@ -28,7 +28,7 @@ export default function MyLineChart() {
     settimestamp(format(new Date(timems.current), "yyyy-MM-dd HH:mm:ss"));
 
     const value = getRandomIntInclusive(1, 25)
-    if (datasets1.current[0].data.length >= 30) {
+    if (datasets1.current[0].data.length >= 10) {
       datasets1.current[0].data.splice(0, 1);
     }
     datasets1.current[0].data.push({
