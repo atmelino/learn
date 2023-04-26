@@ -7,6 +7,7 @@ import { Button } from "../components/Button.tsx";
 
 interface PopupProps {
   title: string;
+  Softwareversion: string;
   setyAxisAutoRef: (b: boolean) => void;
   min: number;
   setMin: (n: number) => void;
@@ -49,6 +50,7 @@ const backdrop = css({
 
 export default function Popup(props: PopupProps) {
   const title = props.title;
+  const Softwareversion = props.Softwareversion;
   const setyAxisAutoRef = props.setyAxisAutoRef;
   const min = props.min;
   const setMin = props.setMin;
@@ -80,6 +82,7 @@ export default function Popup(props: PopupProps) {
       >
         <PopupInner
           title="Settings"
+          Softwareversion={Softwareversion}
           setyAxisAutoRef={setyAxisAutoRef}
           min={min}
           setMin={setMin}
@@ -95,6 +98,7 @@ export default function Popup(props: PopupProps) {
 
 function PopupInner(props: PopupProps) {
   const title = props.title;
+  const Softwareversion = props.Softwareversion;
   const setyAxisAutoRef = props.setyAxisAutoRef;
   const min = props.min;
   const setMin = props.setMin;
@@ -215,7 +219,10 @@ function PopupInner(props: PopupProps) {
             onChange={handleChangeInterval}
           />
           <label>seconds</label>
-
+          <div class="space-x-3">
+            <label>Software Version:</label>
+            {Softwareversion}
+          </div>
         </div>
       </div>
     </div>
