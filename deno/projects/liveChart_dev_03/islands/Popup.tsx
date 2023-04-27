@@ -17,6 +17,10 @@ interface PopupProps {
   setInterval: (n: number) => void;
 }
 
+interface PopupPropsObject {
+  propsObject: PopupProps
+}
+
 // Lazy load a <dialog> polyfill.
 // @ts-expect-error HTMLDialogElement is not just a type!
 if (IS_BROWSER && window.HTMLDialogElement === "undefined") {
@@ -49,15 +53,18 @@ const backdrop = css({
 });
 
 export default function Popup(props: PopupProps) {
-  const title = props.title;
-  const Softwareversion = props.Softwareversion;
-  const setyAxisAutoRef = props.setyAxisAutoRef;
-  const min = props.min;
-  const setMin = props.setMin;
-  const max = props.max;
-  const setMax = props.setMax;
-  const setstart = props.setstart;
-  const setInterval = props.setInterval;
+  const propsObject =
+  {
+    title: props.title,
+    Softwareversion: props.Softwareversion,
+    setyAxisAutoRef: props.setyAxisAutoRef,
+    min: props.min,
+    setMin: props.setMin,
+    max: props.max,
+    setMax: props.setMax,
+    setstart: props.setstart,
+    setInterval: props.setInterval
+  }
 
   const ref = useRef<HTMLDialogElement | null>(null);
 
@@ -80,32 +87,26 @@ export default function Popup(props: PopupProps) {
         class={tw`bg-transparent p-0 m-0 pt-[50%] sm:pt-0 sm:ml-auto max-w-full sm:max-w-lg w-full max-h-full h-full ${slideBottom} sm:${slideRight} ${backdrop}`}
         onClick={onDialogClick}
       >
-        <PopupInner
-          title="Settings"
-          Softwareversion={Softwareversion}
-          setyAxisAutoRef={setyAxisAutoRef}
-          min={min}
-          setMin={setMin}
-          max={max}
-          setMax={setMax}
-          setstart={setstart}
-          setInterval={setInterval}
+        <PopupInner2
+          propsObject={propsObject}
         />
       </dialog>
     </>
   );
 }
 
-function PopupInner(props: PopupProps) {
-  const title = props.title;
-  const Softwareversion = props.Softwareversion;
-  const setyAxisAutoRef = props.setyAxisAutoRef;
-  const min = props.min;
-  const setMin = props.setMin;
-  const max = props.max;
-  const setMax = props.setMax;
-  const setstart = props.setstart;
-  const setInterval = props.setInterval;
+
+function PopupInner2(props: PopupPropsObject) {
+  const title = props.propsObject.title;
+  const Softwareversion = props.propsObject.Softwareversion;
+  const setyAxisAutoRef = props.propsObject.setyAxisAutoRef;
+  const min = props.propsObject.min;
+  const setMin = props.propsObject.setMin;
+  const max = props.propsObject.max;
+  const setMax = props.propsObject.setMax;
+  const setstart = props.propsObject.setstart;
+  const setInterval = props.propsObject.setInterval;
+
 
   const [disabled, setDisabled] = useState(" text-gray-300");
   const minRef = useRef<HTMLInputElement | null>(null);
@@ -230,4 +231,5 @@ function PopupInner(props: PopupProps) {
       </div>
     </div>
   );
+
 }
