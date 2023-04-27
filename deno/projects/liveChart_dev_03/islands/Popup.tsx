@@ -219,11 +219,14 @@ function PopupInner(props: PopupProps) {
             onChange={handleChangeInterval}
           />
           <label>seconds</label>
-          <div class="space-x-3">
-            <label>Software Version:</label>
-            {Softwareversion}
-          </div>
         </div>
+
+        <div class="space-x-3">
+          <label>Software Version:   </label>
+          {Softwareversion}
+        </div>
+
+
       </div>
     </div>
   );

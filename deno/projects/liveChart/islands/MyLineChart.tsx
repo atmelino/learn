@@ -22,6 +22,7 @@ export default function MyLineChart() {
   const [valueState, setValue] = useState();
   const renderCount = useRef(0);
   const data1: { x: Date; y: number }[] = [];
+  const Softwareversion="2023-04-26 18:51:34"
   let value = 30000;
 
 
@@ -92,6 +93,7 @@ export default function MyLineChart() {
         </label>
         <Popup
           title="Settings"
+          Softwareversion={Softwareversion}
           setyAxisAutoRef={setyAxisAutoRef}
           min={min}
           setMin={setMin}
