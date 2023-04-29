@@ -25,7 +25,6 @@ export default function MyLineChart() {
   }
 
   function addData() {
-    // console.log("addData called");
     timems.current = Date.now();
 
     const value = getRandomIntInclusive(1, 25);
@@ -65,8 +64,8 @@ export default function MyLineChart() {
           yAxisAuto={false}
           yAxisMin={min}
           yAxisMax={max}
-          addLabel={false}
           addLegend={false}
+          addLabel={false}
           addTooltip={false}
           updateTrigger={updateTrigger}
         >
