@@ -10,11 +10,11 @@ export default function MyLineChart() {
       color: "green",
       data: [{ x: Date.now(), y: 10 }],
     },
-    {
-      label: "data2",
-      color: "red",
-      data: [{ x: Date.now(), y: 10 }],
-    },
+    // {
+    //   label: "data2",
+    //   color: "red",
+    //   data: [{ x: Date.now(), y: 10 }],
+    // },
   ]);
   const [datasets, setData] = useState(datasets1.current);
   const updateTriggerRef = useRef(0);
@@ -41,15 +41,15 @@ export default function MyLineChart() {
       y: value,
     });
 
-    value = getRandomIntInclusive(1, 25);
-    if (datasets1.current[1].data.length >= 10) {
-      datasets1.current[1].data.splice(0, 1);
-    }
-    datasets1.current[1].data.push({
-      x: Date.now(),
-      y: value,
-    });
-    setData(datasets1.current);
+    // value = getRandomIntInclusive(1, 25);
+    // if (datasets1.current[1].data.length >= 10) {
+    //   datasets1.current[1].data.splice(0, 1);
+    // }
+    // datasets1.current[1].data.push({
+    //   x: Date.now(),
+    //   y: value,
+    // });
+    // setData(datasets1.current);
 
     updateTriggerRef.current = updateTriggerRef.current + 1
     setupdateTrigger(updateTriggerRef.current);
@@ -57,7 +57,7 @@ export default function MyLineChart() {
 
   useEffect(() => {
     // get new data every x seconds
-    setInterval(addData, 1000);
+    setInterval(addData, 5000);
   }, []);
 
   return (
@@ -71,7 +71,7 @@ export default function MyLineChart() {
       <div class="flex flex-row justify-evenly bg-green-50">
         <LineChartDynamic
           height={500}
-          paddingTop={10}
+          paddingTop={20}
           datasets={datasets}
           data={datasets[0].data}
           yAxisAuto={false}
@@ -79,8 +79,8 @@ export default function MyLineChart() {
           yAxisMax={max}
           addTitle={true}
           addLegend={true}
-          addLabel={false}
-          addTooltip={false}
+          addLabel={true}
+          addTooltip={true}
           updateTrigger={updateTrigger}
         >
         </LineChartDynamic>
