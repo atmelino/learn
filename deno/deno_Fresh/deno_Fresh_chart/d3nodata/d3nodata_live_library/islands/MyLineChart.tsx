@@ -6,8 +6,13 @@ export default function MyLineChart() {
   const timems = useRef(Date.now());
   const datasets1 = useRef([
     {
-      label: "data",
+      label: "data1",
       color: "green",
+      data: [{ x: Date.now(), y: 10 }],
+    },
+    {
+      label: "data2",
+      color: "red",
       data: [{ x: Date.now(), y: 10 }],
     },
   ]);
@@ -27,7 +32,7 @@ export default function MyLineChart() {
   function addData() {
     timems.current = Date.now();
 
-    const value = getRandomIntInclusive(1, 25);
+    let value = getRandomIntInclusive(1, 25);
     if (datasets1.current[0].data.length >= 10) {
       datasets1.current[0].data.splice(0, 1);
     }
@@ -35,9 +40,18 @@ export default function MyLineChart() {
       x: Date.now(),
       y: value,
     });
+
+    value = getRandomIntInclusive(1, 25);
+    if (datasets1.current[1].data.length >= 10) {
+      datasets1.current[1].data.splice(0, 1);
+    }
+    datasets1.current[1].data.push({
+      x: Date.now(),
+      y: value,
+    });
     setData(datasets1.current);
 
-    updateTriggerRef.current=updateTriggerRef.current+1
+    updateTriggerRef.current = updateTriggerRef.current + 1
     setupdateTrigger(updateTriggerRef.current);
   }
 
@@ -56,7 +70,6 @@ export default function MyLineChart() {
 
       <div class="flex flex-row justify-evenly bg-green-50">
         <LineChartDynamic
-          addTitle={true}
           height={500}
           paddingTop={10}
           datasets={datasets}
@@ -64,7 +77,8 @@ export default function MyLineChart() {
           yAxisAuto={false}
           yAxisMin={min}
           yAxisMax={max}
-          addLegend={false}
+          addTitle={true}
+          addLegend={true}
           addLabel={false}
           addTooltip={false}
           updateTrigger={updateTrigger}
