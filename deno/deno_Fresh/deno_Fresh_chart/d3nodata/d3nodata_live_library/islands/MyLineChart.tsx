@@ -57,7 +57,7 @@ export default function MyLineChart() {
 
   useEffect(() => {
     // get new data every x seconds
-    setInterval(addData, 5000);
+    setInterval(addData, 1000);
   }, []);
 
   return (
@@ -84,6 +84,10 @@ export default function MyLineChart() {
           updateTrigger={updateTrigger}
         >
         </LineChartDynamic>
+      </div>
+
+      <div>
+        <button onClick={addData}>time step</button>
       </div>
     </>
   );

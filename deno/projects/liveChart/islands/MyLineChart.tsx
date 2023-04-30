@@ -21,8 +21,9 @@ export default function MyLineChart() {
   const [timestamp, settimestamp] = useState("0000-00-00 00:00:00");
   const [valueState, setValue] = useState();
   const renderCount = useRef(0);
+  const intervalCount = useRef(0);
   const data1: { x: Date; y: number }[] = [];
-  const Softwareversion="2023-04-26 18:51:34"
+  const Softwareversion = "2023-04-26 18:51:34"
   let value = 30000;
 
 
@@ -42,8 +43,8 @@ export default function MyLineChart() {
         });
         setData(datasets1.current);
         // printData(datasets1.current);
-        updateTriggerRef.current = updateTriggerRef.current + 1
-        setupdateTrigger(updateTriggerRef.current);
+        // updateTriggerRef.current = updateTriggerRef.current + 1
+        // setupdateTrigger(updateTriggerRef.current);
       })
       .catch(() => {
         console.log('Data failed to load from url');
@@ -52,6 +53,7 @@ export default function MyLineChart() {
 
 
   function addData() {
+    intervalCount.current = intervalCount.current + 1;
     // console.log("addData called");
     timems.current = Date.now();
     settimestamp(format(new Date(timems.current), "yyyy-MM-dd HH:mm:ss"));
@@ -73,9 +75,9 @@ export default function MyLineChart() {
     yAxisAuto.current = val;
   }
 
-  useEffect(() => {
-    renderCount.current = renderCount.current + 1;
-  });
+  // useEffect(() => {
+  //   renderCount.current = renderCount.current + 1;
+  // });
 
 
   return (
@@ -132,6 +134,9 @@ export default function MyLineChart() {
           updateTrigger={updateTrigger}
         >
         </LineChartDynamic>
+      </div>
+      <div class="w-11/12 flex justify-center  text-lg font-medium text-gray-900 ">
+        interval count {intervalCount.current}
       </div>
 
     </>
