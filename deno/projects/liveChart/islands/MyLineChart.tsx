@@ -31,7 +31,6 @@ export default function MyLineChart() {
     fetch("https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD")
       .then(response => response.json())
       .then(data => {
-        // console.log(data);
         value = data.USD;
         setValue(data.USD);
         if (datasets1.current[0].data.length >= 30) {
@@ -54,7 +53,6 @@ export default function MyLineChart() {
 
   function addData() {
     intervalCount.current = intervalCount.current + 1;
-    // console.log("addData called");
     timems.current = Date.now();
     settimestamp(format(new Date(timems.current), "yyyy-MM-dd HH:mm:ss"));
     getBtcData();
@@ -74,10 +72,6 @@ export default function MyLineChart() {
   function setyAxisAutoRef(val: boolean) {
     yAxisAuto.current = val;
   }
-
-  // useEffect(() => {
-  //   renderCount.current = renderCount.current + 1;
-  // });
 
 
   return (
@@ -135,10 +129,6 @@ export default function MyLineChart() {
         >
         </LineChartDynamic>
       </div>
-      <div class="w-11/12 flex justify-center  text-lg font-medium text-gray-900 ">
-        interval count {intervalCount.current}
-      </div>
-
     </>
   );
 }

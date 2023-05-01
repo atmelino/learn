@@ -85,10 +85,6 @@ export default function MyLineChart() {
         >
         </LineChartDynamic>
       </div>
-
-      <div>
-        <button onClick={addData}>time step</button>
-      </div>
     </>
   );
 }
