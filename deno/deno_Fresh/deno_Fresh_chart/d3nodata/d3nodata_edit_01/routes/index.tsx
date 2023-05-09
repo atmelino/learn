@@ -1,5 +1,5 @@
 import { Head } from "$fresh/runtime.ts";
-import MyBarChart from "../islands/MyBarChart.tsx";
+import MyBarChart from "../iss/MyBarChart.tsx";
 import MyLineChart from "../islands/MyLineChart.tsx";
 
 export default function Home() {
