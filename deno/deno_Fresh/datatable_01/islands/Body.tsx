@@ -16,8 +16,21 @@ export default function Body() {
 
 
   function createTableFromObjects(data: {}[]) {
-    const table = ('<table>');
+    let mystring=""
+    const tablestart = ('<table>');
+    const tableend = ('</table>');
     const headerRow = ('<tr>');
+    const headerEnd = ('<tr>');
+
+
+    mystring+=tablestart;
+
+
+    for (var cell of data) {
+      console.log(product.product_desc)
+ }
+
+
 
     // Create table header row
     const keys = Object.keys(data[0]);
@@ -39,7 +52,7 @@ export default function Body() {
       table.appendChild(dataRow);
     }
 
-    return table;
+    return mystring;
   }
 
   const dataArray = [
