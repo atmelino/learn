@@ -12,21 +12,45 @@ export default function Body() {
     { id: 3, name: 'Doe', age: 45 },
   ];
 
-
+  // console.log(JSON.stringify(dataArray));
 
   for (const data of dataArray) {
+
+
+    const someObj = data;
+    const field = 'name';
+    const temp = someObj[field as keyof typeof someObj]
+
+
     // console.log(data);
     // console.log(data.name);
     const keys = Object.keys(data);
     for (const key of keys) {
-      console.log(key);
 
+      const temp = someObj[key as keyof typeof someObj]
+      console.log(key+" : "+temp);
+
+      // console.log(key);
       // console.log(data[key]);
+      // console.log(key+" : "+data[key]);
 
     }
-
   }
 
+
+
+
+  const someObj = dataArray;
+  const field = 'username';
+  
+  // This gives an error
+  // const temp = someObj[field];
+  
+  // Solution 1: When the type of the object is known
+  // const temp = someObj[field as keyof ObjectType]
+  
+  // Solution 2: When the type of the object is not known
+  const temp = someObj[field as keyof typeof someObj]
 
 
 
@@ -56,6 +80,7 @@ export default function Body() {
       // let key: keyof typeof cell;
       for (const key of keys) {
         mystring += cellStart;
+        mystring += "cell";
         // console.log(key);
         // console.log(key);
         mystring += cellEnd;
