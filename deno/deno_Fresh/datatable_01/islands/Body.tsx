@@ -2,20 +2,37 @@ import { useEffect, useRef, useState } from "preact/hooks";
 import { Button } from "../components/Button.tsx";
 
 export default function Body() {
-  const [inputValue, setInputValue] = useState("");
+  const [cellValue, setCellValue] = useState("");
   const count = useRef(0);
-  const noteRef = useRef<HTMLInputElement | null>(null);
   const rows = 0;
   const cols = 0;
+  const dataArray = [
+    { id: 1, name: 'John', age: 30 },
+    { id: 2, name: 'Jane', age: 28 },
+    { id: 3, name: 'Doe', age: 45 },
+  ];
+
+
+
+  for (const data of dataArray) {
+    // console.log(data);
+    // console.log(data.name);
+    const keys = Object.keys(data);
+    for (const key of keys) {
+      console.log(key);
+
+      // console.log(data[key]);
+
+    }
+
+  }
+
+
 
 
   useEffect(() => {
     count.current = count.current + 1;
   });
-
-  const handleChange = () => {
-    setInputValue("!showDebug");
-  };
 
 
   function createTableFromObjects(data: {}[]) {
@@ -24,19 +41,25 @@ export default function Body() {
     const tableEnd = ('</table>');
     const rowStart = ('<tr>');
     const rowEnd = ('</tr>');
+    const cellStart = "<td>";
+    const cellEnd = "</td>";
 
 
     mystring += tablestart;
 
-
     for (const cell of data) {
-      console.log(cell);
+      // console.log(cell);
 
       mystring += rowStart;
       const keys = Object.keys(data[0]);
-
+      // console.log(keys);
+      // let key: keyof typeof cell;
       for (const key of keys) {
-        console.log(key);
+        mystring += cellStart;
+        // console.log(key);
+        // console.log(key);
+        mystring += cellEnd;
+
 
       }
       mystring += rowEnd;
@@ -68,13 +91,12 @@ export default function Body() {
     return mystring;
   }
 
-  const dataArray = [
-    { id: 1, name: 'John', age: 30 },
-    { id: 2, name: 'Jane', age: 28 },
-    { id: 3, name: 'Doe', age: 45 },
-  ];
 
   const table = createTableFromObjects(dataArray);
+
+
+
+
 
 
 
@@ -85,7 +107,11 @@ export default function Body() {
       </div>
 
       <div class="flex gap-2 w-full">
-      <table class="border-collapse border border-slate-400 ...">
+        {{ table }}
+      </div>
+
+      <div class="flex gap-2 w-full">
+        <table class="border-collapse border border-slate-400 ...">
 
           {
             [1, 2, 3, 4, 5, 6].map((value, index) => {
@@ -102,14 +128,12 @@ export default function Body() {
             })
           }
 
+
+
+
         </table>
       </div>
 
-      <div>
-        value={inputValue}
-      </div>
-
-      <h1>Render Count: {count.current}</h1>
     </div>
   );
 }

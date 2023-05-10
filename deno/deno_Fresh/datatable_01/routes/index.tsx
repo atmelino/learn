@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Fresh App</title>
+        <title>datatable_01</title>
       </Head>
       <Body />
     </>
