@@ -15,13 +15,31 @@ export default function Body() {
   // console.log(JSON.stringify(dataArray));
 
   for (const data of dataArray) {
+    const keys = Object.keys(data);
+    console.log("The use of map is as follows=");
+    keys.map(k => { console.log(data[k as keyof typeof data]) })
+  }
+
+
+
+  for (const data of dataArray) {
+    const keys = Object.keys(data);
+    console.log("The use of map is as follows=");
+    keys.map(k => { console.log(data[k as keyof typeof data]) })
+  }
+
+
+
+
+
+  for (const data of dataArray) {
     // console.log(data);
     // console.log(data.name);
     const someObj = data;
     const keys = Object.keys(data);
     for (const key of keys) {
       const temp = someObj[key as keyof typeof someObj]
-      console.log(key + " : " + temp);
+      // console.log(key + " : " + temp);
     }
   }
 
@@ -30,95 +48,54 @@ export default function Body() {
   });
 
 
-  function createTableFromObjects(data: {}[]) {
-    let mystring = ""
-    const tablestart = ('<table>');
-    const tableEnd = ('</table>');
-    const rowStart = ('<tr>');
-    const rowEnd = ('</tr>');
-    const cellStart = "<td>";
-    const cellEnd = "</td>";
-
-
-    mystring += tablestart;
-
-    for (const cell of data) {
-      // console.log(cell);
-
-      mystring += rowStart;
-      const keys = Object.keys(data[0]);
-      // console.log(keys);
-      // let key: keyof typeof cell;
-      for (const key of keys) {
-        mystring += cellStart;
-        mystring += "cell";
-        // console.log(key);
-        // console.log(key);
-        mystring += cellEnd;
-
-
-      }
-      mystring += rowEnd;
-    }
-
-    mystring += tableEnd;
-
-
-    // // Create table header row
-    // const keys = Object.keys(data[0]);
-    // for (const key of keys) {
-    //   const headerCell = document.createElement('th');
-    //   headerCell.textContent = key;
-    //   headerRow.appendChild(headerCell);
-    // }
-    // table.appendChild(headerRow);
-
-    // // Create table data rows
-    // for (const obj of data) {
-    //   const dataRow = document.createElement('tr');
-    //   for (const key of keys) {
-    //     const dataCell = document.createElement('td');
-    //     dataCell.textContent = obj[key];
-    //     dataRow.appendChild(dataCell);
-    //   }
-    //   table.appendChild(dataRow);
-    // }
-
-    return mystring;
-  }
-
-
-  const table = createTableFromObjects(dataArray);
 
 
   return (
     <div class="flex flex-col w-full pt-5">
+
       <div class="flex gap-2 w-full">
-        {table}
+        <table class="border-2">
+          {
+            dataArray.map((value, index) => {
+              // console.log(value);
+
+              return <tr class="border-2" key={index}>{value}
+
+
+
+
+
+                <td>cell content</td>
+                <td>{value}</td>
+                <td class="border-2" >{JSON.stringify(value)}</td>
+              </tr>
+            })
+          }
+        </table>
       </div>
 
 
 
-
-
       <div class="flex gap-2 w-full">
-        <table class="border-collapse border border-slate-400 ...">
+        <table class="border-2">
           {
-            [1, 2, 3, 4, 5, 6].map((value, index) => {
-              return <div key={index}>{value}</div>
+            dataArray.map((value, index) => {
+              // console.log(value);
+              return <tr class="border-2" key={index}>{value}
+                <td>cell content</td>
+                <td>{value}</td>
+                <td class="border-2" >{JSON.stringify(value)}</td>
+              </tr>
             })
           }
         </table>
       </div>
 
       <div class="flex gap-2 w-full">
-        <table class="border-collapse border border-slate-400 ...">
+        <table class=" border-2">
           {
             [1, 2, 3, 4, 5, 6].map((value, index) => {
-              return <tr key={index}>{value}
-                <td>Alfreds Futterkiste</td>
-                <td>{value}</td>
-              </tr>
+              return <div key={index}>{value}</div>
             })
           }
         </table>
