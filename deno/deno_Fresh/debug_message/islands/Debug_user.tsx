@@ -1,8 +1,8 @@
 import { useRef, useState } from "preact/hooks";
 import { ButtonGreen } from "../components/ButtonGreen.tsx";
-import { IDebug } from "../islands/Debug.tsx";
+import { DebugProps } from "../islands/Debug.tsx";
 
-export default function Debug_user({ setDebugMesssage}: IDebug)  {
+export default function Debug_user({ setDebugMesssage}: DebugProps)  {
 	const noteRef = useRef<HTMLInputElement | null>(null);
 
 	return (
