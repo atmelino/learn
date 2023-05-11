@@ -11,11 +11,8 @@ export default function Body() {
 
   // console.log(JSON.stringify(dataArray));
 
-  const keys = Object.keys(dataArray[0]);
-
   return (
-    // <div class="flex gap-2 w-full">
-      <div class="flex flex-row justify-evenly">
+    <div class="flex flex-row justify-evenly">
 
       <DataTable
         dataArray={dataArray}
