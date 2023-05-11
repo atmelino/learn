@@ -4,12 +4,12 @@ import { Button } from "../components/Button.tsx";
 import { Chart } from "$fresh_charts/mod.ts";
 import { months, numbers } from "../utils.ts";
 
-export interface IDebug {
+export interface DebugProps {
   mynumbers: typeof numbers;
   setmynumbers: (s: typeof numbers) => void;
 }
 
-//export default function MyIsland({ mynumbers, setmynumbers }: IDebug) {
+//export default function MyIsland({ mynumbers, setmynumbers }: DebugProps) {
 export default function MyIsland() {
   const barCfg = { count: 7, min: -100, max: 100 };
   const [mynumbers, setmynumbers] = useState(numbers(barCfg));
