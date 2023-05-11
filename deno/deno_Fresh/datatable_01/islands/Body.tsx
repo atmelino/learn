@@ -7,9 +7,9 @@ export default function Body() {
   const rows = 0;
   const cols = 0;
   const dataArray = [
-    { id: 1, name: 'John', age: 30 },
-    { id: 2, name: 'Jane', age: 28 },
-    { id: 3, name: 'Doe', age: 45 },
+    { id: 1, name: 'John', age: 30 ,rand: 0},
+    { id: 2, name: 'Jane', age: 28 ,rand: 3},
+    { id: 3, name: 'Doe', age: 45 ,rand: 4},
   ];
 
   // console.log(JSON.stringify(dataArray));
