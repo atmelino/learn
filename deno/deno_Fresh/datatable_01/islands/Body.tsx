@@ -15,44 +15,15 @@ export default function Body() {
   // console.log(JSON.stringify(dataArray));
 
   for (const data of dataArray) {
-
-
-    const someObj = data;
-    const field = 'name';
-    const temp = someObj[field as keyof typeof someObj]
-
-
     // console.log(data);
     // console.log(data.name);
+    const someObj = data;
     const keys = Object.keys(data);
     for (const key of keys) {
-
       const temp = someObj[key as keyof typeof someObj]
-      console.log(key+" : "+temp);
-
-      // console.log(key);
-      // console.log(data[key]);
-      // console.log(key+" : "+data[key]);
-
+      console.log(key + " : " + temp);
     }
   }
-
-
-
-
-  const someObj = dataArray;
-  const field = 'username';
-  
-  // This gives an error
-  // const temp = someObj[field];
-  
-  // Solution 1: When the type of the object is known
-  // const temp = someObj[field as keyof ObjectType]
-  
-  // Solution 2: When the type of the object is not known
-  const temp = someObj[field as keyof typeof someObj]
-
-
 
   useEffect(() => {
     count.current = count.current + 1;
@@ -120,30 +91,28 @@ export default function Body() {
   const table = createTableFromObjects(dataArray);
 
 
-
-
-
-
-
   return (
     <div class="flex flex-col w-full pt-5">
       <div class="flex gap-2 w-full">
         {table}
       </div>
 
-      <div class="flex gap-2 w-full">
-        {{ table }}
-      </div>
+
+
+
 
       <div class="flex gap-2 w-full">
         <table class="border-collapse border border-slate-400 ...">
-
           {
             [1, 2, 3, 4, 5, 6].map((value, index) => {
               return <div key={index}>{value}</div>
             })
           }
+        </table>
+      </div>
 
+      <div class="flex gap-2 w-full">
+        <table class="border-collapse border border-slate-400 ...">
           {
             [1, 2, 3, 4, 5, 6].map((value, index) => {
               return <tr key={index}>{value}
@@ -152,10 +121,6 @@ export default function Body() {
               </tr>
             })
           }
-
-
-
-
         </table>
       </div>
 
