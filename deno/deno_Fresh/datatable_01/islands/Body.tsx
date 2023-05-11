@@ -21,17 +21,6 @@ export default function Body() {
   }
 
 
-
-  for (const data of dataArray) {
-    const keys = Object.keys(data);
-    console.log("The use of map is as follows=");
-    keys.map(k => { console.log(data[k as keyof typeof data]) })
-  }
-
-
-
-
-
   for (const data of dataArray) {
     // console.log(data);
     // console.log(data.name);
@@ -56,18 +45,23 @@ export default function Body() {
       <div class="flex gap-2 w-full">
         <table class="border-2">
           {
-            dataArray.map((value, index) => {
+            dataArray.map((data, index) => {
               // console.log(value);
+              const keys = Object.keys(data);
 
-              return <tr class="border-2" key={index}>{value}
+              return <tr class="border-2" key={index}>{data}
+                {
+                  keys.map(k => {
+
+                    // <td>{data[k as keyof typeof data]}</td>
+
+                    console.log(data[k as keyof typeof data])
+
+                    return <td  class="border-2">{data[k as keyof typeof data]}</td>
 
 
-
-
-
-                <td>cell content</td>
-                <td>{value}</td>
-                <td class="border-2" >{JSON.stringify(value)}</td>
+                  })
+                }
               </tr>
             })
           }
