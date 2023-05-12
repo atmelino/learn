@@ -1,3 +1,5 @@
+import { useEffect, useRef, useState } from "preact/hooks";
+
 
 export interface DataTableProps {
 	// setDebugMesssage: (s: string) => void;
@@ -5,8 +7,15 @@ export interface DataTableProps {
 	dataArray: object[];
 }
 
-export default function DataTable({ dataArray }: DataTableProps) {
-	const keys = Object.keys(dataArray[0]);
+
+
+
+
+export default function DataTable(props: DataTableProps) {
+	const keys = Object.keys(props.dataArray[0]);
+
+	useEffect(() => {
+	}, [props]);
 
 	return (
 
@@ -18,7 +27,7 @@ export default function DataTable({ dataArray }: DataTableProps) {
 				})}
 			</tr>
 
-			{dataArray.map((data, index) => {
+			{props.dataArray.map((data, index) => {
 				// console.log(data);
 				// const keys = Object.keys(data);
 				return (

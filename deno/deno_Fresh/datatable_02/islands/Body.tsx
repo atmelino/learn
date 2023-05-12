@@ -9,15 +9,39 @@ export default function Body() {
     { id: 4, name: "Cindy", age: 35, rand: 1 },
   ];
 
+  const [myData, setMyData] = useState(dataArray);
+
+
+  const dataArray2 = [
+    { id: 4, name: "John", age: 30, rand: 0 },
+    { id: 5, name: "Jane", age: 28, rand: 3 },
+  ];
+
+  function changeData() {
+    setMyData(dataArray2);
+
+  }
+
   // console.log(JSON.stringify(dataArray));
 
   return (
-    <div class="flex flex-row justify-evenly">
+    <>
+      <div class="flex flex-row justify-evenly">
+        <DataTable
+          dataArray={myData}
+        />
+      </div>
 
-      <DataTable
-        dataArray={dataArray}
-      />
+      <div>
+        <button
+          type="button"
+          class="w-full bg-gray-700 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-gray-700"
+          onClick={changeData}
+        >
+          change data
+        </button>
 
-    </div>
+      </div>
+    </>
   );
 }
