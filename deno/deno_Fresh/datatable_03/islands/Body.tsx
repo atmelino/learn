@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "preact/hooks";
 // import DataTable from "../islands/DataTable.tsx";
 import { DataTable } from "../../../../../DataTable/mod.ts";
 
+
 export default function Body() {
   const dataArray = [
     { id: 1, name: "John", age: 30, rand: 0 },

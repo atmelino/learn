@@ -1,7 +1,7 @@
 import { d3, useEffect } from "../mod.ts";
 import { LineChartDynamicProps } from "../chart-props/LineChartDynamicProps.ts";
 import { Button } from "../../components/Button.tsx";
-import { useRef, useState } from "preact/hooks";
+import { useRef, useState } from "DebugProps";
 
 export default function LineChartDynamic(props: LineChartDynamicProps) {
   const yLabelPadding = 20;
