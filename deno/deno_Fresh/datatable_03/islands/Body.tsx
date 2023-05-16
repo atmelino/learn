@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "preact/hooks";
-// import DataTable from "../islands/DataTable.tsx";
-import { DataTable } from "../../../../../DataTable/mod.ts";
-
+// import { DataTable } from "../../../../../DataTable/mod.ts";
+import { DataTable } from "https://raw.githubusercontent.com/atmelino/DataTable/main/mod.ts"
 
 export default function Body() {
   const dataArray = [
