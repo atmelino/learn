@@ -3,12 +3,27 @@ import "./App.css";
 import { myData } from "./myData.jsx";
 
 function App() {
-  const [currentPage, setcurrentPage] = useState(1);
+  const [features, setFeatures] = useState([
+    {
+      "userId": 1,
+      "id": 1,
+      "title": "delectus aut autem",
+      "completed": false,
+    },
+  ]);
+  const [html1, sethtml1] = useState("");
+
+  // console.log(myData);
+
+  // for (const x of myData) {
+  // console.log(x);
+  // setFeatures(features.push(x))
+
+  // }
 
   const data = myData;
   const postsPerPage = 15;
-  // let currentPage = 1;
-  const pageNumbers: number[] = [];
+  const currentPage = 1;
 
   function showData() {
     const indexOfLastPage = currentPage * postsPerPage;
@@ -41,44 +56,12 @@ function App() {
     // }
   }
 
-  function showPagination() {
-    const totalPosts = data.length;
-
-    for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
-      pageNumbers.push(i);
-    }
-
-    const pagination = (pageNumbers: number) => {
-      console.log(pageNumbers);
-
-      // currentPage= pageNumbers ;
-      setcurrentPage(pageNumbers);
-      showData();
-
-      // this.setState({ currentPage: pageNumbers });
-    };
-
-    return (
-      <nav>
-        <ul className="pagination">
-          {pageNumbers.map((number) => (
-            <li
-              key={number}
-              className={currentPage === number
-                ? "page-item active"
-                : "page-item"}
-            >
-              <button onClick={() => pagination(number)} className="page-link">
-                {number}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    );
-  }
-
   useEffect(() => {
+    // getFeatures('home')
+    //   .then(setFeatures) // chain returned promise and pass setFeatures to update features
+    //    setFeatures(myData);
+
+    // sethtml1(showData());
   }, []);
 
   return (
@@ -102,7 +85,7 @@ function App() {
         </table>
 
         <div style={{ float: "right" }}>
-          {showPagination()}
+          {/* {this.showPagination()} */}
         </div>
       </div>
     </div>
