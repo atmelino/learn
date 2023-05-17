@@ -56,7 +56,7 @@ function App() {
     //   .then(setFeatures) // chain returned promise and pass setFeatures to update features
     //    setFeatures(myData);
 
-    sethtml1(showData());
+    // sethtml1(showData());
 
 
 
