@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 import { DataTable } from "../../../../../../DataTable_dev/mod.ts";
 // import { DataTable } from "https://raw.githubusercontent.com/atmelino/DataTable/main/mod.ts"
+import MyData from "./myData.tsx";
 
 export default function Body() {
   const dataArray = [
@@ -10,7 +11,7 @@ export default function Body() {
     { id: 4, name: "Cindy", age: 35, rand: 1 },
   ];
 
-  const [myData, setMyData] = useState(dataArray);
+  const [myData, setMyData] = useState(MyData);
 
 
   const dataArray2 = [
