@@ -15,8 +15,8 @@ export default function Body() {
 
 
   const dataArray2 = [
-    { id: 4, name: "John", age: 30, rand: 0 },
-    { id: 5, name: "Jane", age: 28, rand: 3 },
+    { id: 4, name: "John", age: 30 },
+    { id: 5, name: "Jane", age: 28 },
   ];
 
   function changeData() {
