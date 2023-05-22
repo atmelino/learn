@@ -1,10 +1,8 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 import { Button } from "../components/Button.tsx";
-// import Pagino from 'https://./raw.githubusercontent.com/pagino/pagino-js/main/src/index.ts';
 import Pagino from './Pagino.tsx';
 
 export default function Body() {
-  const [cellValue, setCellValue] = useState("");
   const count = useRef(0);
 
 
@@ -19,9 +17,10 @@ export default function Body() {
   });
 
   function onChange() { }
+  
   return (
-    <div class="flex gap-2 w-full">
-      <Pagino
+    <div class="flex flex-row justify-evenly">
+    <Pagino
         showFirst={true}
         showPrevious={true}
         showNext={true}

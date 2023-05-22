@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import './App.css';
-import Pagino from "pagino";
+import Pagino from "./pagino";
 
 function App() {
   const [pages, setPages] = useState([]);
