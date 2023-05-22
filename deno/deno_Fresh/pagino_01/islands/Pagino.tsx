@@ -8,7 +8,7 @@ interface PaginoProps {
   page?: number;
   count?: number;
   siblingCount?: number;
-  boundaryCount?: number;
+  boundaryCount: number ;
   onChange?: (page: number, count: number) => void;
 }
 
@@ -25,8 +25,11 @@ export default function Pagino(props: PaginoProps) {
   const showNext = props.showNext;
   const showLast = props.showLast;
   const siblingCount = props.siblingCount;
-  const boundaryCount = props.boundaryCount;
+  const boundaryCount = props.boundaryCount ;
   const onChange = props.onChange;
+
+  let page = 1;
+  let count = 8;
 
   const { min, max } = Math;
 
@@ -70,8 +73,6 @@ export default function Pagino(props: PaginoProps) {
 
   function Pagino() {
 
-    this.page = page;
-    this.count = count;
 
     this.setCount = (count: number) => {
       this.count = count;
@@ -80,7 +81,7 @@ export default function Pagino(props: PaginoProps) {
       return this;
     };
 
-    this.setPage = function (page: number) {
+    function setPage(page: number) {
       if (page <= 0 || page > this.count) {
         return this;
       }
@@ -108,26 +109,26 @@ export default function Pagino(props: PaginoProps) {
       return this;
     };
 
-    this.previous = function () {
-      this.setPage(this.page - 1);
+    function previous() {
+      setPage(page - 1);
       return this;
     };
 
-    this.getPages = (): Array<number | string> => {
-      const startPages = createStartPages(this.boundaryCount, this.count);
-      const endPages = createEndPages(this.boundaryCount, this.count);
+    function getPages (Array<number | string>) {
+      const startPages = createStartPages(boundaryCount, count);
+      const endPages = createEndPages(boundaryCount, count);
 
       const siblingsStart = createSiblingsStart(
-        this.boundaryCount,
-        this.count,
-        this.page,
+        boundaryCount,
+        count,
+        page,
         this.siblingCount,
       );
 
       const siblingsEnd = createSiblingsEnd(
-        this.boundaryCount,
-        this.count,
-        this.page,
+        boundaryCount,
+        count,
+        page,
         this.siblingCount,
         endPages,
       );
@@ -138,18 +139,18 @@ export default function Pagino(props: PaginoProps) {
       pages = pages.concat(this.showPrevious ? ["previous"] : []);
       pages = pages.concat(startPages);
       pages = pages.concat(
-        siblingsStart > this.boundaryCount + 2
+        siblingsStart > boundaryCount + 2
           ? ["start-ellipsis"]
-          : this.boundaryCount + 1 < this.count - this.boundaryCount
-            ? [this.boundaryCount + 1]
+          : boundaryCount + 1 < count - boundaryCount
+            ? [boundaryCount + 1]
             : [],
       );
       pages = pages.concat(createRange(siblingsStart, siblingsEnd));
       pages = pages.concat(
-        siblingsEnd < this.count - this.boundaryCount - 1
+        siblingsEnd < count - boundaryCount - 1
           ? ["end-ellipsis"]
-          : this.count - this.boundaryCount > this.boundaryCount
-            ? [this.count - this.boundaryCount]
+          : count - boundaryCount > boundaryCount
+            ? [count - boundaryCount]
             : [],
       );
       pages = pages.concat(endPages);
