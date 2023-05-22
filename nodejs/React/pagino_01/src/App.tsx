@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Pagino from "pagino";
 
