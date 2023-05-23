@@ -22,7 +22,7 @@ export default function Pagino(props: PaginoProps) {
     const siblingCount = props.siblingCount;
     const boundaryCount = props.boundaryCount;
     const onChange = props.onChange;
-    const [pages, setPages] = useState([]);
+    const [pages, setPages] = useState([""]);
     const [currentpage, setCurrentPage] = useState(1);
 
     const { min, max } = Math;
@@ -69,19 +69,6 @@ export default function Pagino(props: PaginoProps) {
         onChange(currentpage, count);
         // return this;
     }
-
-    function setPage(page: number) {
-        // if (parseInt(page) <= 0 || parseInt(page) > count) {
-        //     return;
-        // }
-
-        // this.page = page;
-        setPages(getPages());
-
-        onChange(page, count);
-        // return this;
-    }
-
 
     function getPages() {
         const startPages = createStartPages(boundaryCount, count);
@@ -173,7 +160,7 @@ export default function Pagino(props: PaginoProps) {
         if (!isNaN(parseInt(page)))
             setCurrentPage(parseInt(page));
 
-        setPage(currentpage);
+        // setPage(currentpage);
         setPages(getPages());
 
         onChange(page, count);
