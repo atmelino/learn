@@ -82,29 +82,6 @@ export default function Pagino(props: PaginoProps) {
         // return this;
     }
 
-    function first() {
-        setCurrentPage(1);
-        setPage(1);
-    }
-
-    function previous() {
-        if (currentpage > 1) {
-            setCurrentPage(currentpage - 1);
-            setPage(currentpage);
-        }
-    }
-
-    function next() {
-        if (currentpage < count) {
-            setCurrentPage(currentpage + 1);
-            setPage(currentpage);
-        }
-    }
-
-    function last() {
-        setCurrentPage(count);
-        setPage(count);
-    }
 
     function getPages() {
         const startPages = createStartPages(boundaryCount, count);
@@ -161,17 +138,6 @@ export default function Pagino(props: PaginoProps) {
             return <button key={page}>...</button>;
         }
 
-        // return (
-        //     <button
-        //         style={{
-        //             backgroundColor: parseInt(page) === currentpage ? "#0971f1" : ""
-        //         }}
-        //         key={page}
-        //         onClick={() => hanglePaginoNavigation(currentpage)}
-        //     >
-        //         {page}
-        //     </button>
-        // );
         console.log("current page=" + currentpage);
 
         return (
@@ -188,24 +154,30 @@ export default function Pagino(props: PaginoProps) {
     };
 
     function hanglePaginoNavigation(page: string) {
-        // if (typeof type === "string") {
-        //   pagino[type]?.();
-        //   return;
-        // }
+        console.log("current page=" + currentpage + " new page=" + page);
 
         if (page === 'first')
-            first();
+            setCurrentPage(1);
+
         if (page === 'previous')
-            previous();
+            if (currentpage > 1)
+                setCurrentPage(currentpage - 1);
+
         if (page === 'next')
-            next();
+            if (currentpage < count)
+                setCurrentPage(currentpage + 1);
+
         if (page === 'last')
-            last();
+            setCurrentPage(count);
 
+        if (!isNaN(parseInt(page)))
+            setCurrentPage(parseInt(page));
 
+        setPage(currentpage);
+        setPages(getPages());
 
-        console.log("current page=" + currentpage + " new page=" + page);
-        setPage(parseInt(page));
+        onChange(page, count);
+
     }
 
     useEffect(() => {

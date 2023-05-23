@@ -14,7 +14,7 @@ export default function Body() {
   return (
     <div class="flex flex-row justify-evenly">
       <Pagino
-        count={12}
+        count={10}
         showFirst={true}
         showPrevious={true}
         showNext={true}
