@@ -80,6 +80,7 @@ export default function Pagino(props: PaginoProps) {
             currentpage,
             siblingCount,
         );
+        console.log("currentpage=" + currentpage + " siblingsStart=" + siblingsStart);
 
         const siblingsEnd = createSiblingsEnd(
             boundaryCount,
@@ -90,6 +91,9 @@ export default function Pagino(props: PaginoProps) {
         );
 
         let pages: any[] = [];
+
+
+
 
         pages = pages.concat(showFirst ? ["first"] : []);
         pages = pages.concat(showPrevious ? ["previous"] : []);

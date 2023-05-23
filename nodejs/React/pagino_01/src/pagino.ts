@@ -128,6 +128,7 @@ function Pagino(this: any, {
       this.page,
       this.siblingCount
     );
+    console.log("page=" + page + " siblingsStart=" + siblingsStart);
 
     const siblingsEnd = createSiblingsEnd(
       this.boundaryCount,
@@ -138,6 +139,8 @@ function Pagino(this: any, {
     );
 
     let pages: any[] = [];
+
+
 
     pages = pages.concat(this.showFirst ? ['first'] : []);
     pages = pages.concat(this.showPrevious ? ['previous'] : []);
