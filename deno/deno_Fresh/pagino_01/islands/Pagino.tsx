@@ -71,8 +71,18 @@ export default function Pagino(props: PaginoProps) {
     }
 
     function getPages() {
+        console.log("enter getPages()")
+
         const startPages = createStartPages(boundaryCount, count);
         const endPages = createEndPages(boundaryCount, count);
+
+        console.log(
+            "bC_c_cp_sC",
+            boundaryCount,
+            count,
+            currentpage,
+            siblingCount,
+        );
 
         const siblingsStart = createSiblingsStart(
             boundaryCount,
@@ -91,9 +101,6 @@ export default function Pagino(props: PaginoProps) {
         );
 
         let pages: any[] = [];
-
-
-
 
         pages = pages.concat(showFirst ? ["first"] : []);
         pages = pages.concat(showPrevious ? ["previous"] : []);
@@ -119,6 +126,8 @@ export default function Pagino(props: PaginoProps) {
 
 
         console.log(JSON.stringify(pages));
+        console.log("exit getPages()")
+
         return pages;
     }
 
@@ -131,7 +140,7 @@ export default function Pagino(props: PaginoProps) {
             return <button key={page}>...</button>;
         }
 
-        console.log("current page=" + currentpage);
+        // console.log("current page=" + currentpage);
 
         return (
             <li
@@ -139,15 +148,23 @@ export default function Pagino(props: PaginoProps) {
                 class={parseInt(page) === currentpage
                     ? active
                     : inactive}
-                onClick={() => hanglePaginoNavigation(page)}
+                onClick={() => handlePaginoNavigation(page)}
             >
                 {page}
             </li>
         );
     };
 
-    function hanglePaginoNavigation(page: string) {
-        console.log("current page=" + currentpage + " new page=" + page);
+    function handlePaginoNavigation(page: string) {
+        // console.log("current page=" + currentpage + " new page=" + page);
+        console.log("enter handlePaginoNavigation()")
+        console.log(
+            "bC_c_cp_sC",
+            boundaryCount,
+            count,
+            currentpage,
+            siblingCount,
+        );
 
         if (page === 'first')
             setCurrentPage(1);
@@ -163,10 +180,23 @@ export default function Pagino(props: PaginoProps) {
         if (page === 'last')
             setCurrentPage(count);
 
-        if (!isNaN(parseInt(page)))
+        if (!isNaN(parseInt(page))) {
+            console.log("is a number" + parseInt(page))
             setCurrentPage(parseInt(page));
 
+        }
         // setPage(currentpage);
+        // console.log("calling setPages")
+        // setCurrentPage(4);
+
+        console.log(
+            "bC_c_cp_sC",
+            boundaryCount,
+            count,
+            currentpage,
+            siblingCount,
+        );
+
         setPages(getPages());
 
         onChange(page, count);
@@ -184,15 +214,17 @@ export default function Pagino(props: PaginoProps) {
 
     return (
         <>
-            <div>
-                <p class="flex-grow-1 font-bold text-xl">
-                    <h1>Page: {currentpage}</h1>
-                </p>
-                <nav aria-label="Page navigation example">
+            <div class="flex-grow-1  text-xs">
+                <div>
+                    <nav aria-label="Page navigation example">
                     <ul class="inline-flex items-center -space-x-px">
-                        {pages.map(renderElement)}
-                    </ul>
-                </nav>
+                            {pages.map(renderElement)}
+                        </ul>
+                    </nav>
+                </div>
+                <div class=" font-bold text-xl">
+                    <h1>Page: {currentpage}</h1>
+                </div>
             </div>
         </>
     );

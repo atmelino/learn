@@ -7,7 +7,7 @@ const createRange = (start: number, end: number): Array<number> => {
 
 const createStartPages = (
   boundaryCount: number,
-  count: number
+  count: number,
 ): Array<number> => createRange(1, min(boundaryCount, count));
 
 const createEndPages = (boundaryCount: number, count: number): Array<number> =>
@@ -17,11 +17,11 @@ const createSiblingsStart = (
   boundaryCount: number,
   count: number,
   page: number,
-  siblingCount: number
+  siblingCount: number,
 ): number =>
   max(
     min(page - siblingCount, count - boundaryCount - siblingCount * 2 - 1),
-    boundaryCount + 2
+    boundaryCount + 2,
   );
 
 const createSiblingsEnd = (
@@ -29,11 +29,11 @@ const createSiblingsEnd = (
   count: number,
   page: number,
   siblingCount: number,
-  endPages: Array<number>
+  endPages: Array<number>,
 ): number =>
   min(
     max(page + siblingCount, boundaryCount + siblingCount * 2 + 2),
-    endPages.length > 0 ? endPages[0] - 2 : count - 1
+    endPages.length > 0 ? endPages[0] - 2 : count - 1,
   );
 
 interface Config {
@@ -119,14 +119,23 @@ function Pagino(this: any, {
   };
 
   this.getPages = (): Array<number | string> => {
+    console.log("enter getPages()")
     const startPages = createStartPages(this.boundaryCount, this.count);
     const endPages = createEndPages(this.boundaryCount, this.count);
+
+    console.log(
+      "this.bC_c_p_sC",
+      this.boundaryCount,
+      this.count,
+      this.page,
+      this.siblingCount,
+    );
 
     const siblingsStart = createSiblingsStart(
       this.boundaryCount,
       this.count,
       this.page,
-      this.siblingCount
+      this.siblingCount,
     );
     console.log("page=" + page + " siblingsStart=" + siblingsStart);
 
@@ -135,36 +144,35 @@ function Pagino(this: any, {
       this.count,
       this.page,
       this.siblingCount,
-      endPages
+      endPages,
     );
 
     let pages: any[] = [];
 
-
-
-    pages = pages.concat(this.showFirst ? ['first'] : []);
-    pages = pages.concat(this.showPrevious ? ['previous'] : []);
+    pages = pages.concat(this.showFirst ? ["first"] : []);
+    pages = pages.concat(this.showPrevious ? ["previous"] : []);
     pages = pages.concat(startPages);
     pages = pages.concat(
       siblingsStart > this.boundaryCount + 2
-        ? ['start-ellipsis']
+        ? ["start-ellipsis"]
         : this.boundaryCount + 1 < this.count - this.boundaryCount
         ? [this.boundaryCount + 1]
-        : []
+        : [],
     );
     pages = pages.concat(createRange(siblingsStart, siblingsEnd));
     pages = pages.concat(
       siblingsEnd < this.count - this.boundaryCount - 1
-        ? ['end-ellipsis']
+        ? ["end-ellipsis"]
         : this.count - this.boundaryCount > this.boundaryCount
         ? [this.count - this.boundaryCount]
-        : []
+        : [],
     );
     pages = pages.concat(endPages);
-    pages = pages.concat(this.showNext ? ['next'] : []);
-    pages = pages.concat(this.showLast ? ['last'] : []);
+    pages = pages.concat(this.showNext ? ["next"] : []);
+    pages = pages.concat(this.showLast ? ["last"] : []);
 
     console.log(JSON.stringify(pages));
+    console.log("exit getPages()")
 
     return pages;
   };
