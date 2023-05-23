@@ -2,18 +2,19 @@ import { useEffect, useRef, useState } from "preact/hooks";
 
 
 interface PaginoProps {
+    count: number;
     showFirst?: boolean;
     showPrevious?: boolean;
     showNext?: boolean;
     showLast?: boolean;
     page?: number;
-    count?: number;
     siblingCount: number;
     boundaryCount: number;
     onChange: (page: number, count: number) => void;
 }
 
 export default function Pagino(props: PaginoProps) {
+    const count = props.count;
     const showFirst = props.showFirst;
     const showPrevious = props.showPrevious;
     const showNext = props.showNext;
@@ -23,10 +24,6 @@ export default function Pagino(props: PaginoProps) {
     const onChange = props.onChange;
     const [pages, setPages] = useState([]);
     const [currentpage, setCurrentPage] = useState(1);
-
-
-    // let currentpage = 1;
-    let count = 8;
 
     const { min, max } = Math;
 
@@ -73,10 +70,10 @@ export default function Pagino(props: PaginoProps) {
         // return this;
     }
 
-    function setPage(page: string) {
-        if (parseInt(page) <= 0 || parseInt(page) > count) {
-            return;
-        }
+    function setPage(page: number) {
+        // if (parseInt(page) <= 0 || parseInt(page) > count) {
+        //     return;
+        // }
 
         // this.page = page;
         setPages(getPages());
@@ -86,26 +83,27 @@ export default function Pagino(props: PaginoProps) {
     }
 
     function first() {
+        setCurrentPage(1);
         setPage(1);
-        // return this;
     }
 
-    function last() {
-        setPage(count);
-        // return this;
+    function previous() {
+        if (currentpage > 1) {
+            setCurrentPage(currentpage - 1);
+            setPage(currentpage);
+        }
     }
 
     function next() {
         if (currentpage < count) {
             setCurrentPage(currentpage + 1);
-            setPage("" + currentpage);
+            setPage(currentpage);
         }
-        // return this;
     }
 
-    function previous() {
-        setPage(currentpage - 1);
-        // return this;
+    function last() {
+        setCurrentPage(count);
+        setPage(count);
     }
 
     function getPages() {
@@ -195,11 +193,19 @@ export default function Pagino(props: PaginoProps) {
         //   return;
         // }
 
+        if (page === 'first')
+            first();
+        if (page === 'previous')
+            previous();
         if (page === 'next')
             next();
+        if (page === 'last')
+            last();
+
+
 
         console.log("current page=" + currentpage + " new page=" + page);
-        setPage(page);
+        setPage(parseInt(page));
     }
 
     useEffect(() => {
