@@ -22,9 +22,10 @@ export default function Pagino(props: PaginoProps) {
     const boundaryCount = props.boundaryCount;
     const onChange = props.onChange;
     const [pages, setPages] = useState([]);
+    const [currentpage, setCurrentPage] = useState(1);
 
 
-    let page = 1;
+    // let currentpage = 1;
     let count = 8;
 
     const { min, max } = Math;
@@ -68,16 +69,17 @@ export default function Pagino(props: PaginoProps) {
     function setCount(count: number) {
         // this.count = count;
 
-        onChange(page, count);
+        onChange(currentpage, count);
         // return this;
     }
 
-    function setPage(page: number) {
-        if (page <= 0 || page > count) {
+    function setPage(page: string) {
+        if (parseInt(page) <= 0 || parseInt(page) > count) {
             return;
         }
 
         // this.page = page;
+        setPages(getPages());
 
         onChange(page, count);
         // return this;
@@ -94,12 +96,15 @@ export default function Pagino(props: PaginoProps) {
     }
 
     function next() {
-        setPage(page + 1);
+        if (currentpage < count) {
+            setCurrentPage(currentpage + 1);
+            setPage("" + currentpage);
+        }
         // return this;
     }
 
     function previous() {
-        setPage(page - 1);
+        setPage(currentpage - 1);
         // return this;
     }
 
@@ -110,14 +115,14 @@ export default function Pagino(props: PaginoProps) {
         const siblingsStart = createSiblingsStart(
             boundaryCount,
             count,
-            page,
+            currentpage,
             siblingCount,
         );
 
         const siblingsEnd = createSiblingsEnd(
             boundaryCount,
             count,
-            page,
+            currentpage,
             siblingCount,
             endPages,
         );
@@ -151,37 +156,57 @@ export default function Pagino(props: PaginoProps) {
 
 
     const renderElement = (page: string) => {
+        const inactive = "px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+        const active = "z-10 px-3 py-2 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
+
         if (page === "start-ellipsis" || page === "end-ellipsis") {
             return <button key={page}>...</button>;
         }
 
+        // return (
+        //     <button
+        //         style={{
+        //             backgroundColor: parseInt(page) === currentpage ? "#0971f1" : ""
+        //         }}
+        //         key={page}
+        //         onClick={() => hanglePaginoNavigation(currentpage)}
+        //     >
+        //         {page}
+        //     </button>
+        // );
+        console.log("current page=" + currentpage);
+
         return (
-            <button
-                style={{
-                    backgroundColor: page === page ? "#0971f1" : ""
-                }}
+            <li
                 key={page}
+                class={parseInt(page) === currentpage
+                    ? active
+                    : inactive}
                 onClick={() => hanglePaginoNavigation(page)}
             >
                 {page}
-            </button>
+            </li>
         );
     };
 
-    function hanglePaginoNavigation(page: number) {
+    function hanglePaginoNavigation(page: string) {
         // if (typeof type === "string") {
         //   pagino[type]?.();
         //   return;
         // }
 
+        if (page === 'next')
+            next();
+
+        console.log("current page=" + currentpage + " new page=" + page);
         setPage(page);
     }
 
-	useEffect(() => {
+    useEffect(() => {
         // onChange: (page, count) => setPages(_.getPages())
         setPages(getPages())
 
-	}, []);
+    }, []);
 
 
 
@@ -190,9 +215,13 @@ export default function Pagino(props: PaginoProps) {
         <>
             <div>
                 <p class="flex-grow-1 font-bold text-xl">
-                    <h1>Page: {page}</h1>
+                    <h1>Page: {currentpage}</h1>
                 </p>
-                <ul>{pages.map(renderElement)}</ul>
+                <nav aria-label="Page navigation example">
+                    <ul class="inline-flex items-center -space-x-px">
+                        {pages.map(renderElement)}
+                    </ul>
+                </nav>
             </div>
         </>
     );
