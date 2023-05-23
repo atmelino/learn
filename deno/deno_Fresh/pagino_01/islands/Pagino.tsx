@@ -113,8 +113,10 @@ export default function Pagino(props: PaginoProps) {
         pages = pages.concat(showNext ? ["next"] : []);
         pages = pages.concat(showLast ? ["last"] : []);
 
+
+        console.log(JSON.stringify(pages));
         return pages;
-    };
+    }
 
 
     const renderElement = (page: string) => {

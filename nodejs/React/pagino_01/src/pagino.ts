@@ -161,6 +161,8 @@ function Pagino(this: any, {
     pages = pages.concat(this.showNext ? ['next'] : []);
     pages = pages.concat(this.showLast ? ['last'] : []);
 
+    console.log(JSON.stringify(pages));
+
     return pages;
   };
 }
