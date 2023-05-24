@@ -23,7 +23,8 @@ export default function Pagino(props: PaginoProps) {
     const boundaryCount = props.boundaryCount;
     const onChange = props.onChange;
     const [pages, setPages] = useState([""]);
-    const [currentpage, setCurrentPage] = useState(1);
+    // const [currentpage, setCurrentPage] = useState(1);
+    const currentpage = useRef(1);
 
     const { min, max } = Math;
 
@@ -66,7 +67,7 @@ export default function Pagino(props: PaginoProps) {
     function setCount(count: number) {
         // this.count = count;
 
-        onChange(currentpage, count);
+        onChange(currentpage.current, count);
         // return this;
     }
 
@@ -80,22 +81,22 @@ export default function Pagino(props: PaginoProps) {
             "bC_c_cp_sC",
             boundaryCount,
             count,
-            currentpage,
+            currentpage.current,
             siblingCount,
         );
 
         const siblingsStart = createSiblingsStart(
             boundaryCount,
             count,
-            currentpage,
+            currentpage.current,
             siblingCount,
         );
-        console.log("currentpage=" + currentpage + " siblingsStart=" + siblingsStart);
+        console.log("currentpage=" + currentpage.current + " siblingsStart=" + siblingsStart);
 
         const siblingsEnd = createSiblingsEnd(
             boundaryCount,
             count,
-            currentpage,
+            currentpage.current,
             siblingCount,
             endPages,
         );
@@ -140,12 +141,12 @@ export default function Pagino(props: PaginoProps) {
             return <button key={page}>...</button>;
         }
 
-        // console.log("current page=" + currentpage);
+        // console.log("current page=" + currentpage.current);
 
         return (
             <li
                 key={page}
-                class={parseInt(page) === currentpage
+                class={parseInt(page) === currentpage.current
                     ? active
                     : inactive}
                 onClick={() => handlePaginoNavigation(page)}
@@ -162,38 +163,48 @@ export default function Pagino(props: PaginoProps) {
             "bC_c_cp_sC",
             boundaryCount,
             count,
-            currentpage,
+            currentpage.current,
             siblingCount,
         );
 
         if (page === 'first')
-            setCurrentPage(1);
+            // setCurrentPage(1);
+            currentpage.current=1;
+
 
         if (page === 'previous')
-            if (currentpage > 1)
-                setCurrentPage(currentpage - 1);
+            if (currentpage.current > 1)
+                // setCurrentPage(currentpage - 1);
+                currentpage.current-=1;
 
         if (page === 'next')
-            if (currentpage < count)
-                setCurrentPage(currentpage + 1);
+            if (currentpage.current < count)
+                // setCurrentPage(currentpage + 1);
+                currentpage.current+=1;
+
 
         if (page === 'last')
-            setCurrentPage(count);
+            // setCurrentPage(count);
+            currentpage.current=count;
+
 
         if (!isNaN(parseInt(page))) {
             console.log("is a number" + parseInt(page))
-            setCurrentPage(parseInt(page));
+            // setCurrentPage(parseInt(page));
+            currentpage.current=parseInt(page);
 
         }
         // setPage(currentpage);
         // console.log("calling setPages")
         // setCurrentPage(4);
+        // setCurrentPage(5);
+        console.log("currentpage=" + currentpage.current);
 
         console.log(
             "bC_c_cp_sC",
             boundaryCount,
             count,
-            currentpage,
+            currentpage.current,
             siblingCount,
         );
 
@@ -217,13 +228,13 @@ export default function Pagino(props: PaginoProps) {
             <div class="flex-grow-1  text-xs">
                 <div>
                     <nav aria-label="Page navigation example">
-                    <ul class="inline-flex items-center -space-x-px">
+                        <ul class="inline-flex items-center -space-x-px">
                             {pages.map(renderElement)}
                         </ul>
                     </nav>
                 </div>
                 <div class=" font-bold text-xl">
-                    <h1>Page: {currentpage}</h1>
+                    <h1>Page: {currentpage.current}</h1>
                 </div>
             </div>
         </>
