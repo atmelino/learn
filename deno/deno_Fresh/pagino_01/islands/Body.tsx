@@ -12,7 +12,7 @@ export default function Body() {
   function onChange() { }
 
   return (
-    <div class="flex flex-row justify-evenly">
+    <div class="flex flex-col justify-center w-full pt-1">
       <Pagino
         count={10}
         showFirst={true}
