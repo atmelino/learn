@@ -16,7 +16,7 @@ def trace(root):
 
 
 def draw_dot(root):
-    print(root)
+    #print(root)
     dot = Digraph(format="svg", graph_attr={"rankdir": "LR"})  # LR = left to right
 
     nodes, edges = trace(root)

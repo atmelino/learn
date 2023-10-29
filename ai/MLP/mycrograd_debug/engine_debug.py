@@ -8,6 +8,8 @@ class Value:
         self.name=name+str(Value.static_var)
         self.data = data
         self.grad = 0
+
+        print("Value created",self.name)
         # internal variables used for autograd graph construction
         self._backward = lambda: None
         self._prev = set(_children)
@@ -96,3 +98,7 @@ class Value:
 
     def __repr__(self):
         return f"Value(name={self.name},data={self.data}, grad={self.grad})"
+
+    def reset_counter(self):
+        Value.static_var =0
+        return 
