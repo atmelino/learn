@@ -13,7 +13,7 @@ class Module:
 
 class Neuron(Module):
     def __init__(self, nin, nonlin=True):
-        self.w = [Value(random.uniform(-1, 1), label="w") for _ in range(nin)]
+        self.w = [Value(random.uniform(-1, 1), type="n", label="w") for _ in range(nin)]
         self.b = Value(0, label="b")
 
         self.nonlin = nonlin

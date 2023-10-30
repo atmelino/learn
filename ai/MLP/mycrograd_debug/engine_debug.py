@@ -3,13 +3,14 @@ class Value:
     """ stores a single scalar value and its gradient """
     static_var = 0
 
-    def __init__(self, data, _children=(), _op='', label='',name='new'):
+    def __init__(self, data, _children=(), _op='', label='',name='new',type='v'):
         Value.static_var += 1
         self.name=name+str(Value.static_var)
+        self.type=type
         self.data = data
         self.grad = 0
 
-        print("Value created",self.name)
+        #print("Value created",self.name)
         # internal variables used for autograd graph construction
         self._backward = lambda: None
         self._prev = set(_children)
@@ -97,7 +98,7 @@ class Value:
         return other * self**-1
 
     def __repr__(self):
-        return f"Value(name={self.name},data={self.data}, grad={self.grad})"
+        return f"Value(name={self.name},type={self.type},data={self.data}, grad={self.grad})"
 
     def reset_counter(self):
         Value.static_var =0
