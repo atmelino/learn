@@ -20,6 +20,7 @@ class Neuron(Module):
 
     def __call__(self, x):
         act = sum((wi * xi for wi, xi in zip(self.w, x)), self.b)
+        act.type='o'
         return act.relu() if self.nonlin else act
 
     def parameters(self):
