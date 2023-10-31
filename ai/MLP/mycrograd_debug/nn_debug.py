@@ -10,8 +10,6 @@ class Module:
     def parameters(self):
         return []
 
-    #nonlin=False
-
 class Neuron(Module):
     #def __init__(self, nin, nonlin=True):
     def __init__(self, nin, nonlin=False):
@@ -33,6 +31,7 @@ class Neuron(Module):
 
 class Layer(Module):
     def __init__(self, nin, nout, **kwargs):
+        # print("Layer kwargs",**kwargs)
         self.neurons = [Neuron(nin, **kwargs) for _ in range(nout)]
 
     def __call__(self, x):
@@ -51,6 +50,25 @@ class MLP(Module):
         sz = [nin] + nouts
         self.layers = [
             Layer(sz[i], sz[i + 1], nonlin=i != len(nouts) - 1)
+            for i in range(len(nouts))
+        ]
+
+    def __call__(self, x):
+        for layer in self.layers:
+            x = layer(x)
+        return x
+
+    def parameters(self):
+        return [p for layer in self.layers for p in layer.parameters()]
+
+    def __repr__(self):
+        return f"MLP of [{', '.join(str(layer) for layer in self.layers)}]"
+
+class MLP_linear(Module):
+    def __init__(self, nin, nouts):
+        sz = [nin] + nouts
+        self.layers = [
+            Layer(sz[i], sz[i + 1], nonlin=False)
             for i in range(len(nouts))
         ]
 
