@@ -1,11 +1,12 @@
 
 class Value:
     """ stores a single scalar value and its gradient """
-    static_var = 0
+    value_counter = 0
+    counter_print=False
 
     def __init__(self, data, _children=(), _op='', label='',name='new',type='v'):
-        Value.static_var += 1
-        self.name=name+str(Value.static_var)
+        Value.value_counter += 1
+        self.name=name+str(Value.value_counter)
         self.type=type
         self.data = data
         self.grad = 0
@@ -101,5 +102,5 @@ class Value:
         return f"Value(name={self.name},type={self.type},data={self.data}, grad={self.grad})"
 
     def reset_counter(self):
-        Value.static_var =0
+        Value.value_counter =0
         return 

@@ -1,6 +1,7 @@
 from graphviz import Digraph
 
 
+
 def trace(root):
     nodes, edges = set(), set()
 
@@ -15,13 +16,15 @@ def trace(root):
     return nodes, edges
 
 
-def draw_dot(root):
+def draw_dot(root, debug_print_01=False):
     #print(root)
+
     dot = Digraph(format="svg", graph_attr={"rankdir": "LR"})  # LR = left to right
 
     nodes, edges = trace(root)
     for n in nodes:
-        print(n)
+        if debug_print_01:
+            print(n)
 
         uid = str(id(n))
         # for any value in the graph, create a rectangular ('record') node for it
