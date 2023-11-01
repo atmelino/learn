@@ -2,14 +2,14 @@
 class Value:
     """ stores a single scalar value and its gradient """
 
-    def __init__(self, data, _children=(), _op='', label=''):
+    def __init__(self, data, _children=(), _op='', type=''):
         self.data = data
         self.grad = 0
         # internal variables used for autograd graph construction
         self._backward = lambda: None
         self._prev = set(_children)
         self._op = _op # the op that produced this node, for graphviz / debugging / etc
-        self.label = label
+        self.type = type
 
     def __add__(self, other):
         other = other if isinstance(other, Value) else Value(other)
