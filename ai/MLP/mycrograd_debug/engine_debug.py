@@ -4,7 +4,13 @@ class Value:
     value_counter = 0
     counter_print = False
 
-    def __init__(self, data, _children=(), _op="",  name="val", type=""):
+    # types
+    # w = weight
+    # b = additive parameter
+    # a = activation
+    # i = input
+    
+    def __init__(self, data, _children=(), _op="", name="val", type=""):
         Value.value_counter += 1
         self.name = name + str(Value.value_counter)
         self.type = type
