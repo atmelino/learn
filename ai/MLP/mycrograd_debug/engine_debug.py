@@ -4,7 +4,7 @@ class Value:
     value_counter = 0
     counter_print = False
 
-    def __init__(self, data, _children=(), _op="", label="", name="val", type=""):
+    def __init__(self, data, _children=(), _op="",  name="val", type=""):
         Value.value_counter += 1
         self.name = name + str(Value.value_counter)
         self.type = type
@@ -16,7 +16,6 @@ class Value:
         self._backward = lambda: None
         self._prev = set(_children)
         self._op = _op  # the op that produced this node, for graphviz / debugging / etc
-        self.label = label
 
     def __add__(self, other):
         other = other if isinstance(other, Value) else Value(other)

@@ -13,14 +13,14 @@ class Module:
 class Neuron(Module):
     #def __init__(self, nin, nonlin=True):
     def __init__(self, nin, nonlin=False):
-        self.w = [Value(random.uniform(-1, 1), type="n", label="w") for _ in range(nin)]
-        self.b = Value(0, label="b")
+        self.w = [Value(random.uniform(-1, 1), type="w") for _ in range(nin)]
+        self.b = Value(0, type="b")
         self.nonlin = nonlin
         print("neuron nonlin is ",self.nonlin)
 
     def __call__(self, x):
         act = sum((wi * xi for wi, xi in zip(self.w, x)), self.b)
-        act.type='o'
+        act.type='a'
         return act.relu() if self.nonlin else act
 
     def parameters(self):
