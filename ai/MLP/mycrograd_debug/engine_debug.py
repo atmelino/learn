@@ -9,11 +9,14 @@ class Value:
     # b = additive parameter
     # a = activation
     # i = input
-    
-    def __init__(self, data, _children=(), _op="", name="val", type=""):
+
+    def __init__(
+        self, data, _children=(), _op="", name="val", type="", neuronnumber=""
+    ):
         Value.value_counter += 1
         self.name = name + str(Value.value_counter)
         self.type = type
+        self.neuronnumber = neuronnumber
         self.data = data
         self.grad = 0
 

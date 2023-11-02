@@ -10,17 +10,27 @@ class Module:
     def parameters(self):
         return []
 
+
 class Neuron(Module):
-    #def __init__(self, nin, nonlin=True):
+    neuron_counter = 0
+
+    # def __init__(self, nin, nonlin=True):
     def __init__(self, nin, nonlin=False):
-        self.w = [Value(random.uniform(-1, 1), type="w") for _ in range(nin)]
-        self.b = Value(0, type="b")
+        Neuron.neuron_counter += 1
+        nnum = "n" + str(Neuron.neuron_counter)
+        self.w = [
+            Value(random.uniform(-1, 1), type="w", neuronnumber=nnum)
+            for _ in range(nin)
+        ]
+        self.b = Value(0, type="b", neuronnumber=nnum)
         self.nonlin = nonlin
-        print("neuron nonlin is ",self.nonlin)
+        print("neuron nonlin is ", self.nonlin)
 
     def __call__(self, x):
         act = sum((wi * xi for wi, xi in zip(self.w, x)), self.b)
-        act.type='a'
+        act.type = "a"
+        # nnum = "n" + str(Neuron.neuron_counter)
+        # act.neuronnumber=nnum
         return act.relu() if self.nonlin else act
 
     def parameters(self):
@@ -65,13 +75,11 @@ class MLP(Module):
     def __repr__(self):
         return f"MLP of [{', '.join(str(layer) for layer in self.layers)}]"
 
+
 class MLP_linear(Module):
     def __init__(self, nin, nouts):
         sz = [nin] + nouts
-        self.layers = [
-            Layer(sz[i], sz[i + 1], nonlin=False)
-            for i in range(len(nouts))
-        ]
+        self.layers = [Layer(sz[i], sz[i + 1], nonlin=False) for i in range(len(nouts))]
 
     def __call__(self, x):
         for layer in self.layers:
