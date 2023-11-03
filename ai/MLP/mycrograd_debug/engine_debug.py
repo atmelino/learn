@@ -11,12 +11,20 @@ class Value:
     # i = input
 
     def __init__(
-        self, data, _children=(), _op="", name="val", type="", neuronnumber=""
+        self,
+        data,
+        _children=(),
+        _op="",
+        name="val",
+        layernumber="",
+        neuronnumber="",
+        type="",
     ):
         Value.value_counter += 1
         self.name = name + str(Value.value_counter)
-        self.type = type
+        self.layernumber = layernumber
         self.neuronnumber = neuronnumber
+        self.type = type
         self.data = data
         self.grad = 0
 
