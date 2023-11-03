@@ -28,7 +28,7 @@ class Neuron(Module):
         ]
         self.b = Value(0, type="b", layernumber=lnum, neuronnumber=nnum)
         self.nonlin = nonlin
-        print("neuron nonlin is ", self.nonlin)
+        # print("neuron nonlin is ", self.nonlin)
 
     def __call__(self, x):
         act = sum((wi * xi for wi, xi in zip(self.w, x)), self.b)
