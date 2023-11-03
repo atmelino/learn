@@ -12,20 +12,21 @@ class Module:
 
     layer_counter = 0
 
+
 class Neuron(Module):
     neuron_counter = 0
 
     # def __init__(self, nin, nonlin=True):
-    def __init__(self, nin, layer_counter, nonlin=False):
+    def __init__(self, nin, layer_counter=0, nonlin=False):
         Neuron.neuron_counter += 1
         nnum = "n" + str(Neuron.neuron_counter)
         lnum = "l" + str(Layer.layer_counter)
-        
+
         self.w = [
             Value(random.uniform(-1, 1), type="w", layernumber=lnum, neuronnumber=nnum)
             for _ in range(nin)
         ]
-        self.b = Value(0, type="b",  layernumber=lnum, neuronnumber=nnum)
+        self.b = Value(0, type="b", layernumber=lnum, neuronnumber=nnum)
         self.nonlin = nonlin
         print("neuron nonlin is ", self.nonlin)
 
@@ -44,7 +45,6 @@ class Neuron(Module):
 
 
 class Layer(Module):
-
     def __init__(self, nin, nout, **kwargs):
         Layer.layer_counter += 1
 
