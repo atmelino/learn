@@ -1,0 +1,7 @@
+
+
+
+2023-11-03
+removed **kwargs in nn , now RElU doesn't work
+add letter l to layers
+number weights

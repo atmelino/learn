@@ -18,12 +18,14 @@ class Value:
         name="val",
         layernumber="",
         neuronnumber="",
+        weightnumber="",
         type="",
     ):
         Value.value_counter += 1
         self.name = name + str(Value.value_counter)
         self.layernumber = layernumber
         self.neuronnumber = neuronnumber
+        self.weightnumber = weightnumber
         self.type = type
         self.data = data
         self.grad = 0
@@ -122,7 +124,7 @@ class Value:
         return other * self**-1
 
     def __repr__(self):
-        return f"Value(name={self.name},neuronnumber={self.neuronnumber},type={self.type},data={self.data}, grad={self.grad})"
+        return f"Value(name={self.name},neuronnumber={self.neuronnumber},weightnumber={self.weightnumber},type={self.type},data={self.data}, grad={self.grad})"
 
     def reset_counter(self):
         Value.value_counter = 0

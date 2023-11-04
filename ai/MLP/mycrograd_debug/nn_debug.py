@@ -10,32 +10,36 @@ class Module:
     def parameters(self):
         return []
 
-    layer_counter = 0
+    # layer_counter = 0
 
 
 class Neuron(Module):
-    neuron_counter = 0
-    nnum="n0"
-
-
     # def __init__(self, nin, nonlin=True):
-    def __init__(self, nin, layer_counter=0, nonlin=False):
-        Neuron.neuron_counter += 1
-        self.nnum = "n" + str(Neuron.neuron_counter)
-        lnum = "l" + str(Layer.layer_counter)
+    def __init__(self, nin, layernumber="l", neuronnumber="n", nonlin=False):
+        self.neuronnumber = neuronnumber
+        self.layernumber = layernumber
+        # lnum = "l" + str(Layer.layer_counter)
 
         self.w = [
-            Value(random.uniform(-1, 1), type="w", layernumber=lnum, neuronnumber=self.nnum)
+            Value(
+                random.uniform(-1, 1),
+                type="w",
+                layernumber=self.layernumber,
+                neuronnumber=self.neuronnumber,
+            )
             for _ in range(nin)
         ]
-        self.b = Value(0, type="b", layernumber=lnum, neuronnumber=self.nnum)
+        self.b = Value(
+            0, type="b", layernumber=self.layernumber, neuronnumber=self.neuronnumber
+        )
         self.nonlin = nonlin
         # print("neuron nonlin is ", self.nonlin)
 
     def __call__(self, x):
         act = sum((wi * xi for wi, xi in zip(self.w, x)), self.b)
         act.type = "a"
-        act.neuronnumber=self.nnum
+        act.neuronnumber = self.neuronnumber
+        act.layernumber = self.layernumber
         return act.relu() if self.nonlin else act
 
     def parameters(self):
@@ -46,11 +50,13 @@ class Neuron(Module):
 
 
 class Layer(Module):
-    def __init__(self, nin, nout, **kwargs):
-        Layer.layer_counter += 1
+    def __init__(self, nin, nout, nonlin=False, layernumber="l"):
+        # Layer.layer_counter += 1
 
         # print("Layer kwargs",**kwargs)
-        self.neurons = [Neuron(nin, Layer.layer_counter, **kwargs) for _ in range(nout)]
+        self.neurons = [
+            Neuron(nin, layernumber, neuronnumber="n" + str(i + 1)) for i in range(nout)
+        ]
 
     def __call__(self, x):
         out = [n(x) for n in self.neurons]
@@ -67,7 +73,7 @@ class MLP(Module):
     def __init__(self, nin, nouts):
         sz = [nin] + nouts
         self.layers = [
-            Layer(sz[i], sz[i + 1], nonlin=i != len(nouts) - 1)
+            Layer(sz[i], sz[i + 1], layernumber="l"+str(i+1), nonlin=i != len(nouts) - 1)
             for i in range(len(nouts))
         ]
 
@@ -86,7 +92,10 @@ class MLP(Module):
 class MLP_linear(Module):
     def __init__(self, nin, nouts):
         sz = [nin] + nouts
-        self.layers = [Layer(sz[i], sz[i + 1], nonlin=False) for i in range(len(nouts))]
+        self.layers = [
+            Layer(sz[i], sz[i + 1], layernumber="l"+str(i+1), nonlin=False)
+            for i in range(len(nouts))
+        ]
 
     def __call__(self, x):
         for layer in self.layers:
