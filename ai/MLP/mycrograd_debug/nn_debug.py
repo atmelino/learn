@@ -17,24 +17,25 @@ class Neuron(Module):
     neuron_counter = 0
     nnum="n0"
 
+
     # def __init__(self, nin, nonlin=True):
     def __init__(self, nin, layer_counter=0, nonlin=False):
         Neuron.neuron_counter += 1
-        Neuron.nnum = "n" + str(Neuron.neuron_counter)
+        self.nnum = "n" + str(Neuron.neuron_counter)
         lnum = "l" + str(Layer.layer_counter)
 
         self.w = [
-            Value(random.uniform(-1, 1), type="w", layernumber=lnum, neuronnumber=Neuron.nnum)
+            Value(random.uniform(-1, 1), type="w", layernumber=lnum, neuronnumber=self.nnum)
             for _ in range(nin)
         ]
-        self.b = Value(0, type="b", layernumber=lnum, neuronnumber=Neuron.nnum)
+        self.b = Value(0, type="b", layernumber=lnum, neuronnumber=self.nnum)
         self.nonlin = nonlin
         # print("neuron nonlin is ", self.nonlin)
 
     def __call__(self, x):
         act = sum((wi * xi for wi, xi in zip(self.w, x)), self.b)
         act.type = "a"
-        act.neuronnumber=x.nnum
+        act.neuronnumber=self.nnum
         return act.relu() if self.nonlin else act
 
     def parameters(self):
