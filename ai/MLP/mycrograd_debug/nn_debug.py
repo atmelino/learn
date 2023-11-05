@@ -28,8 +28,8 @@ class Neuron(Module):
             0, type="b", layernumber=self.layernumber, neuronnumber=self.neuronnumber
         )
         self.nonlin = nonlin
-        print("neuron nonlin is ", self.nonlin)
-        print("neuron layernumber is ", self.layernumber)
+        # print("neuron nonlin is ", self.nonlin)
+        # print("neuron layernumber is ", self.layernumber)
 
     def __call__(self, x):
         act = sum((wi * xi for wi, xi in zip(self.w, x)), self.b)
@@ -65,15 +65,26 @@ class Layer(Module):
 class MLP(Module):
     def __init__(self, nin, nouts, lastReLU=True):
         sz = [nin] + nouts
-        self.layers = [
-            Layer(
-                sz[i],
-                sz[i + 1],
-                layernumber="L" + str(i + 1),
-                nonlin=i != len(nouts) - 1,
-            )
-            for i in range(len(nouts))
-        ]
+        if(lastReLU==True):
+            self.layers = [
+                Layer(
+                    sz[i],
+                    sz[i + 1],
+                    layernumber="L" + str(i + 1),
+                    nonlin=i != len(nouts) - 1,
+                )
+                for i in range(len(nouts))
+            ]
+        else:
+            self.layers = [
+                Layer(
+                    sz[i],
+                    sz[i + 1],
+                    layernumber="L" + str(i + 1),
+                    nonlin=False,
+                )
+                for i in range(len(nouts))
+            ]
 
     def __call__(self, x):
         for layer in self.layers:
