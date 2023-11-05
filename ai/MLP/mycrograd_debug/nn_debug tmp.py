@@ -45,6 +45,11 @@ class Neuron(Module):
 
 
 class Layer(Module):
+    # def __init__(self, nin, nout, nonlin=False, layernumber="L"):
+    #     self.neurons = [
+    #         Neuron(nin, layernumber, neuronnumber="n" + str(i + 1)) for i in range(nout)
+    #     ]
+
     def __init__(self, nin, nout, **kwargs):
         self.neurons = [Neuron(nin, **kwargs) for _ in range(nout)]
 
@@ -63,7 +68,52 @@ class MLP(Module):
     def __init__(self, nin, nouts):
         sz = [nin] + nouts
         self.layers = [
+            Layer(
+                sz[i],
+                sz[i + 1],
+                layernumber="L" + str(i + 1),
+                nonlin=i != len(nouts) - 1,
+            )
+            for i in range(len(nouts))
+        ]
+
+    def __call__(self, x):
+        for layer in self.layers:
+            x = layer(x)
+        return x
+
+    def parameters(self):
+        return [p for layer in self.layers for p in layer.parameters()]
+
+    def __repr__(self):
+        return f"MLP of [{', '.join(str(layer) for layer in self.layers)}]"
+
+
+class MLP(Module):
+    def __init__(self, nin, nouts):
+        sz = [nin] + nouts
+        self.layers = [
             Layer(sz[i], sz[i + 1], nonlin=i != len(nouts) - 1)
+            for i in range(len(nouts))
+        ]
+
+    def __call__(self, x):
+        for layer in self.layers:
+            x = layer(x)
+        return x
+
+    def parameters(self):
+        return [p for layer in self.layers for p in layer.parameters()]
+
+    def __repr__(self):
+        return f"MLP of [{', '.join(str(layer) for layer in self.layers)}]"
+
+
+class MLP_linear(Module):
+    def __init__(self, nin, nouts):
+        sz = [nin] + nouts
+        self.layers = [
+            Layer(sz[i], sz[i + 1], layernumber="L" + str(i + 1), nonlin=False)
             for i in range(len(nouts))
         ]
 
