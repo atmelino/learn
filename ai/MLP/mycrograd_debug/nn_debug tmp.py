@@ -1,8 +1,8 @@
 import random
 from mycrograd_debug.engine_debug import Value
 
-class Module:
 
+class Module:
     def zero_grad(self):
         for p in self.parameters():
             p.grad = 0
@@ -10,15 +10,15 @@ class Module:
     def parameters(self):
         return []
 
-class Neuron(Module):
 
+class Neuron(Module):
     def __init__(self, nin, layernumber="L", neuronnumber="n", nonlin=True):
         self.neuronnumber = neuronnumber
         self.layernumber = layernumber
         self.w = [
             Value(
                 random.uniform(-1, 1),
-                type="w"+str(i+1),
+                type="w" + str(i + 1),
                 layernumber=self.layernumber,
                 neuronnumber=self.neuronnumber,
             )

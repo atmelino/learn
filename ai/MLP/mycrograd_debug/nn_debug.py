@@ -49,7 +49,10 @@ class Layer(Module):
     def __init__(self, nin, nout, **kwargs):
         for arg in kwargs:
             print("kwarg ", arg)
-        self.neurons = [Neuron(nin, **kwargs) for _ in range(nout)]
+        self.neurons = [Neuron(nin, neuronnumber="n" + str(i + 1), **kwargs) for i in range(nout)]
+    #     self.neurons = [
+    #         Neuron(nin, layernumber, neuronnumber="n" + str(i + 1)) for i in range(nout)
+    #     ]
 
     def __call__(self, x):
         out = [n(x) for n in self.neurons]
