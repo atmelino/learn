@@ -97,22 +97,3 @@ class MLP(Module):
     def __repr__(self):
         return f"MLP of [{', '.join(str(layer) for layer in self.layers)}]"
 
-
-class MLP_linear(Module):
-    def __init__(self, nin, nouts):
-        sz = [nin] + nouts
-        self.layers = [
-            Layer(sz[i], sz[i + 1], layernumber="L" + str(i + 1), nonlin=False)
-            for i in range(len(nouts))
-        ]
-
-    def __call__(self, x):
-        for layer in self.layers:
-            x = layer(x)
-        return x
-
-    def parameters(self):
-        return [p for layer in self.layers for p in layer.parameters()]
-
-    def __repr__(self):
-        return f"MLP of [{', '.join(str(layer) for layer in self.layers)}]"
