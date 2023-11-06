@@ -28,9 +28,10 @@ class Neuron(Module):
                 for i in range(nin)
             ]
         else:
+            randint=random.randint(1, 6)
             self.w = [
                 Value(
-                    0.1*(i+1),
+                    0.1*(i+1)*randint,
                     type="w" + str(i + 1),
                     layernumber=self.layernumber,
                     neuronnumber=self.neuronnumber,
@@ -61,8 +62,8 @@ class Neuron(Module):
 
 class Layer(Module):
     def __init__(self, nin, nout, **kwargs):
-        for arg in kwargs:
-            print("kwarg ", arg)
+        # for arg in kwargs:
+        #     print("kwarg ", arg)
         self.neurons = [
             Neuron(nin, neuronnumber="n" + str(i + 1), **kwargs) for i in range(nout)
         ]
