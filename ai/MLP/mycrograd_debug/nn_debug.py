@@ -12,18 +12,32 @@ class Module:
 
 
 class Neuron(Module):
-    def __init__(self, nin, layernumber="L", neuronnumber="n", nonlin=True):
+    def __init__(
+        self, nin, layernumber="L", neuronnumber="n", nonlin=True, randomweights=True
+    ):
         self.neuronnumber = neuronnumber
         self.layernumber = layernumber
-        self.w = [
-            Value(
-                random.uniform(-1, 1),
-                type="w" + str(i + 1),
-                layernumber=self.layernumber,
-                neuronnumber=self.neuronnumber,
-            )
-            for i in range(nin)
-        ]
+        if randomweights == True:
+            self.w = [
+                Value(
+                    random.uniform(-1, 1),
+                    type="w" + str(i + 1),
+                    layernumber=self.layernumber,
+                    neuronnumber=self.neuronnumber,
+                )
+                for i in range(nin)
+            ]
+        else:
+            self.w = [
+                Value(
+                    0.1*(i+1),
+                    type="w" + str(i + 1),
+                    layernumber=self.layernumber,
+                    neuronnumber=self.neuronnumber,
+                )
+                for i in range(nin)
+            ]
+
         self.b = Value(
             0, type="b", layernumber=self.layernumber, neuronnumber=self.neuronnumber
         )
@@ -49,7 +63,10 @@ class Layer(Module):
     def __init__(self, nin, nout, **kwargs):
         for arg in kwargs:
             print("kwarg ", arg)
-        self.neurons = [Neuron(nin, neuronnumber="n" + str(i + 1), **kwargs) for i in range(nout)]
+        self.neurons = [
+            Neuron(nin, neuronnumber="n" + str(i + 1), **kwargs) for i in range(nout)
+        ]
+
     #     self.neurons = [
     #         Neuron(nin, layernumber, neuronnumber="n" + str(i + 1)) for i in range(nout)
     #     ]
@@ -66,15 +83,16 @@ class Layer(Module):
 
 
 class MLP(Module):
-    def __init__(self, nin, nouts, lastReLU=True):
+    def __init__(self, nin, nouts, lastReLU=True, randomweights=False):
         sz = [nin] + nouts
-        if(lastReLU==True):
+        if lastReLU == True:
             self.layers = [
                 Layer(
                     sz[i],
                     sz[i + 1],
                     layernumber="L" + str(i + 1),
                     nonlin=i != len(nouts) - 1,
+                    randomweights=randomweights,
                 )
                 for i in range(len(nouts))
             ]
@@ -85,6 +103,7 @@ class MLP(Module):
                     sz[i + 1],
                     layernumber="L" + str(i + 1),
                     nonlin=False,
+                    randomweights=randomweights,
                 )
                 for i in range(len(nouts))
             ]
@@ -99,4 +118,3 @@ class MLP(Module):
 
     def __repr__(self):
         return f"MLP of [{', '.join(str(layer) for layer in self.layers)}]"
-
