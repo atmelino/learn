@@ -124,7 +124,7 @@ class Value:
         return other * self**-1
 
     def __repr__(self):
-        return f"Value(name={self.name},neuronnumber={self.neuronnumber},weightnumber={self.weightnumber},type={self.type},data={self.data}, grad={self.grad})"
+        return f"Value(name={self.name},layernumber={self.layernumber},neuronnumber={self.neuronnumber},weightnumber={self.weightnumber},type={self.type},data={self.data}, grad={self.grad})"
 
     def reset_counter(self):
         Value.value_counter = 0

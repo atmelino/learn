@@ -27,7 +27,7 @@ class Neuron(Module):
                 )
                 for i in range(nin)
             ]
-        if weightsinit == 1:    # weights same sequence in all neurons
+        if weightsinit == 1:    # weights same sequence in all neurons, makes verifying gradients easier
             self.w = [
                 Value(
                     0.1*(i+1),
@@ -37,7 +37,7 @@ class Neuron(Module):
                 )
                 for i in range(nin)
             ]
-        if weightsinit == 2:    # weights different sequence in all neurons
+        if weightsinit == 2:    # weights different sequence in all neurons, makes verifyng gradients easier
             randint=random.randint(1, 6)
             self.w = [
                 Value(
