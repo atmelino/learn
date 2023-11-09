@@ -13,11 +13,11 @@ class Module:
 
 class Neuron(Module):
     def __init__(
-        self, nin, layernumber="L", neuronnumber="n", nonlin=True, randomweights=True
+        self, nin, layernumber="L", neuronnumber="n", nonlin=True, weightsinit=0
     ):
         self.neuronnumber = neuronnumber
         self.layernumber = layernumber
-        if randomweights == True:
+        if weightsinit == 0:    # completely random at every instantiation
             self.w = [
                 Value(
                     random.uniform(-1, 1),
@@ -27,7 +27,17 @@ class Neuron(Module):
                 )
                 for i in range(nin)
             ]
-        else:
+        if weightsinit == 1:    # weights same sequence in all neurons
+            self.w = [
+                Value(
+                    0.1*(i+1),
+                    type="w" + str(i + 1),
+                    layernumber=self.layernumber,
+                    neuronnumber=self.neuronnumber,
+                )
+                for i in range(nin)
+            ]
+        if weightsinit == 2:    # weights different sequence in all neurons
             randint=random.randint(1, 6)
             self.w = [
                 Value(
@@ -38,6 +48,33 @@ class Neuron(Module):
                 )
                 for i in range(nin)
             ]
+
+
+
+
+
+
+        # if randomweights == True:
+        #     self.w = [
+        #         Value(
+        #             random.uniform(-1, 1),
+        #             type="w" + str(i + 1),
+        #             layernumber=self.layernumber,
+        #             neuronnumber=self.neuronnumber,
+        #         )
+        #         for i in range(nin)
+        #     ]
+        # else:
+        #     randint=random.randint(1, 6)
+        #     self.w = [
+        #         Value(
+        #             0.1*(i+1)*randint,
+        #             type="w" + str(i + 1),
+        #             layernumber=self.layernumber,
+        #             neuronnumber=self.neuronnumber,
+        #         )
+        #         for i in range(nin)
+        #     ]
 
         self.b = Value(
             0, type="b", layernumber=self.layernumber, neuronnumber=self.neuronnumber
@@ -84,7 +121,7 @@ class Layer(Module):
 
 
 class MLP(Module):
-    def __init__(self, nin, nouts, lastReLU=True, randomweights=False):
+    def __init__(self, nin, nouts, lastReLU=True, weightsinit=0):
         sz = [nin] + nouts
         if lastReLU == True:
             self.layers = [
@@ -93,7 +130,7 @@ class MLP(Module):
                     sz[i + 1],
                     layernumber="L" + str(i + 1),
                     nonlin=i != len(nouts) - 1,
-                    randomweights=randomweights,
+                    weightsinit=weightsinit,
                 )
                 for i in range(len(nouts))
             ]
@@ -104,7 +141,7 @@ class MLP(Module):
                     sz[i + 1],
                     layernumber="L" + str(i + 1),
                     nonlin=False,
-                    randomweights=randomweights,
+                    weightsinit=weightsinit,
                 )
                 for i in range(len(nouts))
             ]
