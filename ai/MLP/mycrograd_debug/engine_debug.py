@@ -54,11 +54,15 @@ class Value:
         out = Value(self.data * other.data, (self, other), "*")
 
         def _backward():
-            print("backward mul before ",self.name, self.grad,out.name, out.grad)
+            self_before=self.grad
+            other_before=other.grad
+            # print("backward mul before ", self.name, self.grad, other.name, other.grad)
             self.grad += other.data * out.grad
             other.grad += self.data * out.grad
-            print("backward mul after",self.name, self.grad)
-            print("backward mul after",other.name, other.grad)
+            # print("backward mul after", self.name, self.grad)
+            # print("backward mul after", other.name, other.grad)
+            # print("backward mul after",)
+            print("backward mul  ", self.name, self_before, "->",self.grad, other.name, other_before, "->",other.grad)
 
         out._backward = _backward
 
