@@ -3,7 +3,7 @@ class Value:
 
     value_counter = 0
     counter_print = False
-
+    debug_bw=False
     # types
     # w = weight
     # b = additive parameter
@@ -15,14 +15,14 @@ class Value:
         data,
         _children=(),
         _op="",
-        name="val",
+        name="v",
         layernumber="",
         neuronnumber="",
         weightnumber="",
         type="",
     ):
         Value.value_counter += 1
-        self.name = name + str(Value.value_counter)
+        self.name = name + str(Value.value_counter).zfill(3)
         self.layernumber = layernumber
         self.neuronnumber = neuronnumber
         self.weightnumber = weightnumber
@@ -54,15 +54,22 @@ class Value:
         out = Value(self.data * other.data, (self, other), "*")
 
         def _backward():
-            self_before=self.grad
-            other_before=other.grad
-            # print("backward mul before ", self.name, self.grad, other.name, other.grad)
+            self_before = self.grad
+            other_before = other.grad
             self.grad += other.data * out.grad
             other.grad += self.data * out.grad
-            # print("backward mul after", self.name, self.grad)
-            # print("backward mul after", other.name, other.grad)
-            # print("backward mul after",)
-            print("backward mul  ", self.name, self_before, "->",self.grad, other.name, other_before, "->",other.grad)
+            if self.debug_bw:
+                print(
+                    "backward mul  ",
+                    self.name,
+                    "% 6.2f" % self_before,
+                    "->",
+                    "% 6.2f" % self.grad,
+                    other.name,
+                    "% 6.2f" % other_before,
+                    "->",
+                    "% 6.2f" % other.grad,
+                )
 
         out._backward = _backward
 
