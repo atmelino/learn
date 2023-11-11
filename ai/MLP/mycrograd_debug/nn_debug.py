@@ -21,6 +21,7 @@ class Neuron(Module):
         weightsinit=0,
         debug_bw=False,
     ):
+        # print("init neuron debug_bw=",debug_bw)
         self.neuronnumber = neuronnumber
         self.layernumber = layernumber
         Value.debug_bw = debug_bw
