@@ -83,9 +83,16 @@ class Neuron(Module):
 
 
 class Layer(Module):
-    def __init__(self, nin, nout, **kwargs):
+    # layernumber=""
+    def __init__(self, nin, nout,**kwargs):
         # for arg in kwargs:
         #     print("kwarg ", arg)
+        for key, value in kwargs.items():
+            print("%s == %s" % (key, value))    
+        # print(layernumber)
+        # self.layernumber = layernumber
+        self.layernumber = kwargs['layernumber']
+
         self.neurons = [
             Neuron(nin, neuronnumber="n" + str(i + 1), **kwargs) for i in range(nout)
         ]
