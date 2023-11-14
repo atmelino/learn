@@ -16,7 +16,7 @@ class Neuron(Module):
         self,
         nin,
         layernumber="L",
-        neuronnumber="n",
+        neuronnumber="N",
         nonlin=True,
         weightsinit=0,
         debug_bw=False,
@@ -94,7 +94,7 @@ class Layer(Module):
         self.layernumber = kwargs['layernumber']
 
         self.neurons = [
-            Neuron(nin, neuronnumber="n" + str(i + 1), **kwargs) for i in range(nout)
+            Neuron(nin, neuronnumber="N" + str(i + 1), **kwargs) for i in range(nout)
         ]
 
     #     self.neurons = [
