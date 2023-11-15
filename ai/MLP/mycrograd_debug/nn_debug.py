@@ -1,5 +1,6 @@
 import random
 from mycrograd_debug.engine_debug import Value
+import pprint
 
 
 class Module:
@@ -9,7 +10,6 @@ class Module:
 
     def parameters(self):
         return []
-
 
 class Neuron(Module):
     def __init__(
@@ -21,6 +21,7 @@ class Neuron(Module):
         weightsinit=0,
         debug_bw=False,
     ):
+        pp = pprint.PrettyPrinter(indent=4)
         # print("init neuron debug_bw=",debug_bw)
         self.neuronnumber = neuronnumber
         self.layernumber = layernumber
@@ -67,12 +68,16 @@ class Neuron(Module):
         self.nonlin = nonlin
         # print("neuron nonlin is ", self.nonlin)
         # print("neuron layernumber is ", self.layernumber)
+        # print("Module nn Neuron: parameters")
+        # pp.pprint(self.parameters())
+
 
     def __call__(self, x):
         act = sum((wi * xi for wi, xi in zip(self.w, x)), self.b)
         act.type = "a"
         act.neuronnumber = self.neuronnumber
         act.layernumber = self.layernumber
+        self.act=act
         return act.relu() if self.nonlin else act
 
     def parameters(self):
@@ -85,10 +90,8 @@ class Neuron(Module):
 class Layer(Module):
     # layernumber=""
     def __init__(self, nin, nout,**kwargs):
-        # for arg in kwargs:
-        #     print("kwarg ", arg)
-        for key, value in kwargs.items():
-            print("%s == %s" % (key, value))    
+        # for key, value in kwargs.items():
+        #     print("%s == %s" % (key, value))    
         # print(layernumber)
         # self.layernumber = layernumber
         self.layernumber = kwargs['layernumber']
@@ -114,7 +117,11 @@ class Layer(Module):
 
 class MLP(Module):
     def __init__(self, nin, nouts, lastReLU=True, weightsinit=0, debug_bw=False):
+        pp = pprint.PrettyPrinter(indent=4)
         sz = [nin] + nouts
+        print("Module nn MLP: structure")
+        pp.pprint(sz)
+        print(len(nouts))
         if lastReLU == True:
             self.layers = [
                 Layer(
@@ -132,7 +139,8 @@ class MLP(Module):
                 Layer(
                     sz[i],
                     sz[i + 1],
-                    layernumber="L" + str(i + 1),
+                    layernumber="L" + str(i + 1) if i<2 else "O",
+                    # isApple = True if fruit == 'Apple' else False
                     nonlin=False,
                     weightsinit=weightsinit,
                     debug_bw=debug_bw,
