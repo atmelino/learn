@@ -2,5 +2,4 @@ digraph {
 	graph [rankdir=LR]
 	a [label="{ type | data 3.0000 | grad 4.0000 }" shape=record]
 	b [label="{ type | data 3.0000 | grad 4.0000 }" shape=record]
-	a -> b
 }
