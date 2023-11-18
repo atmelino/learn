@@ -5,7 +5,6 @@ import pprint
 import cairosvg
 DPI = 96
 
-
 pp = pprint.PrettyPrinter(indent=4)
 dot = Digraph(format="svg", graph_attr={"rankdir": "LR"})  # LR = left to right
 nodes, edges = set(), set()
@@ -17,7 +16,6 @@ dot.node(
     name="b", label="{ %s | data %.4f | grad %.4f }" % ("type", 3, 4), shape="record"
 )
 # dot.view()
-
 
 
 pygame.init()
@@ -52,17 +50,10 @@ while run:
         if event.type == pygame.QUIT:
             run = False
 
-    # window.fill((255, 255, 255))
-    # window.blit(pygame_surface, pygame_surface.get_rect(center = window.get_rect().center))
-    # pygame.display.flip()
-
     window.fill((255, 255, 255))
     _image = render_svg(mysvg, 1)
     window.blit(_image, pygame_surface.get_rect(center = window.get_rect().center))
     pygame.display.flip()
-
-
-
 
 pygame.quit()
 exit()
