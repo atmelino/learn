@@ -28,7 +28,7 @@ clock = pygame.time.Clock()
 mysvg=dot.pipe(encoding='utf-8')
 # mysvg=dot.pipe()
 print(mysvg)
-dot.render("ab.gv", format="jpg", view=True)
+dot.render("graphviz/pygame_nn/ab.gv", format="jpg", view=True)
 
 pygame_surface = pygame.image.load(io.BytesIO(mysvg.encode()))
 
