@@ -2,6 +2,9 @@ import pygame
 import io
 from graphviz import Digraph
 import pprint
+import cairosvg
+DPI = 96
+
 pp = pprint.PrettyPrinter(indent=4)
 dot = Digraph(format="svg", graph_attr={"rankdir": "LR"})  # LR = left to right
 nodes, edges = set(), set()
@@ -15,13 +18,11 @@ dot.node(
 # dot.view()
 
 
-
 pygame.init()
 pygame.font.init()
 
 window = pygame.display.set_mode((500, 200))
 clock = pygame.time.Clock()
-
 
 # mysvg=dot.pipe(format='svg')
 mysvg=dot.pipe(encoding='utf-8')
@@ -29,10 +30,7 @@ mysvg=dot.pipe(encoding='utf-8')
 print(mysvg)
 dot.render("abcd.gv", format="jpg", view=True)
 
-svg_string = '<svg height="100" width="500"><ellipse cx="240" cy="50" rx="220" ry="30" style="fill:yellow" /><ellipse cx="220" cy="50" rx="190" ry="20" style="fill:white" /></svg>'
 pygame_surface = pygame.image.load(io.BytesIO(mysvg.encode()))
-
-
 
 run = True
 while run:

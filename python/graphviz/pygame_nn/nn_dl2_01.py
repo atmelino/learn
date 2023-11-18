@@ -24,17 +24,12 @@ pygame.font.init()
 window = pygame.display.set_mode((500, 200))
 clock = pygame.time.Clock()
 
-# svg_string = '<svg height="100" width="500"><ellipse cx="240" cy="50" rx="220" ry="30" style="fill:yellow" /><ellipse cx="220" cy="50" rx="190" ry="20" style="fill:white" /></svg>'
-# pygame_surface = pygame.image.load(io.BytesIO(svg_string.encode()))
-
-
 # mysvg=dot.pipe(format='svg')
 mysvg=dot.pipe(encoding='utf-8')
 # mysvg=dot.pipe()
 print(mysvg)
-dot.render("abcd.gv", format="jpg", view=True)
+dot.render("ab.gv", format="jpg", view=True)
 
-svg_string = '<svg height="100" width="500"><ellipse cx="240" cy="50" rx="220" ry="30" style="fill:yellow" /><ellipse cx="220" cy="50" rx="190" ry="20" style="fill:white" /></svg>'
 pygame_surface = pygame.image.load(io.BytesIO(mysvg.encode()))
 
 def render_svg(_svg, _scale):

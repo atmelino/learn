@@ -134,11 +134,11 @@ _icons = {
         "</svg>"
     ),
 
-    "nn_01": (mysvg),
+    # "nn_01": (mysvg),
     
 
 
-    "nn_01": (
+    "nn_02": (
         '<svg width="1288pt" height="127pt"                                                                                         '
         ' viewBox="0.00 0.00 1288.00 127.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">         '
         '<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 123)">                                            '
