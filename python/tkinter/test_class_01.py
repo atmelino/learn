@@ -8,7 +8,7 @@ class Window(Tk):
         self.title("Hello World")
 
         self.button = Button(text="My simple app.")
-        self.button.bind("<event>", self.handle_button_press)
+        self.button.bind("event", self.handle_button_press)
 
     # entry.bind('<event>', evaluate)
 
