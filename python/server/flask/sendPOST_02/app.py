@@ -14,9 +14,9 @@ def index():
    # print(request.form)
    if request.method == 'POST':
       received = request.data
-      print(received)
+      print("received ",received)
       dict1['phy']=30
-      return render_template("index.html", result = dict2)
+      return render_template("index2.html", result = dict2)
 
    return render_template("index.html", result = dict1)
 
