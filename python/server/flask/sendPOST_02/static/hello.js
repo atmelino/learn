@@ -12,7 +12,4 @@ function sayHello() {
     console.log("sayHello")
     // location.reload();
     console.log("Hello, World!");
-
-
-
  }
