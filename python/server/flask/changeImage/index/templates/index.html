@@ -10,14 +10,19 @@
     <head>
         <script type="text/javascript" src="{{ url_for('static', filename = 'script.js') }}"></script>
     </head>
-
 </head>
 
 <body>
-    <button onclick="getHello()">click</button>
-    <label id="demo">content</label>
+    <div class="bd-example" align="middle">
 
-    <!-- <script src="script.js"></script> -->
+        <p>
+            <button onclick="getHello()">click</button>
+            <label id="demo">content</label>
+        </p>
+
+        <img id="nn" src="{{url_for('static', filename='nn_01.svg')}}" />
+
+    </div>
 </body>
 
 </html>

@@ -4,8 +4,6 @@ from flask import Flask, request, jsonify, after_this_request, render_template
 
 app = Flask(__name__)
 
-
-
 @app.route("/")
 def index():
    return render_template("index.html")
