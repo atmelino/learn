@@ -9,15 +9,18 @@
 
     <head>
         <script type="text/javascript" src="{{ url_for('static', filename = 'script.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename = 'functions.js') }}"></script>
     </head>
 </head>
 
 <body>
     <div class="bd-example" align="middle">
+        <textarea name="resultsText" id=resultsText rows="15" cols="80"></textarea>
 
         <p>
             <button onclick="getHello()">click</button>
             <label id="demo">content</label>
+            <label id="image">image name</label>
         </p>
 
         <img id="nn" src="{{url_for('static', filename='nn_01.svg')}}" />

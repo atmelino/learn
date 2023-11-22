@@ -10,7 +10,7 @@ def hello():
         response.headers.add('Access-Control-Allow-Origin', '*')
         return response
 
-    jsonResp = {'jack': 4098, 'sape': 4139}
+    jsonResp = {'image': 'hello.svg', 'sape': 4139}
     print(jsonResp)
     return jsonify(jsonResp)
 
