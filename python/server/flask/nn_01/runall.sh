@@ -1,18 +1,24 @@
-echo git pull
+echo nn
 
-if [ -d "index" ]; then
-  cd index
-  pwd
-  flask run&
-  cd ..
-fi
+# cd index; pwd; ls; ./run.sh & cd ..; cd data; ./run.sh
 
-if [ -d "data" ]; then
-  cd data
-  pwd
-  flask run -h localhost -p 8989
-  cd ..
-fi
+(trap 'kill 0' SIGINT; cd index; pwd; ls; ./run.sh & cd ..; cd data; ./run.sh)
+
+
+
+# if [ -d "index" ]; then
+#   cd index
+#   pwd
+#   flask run&
+#   cd ..
+# fi
+
+# if [ -d "data" ]; then
+#   cd data
+#   pwd
+#   flask run -h localhost -p 8989
+#   cd ..
+# fi
 
 echo press enter
 
