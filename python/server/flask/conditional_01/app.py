@@ -1,3 +1,10 @@
+# http://127.0.0.1:5000/hello/40
+
+# or
+
+# http://127.0.0.1:5000/hello/60
+
+
 from flask import Flask, render_template
 app = Flask(__name__)
 

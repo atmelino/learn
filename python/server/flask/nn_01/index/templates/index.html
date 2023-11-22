@@ -16,8 +16,9 @@
     <div class="bd-example" align="middle">
         <textarea name="resultsText" id=resultsText rows="15" cols="80"></textarea>
         <p>
-            <button onclick="getHello()">activation</button>
+            <button onclick="activation()">activation</button>
             <button onclick="backward()">backward</button>
+            <button onclick="sendPOST()">sendPOST</button>
         </p>
 
         <img id="nn" src="{{url_for('static', filename='nn_01.svg')}}" />
