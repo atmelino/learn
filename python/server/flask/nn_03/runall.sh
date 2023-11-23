@@ -1,7 +1,7 @@
 echo nn
 
 
-(trap 'kill 0' SIGINT; cd index; pwd; ls; ./run.sh & cd ..; cd data; ./run.sh)
+(trap 'kill 0' SIGINT;  ./run_data.sh & ./run_index.sh)
 
 echo press enter
 

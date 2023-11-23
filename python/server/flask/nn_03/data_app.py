@@ -3,14 +3,14 @@ from graphviz import Digraph
 import datetime
 
 app = Flask(__name__)
-dot = Digraph(format="svg", graph_attr={"rankdir": "LR"})  # LR = left to right
-nodes, edges = set(), set()
 counter=1
 
 def generateSVG(name="default"):
     now = datetime.datetime.now()
 
     # self.counter+=1
+    dot = Digraph(format="svg", graph_attr={"rankdir": "LR"})  # LR = left to right
+    nodes, edges = set(), set()
     dot.node(name="a", label="hello %s" % now, shape="record")
     dot.render(name)
 
