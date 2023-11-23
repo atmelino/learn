@@ -1,0 +1,9 @@
+digraph {
+	graph [rankdir=LR]
+	a [label="hello 2023-11-22 18:54:56.412282" shape=record]
+	a [label="hello 2023-11-22 18:54:57.910798" shape=record]
+	a [label="hello 2023-11-22 18:54:59.026111" shape=record]
+	a [label="hello 2023-11-22 18:55:00.871600" shape=record]
+	a [label="hello 2023-11-22 18:55:02.765332" shape=record]
+	a [label="hello 2023-11-22 18:55:04.349887" shape=record]
+}
