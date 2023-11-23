@@ -1,3 +1,12 @@
+
+async function reloadImg(url) {
+    await fetch(url, { cache: 'reload', mode: 'no-cors' })
+    document.body.querySelectorAll(`img[src='${url}']`)
+        .forEach(img => img.src = url)
+}
+
+
+
 function activation() {
     // const url = 'http://localhost:8989'
     // const url = 'http://localhost:8989?a=1&b=3&c=m2'
@@ -10,9 +19,8 @@ function activation() {
             printlnMessage('resultsText', JSON.stringify(json.image));
             // newimg = "static/%s" % json.image;
             newimg = "static/" + json.image;
-            printlnMessage('resultsText', newimg);            
+            printlnMessage('resultsText', newimg);
             const img = document.getElementById("nn");
-            img.src = "static/nn_01.svg";
             img.src = newimg;
         })
 }
@@ -31,14 +39,16 @@ function backward() {
             newimg = "static/" + json.image;
             printlnMessage('resultsText', newimg);
             const img = document.getElementById("nn");
-            img.src = "static/nn_02.svg";
             img.src = newimg;
+
+            reloadImg(newimg)
+
         })
 }
 
 function sendPOST() {
-    yourUrl="/"
-    value="123"
+    yourUrl = "/"
+    value = "123"
     var xhr = new XMLHttpRequest();
     xhr.open("POST", yourUrl, true);
     xhr.setRequestHeader('Content-Type', 'application/json');
@@ -49,7 +59,7 @@ function sendPOST() {
     console.log("sayHello")
     // location.reload();
     console.log("Hello, World!");
- }
+}
 
 function printMessage(target, message) {
     elementId = document.getElementById(target);

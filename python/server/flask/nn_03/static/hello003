@@ -1,4 +1,0 @@
-digraph {
-	graph [rankdir=LR]
-	a [label="hello   3" shape=record]
-}

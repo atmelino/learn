@@ -4,9 +4,14 @@ import datetime
 
 app = Flask(__name__)
 global counter
+global flipflop
 counter=1
+flipflop=True
 
 def generateSVG(filename="default"):
+    global counter
+    counter=counter+1
+
     # now = datetime.datetime.now()
     dot = Digraph(format="svg", graph_attr={"rankdir": "LR"})  # LR = left to right
     nodes, edges = set(), set()
@@ -17,17 +22,21 @@ def generateSVG(filename="default"):
 
 @app.route("/", methods=["POST", "GET"])
 def hello():
+    global flipflop
+    print("counter=%3d" % counter)
+    flipflop=not flipflop
+
     print("hello called")
     print(request)
     print(request.data)
     cmd = request.args.get("cmd")
     print(cmd)
 
-    global counter
-    counter=counter+1
-    print("counter=%3d" % counter)
+    filename="img1" if flipflop else "img2"
+
+
     # filename="static/hello%3d" % counter
-    filename = "hello" + str(counter).zfill(3)
+    # filename = "hello" + str(counter).zfill(3)
 
     print(filename)
 
