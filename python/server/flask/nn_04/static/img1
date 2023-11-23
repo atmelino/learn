@@ -1,0 +1,39 @@
+digraph {
+	graph [rankdir=LR]
+	node [shape=record]
+	subgraph cluster_I {
+		node [color=white style=filled]
+		label=I
+		color=lightgrey style=filled
+		i1 [label="  i1 |{i |d 1.0000 g 31.3500}}"]
+	}
+	subgraph cluster_L1 {
+		node [color=white style=filled]
+		label=L1
+		color=lightgrey style=filled
+		L1N1 [label="  N1 |{w1 |d 0.5000 g 24.3000} |{b |d 0.0000 g 19.2000} |{a |d 0.5000 g 0.0000}}"]
+		L1N2 [label="  N2 |{w1 |d 0.5000 g 38.4000} |{b |d 0.0000 g 29.4000} |{a |d 0.5000 g 0.0000}}"]
+	}
+	subgraph cluster_L2 {
+		node [color=white style=filled]
+		label=L2
+		color=lightgrey style=filled
+		L2N1 [label="  N1 |{w1 |d 0.6000 g 7.0000}|{w2 |d 1.2000 g 5.2500} |{b |d 0.0000 g 10.5000} |{a |d 0.9000 g 0.0000}}"]
+		L2N2 [label="  N2 |{w1 |d 0.3000 g 10.5000}|{w2 |d 0.6000 g 7.5000} |{b |d 0.0000 g 15.0000} |{a |d 0.4500 g 0.0000}}"]
+	}
+	subgraph cluster_O {
+		node [color=white style=filled]
+		label=O
+		color=lightgrey style=filled
+		ON1 [label="  N1 |{w1 |d 0.5000 g 9.0000}|{w2 |d 1.0000 g 2.7000} |{b |d 0.0000 g 6.0000} |{a |d 0.9000 g 0.0000}}"]
+	}
+	i1 -> L1N1
+	i1 -> L1N2
+	L1N1 -> L2N1
+	L1N1 -> L2N2
+	L1N2 -> L2N1
+	L1N2 -> L2N2
+	L2N1 -> ON1
+	L2N2 -> ON1
+	a [label="hello  37" shape=record]
+}
