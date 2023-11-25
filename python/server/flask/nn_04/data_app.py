@@ -17,8 +17,8 @@ import datetime
 app = Flask(__name__)
 global counter
 global flipflop
-counter=1
-flipflop=True
+counter = 1
+flipflop = True
 
 # initialize a model
 nin = 1  # number of inputs
@@ -27,46 +27,72 @@ Value.value_counter = 0
 model = MLP(
     nin, [2, nout], lastReLU=False, weightsinit=2, debug_bw=True
 )  # 2-layer neural network
-xinumbers = list(range(1, 1 + nin))
+xinumbers = list(range(4, 4 + nin))
 xinput = [Value(x, type="i%s" % index) for index, x in enumerate(xinumbers, start=1)]
 global activation
 
-def generateSVG(filename="default"):
-    global counter
-    counter=counter+1
 
+# activation = model(xinput)
+
+
+def act():
+    global activation
+    #### forward pass0
     activation = model(xinput)
-    dot=draw_nn(xinput, model)
 
-    # now = datetime.datetime.now()
-    # dot = Digraph(format="svg", graph_attr={"rankdir": "LR"})  # LR = left to right
-    nodes, edges = set(), set()
-    # dot.node(name="a", label="hello %s" % now, shape="record")
-    dot.node(name="a", label="hello %3d" % counter, shape="record")
-    dot.render("static/"+filename)
+
+def zeroGrad():
+    global activation
+    # for p in model.parameters():
+    #     p.grad = 0.0
+    model.zero_grad()
+    print("zero'd gradients")
+    pp.pprint(model.parameters())
+
+
+def back():
+    #### backward pass
+    global activation
+    activation.backward()
+    print("parameters after backpass")
+    pp.pprint(model.parameters())
+
+
+def upd():
+    #### update
+    global activation
+    for p in model.parameters():
+        p.data += -0.1 * p.grad
+    print("updated parameters")
+    pp.pprint(model.parameters())
+
 
 def getactivation(filename="default"):
     global activation
     global counter
-    counter=counter+1
-    activation = model(xinput)
-    dot=draw_nn(xinput, model)
+    counter = counter + 1
+    act()
+    # dot=draw_nn(xinput, model)
+    dot = draw_nn(xinput, model, debug_print_01=True)
     dot.node(name="a", label="hello %3d" % counter, shape="record")
-    dot.render("static/"+filename)
+    dot.render("static/" + filename)
+
 
 def backward(filename="default"):
     global activation
     global counter
-    counter=counter+1
-    print("reset parameters")
-    for p in model.parameters():
-        p.grad = 0.0
-    activation.backward()
-    dot=draw_nn(xinput, model)
+    counter = counter + 1
+    back()
+    dot = draw_nn(xinput, model)
     dot.node(name="a", label="hello %3d" % counter, shape="record")
-    dot.render("static/"+filename)
+    dot.render("static/" + filename)
 
 
+def zeroGradients():
+    zeroGrad()
+
+def updateParams():
+    upd()
 
 
 
@@ -74,7 +100,7 @@ def backward(filename="default"):
 def hello():
     global flipflop
     print("counter=%3d" % counter)
-    flipflop=not flipflop
+    flipflop = not flipflop
 
     print("hello called")
     print(request)
@@ -82,16 +108,12 @@ def hello():
     cmd = request.args.get("cmd")
     print(cmd)
 
-    filename="img1" if flipflop else "img2"
-
+    filename = "img1" if flipflop else "img2"
 
     # filename="static/hello%3d" % counter
     # filename = "hello" + str(counter).zfill(3)
 
     print(filename)
-
-    # generateSVG("static/hello2")
-    # generateSVG(filename)
 
     @after_this_request
     def add_header(response):
@@ -100,10 +122,10 @@ def hello():
 
     if cmd == "act":
         getactivation(filename)
-        jsonResp = {"image": filename+".svg", "sape": 4139}
+        jsonResp = {"image": filename + ".svg", "sape": 4139}
     if cmd == "bwd":
         backward(filename)
-        jsonResp = {"image": filename+".svg", "sape": 4139}
+        jsonResp = {"image": filename + ".svg", "sape": 4139}
     print(jsonResp)
     return jsonify(jsonResp)
 

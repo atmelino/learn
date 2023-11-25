@@ -119,9 +119,7 @@ class MLP(Module):
     def __init__(self, nin, nouts, lastReLU=True, weightsinit=0, debug_bw=False):
         pp = pprint.PrettyPrinter(indent=4)
         sz = [nin] + nouts
-        print("Module nn MLP: structure")
-        pp.pprint(sz)
-        print(len(nouts))
+        print("Module nn MLP: structure %s" % (sz))
         if lastReLU == True:
             self.layers = [
                 Layer(

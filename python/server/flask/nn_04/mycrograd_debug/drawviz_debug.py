@@ -3,6 +3,7 @@ import pprint
 
 pp = pprint.PrettyPrinter(indent=4)
 
+
 def trace(root):
     nodes, edges = set(), set()
 
@@ -32,7 +33,7 @@ def draw_dot(root, debug_print_01=False):
         dot.node(
             name=uid,
             label="{ %s |%s |%s |%s | data %.4f | grad %.4f }"
-            % (n.name,n.layernumber, n.neuronnumber, n.type,  n.data, n.grad),
+            % (n.name, n.layernumber, n.neuronnumber, n.type, n.data, n.grad),
             shape="record",
         )
         if n._op:
@@ -97,10 +98,11 @@ def draw_nn(inputs, model, debug_print_01=False):
         # print(i.type, i.data)
         # nn_dot.edge(i.type, "L1N1")
         for n in model.layers[0].neurons:
-            nstring="%s%s" % (model.layers[0].layernumber,n.neuronnumber)
-            # pp.pprint(nstring)
+            nstring = "%s%s" % (model.layers[0].layernumber, n.neuronnumber)
             nn_dot.edge(i.type, nstring)
-
+            if debug_print_01:
+                # pp.pprint(nstring)
+                print("edge input %s to %s" % (i.type,nstring))
 
     for thiselem, nextelem in zip(model.layers, model.layers[1:] + model.layers[:1]):
         # print(
@@ -109,25 +111,32 @@ def draw_nn(inputs, model, debug_print_01=False):
         for n in thiselem.neurons:
             for m in nextelem.neurons:
                 if nextelem.layernumber != "L1":
-                    # print("neuron %s" % n.neuronnumber)
                     edge1 = "%s%s" % (thiselem.layernumber, n.neuronnumber)
                     edge2 = "%s%s" % (nextelem.layernumber, m.neuronnumber)
-                    # print("%s to %s" % (edge1, edge2))
                     nn_dot.edge(edge1, edge2)
+                    if debug_print_01:
+                        print("edge neuron %s %s to %s" % (n.neuronnumber,edge1, edge2))
+                        # print("%s to %s" % (edge1, edge2))
 
     return nn_dot
 
+
 def print_my_params(model):
-        # print(model.layers)
+    # print(model.layers)
 
-        for l in model.layers:
-                print("layer %s" % l.layernumber)
-                # pp.pprint(l.parameters())
-                for n in l.neurons:
-                        print("neuron %s" % n.neuronnumber)
-                        # pp.pprint(n.parameters())
-                        for w in n.w:
-                                # print(w)
-                                print("layer %s neuron %s type %s data %.4f grad %.4f " % (l.layernumber,w.neuronnumber,w.type,w.data,w.grad))
-                        print("layer %s neuron %s type %s data %.4f grad %.4f " % (l.layernumber,n.b.neuronnumber, n.b.type,n.b.data,n.b.grad))
-
+    for l in model.layers:
+        print("layer %s" % l.layernumber)
+        # pp.pprint(l.parameters())
+        for n in l.neurons:
+            print("neuron %s" % n.neuronnumber)
+            # pp.pprint(n.parameters())
+            for w in n.w:
+                # print(w)
+                print(
+                    "layer %s neuron %s type %s data %.4f grad %.4f "
+                    % (l.layernumber, w.neuronnumber, w.type, w.data, w.grad)
+                )
+            print(
+                "layer %s neuron %s type %s data %.4f grad %.4f "
+                % (l.layernumber, n.b.neuronnumber, n.b.type, n.b.data, n.b.grad)
+            )
