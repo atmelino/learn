@@ -25,7 +25,7 @@ nin = 1  # number of inputs
 nout = 1  # number of outputs
 Value.value_counter = 0
 model = MLP(
-    nin, [2, 2, nout], lastReLU=False, weightsinit=2, debug_bw=True
+    nin, [2, nout], lastReLU=False, weightsinit=2, debug_bw=True
 )  # 2-layer neural network
 xinumbers = list(range(1, 1 + nin))
 xinput = [Value(x, type="i%s" % index) for index, x in enumerate(xinumbers, start=1)]
@@ -58,6 +58,9 @@ def backward(filename="default"):
     global activation
     global counter
     counter=counter+1
+    print("reset parameters")
+    for p in model.parameters():
+        p.grad = 0.0
     activation.backward()
     dot=draw_nn(xinput, model)
     dot.node(name="a", label="hello %3d" % counter, shape="record")
@@ -88,7 +91,7 @@ def hello():
     print(filename)
 
     # generateSVG("static/hello2")
-    generateSVG(filename)
+    # generateSVG(filename)
 
     @after_this_request
     def add_header(response):

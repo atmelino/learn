@@ -109,11 +109,13 @@ def draw_nn(inputs, model, debug_print_01=False):
         for n in thiselem.neurons:
             for m in nextelem.neurons:
                 if nextelem.layernumber != "L1":
-                    # print("neuron %s" % n.neuronnumber)
                     edge1 = "%s%s" % (thiselem.layernumber, n.neuronnumber)
                     edge2 = "%s%s" % (nextelem.layernumber, m.neuronnumber)
-                    # print("%s to %s" % (edge1, edge2))
                     nn_dot.edge(edge1, edge2)
+                    if debug_print_01:
+                        print("neuron %s" % n.neuronnumber)
+                        print("%s to %s" % (edge1, edge2))
+
 
     return nn_dot
 
