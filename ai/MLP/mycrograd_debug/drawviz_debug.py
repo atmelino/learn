@@ -102,7 +102,7 @@ def draw_nn(inputs, model, debug_print_01=False):
             nn_dot.edge(i.type, nstring)
             if debug_print_01:
                 # pp.pprint(nstring)
-                print("edge input %s to %s" % (i.type,nstring))
+                print("edge input %s to %s" % (i.type, nstring))
 
     for thiselem, nextelem in zip(model.layers, model.layers[1:] + model.layers[:1]):
         # print(
@@ -115,7 +115,9 @@ def draw_nn(inputs, model, debug_print_01=False):
                     edge2 = "%s%s" % (nextelem.layernumber, m.neuronnumber)
                     nn_dot.edge(edge1, edge2)
                     if debug_print_01:
-                        print("edge neuron %s %s to %s" % (n.neuronnumber,edge1, edge2))
+                        print(
+                            "edge neuron %s %s to %s" % (n.neuronnumber, edge1, edge2)
+                        )
                         # print("%s to %s" % (edge1, edge2))
 
     return nn_dot

@@ -28,12 +28,45 @@ function activation() {
 }
 
 
-function backward() {
-    params = 'cmd=bwd'
-    sendRequest(params);
+function activation2() {
+    // const url = 'http://localhost:8989'
+    // const url = 'http://localhost:8989?a=1&b=3&c=m2'
+    const url = 'http://localhost:8989?cmd=act'
+    fetch(url)
+        .then(response => response.json())
+        .then(json => {
+            console.log(json);
+            printlnMessage('resultsText', JSON.stringify(json));
+            printlnMessage('resultsText', JSON.stringify(json.image));
+            // newimg = "static/%s" % json.image;
+            newimg = "static/" + json.image;
+            printlnMessage('resultsText', newimg);
+            const img = document.getElementById("nn");
+            img.src = newimg;
+            reloadImg(newimg)
+        })
 }
 
-function zeroGradient() {
+function backward() {
+    // const url = 'http://localhost:8989'
+    // const url = 'http://localhost:8989?a=1&b=3&c=m2'
+    const url = 'http://localhost:8989?cmd=bwd'
+    fetch(url)
+        .then(response => response.json())
+        .then(json => {
+            console.log(json);
+            printlnMessage('resultsText', JSON.stringify(json));
+            printlnMessage('resultsText', JSON.stringify(json.image));
+            // newimg = "static/%s" % json.image;
+            newimg = "static/" + json.image;
+            printlnMessage('resultsText', newimg);
+            const img = document.getElementById("nn");
+            img.src = newimg;
+            reloadImg(newimg)
+        })
+}
+
+function zeroParameters() {
     params = 'cmd=zer'
     sendRequest(params);
 }

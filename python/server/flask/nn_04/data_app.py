@@ -43,8 +43,6 @@ def act():
 
 def zeroGrad():
     global activation
-    # for p in model.parameters():
-    #     p.grad = 0.0
     model.zero_grad()
     print("zero'd gradients")
     pp.pprint(model.parameters())
@@ -88,10 +86,15 @@ def backward(filename="default"):
     dot.render("static/" + filename)
 
 
-def zeroGradients():
+def zeroGradients(filename="default"):
+    global counter
+    counter = counter + 1
     zeroGrad()
+    dot = draw_nn(xinput, model)
+    dot.node(name="a", label="hello %3d" % counter, shape="record")
+    dot.render("static/" + filename)
 
-def updateParams():
+def updateParams(filename="default"):
     upd()
 
 
@@ -125,6 +128,9 @@ def hello():
         jsonResp = {"image": filename + ".svg", "sape": 4139}
     if cmd == "bwd":
         backward(filename)
+        jsonResp = {"image": filename + ".svg", "sape": 4139}
+    if cmd == "zer":
+        zeroGradients(filename)
         jsonResp = {"image": filename + ".svg", "sape": 4139}
     print(jsonResp)
     return jsonify(jsonResp)

@@ -33,7 +33,7 @@ function backward() {
     sendRequest(params);
 }
 
-function zeroGradient() {
+function zeroParameters() {
     params = 'cmd=zer'
     sendRequest(params);
 }
