@@ -160,7 +160,10 @@ def print_all_values(root):
         # print(label)
     # pp.pprint(table)
     table.sort(key=lambda x: x.get('name'))
-    pp.pprint(table)
+    # pp.pprint(table)
+    pline="%4s %2s %6s %6s" % ('name','ty','data','grad')
+    print(pline)
+
     for line in table:
         # print(line)
         pline="%4s %2s %6.2f %6.2f" % (line.get('name'),line.get('type'),line.get('data'),line.get('grad'))
