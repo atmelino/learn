@@ -5,24 +5,24 @@ digraph {
 		node [color=white style=filled]
 		label=I
 		color=lightgrey style=filled
-		i1 [label="  i1 |{i |d 4.0000 g 15.3000}}"]
+		i1 [label="  i1 |{i |d 4.0000 g 0.9000}}"]
 	}
 	subgraph cluster_L1 {
 		node [color=white style=filled]
 		label=L1
 		color=lightgrey style=filled
-		L1N1 [label="  N1 |{w1 |d 0.5000 g 0.0000} |{b |d 0.0000 g 0.0000} |{a |d 2.0000 g 6.0000}}"]
-		L1N2 [label="  N2 |{w1 |d 0.5000 g 0.0000} |{b |d 0.0000 g 0.0000} |{a |d 2.0000 g 7.2000}}"]
+		L1N1 [label="  N1 |{w1 |d 0.5000 g 2.4000} |{b |d 0.0000 g 0.6000} |{a |d 2.0000 g 0.6000}}"]
+		L1N2 [label="  N2 |{w1 |d 0.5000 g 4.8000} |{b |d 0.0000 g 1.2000} |{a |d 2.0000 g 1.2000}}"]
 	}
 	subgraph cluster_L2 {
 		node [color=white style=filled]
 		label=L2
 		color=lightgrey style=filled
-		L2N1 [label="  N1 |{w1 |d 0.6000 g 0.0000}|{w2 |d 1.2000 g 0.0000} |{b |d 0.0000 g 0.0000} |{a |d 3.6000 g 1.0000}}"]
+		L2N1 [label="  N1 |{w1 |d 0.6000 g 2.0000}|{w2 |d 1.2000 g 2.0000} |{b |d 0.0000 g 1.0000} |{a |d 3.6000 g 1.0000}}"]
 	}
 	i1 -> L1N1
 	i1 -> L1N2
 	L1N1 -> L2N1
 	L1N2 -> L2N1
-	a [label="hello  29" shape=record]
+	a [label="hello  37" shape=record]
 }

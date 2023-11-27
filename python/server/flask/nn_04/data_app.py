@@ -32,21 +32,18 @@ xinput = [Value(x, type="i%s" % index) for index, x in enumerate(xinumbers, star
 global activation
 
 
-# activation = model(xinput)
-
 
 def act():
-    global activation
     #### forward pass0
+    global activation
     activation = model(xinput)
 
-
 def zeroGrad():
-    global activation
     model.zero_grad()
+    for i in xinput:
+        i.grad=0
     print("zero'd gradients")
     pp.pprint(model.parameters())
-
 
 def back():
     #### backward pass
@@ -55,10 +52,8 @@ def back():
     print("parameters after backpass")
     pp.pprint(model.parameters())
 
-
 def upd():
     #### update
-    global activation
     for p in model.parameters():
         p.data += -0.1 * p.grad
     print("updated parameters")
