@@ -5,24 +5,24 @@ digraph {
 		node [color=white style=filled]
 		label=I
 		color=lightgrey style=filled
-		i1 [label="  i1 |{i |d 4.0000 g 0.0000}}"]
+		i1 [label="  i1 |{i |d 4.0000 g -1.9456}}"]
 	}
 	subgraph cluster_L1 {
 		node [color=white style=filled]
 		label=L1
 		color=lightgrey style=filled
-		L1N1 [label="  N1 |{w1 |d 35.3800 g 0.0000} |{b |d 6.9200 g 0.0000} |{a |d 148.4400 g 0.0000}}"]
-		L1N2 [label="  N2 |{w1 |d 5.5400 g 0.0000} |{b |d 0.4200 g 0.0000} |{a |d 22.5800 g 0.0000}}"]
+		L1N1 [label="  N1 |{w1 |d -0.2469 g 1.1734} |{b |d -0.1867 g 0.2933} |{a |d -0.6758 g 0.2933}}"]
+		L1N2 [label="  N2 |{w1 |d -1.8619 g 6.0907} |{b |d -0.5905 g 1.5227} |{a |d -5.4494 g 1.5227}}"]
 	}
 	subgraph cluster_L2 {
 		node [color=white style=filled]
 		label=L2
 		color=lightgrey style=filled
-		L2N1 [label="  N1 |{w1 |d -21.9820 g 0.0000}|{w2 |d -8.2340 g 0.0000} |{b |d -4.3000 g 0.0000} |{a |d -3453.2318 g 0.0000}}"]
+		L2N1 [label="  N1 |{w1 |d 0.3609 g -0.6758}|{w2 |d 2.0676 g -5.4494} |{b |d -0.5000 g 1.0000} |{a |d -8.8959 g 1.0000}}"]
 	}
 	i1 -> L1N1
 	i1 -> L1N2
 	L1N1 -> L2N1
 	L1N2 -> L2N1
-	a [label="clicked  51" shape=record]
+	a [label="clicked  21" shape=record]
 }
