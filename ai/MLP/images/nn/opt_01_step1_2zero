@@ -1,0 +1,27 @@
+digraph {
+	graph [rankdir=LR]
+	node [shape=record]
+	subgraph cluster_I {
+		node [color=white style=filled]
+		label=I
+		color=lightgrey style=filled
+		i [label="  i |{i |d 4.0000 g 0.0000}}"]
+	}
+	subgraph cluster_L1 {
+		node [color=white style=filled]
+		label=L1
+		color=lightgrey style=filled
+		L1N1 [label="  N1 |{w1 |d 0.2600 g 0.0000} |{b |d -0.0600 g 0.0000} |{a |d 0.9800 g 0.0000}}"]
+		L1N2 [label="  N2 |{w1 |d 0.0200 g 0.0000} |{b |d -0.1200 g 0.0000} |{a |d -0.0400 g 0.0000}}"]
+	}
+	subgraph cluster_L2 {
+		node [color=white style=filled]
+		label=L2
+		color=lightgrey style=filled
+		L2N1 [label="  N1 |{w1 |d 0.4000 g 0.0000}|{w2 |d 1.0000 g 0.0000} |{b |d -0.1000 g 0.0000} |{a |d 0.2520 g 0.0000}}"]
+	}
+	i -> L1N1
+	i -> L1N2
+	L1N1 -> L2N1
+	L1N2 -> L2N1
+}

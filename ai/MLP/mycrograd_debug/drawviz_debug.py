@@ -146,29 +146,26 @@ def print_my_params(model):
 
 def print_all_values(root):
     nodes, edges = trace(root)
-    table=[]
+    table = []
     # line={'name','type'}
     for n in nodes:
         # for any value in the graph, add a line
-        line={'name':n.name, 'type':n.type,'data':n.data,'grad':n.grad}
+        line = {"name": n.name, "type": n.type, "data": n.data, "grad": n.grad}
         # print(line)
         table.append(line)
-        # label = (
-        #     "{ %s |%s |%s |%s | data %.4f | grad %.4f }"
-        #     % (n.name, n.layernumber, n.neuronnumber, n.type, n.data, n.grad),
-        # )
-        # print(label)
     # pp.pprint(table)
-    table.sort(key=lambda x: x.get('name'))
+    table.sort(key=lambda x: x.get("name"))
     # pp.pprint(table)
-    formatstring="%5s %2s %6s %6s"
-    pline=formatstring % ('name','ty','data','grad')
+    formatstring = "%5s %2s %6s %6s"
+    pline = formatstring % ("name", "ty", "data", "grad")
     print(pline)
 
     for line in table:
         # print(line)
-        pline="%5s %2s %6.2f %6.2f" % (line.get('name'),line.get('type'),line.get('data'),line.get('grad'))
+        pline = "%5s %2s %6.2f %6.2f" % (
+            line.get("name"),
+            line.get("type"),
+            line.get("data"),
+            line.get("grad"),
+        )
         print(pline)
-
-        
-
