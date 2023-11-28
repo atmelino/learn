@@ -4,7 +4,12 @@ import pprint
 
 from mycrograd_debug.engine_debug import Value
 from mycrograd_debug.nn_debug import Neuron, Layer, MLP
-from mycrograd_debug.drawviz_debug import draw_dot, draw_nn, print_my_params
+from mycrograd_debug.drawviz_debug import (
+    draw_dot,
+    draw_nn,
+    print_all_values,
+    print_my_params,
+)
 
 np.random.seed(1337)
 random.seed(1337)
@@ -30,34 +35,51 @@ model = MLP(
 xinumbers = list(range(4, 4 + nin))
 xinput = [Value(x, type="i%s" % index) for index, x in enumerate(xinumbers, start=1)]
 global activation
-
+debug_parameters = True
+debug_values = False
 
 
 def act():
     #### forward pass0
     global activation
     activation = model(xinput)
+    if debug_parameters:
+        print_my_params(model)
+    if debug_values:
+        print_all_values(activation)
+
 
 def zeroGrad():
     model.zero_grad()
     for i in xinput:
-        i.grad=0
+        i.grad = 0
     print("zero'd gradients")
-    pp.pprint(model.parameters())
+    if debug_parameters:
+        print_my_params(model)
+    if debug_values:
+        print_all_values(activation)
+
 
 def back():
     #### backward pass
     global activation
     activation.backward()
     print("parameters after backpass")
-    pp.pprint(model.parameters())
+    if debug_parameters:
+        print_my_params(model)
+    if debug_values:
+        print_all_values(activation)
+
 
 def upd():
     #### update
     for p in model.parameters():
         p.data += -0.1 * p.grad
     print("updated parameters")
-    pp.pprint(model.parameters())
+    if debug_parameters:
+        print_my_params(model)
+    if debug_values:
+        print_all_values(activation)
 
 
 def getactivation(filename="default"):
@@ -67,7 +89,7 @@ def getactivation(filename="default"):
     act()
     # dot=draw_nn(xinput, model)
     dot = draw_nn(xinput, model, debug_print_01=True)
-    dot.node(name="a", label="hello %3d" % counter, shape="record")
+    dot.node(name="a", label="clicked %3d" % counter, shape="record")
     dot.render("static/" + filename)
 
 
@@ -77,7 +99,7 @@ def backward(filename="default"):
     counter = counter + 1
     back()
     dot = draw_nn(xinput, model)
-    dot.node(name="a", label="hello %3d" % counter, shape="record")
+    dot.node(name="a", label="clicked %3d" % counter, shape="record")
     dot.render("static/" + filename)
 
 
@@ -86,12 +108,17 @@ def zeroGradients(filename="default"):
     counter = counter + 1
     zeroGrad()
     dot = draw_nn(xinput, model)
-    dot.node(name="a", label="hello %3d" % counter, shape="record")
+    dot.node(name="a", label="clicked %3d" % counter, shape="record")
     dot.render("static/" + filename)
 
-def updateParams(filename="default"):
-    upd()
 
+def updateParams(filename="default"):
+    global counter
+    counter = counter + 1
+    upd()
+    dot = draw_nn(xinput, model)
+    dot.node(name="a", label="clicked %3d" % counter, shape="record")
+    dot.render("static/" + filename)
 
 
 @app.route("/", methods=["POST", "GET"])
@@ -126,6 +153,9 @@ def hello():
         jsonResp = {"image": filename + ".svg", "sape": 4139}
     if cmd == "zer":
         zeroGradients(filename)
+        jsonResp = {"image": filename + ".svg", "sape": 4139}
+    if cmd == "upd":
+        updateParams(filename)
         jsonResp = {"image": filename + ".svg", "sape": 4139}
     print(jsonResp)
     return jsonify(jsonResp)

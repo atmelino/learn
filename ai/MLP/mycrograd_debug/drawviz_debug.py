@@ -123,7 +123,7 @@ def draw_nn(inputs, model, debug_print_01=False):
     return nn_dot
 
 
-def print_my_params(model):
+def print_my_params_old(model):
     # print(model.layers)
 
     for l in model.layers:
@@ -142,6 +142,48 @@ def print_my_params(model):
                 "layer %s neuron %s type %s data %.4f grad %.4f "
                 % (l.layernumber, n.b.neuronnumber, n.b.type, n.b.data, n.b.grad)
             )
+
+
+def print_my_params(model):
+    table = []
+    for l in model.layers:
+        # print("layer %s" % l.layernumber)
+        for n in l.neurons:
+            for w in n.w:
+                line = {
+                    "layer": l.layernumber,
+                    "neuron": w.neuronnumber,
+                    "name": w.name,
+                    "type": w.type,
+                    "data": w.data,
+                    "grad": w.grad,
+                }
+                table.append(line)
+            line = {
+                "layer": l.layernumber,
+                "neuron": n.b.neuronnumber,
+                "name": n.b.name,
+                "type": n.b.type,
+                "data": n.b.data,
+                "grad": n.b.grad,
+            }
+            table.append(line)
+
+    formatstring = "%5s %3s %3s %2s %6s %6s"
+    pline = formatstring % ("name", "lay", "neu", "ty", "data", "grad")
+    print(pline)
+
+    for line in table:
+        # print(line)
+        pline = "%5s %3s %3s %2s %6.2f %6.2f" % (
+            line.get("name"),
+            line.get("layer"),
+            line.get("neuron"),
+            line.get("type"),
+            line.get("data"),
+            line.get("grad"),
+        )
+        print(pline)
 
 
 def print_all_values(root):

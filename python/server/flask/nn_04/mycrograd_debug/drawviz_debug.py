@@ -102,7 +102,7 @@ def draw_nn(inputs, model, debug_print_01=False):
             nn_dot.edge(i.type, nstring)
             if debug_print_01:
                 # pp.pprint(nstring)
-                print("edge input %s to %s" % (i.type,nstring))
+                print("edge input %s to %s" % (i.type, nstring))
 
     for thiselem, nextelem in zip(model.layers, model.layers[1:] + model.layers[:1]):
         # print(
@@ -115,13 +115,15 @@ def draw_nn(inputs, model, debug_print_01=False):
                     edge2 = "%s%s" % (nextelem.layernumber, m.neuronnumber)
                     nn_dot.edge(edge1, edge2)
                     if debug_print_01:
-                        print("edge neuron %s %s to %s" % (n.neuronnumber,edge1, edge2))
+                        print(
+                            "edge neuron %s %s to %s" % (n.neuronnumber, edge1, edge2)
+                        )
                         # print("%s to %s" % (edge1, edge2))
 
     return nn_dot
 
 
-def print_my_params(model):
+def print_my_params_old(model):
     # print(model.layers)
 
     for l in model.layers:
@@ -140,3 +142,72 @@ def print_my_params(model):
                 "layer %s neuron %s type %s data %.4f grad %.4f "
                 % (l.layernumber, n.b.neuronnumber, n.b.type, n.b.data, n.b.grad)
             )
+
+
+def print_my_params(model):
+    table = []
+    for l in model.layers:
+        # print("layer %s" % l.layernumber)
+        for n in l.neurons:
+            for w in n.w:
+                line = {
+                    "layer": l.layernumber,
+                    "neuron": w.neuronnumber,
+                    "name": w.name,
+                    "type": w.type,
+                    "data": w.data,
+                    "grad": w.grad,
+                }
+                table.append(line)
+            line = {
+                "layer": l.layernumber,
+                "neuron": n.b.neuronnumber,
+                "name": n.b.name,
+                "type": n.b.type,
+                "data": n.b.data,
+                "grad": n.b.grad,
+            }
+            table.append(line)
+
+    formatstring = "%5s %3s %3s %2s %6s %6s"
+    pline = formatstring % ("name", "lay", "neu", "ty", "data", "grad")
+    print(pline)
+
+    for line in table:
+        # print(line)
+        pline = "%5s %3s %3s %2s %6.2f %6.2f" % (
+            line.get("name"),
+            line.get("layer"),
+            line.get("neuron"),
+            line.get("type"),
+            line.get("data"),
+            line.get("grad"),
+        )
+        print(pline)
+
+
+def print_all_values(root):
+    nodes, edges = trace(root)
+    table = []
+    # line={'name','type'}
+    for n in nodes:
+        # for any value in the graph, add a line
+        line = {"name": n.name, "type": n.type, "data": n.data, "grad": n.grad}
+        # print(line)
+        table.append(line)
+    # pp.pprint(table)
+    table.sort(key=lambda x: x.get("name"))
+    # pp.pprint(table)
+    formatstring = "%5s %2s %6s %6s"
+    pline = formatstring % ("name", "ty", "data", "grad")
+    print(pline)
+
+    for line in table:
+        # print(line)
+        pline = "%5s %2s %6.2f %6.2f" % (
+            line.get("name"),
+            line.get("type"),
+            line.get("data"),
+            line.get("grad"),
+        )
+        print(pline)

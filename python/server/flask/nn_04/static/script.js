@@ -38,6 +38,11 @@ function zeroGradient() {
     sendRequest(params);
 }
 
+function updateParams() {
+    params = 'cmd=upd'
+    sendRequest(params);
+}
+
 
 
 
