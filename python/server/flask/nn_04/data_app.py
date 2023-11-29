@@ -9,6 +9,8 @@ from mycrograd_debug.drawviz_debug import (
     draw_nn,
     print_all_values,
     print_my_params,
+    backupParameters,
+    restoreParameters,
 )
 
 np.random.seed(1337)
@@ -20,8 +22,12 @@ from graphviz import Digraph
 import datetime
 
 app = Flask(__name__)
+global model
 global counter
 global flipflop
+global activation
+debug_parameters = True
+debug_values = False
 counter = 1
 flipflop = True
 
@@ -29,18 +35,16 @@ flipflop = True
 nin = 1  # number of inputs
 nout = 1  # number of outputs
 Value.value_counter = 0
-model = MLP(
-    nin, [2, nout], lastReLU=False, weightsinit=2, debug_bw=True
-)  # 2-layer neural network
+model = MLP(nin, [2, nout], lastReLU=False, weightsinit=2, debug_bw=True)
+originalParams = backupParameters(model)
+
 xinumbers = list(range(4, 4 + nin))
 xinput = [Value(x, type="i%s" % index) for index, x in enumerate(xinumbers, start=1)]
-global activation
-debug_parameters = True
-debug_values = False
 
 
 def act():
     #### forward pass0
+    global model
     global activation
     activation = model(xinput)
     if debug_parameters:
@@ -50,6 +54,7 @@ def act():
 
 
 def zeroGrad():
+    global model
     model.zero_grad()
     for i in xinput:
         i.grad = 0
@@ -73,6 +78,7 @@ def back():
 
 def upd():
     #### update
+    global model
     for p in model.parameters():
         p.data += -0.1 * p.grad
     print("updated parameters")
@@ -83,6 +89,7 @@ def upd():
 
 
 def getactivation(filename="default"):
+    global model
     global activation
     global counter
     counter = counter + 1
@@ -94,6 +101,7 @@ def getactivation(filename="default"):
 
 
 def backward(filename="default"):
+    global model
     global activation
     global counter
     counter = counter + 1
@@ -104,6 +112,7 @@ def backward(filename="default"):
 
 
 def zeroGradients(filename="default"):
+    global model
     global counter
     counter = counter + 1
     zeroGrad()
@@ -113,9 +122,23 @@ def zeroGradients(filename="default"):
 
 
 def updateParams(filename="default"):
+    global model
     global counter
     counter = counter + 1
     upd()
+    dot = draw_nn(xinput, model)
+    dot.node(name="a", label="clicked %3d" % counter, shape="record")
+    dot.render("static/" + filename)
+
+
+def resetModel(filename="default"):
+    global model
+    global activation
+    global counter
+    counter = counter + 1
+    restoreParameters(model, originalParams)
+    print("restored model params")
+    print_my_params(model)
     dot = draw_nn(xinput, model)
     dot.node(name="a", label="clicked %3d" % counter, shape="record")
     dot.render("static/" + filename)
@@ -156,6 +179,9 @@ def hello():
         jsonResp = {"image": filename + ".svg", "sape": 4139}
     if cmd == "upd":
         updateParams(filename)
+        jsonResp = {"image": filename + ".svg", "sape": 4139}
+    if cmd == "res":
+        resetModel(filename)
         jsonResp = {"image": filename + ".svg", "sape": 4139}
     print(jsonResp)
     return jsonify(jsonResp)

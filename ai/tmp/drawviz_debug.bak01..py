@@ -239,29 +239,20 @@ def backupParameters(model):
             originalParams.append(line)
     return originalParams
 
-
 def restoreParameters(model, originalParams):
-    debug = False
     for l in model.layers:
         # print("layer %s" % l.layernumber)
         for n in l.neurons:
             for w in n.w:
-                if debug:
-                    print("current_", w.name, w.data)
+                print(w.name, w.data)
                 # a=originalParams.get('name'=='v001')
                 # a='v001' in originalParams
                 # print(a)
                 for line in originalParams:
-                    # print(line)
-                    if w.name in line.get("name"):
-                        if debug:
-                            print("original", w.name, line.get("data"))
-                        w.data = line.get("data")
-            if debug:
-                print("current_", n.b.name, n.b.data)
-            for line in originalParams:
-                # print(line)
-                if n.b.name in line.get("name"):
-                    if debug:
-                        print("original", n.b.name, line.get("data"))
-                    n.b.data = line.get("data")
+                    print(line)
+                    a=w.name in line.get('name')
+                    print(a)
+
+
+
+
