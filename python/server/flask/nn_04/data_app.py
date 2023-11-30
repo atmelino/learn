@@ -94,9 +94,11 @@ def getactivation(filename="default"):
     global counter
     counter = counter + 1
     act()
+    loss=activation*activation
     # dot=draw_nn(xinput, model)
     dot = draw_nn(xinput, model, debug_print_01=True)
     dot.node(name="a", label="clicked %3d" % counter, shape="record")
+    dot.node(name="b", label="loss %6.2f" % loss.data, shape="record")
     dot.render("static/" + filename)
 
 
