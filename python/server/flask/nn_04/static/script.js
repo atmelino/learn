@@ -43,6 +43,11 @@ function updateParams() {
     sendRequest(params);
 }
 
+function optStep() {
+    params = 'cmd=ost'
+    sendRequest(params);
+}
+
 function resetModel() {
     params = 'cmd=res'
     sendRequest(params);

@@ -101,6 +101,14 @@ def getactivation(filename="default"):
     dot.node(name="b", label="loss %6.2f" % loss.data, shape="record")
     dot.render("static/" + filename)
 
+def zeroGradients(filename="default"):
+    global model
+    global counter
+    counter = counter + 1
+    zeroGrad()
+    dot = draw_nn(xinput, model)
+    dot.node(name="a", label="clicked %3d" % counter, shape="record")
+    dot.render("static/" + filename)
 
 def backward(filename="default"):
     global model
@@ -112,21 +120,22 @@ def backward(filename="default"):
     dot.node(name="a", label="clicked %3d" % counter, shape="record")
     dot.render("static/" + filename)
 
-
-def zeroGradients(filename="default"):
-    global model
-    global counter
-    counter = counter + 1
-    zeroGrad()
-    dot = draw_nn(xinput, model)
-    dot.node(name="a", label="clicked %3d" % counter, shape="record")
-    dot.render("static/" + filename)
-
-
 def updateParams(filename="default"):
     global model
     global counter
     counter = counter + 1
+    upd()
+    dot = draw_nn(xinput, model)
+    dot.node(name="a", label="clicked %3d" % counter, shape="record")
+    dot.render("static/" + filename)
+
+def optStep(filename="default"):
+    global model
+    global counter
+    counter = counter + 1
+    act()
+    zeroGrad()
+    back()
     upd()
     dot = draw_nn(xinput, model)
     dot.node(name="a", label="clicked %3d" % counter, shape="record")
@@ -181,6 +190,9 @@ def hello():
         jsonResp = {"image": filename + ".svg", "sape": 4139}
     if cmd == "upd":
         updateParams(filename)
+        jsonResp = {"image": filename + ".svg", "sape": 4139}
+    if cmd == "ost":
+        optStep(filename)
         jsonResp = {"image": filename + ".svg", "sape": 4139}
     if cmd == "res":
         resetModel(filename)
