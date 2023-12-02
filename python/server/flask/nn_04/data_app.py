@@ -26,6 +26,7 @@ global model
 global counter
 global flipflop
 global activation
+global loss
 debug_parameters = True
 debug_values = False
 counter = 1
@@ -40,13 +41,21 @@ originalParams = backupParameters(model)
 
 xinumbers = list(range(4, 4 + nin))
 xinput = [Value(x, type="i%s" % index) for index, x in enumerate(xinumbers, start=1)]
+xtarget = Value(1.2, type="t")  # desired targets
 
+# loss function single MLP
+def loss_single(activation, target):
+    total_loss = (activation - target)*(activation - target)
+    total_loss.type="l"
+    return total_loss
 
 def act():
     #### forward pass0
     global model
     global activation
     activation = model(xinput)
+    loss = loss_single(activation, xtarget)
+
     if debug_parameters:
         print_my_params(model)
     if debug_values:
@@ -97,7 +106,7 @@ def getactivation(filename="default"):
     loss=activation*activation
     # dot=draw_nn(xinput, model)
     dot = draw_nn(xinput, model, debug_print_01=True)
-    dot.node(name="a", label="clicked %3d" % counter, shape="record")
+    # dot.node(name="a", label="clicked %3d" % counter, shape="record")
     dot.node(name="b", label="loss %6.2f" % loss.data, shape="record")
     dot.render("static/" + filename)
 
@@ -107,7 +116,7 @@ def zeroGradients(filename="default"):
     counter = counter + 1
     zeroGrad()
     dot = draw_nn(xinput, model)
-    dot.node(name="a", label="clicked %3d" % counter, shape="record")
+    dot.node(name="b", label="loss %6.2f" % loss.data, shape="record")
     dot.render("static/" + filename)
 
 def backward(filename="default"):
@@ -117,7 +126,7 @@ def backward(filename="default"):
     counter = counter + 1
     back()
     dot = draw_nn(xinput, model)
-    dot.node(name="a", label="clicked %3d" % counter, shape="record")
+    dot.node(name="b", label="loss %6.2f" % loss.data, shape="record")
     dot.render("static/" + filename)
 
 def updateParams(filename="default"):
@@ -126,7 +135,7 @@ def updateParams(filename="default"):
     counter = counter + 1
     upd()
     dot = draw_nn(xinput, model)
-    dot.node(name="a", label="clicked %3d" % counter, shape="record")
+    dot.node(name="b", label="loss %6.2f" % loss.data, shape="record")
     dot.render("static/" + filename)
 
 def optStep(filename="default"):
