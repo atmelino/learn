@@ -62,6 +62,7 @@ def loss_single(activation, target):
 def act():
     #### forward pass0
     global model
+    global loss
     global activation
     activation = model(xinput)
     loss = loss_single(activation, xtarget)
@@ -114,7 +115,6 @@ def zeroGradients(filename="default"):
     counter = counter + 1
     zeroGrad()
     dot = draw_nn(xinput, model)
-    dot.node(name="b", label="loss %6.2f" % loss.data, shape="record")
     dot.render("static/" + filename)
 
 
@@ -125,7 +125,6 @@ def backward(filename="default"):
     counter = counter + 1
     back()
     dot = draw_nn(xinput, model)
-    dot.node(name="b", label="loss %6.2f" % loss.data, shape="record")
     dot.render("static/" + filename)
 
 
@@ -135,12 +134,12 @@ def updateParams(filename="default"):
     counter = counter + 1
     upd()
     dot = draw_nn(xinput, model)
-    dot.node(name="b", label="loss %6.2f" % loss.data, shape="record")
     dot.render("static/" + filename)
 
 
 def optStep(filename="default"):
     global model
+    global loss
     global counter
     counter = counter + 1
     act()
