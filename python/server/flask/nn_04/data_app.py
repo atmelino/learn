@@ -12,6 +12,7 @@ from mycrograd_debug.drawviz_debug import (
     backupParameters,
     restoreParameters,
 )
+from mycrograd_debug.util_debug import debugFunc
 
 np.random.seed(1337)
 random.seed(1337)
@@ -37,17 +38,26 @@ nin = 1  # number of inputs
 nout = 1  # number of outputs
 Value.value_counter = 0
 model = MLP(nin, [2, nout], lastReLU=False, weightsinit=2, debug_bw=True)
-originalParams = backupParameters(model)
-
 xinumbers = list(range(4, 4 + nin))
 xinput = [Value(x, type="i%s" % index) for index, x in enumerate(xinumbers, start=1)]
 xtarget = Value(1.2, type="t")  # desired targets
+debugFunc(
+    model,
+    {"parameters", "targets"},
+    message="start",
+    inputs=xinput,
+    targets=xtarget,
+)
+
+originalParams = backupParameters(model)
+
 
 # loss function single MLP
 def loss_single(activation, target):
-    total_loss = (activation - target)*(activation - target)
-    total_loss.type="l"
+    total_loss = (activation - target) * (activation - target)
+    total_loss.type = "l"
     return total_loss
+
 
 def act():
     #### forward pass0
@@ -55,11 +65,7 @@ def act():
     global activation
     activation = model(xinput)
     loss = loss_single(activation, xtarget)
-
-    if debug_parameters:
-        print_my_params(model)
-    if debug_values:
-        print_all_values(activation)
+    debugFunc(model, {"parameters", "targets"}, message="act", targets=xtarget)
 
 
 def zeroGrad():
@@ -68,10 +74,7 @@ def zeroGrad():
     for i in xinput:
         i.grad = 0
     print("zero'd gradients")
-    if debug_parameters:
-        print_my_params(model)
-    if debug_values:
-        print_all_values(activation)
+    debugFunc(model, {"parameters", "targets"}, message="act", targets=xtarget)
 
 
 def back():
@@ -79,10 +82,7 @@ def back():
     global activation
     activation.backward()
     print("parameters after backpass")
-    if debug_parameters:
-        print_my_params(model)
-    if debug_values:
-        print_all_values(activation)
+    debugFunc(model, {"parameters", "targets"}, message="act", targets=xtarget)
 
 
 def upd():
@@ -91,10 +91,7 @@ def upd():
     for p in model.parameters():
         p.data += -0.1 * p.grad
     print("updated parameters")
-    if debug_parameters:
-        print_my_params(model)
-    if debug_values:
-        print_all_values(activation)
+    debugFunc(model, {"parameters", "targets"}, message="act", targets=xtarget)
 
 
 def getactivation(filename="default"):
@@ -103,12 +100,13 @@ def getactivation(filename="default"):
     global counter
     counter = counter + 1
     act()
-    loss=activation*activation
+    loss = activation * activation
     # dot=draw_nn(xinput, model)
     dot = draw_nn(xinput, model, debug_print_01=True)
     # dot.node(name="a", label="clicked %3d" % counter, shape="record")
     dot.node(name="b", label="loss %6.2f" % loss.data, shape="record")
     dot.render("static/" + filename)
+
 
 def zeroGradients(filename="default"):
     global model
@@ -118,6 +116,7 @@ def zeroGradients(filename="default"):
     dot = draw_nn(xinput, model)
     dot.node(name="b", label="loss %6.2f" % loss.data, shape="record")
     dot.render("static/" + filename)
+
 
 def backward(filename="default"):
     global model
@@ -129,6 +128,7 @@ def backward(filename="default"):
     dot.node(name="b", label="loss %6.2f" % loss.data, shape="record")
     dot.render("static/" + filename)
 
+
 def updateParams(filename="default"):
     global model
     global counter
@@ -137,6 +137,7 @@ def updateParams(filename="default"):
     dot = draw_nn(xinput, model)
     dot.node(name="b", label="loss %6.2f" % loss.data, shape="record")
     dot.render("static/" + filename)
+
 
 def optStep(filename="default"):
     global model
@@ -147,7 +148,7 @@ def optStep(filename="default"):
     back()
     upd()
     dot = draw_nn(xinput, model)
-    dot.node(name="a", label="clicked %3d" % counter, shape="record")
+    dot.node(name="b", label="loss %6.2f" % loss.data, shape="record")
     dot.render("static/" + filename)
 
 
