@@ -32,31 +32,31 @@
 <polyline fill="none" stroke="white" points="16,-117 189,-117 "/>
 <text text-anchor="middle" x="26.5" y="-101.8" font-family="Times,serif" font-size="14.00">i</text>
 <polyline fill="none" stroke="white" points="37,-94 37,-117 "/>
-<text text-anchor="middle" x="113" y="-101.8" font-family="Times,serif" font-size="14.00">d 4.0000 g &#45;0.1059</text>
+<text text-anchor="middle" x="113" y="-101.8" font-family="Times,serif" font-size="14.00">d 4.0000 g &#45;1.6621</text>
 </g>
 <!-- L1N1 -->
 <g id="node2" class="node">
 <title>L1N1</title>
-<polygon fill="white" stroke="white" points="227.5,-127 227.5,-219 412.5,-219 412.5,-127 227.5,-127"/>
+<polygon fill="white" stroke="white" points="225,-127 225,-219 415,-219 415,-127 225,-127"/>
 <text text-anchor="middle" x="320" y="-203.8" font-family="Times,serif" font-size="14.00">N1</text>
-<polyline fill="none" stroke="white" points="227.5,-196 412.5,-196 "/>
-<text text-anchor="middle" x="246.5" y="-180.8" font-family="Times,serif" font-size="14.00">w1</text>
-<polyline fill="none" stroke="white" points="265.5,-173 265.5,-196 "/>
-<text text-anchor="middle" x="339" y="-180.8" font-family="Times,serif" font-size="14.00">d 0.1204 g 1.4890</text>
-<polyline fill="none" stroke="white" points="227.5,-173 412.5,-173 "/>
-<text text-anchor="middle" x="242" y="-157.8" font-family="Times,serif" font-size="14.00">b</text>
-<polyline fill="none" stroke="white" points="256.5,-150 256.5,-173 "/>
-<text text-anchor="middle" x="334.5" y="-157.8" font-family="Times,serif" font-size="14.00">d &#45;0.0949 g 0.3723</text>
-<polyline fill="none" stroke="white" points="227.5,-150 412.5,-150 "/>
-<text text-anchor="middle" x="243" y="-134.8" font-family="Times,serif" font-size="14.00">a</text>
-<polyline fill="none" stroke="white" points="258.5,-127 258.5,-150 "/>
-<text text-anchor="middle" x="335.5" y="-134.8" font-family="Times,serif" font-size="14.00">d 0.7033 g 0.3723</text>
+<polyline fill="none" stroke="white" points="225,-196 415,-196 "/>
+<text text-anchor="middle" x="244" y="-180.8" font-family="Times,serif" font-size="14.00">w1</text>
+<polyline fill="none" stroke="white" points="263,-173 263,-196 "/>
+<text text-anchor="middle" x="339" y="-180.8" font-family="Times,serif" font-size="14.00">d &#45;0.1373 g 1.2848</text>
+<polyline fill="none" stroke="white" points="225,-173 415,-173 "/>
+<text text-anchor="middle" x="241" y="-157.8" font-family="Times,serif" font-size="14.00">b</text>
+<polyline fill="none" stroke="white" points="257,-150 257,-173 "/>
+<text text-anchor="middle" x="336" y="-157.8" font-family="Times,serif" font-size="14.00">d &#45;0.1593 g 0.3212</text>
+<polyline fill="none" stroke="white" points="225,-150 415,-150 "/>
+<text text-anchor="middle" x="240.5" y="-134.8" font-family="Times,serif" font-size="14.00">a</text>
+<polyline fill="none" stroke="white" points="256,-127 256,-150 "/>
+<text text-anchor="middle" x="335.5" y="-134.8" font-family="Times,serif" font-size="14.00">d &#45;0.4355 g 0.3212</text>
 </g>
 <!-- i1&#45;&gt;L1N1 -->
 <g id="edge1" class="edge">
 <title>i1&#45;&gt;L1N1</title>
-<path fill="none" stroke="black" d="M189.29,-139.29C198.61,-141.72 208.16,-144.2 217.65,-146.66"/>
-<polygon fill="black" stroke="black" points="216.93,-150.09 227.49,-149.22 218.69,-143.32 216.93,-150.09"/>
+<path fill="none" stroke="black" d="M189.29,-139.29C197.73,-141.49 206.36,-143.73 214.96,-145.96"/>
+<polygon fill="black" stroke="black" points="214.09,-149.35 224.65,-148.48 215.85,-142.58 214.09,-149.35"/>
 </g>
 <!-- L1N2 -->
 <g id="node3" class="node">
@@ -66,15 +66,15 @@
 <polyline fill="none" stroke="white" points="225,-85 415,-85 "/>
 <text text-anchor="middle" x="244" y="-69.8" font-family="Times,serif" font-size="14.00">w1</text>
 <polyline fill="none" stroke="white" points="263,-62 263,-85 "/>
-<text text-anchor="middle" x="339" y="-69.8" font-family="Times,serif" font-size="14.00">d &#45;0.3800 g 4.1950</text>
+<text text-anchor="middle" x="339" y="-69.8" font-family="Times,serif" font-size="14.00">d &#45;1.3951 g 5.9798</text>
 <polyline fill="none" stroke="white" points="225,-62 415,-62 "/>
 <text text-anchor="middle" x="241" y="-46.8" font-family="Times,serif" font-size="14.00">b</text>
 <polyline fill="none" stroke="white" points="257,-39 257,-62 "/>
-<text text-anchor="middle" x="336" y="-46.8" font-family="Times,serif" font-size="14.00">d &#45;0.2200 g 1.0488</text>
+<text text-anchor="middle" x="336" y="-46.8" font-family="Times,serif" font-size="14.00">d &#45;0.4738 g 1.4950</text>
 <polyline fill="none" stroke="white" points="225,-39 415,-39 "/>
 <text text-anchor="middle" x="240.5" y="-23.8" font-family="Times,serif" font-size="14.00">a</text>
 <polyline fill="none" stroke="white" points="256,-16 256,-39 "/>
-<text text-anchor="middle" x="335.5" y="-23.8" font-family="Times,serif" font-size="14.00">d &#45;0.8484 g 1.0488</text>
+<text text-anchor="middle" x="335.5" y="-23.8" font-family="Times,serif" font-size="14.00">d &#45;4.7835 g 1.4950</text>
 </g>
 <!-- i1&#45;&gt;L1N2 -->
 <g id="edge2" class="edge">
@@ -88,27 +88,27 @@
 <polygon fill="white" stroke="white" points="451,-57.5 451,-172.5 641,-172.5 641,-57.5 451,-57.5"/>
 <text text-anchor="middle" x="546" y="-157.3" font-family="Times,serif" font-size="14.00">N1</text>
 <polyline fill="none" stroke="white" points="451,-149.5 641,-149.5 "/>
-<text text-anchor="middle" x="471" y="-134.3" font-family="Times,serif" font-size="14.00">w1</text>
-<polyline fill="none" stroke="white" points="491,-126.5 491,-149.5 "/>
-<text text-anchor="middle" x="566" y="-134.3" font-family="Times,serif" font-size="14.00">d 0.3371 g 0.7033</text>
+<text text-anchor="middle" x="470" y="-134.3" font-family="Times,serif" font-size="14.00">w1</text>
+<polyline fill="none" stroke="white" points="489,-126.5 489,-149.5 "/>
+<text text-anchor="middle" x="565" y="-134.3" font-family="Times,serif" font-size="14.00">d 0.3430 g &#45;0.4355</text>
 <polyline fill="none" stroke="white" points="451,-126.5 641,-126.5 "/>
 <text text-anchor="middle" x="470" y="-111.3" font-family="Times,serif" font-size="14.00">w2</text>
 <polyline fill="none" stroke="white" points="489,-103.5 489,-126.5 "/>
-<text text-anchor="middle" x="565" y="-111.3" font-family="Times,serif" font-size="14.00">d 1.0912 g &#45;0.8484</text>
+<text text-anchor="middle" x="565" y="-111.3" font-family="Times,serif" font-size="14.00">d 1.7341 g &#45;4.7835</text>
 <polyline fill="none" stroke="white" points="451,-103.5 641,-103.5 "/>
 <text text-anchor="middle" x="467" y="-88.3" font-family="Times,serif" font-size="14.00">b</text>
 <polyline fill="none" stroke="white" points="483,-80.5 483,-103.5 "/>
-<text text-anchor="middle" x="562" y="-88.3" font-family="Times,serif" font-size="14.00">d &#45;0.2000 g 1.0000</text>
+<text text-anchor="middle" x="562" y="-88.3" font-family="Times,serif" font-size="14.00">d &#45;0.4000 g 1.0000</text>
 <polyline fill="none" stroke="white" points="451,-80.5 641,-80.5 "/>
 <text text-anchor="middle" x="466.5" y="-65.3" font-family="Times,serif" font-size="14.00">a</text>
 <polyline fill="none" stroke="white" points="482,-57.5 482,-80.5 "/>
-<text text-anchor="middle" x="561.5" y="-65.3" font-family="Times,serif" font-size="14.00">d &#45;0.7779 g 1.0000</text>
+<text text-anchor="middle" x="561.5" y="-65.3" font-family="Times,serif" font-size="14.00">d &#45;7.6410 g 1.0000</text>
 </g>
 <!-- L1N1&#45;&gt;L2N1 -->
 <g id="edge3" class="edge">
 <title>L1N1&#45;&gt;L2N1</title>
-<path fill="none" stroke="black" d="M412.76,-149.24C422.08,-146.83 431.6,-144.36 441.04,-141.92"/>
-<polygon fill="black" stroke="black" points="442.04,-145.27 450.85,-139.38 440.29,-138.5 442.04,-145.27"/>
+<path fill="none" stroke="black" d="M415.02,-148.65C423.63,-146.43 432.39,-144.16 441.08,-141.91"/>
+<polygon fill="black" stroke="black" points="442.06,-145.27 450.86,-139.38 440.3,-138.49 442.06,-145.27"/>
 </g>
 <!-- L1N2&#45;&gt;L2N1 -->
 <g id="edge4" class="edge">
@@ -119,8 +119,8 @@
 <!-- loss -->
 <g id="node5" class="node">
 <title>loss</title>
-<polygon fill="none" stroke="black" points="38,-181 38,-217 167,-217 167,-181 38,-181"/>
-<text text-anchor="middle" x="102.5" y="-195.3" font-family="Times,serif" font-size="14.00">step 5 loss 3.91</text>
+<polygon fill="none" stroke="black" points="33.5,-181 33.5,-217 171.5,-217 171.5,-181 33.5,-181"/>
+<text text-anchor="middle" x="102.5" y="-195.3" font-family="Times,serif" font-size="14.00">step 8 loss 78.16</text>
 </g>
 </g>
 </svg>

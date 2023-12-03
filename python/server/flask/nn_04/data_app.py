@@ -115,13 +115,13 @@ def optStep(filename="default"):
     global model
     global loss
     global step
-    step = step + 1
     getactivation()
     zeroGradients()
     backward()
     updateParams()
     print(f"step %3d output %6.4f loss %6.4f" % (step, activation.data, loss.data))
     imageFunc(filename)
+    step = step + 1
 
 
 def resetModel(filename="default"):
@@ -130,6 +130,8 @@ def resetModel(filename="default"):
     global step
     step = 1
     restoreParameters(model, originalParams)
+    zeroGradients()
+    getactivation()
     print("restored model params")
     print_my_params(model)
     dot = draw_nn(xinput, model)
