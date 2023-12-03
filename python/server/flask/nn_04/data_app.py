@@ -51,13 +51,19 @@ debugFunc(
 
 originalParams = backupParameters(model)
 
+def imageFunc(filename):
+    # dot=draw_nn(xinput, model)
+    dot = draw_nn(xinput, model, debug_print_01=True)
+    # dot.node(name="a", label="clicked %3d" % counter, shape="record")
+    dot.node(name="b", label="loss %6.2f" % loss.data, shape="record")
+    dot.render("static/" + filename)
+
 
 # loss function single MLP
 def loss_single(activation, target):
-    total_loss = (activation - target) * (activation - target)
-    total_loss.type = "l"
+    total_loss = (activation - target)*(activation - target)
+    total_loss.type="l"
     return total_loss
-
 
 def act():
     #### forward pass0
@@ -101,12 +107,14 @@ def getactivation(filename="default"):
     global counter
     counter = counter + 1
     act()
-    loss = activation * activation
-    # dot=draw_nn(xinput, model)
-    dot = draw_nn(xinput, model, debug_print_01=True)
-    # dot.node(name="a", label="clicked %3d" % counter, shape="record")
-    dot.node(name="b", label="loss %6.2f" % loss.data, shape="record")
-    dot.render("static/" + filename)
+    imageFunc(filename)
+
+
+    # # dot=draw_nn(xinput, model)
+    # dot = draw_nn(xinput, model, debug_print_01=True)
+    # # dot.node(name="a", label="clicked %3d" % counter, shape="record")
+    # dot.node(name="b", label="loss %6.2f" % loss.data, shape="record")
+    # dot.render("static/" + filename)
 
 
 def zeroGradients(filename="default"):
