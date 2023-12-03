@@ -37,13 +37,13 @@ flipflop = True
 nin = 1  # number of inputs
 nout = 1  # number of outputs
 Value.value_counter = 0
-model = MLP(nin, [2, nout], lastReLU=False, weightsinit=2, debug_bw=True)
+model = MLP(nin, [2, nout], lastReLU=False, weightsinit=2, debug_bw=False)
 xinumbers = list(range(4, 4 + nin))
 xinput = [Value(x, type="i%s" % index) for index, x in enumerate(xinumbers, start=1)]
 xtarget = Value(1.2, type="t")  # desired targets
 debugFunc(
     model,
-    {"parameters", "targets"},
+    {"parameters"},
     message="start",
     inputs=xinput,
     targets=xtarget,
@@ -66,7 +66,7 @@ def act():
     global activation
     activation = model(xinput)
     loss = loss_single(activation, xtarget)
-    debugFunc(model, {"parameters", "targets"}, message="act", targets=xtarget)
+    debugFunc(model, {"parameters"}, message="act")
 
 
 def zeroGrad():
@@ -74,25 +74,25 @@ def zeroGrad():
     model.zero_grad()
     for i in xinput:
         i.grad = 0
-    print("zero'd gradients")
-    debugFunc(model, {"parameters", "targets"}, message="act", targets=xtarget)
+    # print("zero'd gradients")
+    debugFunc(model, {"parameters"}, message="zer")
 
 
 def back():
     #### backward pass
     global activation
     activation.backward()
-    print("parameters after backpass")
-    debugFunc(model, {"parameters", "targets"}, message="act", targets=xtarget)
+    # print("parameters after backpass")
+    debugFunc(model, {"parameters"}, message="bwd")
 
 
 def upd():
     #### update
     global model
     for p in model.parameters():
-        p.data += -0.1 * p.grad
-    print("updated parameters")
-    debugFunc(model, {"parameters", "targets"}, message="act", targets=xtarget)
+        p.data += -0.05 * p.grad
+    # print("updated parameters")
+    debugFunc(model, {"parameters"}, message="upd")
 
 
 def getactivation(filename="default"):
@@ -130,10 +130,12 @@ def backward(filename="default"):
 
 def updateParams(filename="default"):
     global model
+    global loss
     global counter
     counter = counter + 1
     upd()
     dot = draw_nn(xinput, model)
+    dot.node(name="b", label="loss %6.2f" % loss.data, shape="record")
     dot.render("static/" + filename)
 
 
@@ -146,6 +148,7 @@ def optStep(filename="default"):
     zeroGrad()
     back()
     upd()
+    print(f"step %3d output %6.4f loss %6.4f" % (counter, activation.data, loss.data))
     dot = draw_nn(xinput, model)
     dot.node(name="b", label="loss %6.2f" % loss.data, shape="record")
     dot.render("static/" + filename)

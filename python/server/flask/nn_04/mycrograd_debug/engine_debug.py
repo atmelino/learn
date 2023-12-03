@@ -41,9 +41,23 @@ class Value:
         out = Value(self.data + other.data, (self, other), "+")
 
         def _backward():
+            self_before = self.grad
+            other_before = other.grad
             self.grad += out.grad
             other.grad += out.grad
             # print("backward add")
+            if self.debug_bw:
+                print(
+                    "backward add  ",
+                    self.name,
+                    "% 6.2f" % self_before,
+                    "->",
+                    "% 6.2f" % self.grad,
+                    other.name,
+                    "% 6.2f" % other_before,
+                    "->",
+                    "% 6.2f" % other.grad,
+                )
 
         out._backward = _backward
 

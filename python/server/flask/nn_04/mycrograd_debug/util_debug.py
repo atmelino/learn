@@ -18,7 +18,7 @@ def debugFunc(model, options, message="", inputs=[], targets=[]):
     if inputs:
         print("inputs")
         print(inputs)
-    if "targets" in options:
+    if targets:
         print("targets")
         print(targets)
     if debug_parameters:
