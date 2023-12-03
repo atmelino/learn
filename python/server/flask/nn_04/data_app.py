@@ -55,7 +55,7 @@ def imageFunc(filename):
     # dot=draw_nn(xinput, model)
     dot = draw_nn(xinput, model, debug_print_01=True)
     # dot.node(name="a", label="clicked %3d" % counter, shape="record")
-    dot.node(name="b", label="loss %6.2f" % loss.data, shape="record")
+    dot.node(name="lossLabel", label="loss %6.2f" % loss.data, shape="record")
     dot.render("static/" + filename)
 
 
@@ -70,6 +70,8 @@ def act():
     global model
     global loss
     global activation
+    global counter
+    counter = counter + 1
     activation = model(xinput)
     loss = loss_single(activation, xtarget)
     debugFunc(model, {"parameters"}, message="act")
@@ -77,6 +79,8 @@ def act():
 
 def zeroGrad():
     global model
+    global counter
+    counter = counter + 1
     model.zero_grad()
     for i in xinput:
         i.grad = 0
@@ -87,6 +91,8 @@ def zeroGrad():
 def back():
     #### backward pass
     global activation
+    global counter
+    counter = counter + 1
     activation.backward()
     # print("parameters after backpass")
     debugFunc(model, {"parameters"}, message="bwd")
@@ -95,6 +101,8 @@ def back():
 def upd():
     #### update
     global model
+    global counter
+    counter = counter + 1
     for p in model.parameters():
         p.data += -0.05 * p.grad
     # print("updated parameters")
@@ -104,47 +112,28 @@ def upd():
 def getactivation(filename="default"):
     global model
     global activation
-    global counter
-    counter = counter + 1
     act()
     imageFunc(filename)
 
 
-    # # dot=draw_nn(xinput, model)
-    # dot = draw_nn(xinput, model, debug_print_01=True)
-    # # dot.node(name="a", label="clicked %3d" % counter, shape="record")
-    # dot.node(name="b", label="loss %6.2f" % loss.data, shape="record")
-    # dot.render("static/" + filename)
-
-
 def zeroGradients(filename="default"):
     global model
-    global counter
-    counter = counter + 1
     zeroGrad()
-    dot = draw_nn(xinput, model)
-    dot.render("static/" + filename)
+    imageFunc(filename)
 
 
 def backward(filename="default"):
     global model
     global activation
-    global counter
-    counter = counter + 1
     back()
-    dot = draw_nn(xinput, model)
-    dot.render("static/" + filename)
+    imageFunc(filename)
 
 
 def updateParams(filename="default"):
     global model
     global loss
-    global counter
-    counter = counter + 1
     upd()
-    dot = draw_nn(xinput, model)
-    dot.node(name="b", label="loss %6.2f" % loss.data, shape="record")
-    dot.render("static/" + filename)
+    imageFunc(filename)
 
 
 def optStep(filename="default"):
@@ -157,9 +146,7 @@ def optStep(filename="default"):
     back()
     upd()
     print(f"step %3d output %6.4f loss %6.4f" % (counter, activation.data, loss.data))
-    dot = draw_nn(xinput, model)
-    dot.node(name="b", label="loss %6.2f" % loss.data, shape="record")
-    dot.render("static/" + filename)
+    imageFunc(filename)
 
 
 def resetModel(filename="default"):
