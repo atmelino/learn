@@ -51,7 +51,7 @@ debugFunc(
 
 originalParams = backupParameters(model)
 
-def imageFunc(filename):
+def imageFunc(filename="default"):
     # dot=draw_nn(xinput, model)
     dot = draw_nn(xinput, model, debug_print_01=True)
     # dot.node(name="a", label="clicked %3d" % counter, shape="record")
@@ -65,7 +65,7 @@ def loss_single(activation, target):
     total_loss.type="l"
     return total_loss
 
-def act():
+def act(filename="default"):
     #### forward pass0
     global model
     global loss
@@ -75,9 +75,10 @@ def act():
     activation = model(xinput)
     loss = loss_single(activation, xtarget)
     debugFunc(model, {"parameters"}, message="act")
+    imageFunc(filename)
 
 
-def zeroGrad():
+def zeroGrad(filename="default"):
     global model
     global counter
     counter = counter + 1
@@ -86,9 +87,10 @@ def zeroGrad():
         i.grad = 0
     # print("zero'd gradients")
     debugFunc(model, {"parameters"}, message="zer")
+    imageFunc(filename)
 
 
-def back():
+def back(filename="default"):
     #### backward pass
     global activation
     global counter
@@ -96,9 +98,10 @@ def back():
     activation.backward()
     # print("parameters after backpass")
     debugFunc(model, {"parameters"}, message="bwd")
+    imageFunc(filename)
 
 
-def upd():
+def upd(filename="default"):
     #### update
     global model
     global counter
@@ -107,19 +110,18 @@ def upd():
         p.data += -0.05 * p.grad
     # print("updated parameters")
     debugFunc(model, {"parameters"}, message="upd")
+    imageFunc(filename)
 
 
 def getactivation(filename="default"):
     global model
     global activation
     act()
-    imageFunc(filename)
 
 
 def zeroGradients(filename="default"):
     global model
     zeroGrad()
-    imageFunc(filename)
 
 
 def backward(filename="default"):
@@ -133,7 +135,6 @@ def updateParams(filename="default"):
     global model
     global loss
     upd()
-    imageFunc(filename)
 
 
 def optStep(filename="default"):
