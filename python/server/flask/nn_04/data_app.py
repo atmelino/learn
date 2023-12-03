@@ -80,8 +80,7 @@ def getactivation(filename="default"):
     activation = model(xinput)
     loss = loss_single(activation, xtarget)
     debugFunc(model, {"parameters"}, message="act")
-    imageFunc("step%d_1loss" % counter)
-
+    imageFunc(filename)
 
 def zeroGradients(filename="default"):
     global model
@@ -91,8 +90,7 @@ def zeroGradients(filename="default"):
         i.grad = 0
     # print("zero'd gradients")
     debugFunc(model, {"parameters"}, message="zer")
-    imageFunc("step%d_2zero" % counter)
-
+    imageFunc(filename)
 
 def backward(filename="default"):
     #### backward pass
@@ -101,8 +99,7 @@ def backward(filename="default"):
     activation.backward()
     # print("parameters after backpass")
     debugFunc(model, {"parameters"}, message="bwd")
-    imageFunc("step%d_3back" % counter)
-
+    imageFunc(filename)
 
 def updateParams(filename="default"):
     #### update
@@ -112,8 +109,7 @@ def updateParams(filename="default"):
         p.data += -0.05 * p.grad
     # print("updated parameters")
     debugFunc(model, {"parameters"}, message="upd")
-    imageFunc("step%d_3upda" % counter)
-
+    imageFunc(filename)
 
 def optStep(filename="default"):
     global model
@@ -144,7 +140,7 @@ def resetModel(filename="default"):
 @app.route("/", methods=["POST", "GET"])
 def hello():
     global flipflop
-    print("counter=%3d" % counter)
+    print("step=%3d" % step)
     flipflop = not flipflop
 
     print("hello called")
