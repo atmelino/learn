@@ -65,7 +65,7 @@ def loss_single(activation, target):
     total_loss.type="l"
     return total_loss
 
-def act(filename="default"):
+def getactivation(filename="default"):
     #### forward pass0
     global model
     global loss
@@ -78,7 +78,7 @@ def act(filename="default"):
     imageFunc(filename)
 
 
-def zeroGrad(filename="default"):
+def zeroGradients(filename="default"):
     global model
     global counter
     counter = counter + 1
@@ -90,7 +90,7 @@ def zeroGrad(filename="default"):
     imageFunc(filename)
 
 
-def back(filename="default"):
+def backward(filename="default"):
     #### backward pass
     global activation
     global counter
@@ -101,7 +101,7 @@ def back(filename="default"):
     imageFunc(filename)
 
 
-def upd(filename="default"):
+def updateParams(filename="default"):
     #### update
     global model
     global counter
@@ -113,28 +113,27 @@ def upd(filename="default"):
     imageFunc(filename)
 
 
-def getactivation(filename="default"):
-    global model
-    global activation
-    act()
+# def getactivation(filename="default"):
+#     global model
+#     global activation
+#     act()
 
 
-def zeroGradients(filename="default"):
-    global model
-    zeroGrad()
+# def zeroGradients(filename="default"):
+#     global model
+#     zeroGrad()
 
 
-def backward(filename="default"):
-    global model
-    global activation
-    back()
-    imageFunc(filename)
+# def backward(filename="default"):
+#     global model
+#     global activation
+#     back()
 
 
-def updateParams(filename="default"):
-    global model
-    global loss
-    upd()
+# def updateParams(filename="default"):
+#     global model
+#     global loss
+#     upd()
 
 
 def optStep(filename="default"):
@@ -142,10 +141,10 @@ def optStep(filename="default"):
     global loss
     global counter
     counter = counter + 1
-    act()
-    zeroGrad()
-    back()
-    upd()
+    getactivation()
+    zeroGradients()
+    backward()
+    updateParams()
     print(f"step %3d output %6.4f loss %6.4f" % (counter, activation.data, loss.data))
     imageFunc(filename)
 
