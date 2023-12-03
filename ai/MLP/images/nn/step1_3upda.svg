@@ -119,8 +119,8 @@
 <!-- loss -->
 <g id="node5" class="node">
 <title>loss</title>
-<polygon fill="none" stroke="black" points="35.5,-181 35.5,-217 164.5,-217 164.5,-181 35.5,-181"/>
-<text text-anchor="middle" x="100" y="-195.3" font-family="Times,serif" font-size="14.00">step 1 loss 5.76</text>
+<polygon fill="none" stroke="black" points="31,-181 31,-217 169,-217 169,-181 31,-181"/>
+<text text-anchor="middle" x="100" y="-195.3" font-family="Times,serif" font-size="14.00">step 1 loss 12.96</text>
 </g>
 </g>
 </svg>

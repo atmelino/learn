@@ -3,7 +3,7 @@ class Value:
 
     value_counter = 0
     counter_print = False
-    debug_bw=False
+    debug_bw = False
     # types
     # w = weight
     # b = additive parameter
@@ -47,17 +47,36 @@ class Value:
             other.grad += out.grad
             # print("backward add")
             if self.debug_bw:
-                print(
-                    "backward add  ",
-                    self.name,
-                    "% 6.2f" % self_before,
-                    "->",
-                    "% 6.2f" % self.grad,
-                    other.name,
-                    "% 6.2f" % other_before,
-                    "->",
-                    "% 6.2f" % other.grad,
+                line = (
+                    "backward add %s %2s %2s %2s % 6.2f -> % 6.2f  %s %2s %2s %2s % 6.2f -> % 6.2f"
+                    % (
+                        self.name,
+                        self.layernumber,
+                        self.neuronnumber,
+                        self.type,
+                        self_before,
+                        self.grad,
+                        other.name,
+                        other.layernumber,
+                        other.neuronnumber,
+                        other.type,
+                        other_before,
+                        other.grad,
+                    )
                 )
+                print(line)
+                # print(
+                #     "backward add",
+                #     self.name,
+                #     self.type,
+                #     "% 6.2f" % self_before,
+                #     "->",
+                #     "% 6.2f" % self.grad,
+                #     other.name,
+                #     "% 6.2f" % other_before,
+                #     "->",
+                #     "% 6.2f" % other.grad,
+                # )
 
         out._backward = _backward
 
@@ -73,17 +92,36 @@ class Value:
             self.grad += other.data * out.grad
             other.grad += self.data * out.grad
             if self.debug_bw:
-                print(
-                    "backward mul  ",
-                    self.name,
-                    "% 6.2f" % self_before,
-                    "->",
-                    "% 6.2f" % self.grad,
-                    other.name,
-                    "% 6.2f" % other_before,
-                    "->",
-                    "% 6.2f" % other.grad,
+                line = (
+                    "backward mul %s %2s %2s %2s % 6.2f -> % 6.2f  %s %2s %2s %2s % 6.2f -> % 6.2f"
+                    % (
+                        self.name,
+                        self.layernumber,
+                        self.neuronnumber,
+                        self.type,
+                        self_before,
+                        self.grad,
+                        other.name,
+                        other.layernumber,
+                        other.neuronnumber,
+                        other.type,
+                        other_before,
+                        other.grad,
+                    )
                 )
+                print(line)
+
+            #     print(
+            #         "backward mul  ",
+            #         self.name,
+            #         "% 6.2f" % self_before,
+            #         "->",
+            #         "% 6.2f" % self.grad,
+            #         other.name,
+            #         "% 6.2f" % other_before,
+            #         "->",
+            #         "% 6.2f" % other.grad,
+            #     )
 
         out._backward = _backward
 

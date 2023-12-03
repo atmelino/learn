@@ -5,10 +5,7 @@ import pprint
 from mycrograd_debug.engine_debug import Value
 from mycrograd_debug.nn_debug import Neuron, Layer, MLP
 from mycrograd_debug.drawviz_debug import (
-    draw_dot,
     draw_nn,
-    print_all_values,
-    print_my_params,
     backupParameters,
     restoreParameters,
 )
@@ -37,10 +34,11 @@ flipflop = True
 nin = 1  # number of inputs
 nout = 1  # number of outputs
 Value.value_counter = 0
-model = MLP(nin, [2, nout], lastReLU=False, weightsinit=2, debug_bw=False)
+model = MLP(nin, [2, nout], lastReLU=False, weightsinit=2, debug_bw=True)
 xinumbers = list(range(4, 4 + nin))
 xinput = [Value(x, type="i%s" % index) for index, x in enumerate(xinumbers, start=1)]
-xtarget = Value(1.2, type="t")  # desired targets
+# xtarget = Value(1.2, type="t")  # desired targets
+xtarget = Value(0.0, type="t")  # desired targets
 debugFunc(
     model,
     {"parameters"},
@@ -54,7 +52,7 @@ originalParams = backupParameters(model)
 
 def imageFunc(filename="default"):
     # dot=draw_nn(xinput, model)
-    dot = draw_nn(xinput, model, debug_print_01=True)
+    dot = draw_nn(xinput, model, debug_print_01=False)
     # dot.node(name="a", label="clicked %3d" % counter, shape="record")
     dot.node(
         name="loss", label="step %2d loss %6.2f" % (step, loss.data), shape="record"
@@ -152,7 +150,7 @@ def hello():
     print(cmd)
 
     filename = "img1" if flipflop else "img2"
-    print(filename)
+    # print(filename)
 
     @after_this_request
     def add_header(response):

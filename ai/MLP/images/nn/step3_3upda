@@ -24,5 +24,5 @@ digraph {
 	i1 -> L1N2
 	L1N1 -> L2N1
 	L1N2 -> L2N1
-	loss [label="step  3 loss   0.64" shape=record]
+	loss [label="step  3 loss   0.16" shape=record]
 }
