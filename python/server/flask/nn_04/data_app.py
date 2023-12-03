@@ -24,15 +24,13 @@ import datetime
 
 app = Flask(__name__)
 global model
-global counter
 global step
 global flipflop
 global activation
 global loss
 debug_parameters = True
 debug_values = False
-counter = 1
-step = 1
+step = 0
 flipflop = True
 
 # initialize a model
@@ -77,10 +75,12 @@ def getactivation(filename="default"):
     global loss
     global activation
     global step
+    step = step + 1
     activation = model(xinput)
     loss = loss_single(activation, xtarget)
     debugFunc(model, {"parameters"}, message="act")
     imageFunc(filename)
+
 
 def zeroGradients(filename="default"):
     global model
@@ -92,6 +92,7 @@ def zeroGradients(filename="default"):
     debugFunc(model, {"parameters"}, message="zer")
     imageFunc(filename)
 
+
 def backward(filename="default"):
     #### backward pass
     global activation
@@ -100,6 +101,7 @@ def backward(filename="default"):
     # print("parameters after backpass")
     debugFunc(model, {"parameters"}, message="bwd")
     imageFunc(filename)
+
 
 def updateParams(filename="default"):
     #### update
@@ -111,6 +113,7 @@ def updateParams(filename="default"):
     debugFunc(model, {"parameters"}, message="upd")
     imageFunc(filename)
 
+
 def optStep(filename="default"):
     global model
     global loss
@@ -121,21 +124,18 @@ def optStep(filename="default"):
     updateParams()
     print(f"step %3d output %6.4f loss %6.4f" % (step, activation.data, loss.data))
     imageFunc(filename)
-    step = step + 1
 
 
 def resetModel(filename="default"):
     global model
-    global activation
+    global loss
     global step
-    step = 1
     restoreParameters(model, originalParams)
     zeroGradients()
     getactivation()
+    step = 0
     print("restored model params")
-    print_my_params(model)
-    dot = draw_nn(xinput, model)
-    # dot.node(name="a", label="clicked %3d" % counter, shape="record")
+    dot = draw_nn(xinput, model, debug_print_01=True)
     dot.render("static/" + filename)
 
 
@@ -152,10 +152,6 @@ def hello():
     print(cmd)
 
     filename = "img1" if flipflop else "img2"
-
-    # filename="static/hello%3d" % counter
-    # filename = "hello" + str(counter).zfill(3)
-
     print(filename)
 
     @after_this_request
