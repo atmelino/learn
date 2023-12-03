@@ -25,12 +25,14 @@ import datetime
 app = Flask(__name__)
 global model
 global counter
+global step
 global flipflop
 global activation
 global loss
 debug_parameters = True
 debug_values = False
 counter = 1
+step = 1
 flipflop = True
 
 # initialize a model
@@ -51,114 +53,91 @@ debugFunc(
 
 originalParams = backupParameters(model)
 
+
 def imageFunc(filename="default"):
     # dot=draw_nn(xinput, model)
     dot = draw_nn(xinput, model, debug_print_01=True)
     # dot.node(name="a", label="clicked %3d" % counter, shape="record")
-    dot.node(name="lossLabel", label="loss %6.2f" % loss.data, shape="record")
+    dot.node(
+        name="loss", label="step %2d loss %6.2f" % (step, loss.data), shape="record"
+    )
     dot.render("static/" + filename)
 
 
 # loss function single MLP
 def loss_single(activation, target):
-    total_loss = (activation - target)*(activation - target)
-    total_loss.type="l"
+    total_loss = (activation - target) * (activation - target)
+    total_loss.type = "l"
     return total_loss
+
 
 def getactivation(filename="default"):
     #### forward pass0
     global model
     global loss
     global activation
-    global counter
-    counter = counter + 1
+    global step
     activation = model(xinput)
     loss = loss_single(activation, xtarget)
     debugFunc(model, {"parameters"}, message="act")
-    imageFunc(filename)
+    imageFunc("step%d_1loss" % counter)
 
 
 def zeroGradients(filename="default"):
     global model
-    global counter
-    counter = counter + 1
+    global step
     model.zero_grad()
     for i in xinput:
         i.grad = 0
     # print("zero'd gradients")
     debugFunc(model, {"parameters"}, message="zer")
-    imageFunc(filename)
+    imageFunc("step%d_2zero" % counter)
 
 
 def backward(filename="default"):
     #### backward pass
     global activation
-    global counter
-    counter = counter + 1
+    global step
     activation.backward()
     # print("parameters after backpass")
     debugFunc(model, {"parameters"}, message="bwd")
-    imageFunc(filename)
+    imageFunc("step%d_3back" % counter)
 
 
 def updateParams(filename="default"):
     #### update
     global model
-    global counter
-    counter = counter + 1
+    global step
     for p in model.parameters():
         p.data += -0.05 * p.grad
     # print("updated parameters")
     debugFunc(model, {"parameters"}, message="upd")
-    imageFunc(filename)
-
-
-# def getactivation(filename="default"):
-#     global model
-#     global activation
-#     act()
-
-
-# def zeroGradients(filename="default"):
-#     global model
-#     zeroGrad()
-
-
-# def backward(filename="default"):
-#     global model
-#     global activation
-#     back()
-
-
-# def updateParams(filename="default"):
-#     global model
-#     global loss
-#     upd()
+    imageFunc("step%d_3upda" % counter)
 
 
 def optStep(filename="default"):
     global model
     global loss
-    global counter
-    counter = counter + 1
+    global step
+    step = step + 1
     getactivation()
     zeroGradients()
     backward()
     updateParams()
-    print(f"step %3d output %6.4f loss %6.4f" % (counter, activation.data, loss.data))
+    print(f"step %3d output %6.4f loss %6.4f" % (step, activation.data, loss.data))
     imageFunc(filename)
 
 
 def resetModel(filename="default"):
     global model
     global activation
-    global counter
-    counter = counter + 1
+    global step
+    step = 1
     restoreParameters(model, originalParams)
     print("restored model params")
     print_my_params(model)
     dot = draw_nn(xinput, model)
-    dot.node(name="a", label="clicked %3d" % counter, shape="record")
+    # dot.node(name="a", label="clicked %3d" % counter, shape="record")
     dot.render("static/" + filename)
 
 
