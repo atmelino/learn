@@ -35,7 +35,8 @@ nin = 1  # number of inputs
 nout = 1  # number of outputs
 Value.value_counter = 0
 model = MLP(nin, [2, nout], lastReLU=False, weightsinit=2, debug_bw=True)
-xinumbers = list(range(4, 4 + nin))
+# xinumbers = list(range(1, 1 + nin))
+xinumbers = [4]
 xinput = [Value(x, type="i%s" % index) for index, x in enumerate(xinumbers, start=1)]
 # xtarget = Value(1.2, type="t")  # desired targets
 xtarget = Value(0.0, type="t")  # desired targets
@@ -62,7 +63,8 @@ def imageFunc(filename="default"):
 
 # loss function single MLP
 def loss_single(activation, target):
-    total_loss = (activation - target) * (activation - target)
+    # total_loss = (activation - target) * (activation - target)
+    total_loss = activation*activation
     total_loss.type = "l"
     return total_loss
 
