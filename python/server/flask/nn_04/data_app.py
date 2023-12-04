@@ -97,7 +97,7 @@ def backward(filename="default"):
     #### backward pass
     global activation
     global step
-    activation.backward()
+    loss.backward()
     # print("parameters after backpass")
     debugFunc(model, {"parameters"}, message="bwd")
     imageFunc(filename)
