@@ -25,29 +25,22 @@ global step
 global flipflop
 global activation
 global loss
-debug_parameters = True
-debug_values = False
 step = 0
 flipflop = True
+# debugOptions={"params"}
+debugOptions={}
 
 # initialize a model
 nin = 1  # number of inputs
 nout = 1  # number of outputs
 Value.value_counter = 0
-model = MLP(nin, [2, nout], lastReLU=False, weightsinit=2, debug_bw=True)
+model = MLP(nin, [2, nout], lastReLU=False, weightsinit=2, debug_bw=False)
 # xinumbers = list(range(1, 1 + nin))
 xinumbers = [4]
 xinput = [Value(x, type="i%s" % index) for index, x in enumerate(xinumbers, start=1)]
-# xtarget = Value(1.2, type="t")  # desired targets
-xtarget = Value(0.0, type="t")  # desired targets
-debugFunc(
-    model,
-    {"parameters"},
-    message="start",
-    inputs=xinput,
-    targets=xtarget,
-)
-
+xtarget = Value(1.2, type="t")  # desired targets
+# xtarget = Value(0.0, type="t")  # desired targets
+debugFunc(model, {"params"}, message="start", inputs=xinput, targets=xtarget)
 originalParams = backupParameters(model)
 
 
@@ -63,8 +56,8 @@ def imageFunc(filename="default"):
 
 # loss function single MLP
 def loss_single(activation, target):
-    # total_loss = (activation - target) * (activation - target)
-    total_loss = activation*activation
+    total_loss = (activation - target) * (activation - target)
+    # total_loss = activation*activation
     total_loss.type = "l"
     return total_loss
 
@@ -78,7 +71,7 @@ def getactivation(filename="default"):
     step = step + 1
     activation = model(xinput)
     loss = loss_single(activation, xtarget)
-    debugFunc(model, {"parameters"}, message="act")
+    debugFunc(model, debugOptions, message="act")
     imageFunc(filename)
 
 
@@ -89,7 +82,7 @@ def zeroGradients(filename="default"):
     for i in xinput:
         i.grad = 0
     # print("zero'd gradients")
-    debugFunc(model, {"parameters"}, message="zer")
+    debugFunc(model, debugOptions, message="zer")
     imageFunc(filename)
 
 
@@ -99,7 +92,7 @@ def backward(filename="default"):
     global step
     loss.backward()
     # print("parameters after backpass")
-    debugFunc(model, {"parameters"}, message="bwd")
+    debugFunc(model, debugOptions, message="bwd")
     imageFunc(filename)
 
 
@@ -110,7 +103,7 @@ def updateParams(filename="default"):
     for p in model.parameters():
         p.data += -0.05 * p.grad
     # print("updated parameters")
-    debugFunc(model, {"parameters"}, message="upd")
+    debugFunc(model, debugOptions, message="upd")
     imageFunc(filename)
 
 
@@ -145,11 +138,11 @@ def hello():
     print("step=%3d" % step)
     flipflop = not flipflop
 
-    print("hello called")
-    print(request)
-    print(request.data)
+    # print("hello called")
+    # print(request)
+    # print(request.data)
     cmd = request.args.get("cmd")
-    print(cmd)
+    # print(cmd)
 
     filename = "img1" if flipflop else "img2"
     # print(filename)
@@ -177,7 +170,7 @@ def hello():
     if cmd == "res":
         resetModel(filename)
         jsonResp = {"image": filename + ".svg", "sape": 4139}
-    print(jsonResp)
+    # print(jsonResp)
     return jsonify(jsonResp)
 
 

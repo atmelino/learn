@@ -9,10 +9,12 @@ debug_parameters = False
 debug_values = False
 
 
-def debugFunc(model, options, message="", inputs=[], targets=[]):
-    if message:
-        print(message)
-    if "parameters" in options:
+def debugFunc(model, debugOptions, message="", inputs=[], targets=[]):
+    # print(debugOptions)
+    if debugOptions:
+        if message:
+            print(message)
+    if "params" in debugOptions:
         print("parameters")
         print_my_params(model)
     if inputs:
