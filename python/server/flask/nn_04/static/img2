@@ -5,24 +5,24 @@ digraph {
 		node [color=white style=filled]
 		label=I
 		color=lightgrey style=filled
-		i1 [label="  i1 |{i |d 4.0000 g 0.0028}}"]
+		i1 [label="  i1 |{i |d 4.0000 g -0.0157}}"]
 	}
 	subgraph cluster_L1 {
 		node [color=white style=filled]
 		label=L1
 		color=lightgrey style=filled
-		L1N1 [label="  N1 |{w1 |d 0.0790 g -0.1395} |{b |d -0.1052 g -0.0349} |{a |d 0.1812 g -0.0349}}"]
-		L1N2 [label="  N2 |{w1 |d 0.1407 g 0.1425} |{b |d -0.0898 g 0.0356} |{a |d 0.5031 g 0.0356}}"]
+		L1N1 [label="  N1 |{w1 |d 0.1832 g -0.1083} |{b |d -0.0792 g -0.0271} |{a |d 0.6308 g -0.0271}}"]
+		L1N2 [label="  N2 |{w1 |d 0.2754 g -0.1627} |{b |d -0.0562 g -0.0407} |{a |d 1.0107 g -0.0407}}"]
 	}
 	subgraph cluster_L2 {
 		node [color=white style=filled]
 		label=L2
 		color=lightgrey style=filled
-		L2N1 [label="  N1 |{w1 |d 0.0360 g -0.3025}|{w2 |d 0.0207 g -0.8400} |{b |d 0.4556 g -1.6696} |{a |d 0.3652 g -1.6696}}"]
+		L2N1 [label="  N1 |{w1 |d 0.1554 g -0.1140}|{w2 |d 0.2341 g -0.1827} |{b |d 0.7968 g -0.1807} |{a |d 1.1096 g -0.1807}}"]
 	}
 	i1 -> L1N1
 	i1 -> L1N2
 	L1N1 -> L2N1
 	L1N2 -> L2N1
-	loss [label="step  5 loss   0.70" shape=record]
+	loss [label="step 14 loss   0.01" shape=record]
 }

@@ -4,12 +4,14 @@ import pprint
 
 from mycrograd_debug.engine_debug import Value
 from mycrograd_debug.nn_debug import Neuron, Layer, MLP
-from mycrograd_debug.drawviz_debug import (
-    draw_nn,
+from mycrograd_debug.drawviz_debug import draw_dot, draw_nn
+from mycrograd_debug.util_debug import (
+    debugPrint,
+    print_my_params,
+    print_all_values,
     backupParameters,
     restoreParameters,
 )
-from mycrograd_debug.util_debug import debugFunc
 
 np.random.seed(1337)
 random.seed(1337)
@@ -28,7 +30,7 @@ global loss
 step = 0
 flipflop = True
 # debugOptions={"params"}
-debugOptions={}
+debugOptions = {}
 
 # initialize a model
 nin = 1  # number of inputs
@@ -40,7 +42,7 @@ xinumbers = [4]
 xinput = [Value(x, type="i%s" % index) for index, x in enumerate(xinumbers, start=1)]
 xtarget = Value(1.2, type="t")  # desired targets
 # xtarget = Value(0.0, type="t")  # desired targets
-debugFunc(model, {"params"}, message="start", inputs=xinput, targets=xtarget)
+debugPrint(model, {"params"}, message="start", inputs=xinput, targets=xtarget)
 originalParams = backupParameters(model)
 
 
@@ -71,7 +73,7 @@ def getactivation(filename="default"):
     step = step + 1
     activation = model(xinput)
     loss = loss_single(activation, xtarget)
-    debugFunc(model, debugOptions, message="act")
+    debugPrint(model, debugOptions, message="act")
     imageFunc(filename)
 
 
@@ -82,7 +84,7 @@ def zeroGradients(filename="default"):
     for i in xinput:
         i.grad = 0
     # print("zero'd gradients")
-    debugFunc(model, debugOptions, message="zer")
+    debugPrint(model, debugOptions, message="zer")
     imageFunc(filename)
 
 
@@ -92,7 +94,7 @@ def backward(filename="default"):
     global step
     loss.backward()
     # print("parameters after backpass")
-    debugFunc(model, debugOptions, message="bwd")
+    debugPrint(model, debugOptions, message="bwd")
     imageFunc(filename)
 
 
@@ -103,7 +105,7 @@ def updateParams(filename="default"):
     for p in model.parameters():
         p.data += -0.05 * p.grad
     # print("updated parameters")
-    debugFunc(model, debugOptions, message="upd")
+    debugPrint(model, debugOptions, message="upd")
     imageFunc(filename)
 
 
