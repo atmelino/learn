@@ -40,7 +40,7 @@ model = MLP(nin, [2, nout], lastReLU=False, weightsinit=2, debug_bw=False)
 # xinumbers = list(range(1, 1 + nin))
 xinumbers = [4]
 xinput = [Value(x, type="i%s" % index) for index, x in enumerate(xinumbers, start=1)]
-xtarget = Value(1.2, type="t")  # desired targets
+xtarget = Value(3, type="t")  # desired targets
 # xtarget = Value(0.0, type="t")  # desired targets
 debugPrint(model, {"params"}, message="start", inputs=xinput, targets=xtarget)
 originalParams = backupParameters(model)
