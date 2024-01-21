@@ -85,11 +85,11 @@ class App:
       frame = tk.Frame(master)
       frame.grid(row=0)
 
-      self.photo1 = get_scaled_icon("tkinter/example.svg", 200)
+      self.photo1 = get_scaled_icon("images/example.svg", 200)
       self.button1 = tk.Button(frame, text="Scaled to 24x24", image=self.photo1, compound=tk.LEFT)
       self.button1.grid(row=0,column=0)
 
-      self.photo2 = get_scaled_icon("tkinter/hello.svg")
+      self.photo2 = get_scaled_icon("images/hello.svg")
       self.button2 = tk.Button(frame, text="Unscaled", image=self.photo2, compound=tk.LEFT)
       self.button2.grid(row=0,column=1)
 
