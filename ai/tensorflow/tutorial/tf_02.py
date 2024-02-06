@@ -2,6 +2,8 @@
 
 import tensorflow as tf
 import pprint
+import numpy as np
+# import numpyprint as npp
 # pp = pprint.PrettyPrinter(indent=2,width=100)
 
 pp = pprint.PrettyPrinter(width=41, compact=True)
@@ -15,6 +17,10 @@ print('Shape of X_train: ', x_train.shape)
 print('Shape of y_train: ', y_train.shape)
 print('Shape of X_test: ', x_test.shape)
 print('Shape of y_test: ', y_test.shape)
+
+print(np.array2string(x_test, suppress_small=True, formatter={'float': '{:0.4f}'.format}))
+
+
 
 pp.pprint(x_test)
 
