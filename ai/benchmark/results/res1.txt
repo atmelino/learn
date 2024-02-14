@@ -1,0 +1,157 @@
+ython3 bm01.py 
+
+
+System
+AMD® Ryzen 5 3600 6-core processor × 12
+32.0 GiB
+Gigabyte Technology Co., Ltd. B450M DS3H WIFI
+
+
+2024-02-10 22:50:26.213553: I external/local_tsl/tsl/cuda/cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+2024-02-10 22:50:26.249023: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+2024-02-10 22:50:26.249068: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+2024-02-10 22:50:26.250582: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2024-02-10 22:50:26.256458: I external/local_tsl/tsl/cuda/cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+2024-02-10 22:50:26.256634: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2024-02-10 22:50:26.809984: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+Python 3.10.12 (main, Nov 20 2023, 15:14:05) [GCC 11.4.0]
+
+>>   AI-Benchmark-v.0.1.2   
+>>   Let the AI Games begin..
+
+2024-02-10 22:50:28.349111: I external/local_xla/xla/stream_executor/cuda/cuda_executor.cc:901] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero. See more at https://github.com/torvalds/linux/blob/v6.0/Documentation/ABI/testing/sysfs-bus-pci#L344-L355
+2024-02-10 22:50:28.350219: W tensorflow/core/common_runtime/gpu/gpu_device.cc:2256] Cannot dlopen some GPU libraries. Please make sure the missing libraries mentioned above are installed properly if you would like to use GPU. Follow the guide at https://www.tensorflow.org/install/gpu for how to download and setup the required libraries for your platform.
+Skipping registering GPU devices...
+2024-02-10 22:50:28.426670: I external/local_xla/xla/stream_executor/cuda/cuda_executor.cc:901] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero. See more at https://github.com/torvalds/linux/blob/v6.0/Documentation/ABI/testing/sysfs-bus-pci#L344-L355
+2024-02-10 22:50:28.426844: W tensorflow/core/common_runtime/gpu/gpu_device.cc:2256] Cannot dlopen some GPU libraries. Please make sure the missing libraries mentioned above are installed properly if you would like to use GPU. Follow the guide at https://www.tensorflow.org/install/gpu for how to download and setup the required libraries for your platform.
+Skipping registering GPU devices...
+2024-02-10 22:50:28.426915: I external/local_xla/xla/stream_executor/cuda/cuda_executor.cc:901] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero. See more at https://github.com/torvalds/linux/blob/v6.0/Documentation/ABI/testing/sysfs-bus-pci#L344-L355
+2024-02-10 22:50:28.427055: W tensorflow/core/common_runtime/gpu/gpu_device.cc:2256] Cannot dlopen some GPU libraries. Please make sure the missing libraries mentioned above are installed properly if you would like to use GPU. Follow the guide at https://www.tensorflow.org/install/gpu for how to download and setup the required libraries for your platform.
+Skipping registering GPU devices...
+*  TF Version: 2.15.0
+*  Platform: Linux-6.5.0-17-generic-x86_64-with-glibc2.35
+*  CPU: N/A
+*  CPU RAM: 31 GB
+
+The benchmark is running...
+The tests might take up to 20 minutes
+Please don't interrupt the script
+
+1/19. MobileNet-V2
+
+2024-02-10 22:50:35.095866: I external/local_xla/xla/stream_executor/cuda/cuda_executor.cc:901] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero. See more at https://github.com/torvalds/linux/blob/v6.0/Documentation/ABI/testing/sysfs-bus-pci#L344-L355
+2024-02-10 22:50:35.096151: W tensorflow/core/common_runtime/gpu/gpu_device.cc:2256] Cannot dlopen some GPU libraries. Please make sure the missing libraries mentioned above are installed properly if you would like to use GPU. Follow the guide at https://www.tensorflow.org/install/gpu for how to download and setup the required libraries for your platform.
+Skipping registering GPU devices...
+2024-02-10 22:50:35.238125: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:388] MLIR V1 optimization pass is not enabled
+2024-02-10 22:50:35.811631: W external/local_tsl/tsl/framework/cpu_allocator_impl.cc:83] Allocation of 80281600 exceeds 10% of free system memory.
+2024-02-10 22:50:35.856430: W external/local_tsl/tsl/framework/cpu_allocator_impl.cc:83] Allocation of 80281600 exceeds 10% of free system memory.
+2024-02-10 22:50:35.876721: W external/local_tsl/tsl/framework/cpu_allocator_impl.cc:83] Allocation of 80281600 exceeds 10% of free system memory.
+2024-02-10 22:50:35.912453: W external/local_tsl/tsl/framework/cpu_allocator_impl.cc:83] Allocation of 240844800 exceeds 10% of free system memory.
+2024-02-10 22:50:35.938053: W external/local_tsl/tsl/framework/cpu_allocator_impl.cc:83] Allocation of 60211200 exceeds 10% of free system memory.
+1.1 - inference | batch=50, size=224x224: 369 ± 13 ms
+1.2 - training  | batch=50, size=224x224: 1849 ± 32 ms
+
+2/19. Inception-V3
+
+2.1 - inference | batch=20, size=346x346: 651 ± 10 ms
+2.2 - training  | batch=20, size=346x346: 3745 ± 14 ms
+
+3/19. Inception-V4
+
+3.1 - inference | batch=10, size=346x346: 648 ± 11 ms
+3.2 - training  | batch=10, size=346x346: 3617 ± 38 ms
+
+4/19. Inception-ResNet-V2
+
+4.1 - inference | batch=10, size=346x346: 759 ± 5 ms
+4.2 - training  | batch=8, size=346x346: 3179 ± 39 ms
+
+5/19. ResNet-V2-50
+
+5.1 - inference | batch=10, size=346x346: 504 ± 5 ms
+5.2 - training  | batch=10, size=346x346: 2264 ± 13 ms
+
+6/19. ResNet-V2-152
+
+6.1 - inference | batch=10, size=256x256: 664 ± 6 ms
+6.2 - training  | batch=10, size=256x256: 3157 ± 30 ms
+
+7/19. VGG-16
+
+7.1 - inference | batch=20, size=224x224: 1167 ± 19 ms
+7.2 - training  | batch=2, size=224x224: 2669 ± 13 ms
+
+8/19. SRCNN 9-5-5
+
+8.1 - inference | batch=10, size=512x512: 1040 ± 18 ms
+8.2 - inference | batch=1, size=1536x1536: 922 ± 7 ms
+8.3 - training  | batch=10, size=512x512: 10006 ± 24 ms
+
+9/19. VGG-19 Super-Res
+
+9.1 - inference | batch=10, size=256x256: 1895 ± 7 ms
+9.2 - inference | batch=1, size=1024x1024: 2999 ± 9 ms
+9.3 - training  | batch=10, size=224x224: 10235 ± 14 ms
+
+10/19. ResNet-SRGAN
+
+10.1 - inference | batch=10, size=512x512: 2140 ± 31 ms
+10.2 - inference | batch=1, size=1536x1536: 1894 ± 9 ms
+10.3 - training  | batch=5, size=512x512: 4634 ± 23 ms
+
+11/19. ResNet-DPED
+
+11.1 - inference | batch=10, size=256x256: 2590 ± 11 ms
+11.2 - inference | batch=1, size=1024x1024: 4080 ± 10 ms
+11.3 - training  | batch=15, size=128x128: 5842 ± 8 ms
+
+12/19. U-Net
+
+12.1 - inference | batch=4, size=512x512: 4849 ± 12 ms
+12.2 - inference | batch=1, size=1024x1024: 4860 ± 20 ms
+12.3 - training  | batch=4, size=256x256: 5141 ± 23 ms
+
+13/19. Nvidia-SPADE
+
+13.1 - inference | batch=5, size=128x128: 1387 ± 5 ms
+13.2 - training  | batch=1, size=128x128: 1760 ± 23 ms
+
+14/19. ICNet
+
+14.1 - inference | batch=5, size=1024x1536: 1298 ± 34 ms
+14.2 - training  | batch=10, size=1024x1536: 3419 ± 30 ms
+
+15/19. PSPNet
+
+15.1 - inference | batch=5, size=720x720: 7582 ± 22 ms
+15.2 - training  | batch=1, size=512x512: 3372 ± 33 ms
+
+16/19. DeepLab
+
+16.1 - inference | batch=2, size=512x512: 1704 ± 11 ms
+16.2 - training  | batch=1, size=384x384: 2117 ± 27 ms
+
+17/19. Pixel-RNN
+
+2024-02-10 23:09:45.670595: W tensorflow/c/c_api.cc:305] Operation '{name:'conv2d_out_logits/biases/Adam_1/Assign' id:47115 op device:{requested: '', assigned: ''} def:{{{node conv2d_out_logits/biases/Adam_1/Assign}} = AssignVariableOp[_has_manual_control_dependencies=true, dtype=DT_FLOAT, validate_shape=false](conv2d_out_logits/biases/Adam_1, conv2d_out_logits/biases/Adam_1/Initializer/zeros)}}' was changed by setting attribute after it was run by a session. This mutation will have no effect, and will trigger an error in the future. Either don't modify nodes after running them or create a new session.
+17.1 - inference | batch=50, size=64x64: 1884 ± 8 ms
+17.2 - training  | batch=10, size=64x64: 949 ± 6 ms
+
+18/19. LSTM-Sentiment
+
+2024-02-10 23:10:47.433872: W tensorflow/c/c_api.cc:305] Operation '{name:'Variable_1/Adam_1/Assign' id:325 op device:{requested: '', assigned: ''} def:{{{node Variable_1/Adam_1/Assign}} = AssignVariableOp[_has_manual_control_dependencies=true, dtype=DT_FLOAT, validate_shape=false](Variable_1/Adam_1, Variable_1/Adam_1/Initializer/zeros)}}' was changed by setting attribute after it was run by a session. This mutation will have no effect, and will trigger an error in the future. Either don't modify nodes after running them or create a new session.
+18.1 - inference | batch=100, size=1024x300: 3123 ± 12 ms
+18.2 - training  | batch=10, size=1024x300: 13614 ± 13 ms
+
+19/19. GNMT-Translation
+
+2024-02-10 23:12:26.652725: W tensorflow/c/c_api.cc:305] Operation '{name:'index_to_string/table_init' id:13 op device:{requested: '', assigned: ''} def:{{{node index_to_string/table_init}} = InitializeTableFromTextFileV2[_has_manual_control_dependencies=true, delimiter="\t", key_index=-1, offset=0, value_index=-2, vocab_size=-1](index_to_string, index_to_string/table_init/asset_filepath)}}' was changed by setting attribute after it was run by a session. This mutation will have no effect, and will trigger an error in the future. Either don't modify nodes after running them or create a new session.
+19.1 - inference | batch=1, size=1x20: 1409 ± 3 ms
+
+Device Inference Score: 897
+Device Training Score: 818
+Device AI Score: 1715
+
+For more information and results, please visit http://ai-benchmark.com/alpha
+
