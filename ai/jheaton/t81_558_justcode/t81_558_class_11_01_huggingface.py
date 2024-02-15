@@ -1,6 +1,8 @@
 # HIDE OUTPUT
 import tensorflow as tf
 print(f"Tensor Flow Version: {tf.__version__}")
+import tensorflow.keras
+# print(f"Keras Version: {tensorflow.keras.__version__}")
 
 #pip install transformers
 #pip install transformers[sentencepiece]
@@ -14,3 +16,8 @@ f = urlopen(URL)
 text = f.read().decode("utf-8")
 print(text)
 
+# HIDE OUTPUT
+import pandas as pd
+from transformers import pipeline
+
+classifier = pipeline("text-classification")
