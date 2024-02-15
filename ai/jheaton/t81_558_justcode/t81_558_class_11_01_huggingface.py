@@ -21,3 +21,8 @@ import pandas as pd
 from transformers import pipeline
 
 classifier = pipeline("text-classification")
+
+
+outputs = classifier(text)
+df=pd.DataFrame(outputs)
+print(df)
