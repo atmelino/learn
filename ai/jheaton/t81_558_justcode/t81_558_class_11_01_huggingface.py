@@ -9,6 +9,8 @@ import tensorflow.keras
 
 from urllib.request import urlopen
 
+## Sentiment Analysis
+
 # Read sample text, a poem
 URL = "https://data.heatonresearch.com/data/t81-558/"\
     "datasets/sonnet_18.txt"
@@ -16,13 +18,18 @@ f = urlopen(URL)
 text = f.read().decode("utf-8")
 print(text)
 
-# HIDE OUTPUT
 import pandas as pd
 from transformers import pipeline
 
 classifier = pipeline("text-classification")
 
-
 outputs = classifier(text)
 df=pd.DataFrame(outputs)
 print(df)
+
+
+
+# Entity Tagging
+text2 = "Abraham Lincoln was a president who lived in the United States."
+
+tagger = pipeline("ner", aggregation_strategy="simple")
