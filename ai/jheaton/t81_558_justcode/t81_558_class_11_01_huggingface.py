@@ -33,3 +33,11 @@ print(df)
 text2 = "Abraham Lincoln was a president who lived in the United States."
 
 tagger = pipeline("ner", aggregation_strategy="simple")
+
+outputs = tagger(text2)
+df=pd.DataFrame(outputs)
+print(df)
+
+
+
+
