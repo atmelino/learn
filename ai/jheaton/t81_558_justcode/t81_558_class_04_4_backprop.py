@@ -52,6 +52,11 @@ x_columns = df.columns.drop('age').drop('id')
 x = df[x_columns].values
 y = df['age'].values
 
+
+x = x.astype('float32')
+y = y.astype('float32')
+
+
 # Create train/test
 x_train, x_test, y_train, y_test = train_test_split(    
     x, y, test_size=0.25, random_state=42)
