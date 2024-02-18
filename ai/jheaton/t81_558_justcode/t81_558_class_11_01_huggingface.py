@@ -39,5 +39,12 @@ df=pd.DataFrame(outputs)
 print(df)
 
 
+reader = pipeline("question-answering")
+question = "What now shall fade?"
+
+outputs = reader(question=question, context=text)
+df=pd.DataFrame([outputs])
+print(df)
+
 
 
