@@ -19,6 +19,8 @@ def chart_regression(pred, y, sort=True):
     plt.ylabel('output')
     plt.legend()
     plt.show()
+    plt.savefig('foo.png')
+
 
 # Read the data set
 df = pd.read_csv(
