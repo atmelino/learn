@@ -96,3 +96,118 @@ print(f"After drop: {list(df.columns)}")
 
 
 
+# Create a new dataframe from name and horsepower
+
+import os
+import pandas as pd
+
+df = pd.read_csv(
+    "https://data.heatonresearch.com/data/t81-558/auto-mpg.csv",
+    na_values=['NA','?'])
+
+col_horsepower = df['horsepower']
+col_name = df['name']
+result = pd.concat([col_name, col_horsepower], axis=1)
+
+pd.set_option('display.max_columns', 0)
+pd.set_option('display.max_rows', 5)
+print(result)
+
+
+# Create a new dataframe from first 2 rows and last 2 rows
+
+import os
+import pandas as pd
+
+df = pd.read_csv(
+    "https://data.heatonresearch.com/data/t81-558/auto-mpg.csv",
+    na_values=['NA','?'])
+
+result = pd.concat([df[0:2],df[-2:]], axis=0)
+
+pd.set_option('display.max_columns', 7)
+pd.set_option('display.max_rows', 0)
+print(result)
+
+
+
+import os
+import pandas as pd
+import numpy as np
+
+df = pd.read_csv(
+    "https://data.heatonresearch.com/data/t81-558/auto-mpg.csv",
+    na_values=['NA','?'])
+
+# Usually a good idea to shuffle
+df = df.reindex(np.random.permutation(df.index)) 
+
+mask = np.random.rand(len(df)) < 0.8
+# print(mask)
+trainDF = pd.DataFrame(df[mask])
+validationDF = pd.DataFrame(df[~mask])
+
+print(f"Training DF: {len(trainDF)}")
+print(f"Validation DF: {len(validationDF)}")
+
+print("dataframe to matrix")
+print(df.values)
+print(df[['mpg', 'cylinders', 'displacement', 'horsepower', 'weight',
+       'acceleration', 'year', 'origin']].values)
+
+
+print("Saving a Dataframe to CSV")
+import os
+import pandas as pd
+import numpy as np
+
+path = "."
+
+df = pd.read_csv(
+    "https://data.heatonresearch.com/data/t81-558/auto-mpg.csv",
+    na_values=['NA','?'])
+
+filename_write = os.path.join(path, "auto-mpg-shuffle.csv")
+df = df.reindex(np.random.permutation(df.index))
+# Specify index = false to not write row numbers
+df.to_csv(filename_write, index=False) 
+
+
+print("Saving a Dataframe to Pickle")
+import os
+import pandas as pd
+import numpy as np
+import pickle
+
+path = "."
+
+df = pd.read_csv(
+    "https://data.heatonresearch.com/data/t81-558/auto-mpg.csv",
+    na_values=['NA','?'])
+
+filename_write = os.path.join(path, "auto-mpg-shuffle.pkl")
+df = df.reindex(np.random.permutation(df.index))
+
+with open(filename_write,"wb") as fp:
+    pickle.dump(df, fp)
+
+
+import os
+import pandas as pd
+import numpy as np
+import pickle
+
+path = "."
+
+df = pd.read_csv(
+    "https://data.heatonresearch.com/data/t81-558/auto-mpg.csv",
+    na_values=['NA','?'])
+
+filename_read = os.path.join(path, "auto-mpg-shuffle.pkl")
+
+with open(filename_write,"rb") as fp:
+    df = pickle.load(fp)
+
+pd.set_option('display.max_columns', 7)
+pd.set_option('display.max_rows', 5)
+print(df)
