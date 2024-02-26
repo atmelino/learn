@@ -40,7 +40,7 @@ efficiency = df.apply(lambda x: x['displacement']/x['horsepower'], axis=1)
 print(efficiency[0:10])
 
 df['efficiency'] = efficiency
-print(df)
+# print(df)
 
 
 import pandas as pd
@@ -49,6 +49,42 @@ import pandas as pd
 df=pd.read_csv('jheaton/t81_558_justcode/large_csv/16zpallagi.csv')
 print(df)
 
+df=df.loc[(df['zipcode']!=0) & (df['zipcode']!=99999),
+          ['STATE','zipcode','agi_stub','N1']]
+
+pd.set_option('display.max_columns', 0)
+pd.set_option('display.max_rows', 10)
+
+print(df)
 
 
+medians = {1:12500,2:37500,3:62500,4:87500,5:112500,6:212500}
+df['agi_stub']=df.agi_stub.map(medians)
+
+pd.set_option('display.max_columns', 0)
+pd.set_option('display.max_rows', 10)
+print(df)
+
+groups = df.groupby(by='zipcode')
+print("groups")
+print(groups)
+
+
+df = pd.DataFrame(groups.apply( 
+    lambda x:sum(x['N1']*x['agi_stub'])/sum(x['N1']))) \
+    .reset_index()
+
+pd.set_option('display.max_columns', 0)
+pd.set_option('display.max_rows', 10)
+
+print(df)
+
+df.columns = ['zipcode','agi_estimate']
+
+pd.set_option('display.max_columns', 0)
+pd.set_option('display.max_rows', 10)
+
+print(df)
+
+print(df[ df['zipcode']==63017 ])
 
