@@ -45,7 +45,8 @@ print(df)
 
 import pandas as pd
 
-df=pd.read_csv('https://www.irs.gov/pub/irs-soi/16zpallagi.csv')
+# df=pd.read_csv('https://www.irs.gov/pub/irs-soi/16zpallagi.csv')
+df=pd.read_csv('jheaton/t81_558_justcode/large_csv/16zpallagi.csv')
 print(df)
 
 
