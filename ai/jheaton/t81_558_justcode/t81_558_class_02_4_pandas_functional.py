@@ -32,24 +32,22 @@ print(df['origin'])
 print(df['origin'].map(
     {1: 'North America', 2: 'Europe', 3: 'Asia'}))
 
+# df['test'] = df['cylinders'].map(
+#     {3: 'small', 4: 'regular', 5: 'bigger'})
+# print(df)
 
-#do it again, no additional one
-df['origin_name'] = df['origin'].map(
-    {1: 'North America', 2: 'Europe', 3: 'Asia'})
+efficiency = df.apply(lambda x: x['displacement']/x['horsepower'], axis=1)
+print(efficiency[0:10])
+
+df['efficiency'] = efficiency
 print(df)
 
-df['test'] = df['cylinders'].map(
-    {3: 'small', 4: 'regular', 5: 'bigger'})
+
+import pandas as pd
+
+df=pd.read_csv('https://www.irs.gov/pub/irs-soi/16zpallagi.csv')
 print(df)
 
 
-df = pd.DataFrame({'cost': [250, 150, 100],
-                   'revenue': [100, 250, 300]})
-print(df)
 
-df['new']=    {0: 'North America', 1: 'Europe', 2: 'Asia'}
-print(df)
 
-#Interesting: assignment of nomn-existing, named column adds a column
-df['new2']=    {0: 'bagel', 1: 'pizza', 2: 'sushi'}
-print(df)
