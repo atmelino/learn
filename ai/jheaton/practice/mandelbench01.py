@@ -48,9 +48,9 @@ start_time = time.monotonic()
 # Your code here
 
 counts = mandelbrot(
-    render_size=(3840,2160), # 4K
+    # render_size=(3840,2160), # 4K
     #render_size=(1920,1080), # HD
-    # render_size=(640,480),
+    render_size=(640,480),
     center=(-0.5,0),
     zoom=4,
     cycles=200
@@ -61,5 +61,6 @@ img = render(counts)
 print(img.size)
 img
 
-img.save("jheaton/practice/images/mandel01.png")
+# img.save("jheaton/practice/images/mandel01.png")
+img.save("images/mandel01.png")
 
