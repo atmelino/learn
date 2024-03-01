@@ -16,9 +16,7 @@ import matplotlib.pyplot as plt
 dirname=os.path.dirname(__file__)
 csvname=dirname+"/dataset/bp_age.csv"
 df = pd.read_csv(csvname, na_values=['NA', '?'])
-print(df)
-
-
+# print(df)
 
 age = df['age'].values # regression
 bp = df['trestbps'].values # regression
