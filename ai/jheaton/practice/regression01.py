@@ -1,5 +1,7 @@
 print("Simple TensorFlow Regression: blood pressure - age")
 from tensorflow.keras.models import Sequential
+import os.path
+
 from tensorflow.keras.layers import Dense, Activation
 import pandas as pd
 import numpy as np
@@ -7,8 +9,16 @@ from sklearn import metrics
 import matplotlib.pyplot as plt
 
 # df = pd.read_csv("./jheaton/practice/dataset/heart.csv", na_values=['NA', '?'])
-df = pd.read_csv("./jheaton/practice/dataset/bp_age.csv", na_values=['NA', '?'])
+# df = pd.read_csv("./jheaton/practice/dataset/bp_age.csv", na_values=['NA', '?'])
 # print(df)
+
+
+dirname=os.path.dirname(__file__)
+csvname=dirname+"/dataset/bp_age.csv"
+df = pd.read_csv("./jheaton/practice/dataset/bp_age.csv", na_values=['NA', '?'])
+print(df)
+
+
 
 age = df['age'].values # regression
 bp = df['trestbps'].values # regression

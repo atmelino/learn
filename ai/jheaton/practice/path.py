@@ -9,6 +9,12 @@ import os.path
 print("path of current file="+__file__)
 # print(__file__) 
 
+#find the basename and dirname of the path
+basename=os.path.basename(__file__)
+dirname=os.path.dirname(__file__)
+print('basename of the file: ', basename)
+print('dirname of the file: ', dirname)
+
 
 
 
