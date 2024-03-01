@@ -8,11 +8,6 @@ import numpy as np
 from sklearn import metrics
 import matplotlib.pyplot as plt
 
-# df = pd.read_csv("./jheaton/practice/dataset/heart.csv", na_values=['NA', '?'])
-# df = pd.read_csv("./jheaton/practice/dataset/bp_age.csv", na_values=['NA', '?'])
-# print(df)
-
-
 dirname=os.path.dirname(__file__)
 csvname=dirname+"/dataset/bp_age.csv"
 df = pd.read_csv(csvname, na_values=['NA', '?'])
@@ -29,22 +24,33 @@ bp = df['trestbps'].values # regression
 df3 = pd.DataFrame()
 df3['bp']=pd.DataFrame(bp)
 df3['age']=pd.DataFrame(age)
-print(df3)
+# print(df3)
 
-# plt.plot(bp, age)
-# plt.show()
+plot=False
+if plot==True:
+    plt.plot(bp, age)
+    plt.ylabel('age')
+    plt.xlabel('blood pressure')
+    plt.show()
 
 
 model = Sequential()
 model.add(Dense(1, input_dim=1, activation='linear'))
 model.compile(loss='mse', optimizer='rmsprop',metrics='mae')
-model.fit(bp,age,verbose=0,epochs=100)
+model.fit(bp,age,verbose=0,epochs=1000)
 
-pred = model.predict(age)
-print(pred[0:10])
 
-score = np.sqrt(metrics.mean_squared_error(pred,bp))
+pred = model.predict(bp)
+# print(f"Shape: {pred.shape}")
+# print(pred[0:7])
+
+# Measure RMSE error.  RMSE is common for regression.
+score = np.sqrt(metrics.mean_squared_error(pred,age))
 print(f"Final score (RMSE): {score}")
 
+# Sample predictions
+for i in range(7):
+    print(f"{i+1}. blood pressure: {bp[i]}, age: {age[i]}, " 
+          + f"predicted age: {pred[i]}")
 
 
