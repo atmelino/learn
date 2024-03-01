@@ -1,3 +1,6 @@
+import os.path
+
+
 print("matrix mul")
 import tensorflow as tf
 # Create a Constant op that produces a 1x2 matrix.  The op is
@@ -94,7 +97,9 @@ img = render(counts)
 print(img.size)
 img
 
-img.save("jheaton/t81_558_justcode/images/mandel.png")
+dirname=os.path.dirname(__file__)
+imgname=dirname+"/images/mandel.png"
+img.save(imgname)
 # img.save('jheaton/t81_558_justcode/large_csv/madel01.png')
 
 
