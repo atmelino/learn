@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 
 dirname=os.path.dirname(__file__)
 csvname=dirname+"/dataset/bp_age.csv"
-df = pd.read_csv("./jheaton/practice/dataset/bp_age.csv", na_values=['NA', '?'])
+df = pd.read_csv(csvname, na_values=['NA', '?'])
 print(df)
 
 
