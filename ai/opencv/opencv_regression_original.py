@@ -3,11 +3,9 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Input, Activation
 from tensorflow.keras.datasets import boston_housing
 from tensorflow.keras import layers
+
 import tensorflow as tf
 import matplotlib.pyplot as plt
-import pprint
-
-pp = pprint.PrettyPrinter(indent=4)
 
 SEED_VALUE = 42
 
@@ -17,10 +15,6 @@ tf.random.set_seed(SEED_VALUE)
 
 # Load the Boston housing dataset.
 (X_train, y_train), (X_test, y_test) = boston_housing.load_data()
-
-# print(X_train)
-pp.pprint(X_train[0])
-
 
 print(X_train.shape)
 print("\n")
@@ -36,6 +30,9 @@ X_train_1d = X_train[:, boston_features["Average Number of Rooms"]]
 print(X_train_1d.shape)
 
 X_test_1d = X_test[:, boston_features["Average Number of Rooms"]]
+
+bp=[1,2,3]
+age=[10,14,15]
 
 plot=False
 if plot==True:
@@ -111,9 +108,7 @@ def plot_data(x_data, y_data, x, y, title=None):
     plt.legend()
     plt.show()
 
-plot=False
-if plot==True:
-    plot_data(X_test_1d, y_test, x, y, title='Test Dataset')
+plot_data(X_test_1d, y_test, x, y, title='Test Dataset')
 
 
 
