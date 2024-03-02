@@ -33,7 +33,7 @@ df3['bp']=pd.DataFrame(bp)
 df3['age']=pd.DataFrame(age)
 print(df3)
 
-plot=True
+plot=False
 if plot==True:
     plt.plot(bp, age)
     plt.ylabel('age')
@@ -55,7 +55,7 @@ model.compile(optimizer=tf.keras.optimizers.RMSprop(learning_rate=0.005), loss="
 history = model.fit(
     bp,
     age,
-    batch_size=16,
+    batch_size=5,
     epochs=250,
     # epochs=10,
     validation_split=0.3,
