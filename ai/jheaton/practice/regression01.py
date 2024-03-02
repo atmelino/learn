@@ -56,7 +56,7 @@ history = model.fit(
     bp,
     age,
     batch_size=16,
-    epochs=300,
+    epochs=250,
     # epochs=10,
     validation_split=0.3,
     verbose=0
