@@ -26,7 +26,7 @@ df3['bp']=pd.DataFrame(bp)
 df3['age']=pd.DataFrame(age)
 # print(df3)
 
-plot=False
+plot=True
 if plot==True:
     plt.plot(bp, age)
     plt.ylabel('age')
