@@ -9,7 +9,7 @@ import os.path
 # y=np.array([4,6,8,10,12,14,16 ,18,20])
 
 dirname=os.path.dirname(__file__)
-csvname=dirname+"/dataset/bp_age2.csv"
+csvname=dirname+"/dataset/bp_age.csv"
 df = pd.read_csv(csvname, na_values=['NA', '?'])
 # print(df)
 
@@ -33,7 +33,8 @@ p=model.predict(x=[10])
 print(p)
 
 # newx = [70,80,90]
-newx = [1,3,8]
+newx = [83,87,90]
+# newx = [1,3,8]
 y_pred = model.predict(newx)
 for idx in range(len(newx)):
     print(f"Input: {newx[idx]} prediction: {y_pred[idx]}")
