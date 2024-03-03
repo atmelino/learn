@@ -90,8 +90,6 @@ y_pred = model.predict(x)
 for idx in range(len(x)):
     print(f"Predicted price of a home with {x[idx]} rooms: ${int(y_pred[idx] * 10) / 10}K")
 
-
-
 # Generate feature data that spans the range of interest for the independent variable.
 x = np.linspace(3, 9, 10)
 
@@ -111,7 +109,7 @@ def plot_data(x_data, y_data, x, y, title=None):
     plt.legend()
     plt.show()
 
-plot=False
+plot=True
 if plot==True:
     plot_data(X_test_1d, y_test, x, y, title='Test Dataset')
 
