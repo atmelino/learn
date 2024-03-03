@@ -32,10 +32,11 @@ print("weight w0=",w0)
 p=model.predict(x=[10])
 print(p)
 
-newx = [70,80,90]
+# newx = [70,80,90]
+newx = [1,3,8]
 y_pred = model.predict(newx)
 for idx in range(len(newx)):
-    print(f"Input: {bp[idx]} prediction: {y_pred[idx]}")
+    print(f"Input: {newx[idx]} prediction: {y_pred[idx]}")
 
 p2=model.predict(x=[10])
 print(p2)
