@@ -40,8 +40,6 @@ if plot==True:
     plt.xlabel('blood pressure')
     plt.show()
 
-
-
 model = Sequential()
 
 # Define the model consisting of a single neuron.
@@ -110,27 +108,5 @@ y_pred = model.predict(x)
 for idx in range(len(x)):
     print(f"Predicted age of a person with {x[idx]} blood pressure: {y_pred[idx]}")
 
-
-
-
-
-# model = Sequential()
-# model.add(Dense(1, input_dim=1, activation='linear'))
-# model.compile(loss='mse', optimizer='rmsprop',metrics='mae')
-# model.fit(bp,age,verbose=0,epochs=1000)
-
-
-# pred = model.predict(bp)
-# print(f"Shape: {pred.shape}")
-# print(pred[0:7])
-
-# Measure RMSE error.  RMSE is common for regression.
-# score = np.sqrt(metrics.mean_squared_error(pred,age))
-# print(f"Final score (RMSE): {score}")
-
-# Sample predictions
-# for i in range(7):
-#     print(f"{i+1}. blood pressure: {bp[i]}, age: {age[i]}, " 
-#           + f"predicted age: {pred[i]}")
 
 

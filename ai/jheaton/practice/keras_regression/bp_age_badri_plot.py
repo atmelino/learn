@@ -14,7 +14,6 @@ SEED_VALUE = 42
 np.random.seed(SEED_VALUE)
 tf.random.set_seed(SEED_VALUE)
 
-
 dirname=os.path.dirname(__file__)
 csvname=dirname+"/dataset/bp_age.csv"
 df = pd.read_csv(csvname, na_values=['NA', '?'])
@@ -24,9 +23,6 @@ age = df['age'].values # regression
 bp = df['trestbps'].values # regression
 # print(age)
 # print(bp)
-
-# df2 = pd.DataFrame(bp,age)
-# print(df2)
 
 df3 = pd.DataFrame()
 df3['bp']=pd.DataFrame(bp)
@@ -40,28 +36,12 @@ if plot==True:
     plt.xlabel('blood pressure')
     plt.show()
 
-
-
 model = Sequential()
-
-# Define the model consisting of a single neuron.
-model.add(Dense(units=1, input_shape=(1,)))
-
+model.add(Dense(1, input_dim=1, activation='linear'))
 # Display a summary of the model architecture.
 model.summary()
-
-model.compile(optimizer=tf.keras.optimizers.RMSprop(learning_rate=0.005), loss="mse")
-
-history = model.fit(
-    bp,
-    age,
-    batch_size=5,
-    epochs=100,
-    # epochs=10,
-    validation_split=0.3,
-    verbose=0
-)
-
+model.compile(loss='mse', optimizer='rmsprop',metrics='mae')
+history=model.fit(bp,age,verbose=0,epochs=1000)
 def plot_loss(history):
     print("calling plot of history")
     plt.figure(figsize=(20,5))
@@ -79,28 +59,45 @@ plot=False
 if plot==True:
     plot_loss(history)
 
+
+pred = model.predict(bp)
+print(f"Shape: {pred.shape}")
+print(pred[0:7])
+
+# Measure RMSE error.  RMSE is common for regression.
+score = np.sqrt(metrics.mean_squared_error(pred,age))
+print(f"Final score (RMSE): {score}")
+
+# Sample predictions
+for i in range(7):
+    print(f"{i+1}. blood pressure: {bp[i]}, age: {age[i]}, " 
+          + f"predicted age: {pred[i]}")
+
+
+
+
 # Generate feature data that spans the range of interest for the independent variable.
-x = np.linspace(60, 120, 10)
+# x = np.linspace(60, 120, 10)
 
 # Use the model to predict the dependent variable.
-y = model.predict(x)
-def plot_data(x_data, y_data, x, y, title=None):
+# y = model.predict(x)
+# def plot_data(x_data, y_data, x, y, title=None):
 
-    plt.figure(figsize=(15,5))
-    plt.scatter(x_data, y_data, label='Ground Truth', color='green', alpha=0.5)
-    plt.plot(x, y, color='k', label='Model Predictions')
-    plt.xlim([3,9])
-    plt.ylim([0,60])
-    plt.xlabel('Average Number of Rooms')
-    plt.ylabel('Price [$K]')
-    plt.title(title)
-    plt.grid(True)
-    plt.legend()
-    plt.show()
+#     plt.figure(figsize=(15,5))
+#     plt.scatter(x_data, y_data, label='Ground Truth', color='green', alpha=0.5)
+#     plt.plot(x, y, color='k', label='Model Predictions')
+#     plt.xlim([3,9])
+#     plt.ylim([0,60])
+#     plt.xlabel('Average Number of Rooms')
+#     plt.ylabel('Price [$K]')
+#     plt.title(title)
+#     plt.grid(True)
+#     plt.legend()
+#     plt.show()
 
-plot=False
-if plot==True:
-    plot_data(X_test_1d, y_test, x, y, title='Test Dataset')
+# plot=False
+# if plot==True:
+#     plot_data(X_test_1d, y_test, x, y, title='Test Dataset')
 
 
 
@@ -109,28 +106,5 @@ x = [80,90,100]
 y_pred = model.predict(x)
 for idx in range(len(x)):
     print(f"Predicted age of a person with {x[idx]} blood pressure: {y_pred[idx]}")
-
-
-
-
-
-# model = Sequential()
-# model.add(Dense(1, input_dim=1, activation='linear'))
-# model.compile(loss='mse', optimizer='rmsprop',metrics='mae')
-# model.fit(bp,age,verbose=0,epochs=1000)
-
-
-# pred = model.predict(bp)
-# print(f"Shape: {pred.shape}")
-# print(pred[0:7])
-
-# Measure RMSE error.  RMSE is common for regression.
-# score = np.sqrt(metrics.mean_squared_error(pred,age))
-# print(f"Final score (RMSE): {score}")
-
-# Sample predictions
-# for i in range(7):
-#     print(f"{i+1}. blood pressure: {bp[i]}, age: {age[i]}, " 
-#           + f"predicted age: {pred[i]}")
 
 
