@@ -37,6 +37,9 @@ age=np.array([5,	7,	9,	11,	13,	15,	17,	19,	21,	23,])
 bp=np.array([1,	2,	3,	4,	5,	6,	7,	8,	9,	10,])
 age=np.array([12,	14,	16,	18,	20,	22,	24,	26,	28,	30,])
 
+bp=np.array([1,	2,	3,	4,	5,	6,	7,	8,	9,	10])
+age=np.array([-4,	-3,	-2,	-1,	0,	1,	2,	3,	4,	5])
+
 
 
 
@@ -62,13 +65,4 @@ y_pred = model.predict(bp)
 for idx in range(len(bp)):
     print(f"Input: {bp[idx]} prediction: {y_pred[idx]}")
 
-
-
-
-# newx = [70,80,90]
-# newx = [83,87,90]
-# newx = [1,3,8]
-# y_pred = model.predict(newx)
-# for idx in range(len(newx)):
-#     print(f"Input: {newx[idx]} prediction: {y_pred[idx]}")
 
