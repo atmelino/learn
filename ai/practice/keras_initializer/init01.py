@@ -4,7 +4,7 @@ from tensorflow.keras.layers import Dense, Input, Activation
 import tensorflow.keras.initializers
 import numpy as np
 
-choice=5
+choice=6
 match choice:
     case 1:
         x=np.array([1,2,3,4,5,6,7,8,9])
@@ -40,6 +40,15 @@ match choice:
         k_initializer =tensorflow.keras.initializers.Constant(2.2)
         b_initializer =tensorflow.keras.initializers.Constant(-18)
         xval=[40]
+    case 6:
+        x=np.array([82.7,	84.4,	86.1,	87.8,	89.5,	91.2,	92.9,	94.6,	96.3,	98,])
+        y=np.array([309.45,	315.4,	321.35,	327.3,	333.25,	339.2,	345.15,	351.1,	357.05,	363,])
+        k_initializer =tensorflow.keras.initializers.Constant(2.2)
+        b_initializer =tensorflow.keras.initializers.Constant(-18)
+        xval=[40]
+
+
+
 
 
 
@@ -53,7 +62,7 @@ model=Sequential()
 model.add(Dense(1,input_shape=(1,), kernel_initializer=k_initializer,bias_initializer=b_initializer))
 # model.compile(optimizer='sgd', loss="mean_absolute_error")
 model.compile(optimizer='Adam', loss="MeanAbsoluteError")
-model.fit(x,y,epochs=30000,verbose=1)
+model.fit(x,y,epochs=3000,verbose=1)
 
 w0=model.layers[0].get_weights()[0]
 b0=model.layers[0].get_weights()[1]
