@@ -4,7 +4,7 @@ from tensorflow.keras.layers import Dense, Input, Activation
 import tensorflow.keras.initializers
 import numpy as np
 
-choice=6
+choice=7
 match choice:
     case 1:
         x=np.array([1,2,3,4,5,6,7,8,9])
@@ -45,6 +45,18 @@ match choice:
         y=np.array([309.45,	315.4,	321.35,	327.3,	333.25,	339.2,	345.15,	351.1,	357.05,	363,])
         k_initializer =tensorflow.keras.initializers.Constant(2.2)
         b_initializer =tensorflow.keras.initializers.Constant(-18)
+        xval=[40]
+    case 7:
+        x=np.array([82.7,	84.4,	86.1,	87.8,	89.5,	91.2,	92.9,	94.6,	96.3,	98,])
+        y=np.array([309.45,	315.4,	321.35,	327.3,	333.25,	339.2,	345.15,	351.1,	357.05,	363,])
+        k_initializer =tensorflow.keras.initializers.Constant(2.2)
+        b_initializer =tensorflow.keras.initializers.Constant(18)
+        xval=[40]
+    case 8:
+        x=np.array([82.7,	84.4,	86.1,	87.8,	89.5,	91.2,	92.9,	94.6,	96.3,	98,])
+        y=np.array([309.45,	315.4,	321.35,	327.3,	333.25,	339.2,	345.15,	351.1,	357.05,	363,])
+        k_initializer =tensorflow.keras.initializers.Constant(2.2)
+        b_initializer =tensorflow.keras.initializers.Constant(2)
         xval=[40]
 
 
