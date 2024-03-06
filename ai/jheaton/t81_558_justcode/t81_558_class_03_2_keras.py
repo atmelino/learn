@@ -128,7 +128,10 @@ df['horsepower'] = df['horsepower'].fillna(df['horsepower'].median())
 # Pandas to Numpy
 x = df[['cylinders', 'displacement', 'horsepower', 'weight',
        'acceleration', 'year', 'origin']].values
+# x = df[['cylinders']].values
 y = df['mpg'].values # regression
+print(x)
+
 
 # Build the neural network
 model = Sequential()
@@ -136,6 +139,7 @@ model.add(Dense(25, input_dim=x.shape[1], activation='relu')) # Hidden 1
 model.add(Dense(10, activation='relu')) # Hidden 2
 model.add(Dense(1)) # Output
 model.compile(loss='mean_squared_error', optimizer='adam')
+model.summary()
 model.fit(x,y,verbose=0,epochs=100)
 
 pred = model.predict(x)
@@ -145,6 +149,12 @@ print(pred[0:10])
 # Measure RMSE error.  RMSE is common for regression.
 score = np.sqrt(metrics.mean_squared_error(pred,y))
 print(f"Final score (RMSE): {score}")
+
+# Sample predictions
+for i in range(10):
+    print(f"{i+1}. Car name: {cars[i]}, MPG: {y[i]}, " 
+          + f"predicted MPG: {pred[i]}")
+
 
 
 
