@@ -130,55 +130,22 @@ x = df[['cylinders', 'displacement', 'horsepower', 'weight',
        'acceleration', 'year', 'origin']].values
 y = df['mpg'].values # regression
 
+print(x.shape)
+print(y.shape)
+
 # Build the neural network
 model = Sequential()
 model.add(Dense(25, input_dim=x.shape[1], activation='relu')) # Hidden 1
 model.add(Dense(10, activation='relu')) # Hidden 2
 model.add(Dense(1)) # Output
 model.compile(loss='mean_squared_error', optimizer='adam')
-model.fit(x,y,verbose=0,epochs=100)
+# model.fit(x,y,verbose=2,epochs=100)
+# print("model.fit")
+print()
 
 pred = model.predict(x)
 print(f"Shape: {pred.shape}")
 print(pred[0:10])
-
-# Measure RMSE error.  RMSE is common for regression.
-score = np.sqrt(metrics.mean_squared_error(pred,y))
-print(f"Final score (RMSE): {score}")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# print(x.shape)
-# print(y.shape)
-
-# print("model.fit")
-# print()
-
-# pred = model.predict(x)
-# print(f"Shape: {pred.shape}")
-# print(pred[0:10])
 
 # # Measure RMSE error.  RMSE is common for regression.
 # score = np.sqrt(metrics.mean_squared_error(pred,y))
