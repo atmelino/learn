@@ -125,6 +125,16 @@ model.fit(x_train,y_train,validation_data=(x_test,y_test),
 
 
 pred = model.predict(x_test)
+
+print(pred)
+df2 = pd.DataFrame({pred:pred})
+# df2['pred']=  pred.values 
+
+print(df2)
+
+
+
+
 plot_roc(pred,y_test)
 
 
