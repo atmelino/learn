@@ -8,7 +8,7 @@ import pandas as pd
 pd.set_option('display.expand_frame_repr', False)
 np.set_printoptions(linewidth=np.inf)
 
-print_number=2
+print_number=0
 
 
 plot1=False
@@ -41,8 +41,8 @@ df = pd.read_csv(
     "https://data.heatonresearch.com/data/t81-558/wcbreast_wdbc.csv",
     na_values=['NA','?'])
 
-pd.set_option('display.max_columns', 5)
-pd.set_option('display.max_rows', 5)
+# pd.set_option('display.max_columns', 5)
+# pd.set_option('display.max_rows', 5)
 if print_number==2:
     print(df)
 
@@ -121,21 +121,25 @@ monitor = EarlyStopping(monitor='val_loss', min_delta=1e-3,
     patience=5, verbose=1, mode='auto', restore_best_weights=True)
 
 model.fit(x_train,y_train,validation_data=(x_test,y_test),
-          callbacks=[monitor],verbose=2,epochs=1000)
+          callbacks=[monitor],verbose=0,epochs=1000)
 
 
 pred = model.predict(x_test)
+# print(pred)
 
-print(pred)
-df2 = pd.DataFrame({pred:pred})
-# df2['pred']=  pred.values 
-
+df2 = pd.DataFrame(pred)
+# print(df2)
+df2['pred']=pred
+df2['y_test']= y_test
+# pd.set_option('display.max_rows', 100)
 print(df2)
 
 
 
 
-plot_roc(pred,y_test)
+
+
+# plot_roc(pred,y_test)
 
 
 
