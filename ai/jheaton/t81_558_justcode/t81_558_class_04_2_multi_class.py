@@ -164,12 +164,14 @@ df['aspect'] = zscore(df['aspect'])
 df['save_rate'] = zscore(df['save_rate'])
 df['age'] = zscore(df['age'])
 df['subscriptions'] = zscore(df['subscriptions'])
-# print(df)
+pd.set_option('display.max_rows', 3000)
+print(df)
 
 # Convert to numpy - Classification
 x_columns = df.columns.drop('product').drop('id')
 x = df[x_columns].values
 dummies = pd.get_dummies(df['product']) # Classification
+pd.set_option('display.max_rows', 3000)
 print(dummies)
 products = dummies.columns
 y = dummies.values
@@ -206,13 +208,22 @@ model.compile(loss='categorical_crossentropy',
 monitor = EarlyStopping(monitor='val_loss', min_delta=1e-3, patience=5, 
                         verbose=1, mode='auto', restore_best_weights=True)
 model.fit(x_train,y_train,validation_data=(x_test,y_test),
-        callbacks=[monitor],verbose=2,epochs=1000)
+        callbacks=[monitor],verbose=0,epochs=1000)
+
+print("x_test")
+print(x_test[0:10])
+print("y_test")
+print(y_test[0:10])
 
 pred = model.predict(x_test)
 np.set_printoptions(suppress=True)
 np.set_printoptions(precision=3)
-print(pred)
+print(pred[0:10])
 pred = np.argmax(pred,axis=1) 
+print(pred)
+real = np.argmax(y_test,axis=1) 
+print(real)
+
 # raw probabilities to chosen class (highest probability)
 
 
