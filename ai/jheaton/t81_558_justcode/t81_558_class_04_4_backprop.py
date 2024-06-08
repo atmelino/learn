@@ -69,6 +69,7 @@ model.add(Dense(25, input_dim=x.shape[1], activation='relu')) # Hidden 1
 model.add(Dense(10, activation='relu')) # Hidden 2
 model.add(Dense(1)) # Output
 model.compile(loss='mean_squared_error', optimizer='adam') # Modify here
+# model.compile(loss='mean_squared_error', optimizer='sgd') # Modify here
 monitor = EarlyStopping(monitor='val_loss', min_delta=1e-3, patience=5, 
                         verbose=1, mode='auto', restore_best_weights=True)
 model.fit(x_train,y_train,validation_data=(x_test,y_test),
