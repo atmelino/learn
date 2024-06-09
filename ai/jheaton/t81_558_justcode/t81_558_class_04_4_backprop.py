@@ -16,10 +16,11 @@ def chart_regression(pred, y, sort=True):
         t.sort_values(by=['y'], inplace=True)
     plt.plot(t['y'].tolist(), label='expected')
     plt.plot(t['pred'].tolist(), label='prediction')
-    plt.ylabel('output')
+    plt.xlabel('index of value')
+    plt.ylabel('prediction vs actual')
     plt.legend()
     plt.show()
-    plt.savefig('foo.png')
+    # plt.savefig('t81_558_class_04_4_backprop.png')
 
 
 # Read the data set
@@ -78,3 +79,6 @@ model.fit(x_train,y_train,validation_data=(x_test,y_test),
 # Plot the chart
 pred = model.predict(x_test)
 chart_regression(pred.flatten(),y_test)
+
+print(pred)
+
