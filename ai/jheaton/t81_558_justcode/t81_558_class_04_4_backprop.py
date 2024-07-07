@@ -28,6 +28,9 @@ df = pd.read_csv(
     "https://data.heatonresearch.com/data/t81-558/jh-simple-dataset.csv",
     na_values=['NA','?'])
 
+df.to_csv("jh-simple-dataset_01.csv", sep=',')
+
+
 # Generate dummies for job
 df = pd.concat([df,pd.get_dummies(df['job'],prefix="job")],axis=1)
 df.drop('job', axis=1, inplace=True)
@@ -43,6 +46,7 @@ df.drop('product', axis=1, inplace=True)
 # Missing values for income
 med = df['income'].median()
 df['income'] = df['income'].fillna(med)
+df.to_csv("jh-simple-dataset_04.csv", sep=',')
 
 # Standardize ranges
 df['income'] = zscore(df['income'])
