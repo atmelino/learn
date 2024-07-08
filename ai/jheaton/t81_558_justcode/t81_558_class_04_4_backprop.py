@@ -27,32 +27,35 @@ def chart_regression(pred, y, sort=True):
 df = pd.read_csv(
     "https://data.heatonresearch.com/data/t81-558/jh-simple-dataset.csv",
     na_values=['NA','?'])
-
 df.to_csv("jh-simple-dataset_01.csv", sep=',')
 
 
 # Generate dummies for job
 df = pd.concat([df,pd.get_dummies(df['job'],prefix="job")],axis=1)
 df.drop('job', axis=1, inplace=True)
+df.to_csv("jh-simple-dataset_02.csv", sep=',')
 
 # Generate dummies for area
 df = pd.concat([df,pd.get_dummies(df['area'],prefix="area")],axis=1)
 df.drop('area', axis=1, inplace=True)
+df.to_csv("jh-simple-dataset_03.csv", sep=',')
 
 # Generate dummies for product
 df = pd.concat([df,pd.get_dummies(df['product'],prefix="product")],axis=1)
 df.drop('product', axis=1, inplace=True)
+df.to_csv("jh-simple-dataset_04.csv", sep=',')
 
 # Missing values for income
 med = df['income'].median()
 df['income'] = df['income'].fillna(med)
-df.to_csv("jh-simple-dataset_04.csv", sep=',')
+df.to_csv("jh-simple-dataset_05.csv", sep=',')
 
 # Standardize ranges
 df['income'] = zscore(df['income'])
 df['aspect'] = zscore(df['aspect'])
 df['save_rate'] = zscore(df['save_rate'])
 df['subscriptions'] = zscore(df['subscriptions'])
+df.to_csv("jh-simple-dataset_06.csv", sep=',')
 
 # Convert to numpy - Classification
 x_columns = df.columns.drop('age').drop('id')
