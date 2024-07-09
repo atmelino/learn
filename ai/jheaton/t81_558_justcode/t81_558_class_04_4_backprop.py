@@ -87,5 +87,5 @@ model.fit(x_train,y_train,validation_data=(x_test,y_test),
 pred = model.predict(x_test)
 chart_regression(pred.flatten(),y_test)
 
-print(pred)
+#print(pred)
 
