@@ -69,7 +69,7 @@ y = y.astype('float32')
 
 # Create train/test
 x_train, x_test, y_train, y_test = train_test_split(    
-    x, y, test_size=0.25, random_state=42)
+    x, y, test_size=0.01, random_state=42)
 
 # Build the neural network
 model = Sequential()
@@ -87,5 +87,8 @@ model.fit(x_train,y_train,validation_data=(x_test,y_test),
 pred = model.predict(x_test)
 chart_regression(pred.flatten(),y_test)
 
-#print(pred)
+print(pred.shape)
+print(y_test.shape)
 
+print(pred)
+print(y_test)
