@@ -85,10 +85,24 @@ model.fit(x_train,y_train,validation_data=(x_test,y_test),
 
 # Plot the chart
 pred = model.predict(x_test)
-chart_regression(pred.flatten(),y_test)
+# chart_regression(pred.flatten(),y_test)
 
-print(pred.shape)
 print(y_test.shape)
+print(pred.shape)
 
-print(pred)
 print(y_test)
+print(pred)
+
+col1=pd.DataFrame(y_test,columns=['y_test'])
+col2= pd.DataFrame(pred,columns=['pred'])
+print(col1)
+print(col2)
+
+compare= pd.concat([col1, col2], axis=1)
+print(compare)
+
+diff=compare['y_test'] - compare['pred']
+print(compare['y_test'] - compare['pred'])
+
+compare= pd.concat([col1, col2,diff], axis=1)
+print(compare)
