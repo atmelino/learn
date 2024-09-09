@@ -99,7 +99,7 @@ model.fit(
 
 # Plot the chart
 pred = model.predict(x_test)
-# chart_regression(pred.flatten(),y_test)
+chart_regression(pred.flatten(),y_test)
 
 print(y_test.shape)
 print(pred.shape)
