@@ -1,3 +1,6 @@
+# %matplotlib inline    
+
+
 from sklearn.linear_model import LassoCV
 import pandas as pd
 import os
@@ -27,16 +30,38 @@ x_train, x_test, y_train, y_test = train_test_split(
 
 
 # Simple function to evaluate the coefficients of a regression
-%matplotlib inline    
-from IPython.display import display, HTML    
+from IPython.display import display, HTML, Image    
 
 def report_coef(names,coef,intercept):
     r = pd.DataFrame( { 'coef': coef, 'positive': coef>=0  }, index = names )
     r = r.sort_values(by=['coef'])
     display(r)
+    Image(filename='./test.png') 
+
+
     print(f"Intercept: {intercept}")
     r['coef'].plot(kind='barh', color=r['positive'].map(
         {True: 'b', False: 'r'}))
+
+
+import sklearn
+
+# Create linear regression
+regressor = sklearn.linear_model.LinearRegression()
+
+# Fit/train linear regression
+regressor.fit(x_train,y_train)
+# Predict
+pred = regressor.predict(x_test)
+
+# Measure RMSE error.  RMSE is common for regression.
+score = np.sqrt(metrics.mean_squared_error(pred,y_test))
+print(f"Final score (RMSE): {score}")
+
+report_coef(
+  names,
+  regressor.coef_,
+  regressor.intercept_)
 
 
 
