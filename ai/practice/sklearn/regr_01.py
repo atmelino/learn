@@ -8,6 +8,7 @@ from sklearn import datasets, linear_model
 from sklearn.metrics import mean_squared_error, r2_score
 
 # Load the diabetes dataset
+x=5
 diabetes_X, diabetes_y = datasets.load_diabetes(return_X_y=True)
 
 print(diabetes_X)
