@@ -12,6 +12,14 @@ import pandas as pd
 diabetes_X_load, diabetes_y = datasets.load_diabetes(return_X_y=True)
 print(diabetes_X_load.shape)
 
+# Convert diabetes dataset to Panda dataframe
+# pd_diabetes = diabetes_df = pd.DataFrame(data=diabetes_X_load)
+# df = pd.DataFrame(diabetes_X_load, columns=["age       sex       bmi        bp        s1        s2        s3 "])
+mycolumns=["age","sex","bmi","bp","s1","s2","s3","s3","s3","s3"]
+# df = pd.DataFrame(diabetes_X_load)
+df = pd.DataFrame(diabetes_X_load, columns= mycolumns)
+# display(df)
+print(df)
 
 # Use only one feature
 diabetes_X = diabetes_X_load[:, np.newaxis, 2]
@@ -34,12 +42,10 @@ regr.fit(diabetes_X_train, diabetes_y_train)
 diabetes_y_pred = regr.predict(diabetes_X_test)
 
 
-diabetes_df = pd.DataFrame( data=diabetes_X_test)
-
-# Add target variable to the DataFrame
+# print the used dataset
+diabetes_df = pd.DataFrame(data=diabetes_X_test)
 diabetes_df["diabetes_y_test"] = diabetes_y_test
-
-print(diabetes_df.head())
+# print(diabetes_df.head())
 print(diabetes_df)
 
 
