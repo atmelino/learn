@@ -12,15 +12,6 @@ import pandas as pd
 diabetes_X_load, diabetes_y = datasets.load_diabetes(return_X_y=True)
 print(diabetes_X_load.shape)
 
-# Convert diabetes dataset to Panda dataframe
-# Convert the dataset to a DataFrame
-# diabetes_df = pd.DataFrame(
-#     data=diabetes_X_load.data, columns=diabetes_X_load.feature_names
-# )
-
-# Add target variable to the DataFrame
-diabetes_df["target"] = diabetes_sklearn.targetprint(df)
-
 # Use only one feature
 diabetes_X = diabetes_X_load[:, np.newaxis, 2]
 
@@ -43,11 +34,13 @@ diabetes_y_pred = regr.predict(diabetes_X_test)
 
 
 # print the used dataset
-diabetes_df = pd.DataFrame(data=diabetes_X_test)
-diabetes_df["diabetes_y_test"] = diabetes_y_test
-# print(diabetes_df.head())
-print(diabetes_df)
-
+diabetes_test_df = pd.DataFrame(data=diabetes_X_test,columns=["bmi"])
+diabetes_test_df["diabetes_y_test"] = diabetes_y_test
+diabetes_test_df["diabetes_y_pred"] = diabetes_y_pred
+diabetes_test_df=diabetes_test_df.sort_values(by='bmi', ascending=True)
+# diabetes_test_df=diabetes_test_df.sort_values(by='diabetes_y_test', ascending=True)
+print(diabetes_test_df)
+# print(a)
 
 # The coefficients
 print("Coefficients: \n", regr.coef_)
