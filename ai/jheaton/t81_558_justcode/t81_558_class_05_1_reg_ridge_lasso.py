@@ -14,8 +14,25 @@ from scipy.stats import zscore
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 
+def report_coef(names, coef, intercept):
+    r = pd.DataFrame({"coef": coef, "positive": coef >= 0}, index=names)
+    r = r.sort_values(by=["coef"])
+    print(r)
+    # display(r)
+    # Image(filename='./test.png')
+
+    print(f"Intercept: {intercept}")
+    r["coef"].plot(kind="barh", color=r["positive"].map({True: "b", False: "r"}))
+    # plt.bar(names,r["coef"].tolist())
+    plt.show()
+
+
+# df = pd.read_csv(
+#     "https://data.heatonresearch.com/data/t81-558/auto-mpg.csv", na_values=["NA", "?"]
+# )
+
 df = pd.read_csv(
-    "https://data.heatonresearch.com/data/t81-558/auto-mpg.csv", na_values=["NA", "?"]
+    "./input/auto-mpg.csv", na_values=["NA", "?"]
 )
 
 # Handle missing value
@@ -44,17 +61,6 @@ x_train, x_test, y_train, y_test = train_test_split(
 from IPython.display import display, HTML, Image
 
 
-def report_coef(names, coef, intercept):
-    r = pd.DataFrame({"coef": coef, "positive": coef >= 0}, index=names)
-    r = r.sort_values(by=["coef"])
-    print(r)
-    # display(r)
-    # Image(filename='./test.png')
-
-    print(f"Intercept: {intercept}")
-    r["coef"].plot(kind="barh", color=r["positive"].map({True: "b", False: "r"}))
-    # plt.bar(names,r["coef"].tolist())
-    plt.show()
 
 
 # Linear regression without L1/L2
