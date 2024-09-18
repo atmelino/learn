@@ -1,6 +1,5 @@
 # %matplotlib inline
 
-
 import sklearn
 from sklearn.linear_model import LassoCV
 from sklearn.linear_model import Lasso
@@ -42,15 +41,15 @@ df = pd.read_csv(
 
 pd.set_option('display.max_rows', None)
 
-print("auto-mpg.csv original")
-print(df)
+# print("auto-mpg.csv original")
+# print(df)
 # pp.pprint(df.values)
 
 # Handle missing value
 df["horsepower"] = df["horsepower"].fillna(df["horsepower"].median())
 
-print("auto-mpg.csv missing values filled in")
-print(df)
+# print("auto-mpg.csv missing values filled in")
+# print(df)
 # pp.pprint(df.values)
 
 
@@ -66,6 +65,10 @@ names = [
 ]
 x = df[names].values
 y = df["mpg"].values  # regression
+print("shape of x",x.shape)
+print("x values for training\n",x)
+print("y values for training\n",y)
+
 
 # Split into train/test
 x_train, x_test, y_train, y_test = train_test_split(
