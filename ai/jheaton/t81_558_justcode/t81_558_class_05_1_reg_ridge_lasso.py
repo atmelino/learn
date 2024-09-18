@@ -13,6 +13,11 @@ from sklearn import metrics
 from scipy.stats import zscore
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
+import pprint
+
+pp = pprint.PrettyPrinter(indent=4,depth=None)
+np.set_printoptions(linewidth=np.inf)
+np.set_printoptions(threshold=np.inf)
 
 def report_coef(names, coef, intercept):
     r = pd.DataFrame({"coef": coef, "positive": coef >= 0}, index=names)
@@ -35,8 +40,15 @@ df = pd.read_csv(
     "./input/auto-mpg.csv", na_values=["NA", "?"]
 )
 
+print("auto-mpg.csv original")
+pp.pprint(df.values)
+
 # Handle missing value
 df["horsepower"] = df["horsepower"].fillna(df["horsepower"].median())
+
+print("auto-mpg.csv missing values filled in")
+pp.pprint(df.values)
+
 
 # Pandas to Numpy
 names = [
@@ -59,8 +71,6 @@ x_train, x_test, y_train, y_test = train_test_split(
 
 # Simple function to evaluate the coefficients of a regression
 from IPython.display import display, HTML, Image
-
-
 
 
 # Linear regression without L1/L2
