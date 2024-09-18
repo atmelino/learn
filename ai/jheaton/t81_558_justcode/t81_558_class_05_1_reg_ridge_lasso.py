@@ -40,14 +40,18 @@ df = pd.read_csv(
     "./input/auto-mpg.csv", na_values=["NA", "?"]
 )
 
+pd.set_option('display.max_rows', None)
+
 print("auto-mpg.csv original")
-pp.pprint(df.values)
+print(df)
+# pp.pprint(df.values)
 
 # Handle missing value
 df["horsepower"] = df["horsepower"].fillna(df["horsepower"].median())
 
 print("auto-mpg.csv missing values filled in")
-pp.pprint(df.values)
+print(df)
+# pp.pprint(df.values)
 
 
 # Pandas to Numpy
