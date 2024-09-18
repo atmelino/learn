@@ -56,7 +56,7 @@ df["income"] = zscore(df["income"])
 df["aspect"] = zscore(df["aspect"])
 df["save_rate"] = zscore(df["save_rate"])
 df["subscriptions"] = zscore(df["subscriptions"])
-df.to_csv("jh-simple-dataset_06.csv", sep=",")
+df.to_csv("./output/jh-simple-dataset_06.csv", sep=",")
 
 # Convert to numpy - Classification
 x_columns = df.columns.drop("age").drop("id")
