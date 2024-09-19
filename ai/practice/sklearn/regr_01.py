@@ -37,8 +37,16 @@ diabetes_y_pred = regr.predict(diabetes_X_test)
 diabetes_test_df = pd.DataFrame(data=diabetes_X_test,columns=["bmi"])
 diabetes_test_df["diabetes_y_test"] = diabetes_y_test
 diabetes_test_df["diabetes_y_pred"] = diabetes_y_pred
+calculated=diabetes_X_test*regr.coef_+regr.intercept_
+# print(calculated)
+diabetes_test_df["calculated"] = calculated
+
+
 diabetes_test_df=diabetes_test_df.sort_values(by='bmi', ascending=True)
 # diabetes_test_df=diabetes_test_df.sort_values(by='diabetes_y_test', ascending=True)
+
+
+
 print(diabetes_test_df)
 # print(a)
 
@@ -57,3 +65,6 @@ plt.plot(diabetes_X_test, diabetes_y_pred, color="blue", linewidth=3)
 # plt.yticks(())
 
 plt.show()
+
+calculated=diabetes_X_test*regr.coef_
+print(calculated)
