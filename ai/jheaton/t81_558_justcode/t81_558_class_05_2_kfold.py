@@ -8,8 +8,8 @@ pd.set_option('display.max_rows', None)
 df = pd.read_csv(
     "https://data.heatonresearch.com/data/t81-558/jh-simple-dataset.csv",
     na_values=['NA','?'])
-print("original data set\n",df)
-
+# print("original data set\n",df)
+print(df.head())
 
 # Generate dummies for job
 df = pd.concat([df,pd.get_dummies(df['job'],prefix="job")],axis=1)
