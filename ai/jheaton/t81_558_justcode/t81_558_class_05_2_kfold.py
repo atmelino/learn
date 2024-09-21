@@ -11,15 +11,21 @@ from tensorflow.keras.layers import Dense, Activation
 
 pd.set_option("display.max_rows", None)
 
+original = False
+original = True
+
+
 # Read the data set
-# df = pd.read_csv(
-#     "./input/jh-simple-dataset_short100.csv",
-#     na_values=["NA", "?"],
-# )
-df = pd.read_csv(
-    "./input/jh-simple-dataset.csv",
-    na_values=["NA", "?"],
-)
+if original == True:
+    df = pd.read_csv(
+        "./input/jh-simple-dataset.csv",
+        na_values=["NA", "?"],
+    )
+else:
+    df = pd.read_csv(
+        "./input/jh-simple-dataset_short100.csv",
+        na_values=["NA", "?"],
+    )
 # print(df.head())
 # print("original data set\n", df)
 
@@ -45,7 +51,7 @@ df["aspect"] = zscore(df["aspect"])
 df["save_rate"] = zscore(df["save_rate"])
 df["subscriptions"] = zscore(df["subscriptions"])
 
-print("Table after feature vector encoding\n",df.head())
+print("Table after feature vector encoding\n", df.head())
 
 # Convert to numpy - Classification
 x_columns = df.columns.drop("age").drop("id")
@@ -57,8 +63,10 @@ EPOCHS = 500
 
 
 # Cross-Validate
-kf = KFold(5, shuffle=True, random_state=42)  # Use for KFold classification
-# kf = KFold(2)  # Use for KFold classification
+if original == True:
+    kf = KFold(5, shuffle=True, random_state=42)  # Use for KFold classification
+else:
+    kf = KFold(2)  # Use for KFold classification
 print(kf)
 oos_y = []
 oos_pred = []
@@ -106,9 +114,11 @@ print(f"Final, out of sample score (RMSE): {score}")
 
 # Write the cross-validated prediction
 print("Write the cross-validated prediction to file")
-oos_y = pd.DataFrame(oos_y)
-oos_pred = pd.DataFrame(oos_pred)
+oos_y = pd.DataFrame(oos_y, columns=["age"])
+oos_pred = pd.DataFrame(oos_pred, columns=["age_pred"])
 oosDF = pd.concat([df, oos_y, oos_pred], axis=1)
-filename_write="./output/kfold_5_2.csv"
-oosDF.to_csv(filename_write,index=False)
-# , sep=","
+filename_write = "./output/kfold_5_2.csv"
+oosDF.to_csv(filename_write, index=False)
+
+print("test vs predicted\n",oosDF)
+
