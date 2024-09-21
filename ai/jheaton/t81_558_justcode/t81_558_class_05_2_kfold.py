@@ -13,15 +13,15 @@ pd.set_option("display.max_rows", None)
 
 # Read the data set
 # df = pd.read_csv(
-#     "https://data.heatonresearch.com/data/t81-558/jh-simple-dataset.csv",
+#     "./input/jh-simple-dataset_short100.csv",
 #     na_values=["NA", "?"],
 # )
-# print(df.head())
 df = pd.read_csv(
-    "./input/jh-simple-dataset_short100.csv",
+    "./input/jh-simple-dataset.csv",
     na_values=["NA", "?"],
 )
-print("original data set\n", df)
+# print(df.head())
+# print("original data set\n", df)
 
 # Generate dummies for job
 df = pd.concat([df, pd.get_dummies(df["job"], prefix="job")], axis=1)
@@ -45,7 +45,7 @@ df["aspect"] = zscore(df["aspect"])
 df["save_rate"] = zscore(df["save_rate"])
 df["subscriptions"] = zscore(df["subscriptions"])
 
-print(df.head())
+print("Table after feature vector encoding\n",df.head())
 
 # Convert to numpy - Classification
 x_columns = df.columns.drop("age").drop("id")
@@ -57,8 +57,8 @@ EPOCHS = 500
 
 
 # Cross-Validate
-# kf = KFold(5, shuffle=True, random_state=42)  # Use for KFold classification
-kf = KFold(5)  # Use for KFold classification
+kf = KFold(5, shuffle=True, random_state=42)  # Use for KFold classification
+# kf = KFold(2)  # Use for KFold classification
 print(kf)
 oos_y = []
 oos_pred = []
