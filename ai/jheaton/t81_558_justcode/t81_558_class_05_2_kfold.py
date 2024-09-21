@@ -105,7 +105,10 @@ score = np.sqrt(metrics.mean_squared_error(oos_pred, oos_y))
 print(f"Final, out of sample score (RMSE): {score}")
 
 # Write the cross-validated prediction
+print("Write the cross-validated prediction to file")
 oos_y = pd.DataFrame(oos_y)
 oos_pred = pd.DataFrame(oos_pred)
 oosDF = pd.concat([df, oos_y, oos_pred], axis=1)
-# oosDF.to_csv(filename_write,index=False)
+filename_write="./output/kfold_5_2.csv"
+oosDF.to_csv(filename_write,index=False)
+# , sep=","
