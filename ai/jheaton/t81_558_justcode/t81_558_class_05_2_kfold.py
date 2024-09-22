@@ -28,7 +28,7 @@ else:
     )
 # print(df.head())
 # print("original data set\n", df)
-print("dataset size:\n", df.shape)
+print("dataset original size:\n", df.shape)
 
 # Generate dummies for job
 df = pd.concat([df, pd.get_dummies(df["job"], prefix="job")], axis=1)
@@ -53,6 +53,7 @@ df["save_rate"] = zscore(df["save_rate"])
 df["subscriptions"] = zscore(df["subscriptions"])
 
 # print("Table after feature vector encoding\n", df.head())
+print("dataset size after feature vector encoding:\n", df.shape)
 
 # Convert to numpy - Classification
 x_columns = df.columns.drop("age").drop("id")
