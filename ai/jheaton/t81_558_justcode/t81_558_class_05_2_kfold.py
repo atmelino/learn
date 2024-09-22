@@ -13,7 +13,7 @@ pd.set_option("display.max_rows", None)
 
 original = False
 original = True
-
+print_debug = False
 
 # Read the data set
 if original == True:
@@ -28,6 +28,7 @@ else:
     )
 # print(df.head())
 # print("original data set\n", df)
+print("dataset size:\n", df.shape)
 
 # Generate dummies for job
 df = pd.concat([df, pd.get_dummies(df["job"], prefix="job")], axis=1)
@@ -51,7 +52,7 @@ df["aspect"] = zscore(df["aspect"])
 df["save_rate"] = zscore(df["save_rate"])
 df["subscriptions"] = zscore(df["subscriptions"])
 
-print("Table after feature vector encoding\n", df.head())
+# print("Table after feature vector encoding\n", df.head())
 
 # Convert to numpy - Classification
 x_columns = df.columns.drop("age").drop("id")
@@ -74,9 +75,10 @@ oos_pred = []
 fold = 0
 for train, test in kf.split(x):
     fold += 1
-    print(f"Fold #{fold}")
-    print(f"  Train: index={train}")
-    print(f"  Test:  index={test}")
+    if print_debug == True:
+        print(f"Fold #{fold}")
+        print(f"  Train: index={train}")
+        print(f"  Test:  index={test}")
     # x_train = x[train]
     # y_train = y[train]
     # x_test = x[test]
@@ -120,5 +122,4 @@ oosDF = pd.concat([df, oos_y, oos_pred], axis=1)
 filename_write = "./output/kfold_5_2.csv"
 oosDF.to_csv(filename_write, index=False)
 
-print("test vs predicted\n",oosDF)
-
+print("test vs predicted\n", oosDF)
