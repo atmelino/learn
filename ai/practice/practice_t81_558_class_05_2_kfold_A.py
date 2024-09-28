@@ -72,9 +72,11 @@ x_columns = df.columns.drop("age").drop("id")
 x = df[x_columns].values
 y = df["age"].values
 
+
+
+
 EPOCHS = 500
 # EPOCHS = 100
-
 
 # Cross-Validate
 if original == True:
