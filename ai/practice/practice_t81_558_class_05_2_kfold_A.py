@@ -35,7 +35,7 @@ stop = 50
 step = 10
 
 for length in range(start, stop, step):
-    df=df_original.iloc[1:length]
+    df=df_original.iloc[0:length]
 
     print("original data set\n", df)
     print(length)
