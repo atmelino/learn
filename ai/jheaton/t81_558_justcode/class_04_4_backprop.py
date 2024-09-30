@@ -20,7 +20,7 @@ def chart_regression(pred, y, sort=True):
     plt.ylabel("prediction vs actual")
     plt.legend()
     plt.show()
-    # plt.savefig('t81_558_class_04_4_backprop.png')
+    plt.savefig('./output/t81_558_class_04_4_backprop.png')
 
 
 # Read the data set
