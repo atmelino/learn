@@ -18,9 +18,9 @@ df_original = pd.read_csv(
 )
 
 
-start = 20
-stop = 100
-step = 20
+start = 100
+stop = 2000
+step = 100
 
 for length in range(start, stop, step):
     print("Using" ,length, "columns")
