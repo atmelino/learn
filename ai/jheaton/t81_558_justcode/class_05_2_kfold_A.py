@@ -14,8 +14,8 @@ pd.set_option("display.max_rows", None)
 # Options for this run
 shuffle = False
 print_fold = True
-length=1000
-folds=4
+length=2000
+folds=5
 
 # Read the data set
 df_original = pd.read_csv(
