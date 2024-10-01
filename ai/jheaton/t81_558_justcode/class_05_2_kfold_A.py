@@ -11,24 +11,22 @@ from tensorflow.keras.layers import Dense, Activation
 
 pd.set_option("display.max_rows", None)
 
-original = False
-original = True
-print_debug = False
+# Options for this run
+shuffle = False
+print_fold = True
+length=1000
+folds=4
 
 # Read the data set
-if original == True:
-    df = pd.read_csv(
-        "./input/jh-simple-dataset.csv",
-        na_values=["NA", "?"],
-    )
-else:
-    df = pd.read_csv(
-        "./input/jh-simple-dataset_short100.csv",
-        na_values=["NA", "?"],
-    )
-# print(df.head())
-# print("original data set\n", df)
-print("dataset original size:\n", df.shape)
+df_original = pd.read_csv(
+    "./input/jh-simple-dataset.csv",
+    na_values=["NA", "?"],
+)
+# print(df_original.head())
+# print("original data set\n", df_original)
+print("dataset original size:\n", df_original.shape)
+
+df = df_original.iloc[0:length]
 
 # Generate dummies for job
 df = pd.concat([df, pd.get_dummies(df["job"], prefix="job")], axis=1)
@@ -63,12 +61,11 @@ y = df["age"].values
 EPOCHS = 500
 # EPOCHS = 100
 
-
 # Cross-Validate
-if original == True:
-    kf = KFold(5, shuffle=True, random_state=42)  # Use for KFold classification
+if shuffle == True:
+    kf = KFold(folds, shuffle=True, random_state=42)  # Use for KFold classification
 else:
-    kf = KFold(2)  # Use for KFold classification
+    kf = KFold(folds)  # Use for KFold classification
 print(kf)
 oos_y = []
 oos_pred = []
@@ -76,7 +73,7 @@ oos_pred = []
 fold = 0
 for train, test in kf.split(x):
     fold += 1
-    if print_debug == True:
+    if print_fold == True:
         print(f"Fold #{fold}")
         print(f"  Train: index={train}")
         print(f"  Test:  index={test}")

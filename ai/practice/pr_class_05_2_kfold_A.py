@@ -14,7 +14,11 @@ from tensorflow.keras.layers import Dense, Activation
 
 pd.set_option("display.max_rows", None)
 
-print_debug = False
+# Options for this run
+shuffle = False
+print_fold = True
+print_table = True
+folds = 2
 
 
 # Read the data set
@@ -66,7 +70,7 @@ for length in range(start, stop, step):
     df["save_rate"] = zscore(df["save_rate"])
     df["subscriptions"] = zscore(df["subscriptions"])
 
-    if print_debug == True:
+    if print_table == True:
         print("Table after feature vector encoding\n", df)
     # print("Table after feature vector encoding\n", df.head())
     # print("dataset size after feature vector encoding:\n", df.shape)
@@ -78,14 +82,13 @@ for length in range(start, stop, step):
 
     EPOCHS = 500
     # EPOCHS = 100
-    number_of_folds = 2
 
     # Cross-Validate
-    # kf = KFold(
-    #     number_of_folds, shuffle=True, random_state=42
-    # )
 
-    kf = KFold(number_of_folds)  # Use for KFold classification
+    if shuffle == True:
+        kf = KFold(folds, shuffle=True, random_state=42)  # Use for KFold classification
+    else:
+        kf = KFold(folds)  # Use for KFold classification
     print(kf)
     oos_y = []
     oos_pred = []
@@ -93,12 +96,10 @@ for length in range(start, stop, step):
     fold = 0
     for train, test in kf.split(x):
         fold += 1
-        print_debug = True
-        if print_debug == True:
+        if print_fold == True:
             print(f"Fold #{fold}")
             print(f"  Train: index={train}")
             print(f"  Test:  index={test}")
-        print_debug = False
 
         x_train = np.asarray(x[train]).astype(np.float32)
         y_train = np.asarray(y[train]).astype(np.float32)
