@@ -17,8 +17,7 @@ pd.set_option("display.max_rows", None)
 # Options for this run
 shuffle = False
 print_fold = True
-print_table = True
-folds = 2
+print_table = False
 
 
 # Read the data set
@@ -30,19 +29,36 @@ df_original = pd.read_csv(
 print("dataset original size:\n", df_original.shape)
 
 
-start = 100
-stop = 2000
-step = 100
+# start = 100
+# stop = 2000
+# step = 100
 
-start = 10
-stop = 50
-step = 10
+# start = 10
+# stop = 50
+# step = 10
 
-start = 20
-stop = 100
-step = 20
+# start = 20
+# stop = 100
+# step = 20
 
-for length in range(start, stop, step):
+foldSizeIncrease=20
+stop=100
+
+foldSizeIncrease=50
+stop=200
+
+foldSizeIncrease=200
+stop=2000
+
+foldSizeIncrease=50
+stop=100
+
+
+for length in range(foldSizeIncrease, stop+1, foldSizeIncrease):
+
+    print(length)
+
+
     df = df_original.iloc[0:length]
 
     # print("original data set\n", df)
@@ -85,6 +101,11 @@ for length in range(start, stop, step):
 
     # Cross-Validate
 
+    if (length<100): folds=2
+    if (length>=100 and length < 500 ): folds=3
+    if (length>=500 and length < 1000 ): folds=4
+    if (length>=1000 and length <= 2000 ): folds=5
+
     if shuffle == True:
         kf = KFold(folds, shuffle=True, random_state=42)  # Use for KFold classification
     else:
@@ -111,6 +132,8 @@ for length in range(start, stop, step):
         model.add(Dense(10, activation="relu"))
         model.add(Dense(1))
         model.compile(loss="mean_squared_error", optimizer="adam")
+
+        # if False:
 
         model.fit(
             x_train, y_train, validation_data=(x_test, y_test), verbose=0, epochs=EPOCHS
