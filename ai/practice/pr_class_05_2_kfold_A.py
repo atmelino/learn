@@ -29,34 +29,27 @@ df_original = pd.read_csv(
 print("dataset original size:\n", df_original.shape)
 
 
-# start = 100
-# stop = 2000
-# step = 100
-
-# start = 10
-# stop = 50
-# step = 10
-
-# start = 20
-# stop = 100
-# step = 20
-
 foldSizeIncrease=20
 stop=100
 
 foldSizeIncrease=50
 stop=200
 
-foldSizeIncrease=200
-stop=2000
-
 foldSizeIncrease=50
 stop=100
+
+foldSizeIncrease=200
+stop=2000
 
 
 for length in range(foldSizeIncrease, stop+1, foldSizeIncrease):
 
-    print(length)
+    if (length<100): folds=2
+    if (length>=100 and length < 500 ): folds=3
+    if (length>=500 and length < 1000 ): folds=4
+    if (length>=1000 and length <= 2000 ): folds=5
+
+    print("New Run, number of rows=",length,",number of folds=",folds)
 
 
     df = df_original.iloc[0:length]
@@ -101,10 +94,6 @@ for length in range(foldSizeIncrease, stop+1, foldSizeIncrease):
 
     # Cross-Validate
 
-    if (length<100): folds=2
-    if (length>=100 and length < 500 ): folds=3
-    if (length>=500 and length < 1000 ): folds=4
-    if (length>=1000 and length <= 2000 ): folds=5
 
     if shuffle == True:
         kf = KFold(folds, shuffle=True, random_state=42)  # Use for KFold classification
@@ -149,14 +138,13 @@ for length in range(foldSizeIncrease, stop+1, foldSizeIncrease):
         print(f"Fold score (RMSE): {score}")
 
 
+    # Build the oos prediction list and calculate the error.
+    oos_y = np.concatenate(oos_y)
+    oos_pred = np.concatenate(oos_pred)
+    score = np.sqrt(metrics.mean_squared_error(oos_pred, oos_y))
+    print(f"Final, out of sample score (RMSE): {score}")
+
 exit()
-
-
-# Build the oos prediction list and calculate the error.
-oos_y = np.concatenate(oos_y)
-oos_pred = np.concatenate(oos_pred)
-score = np.sqrt(metrics.mean_squared_error(oos_pred, oos_y))
-print(f"Final, out of sample score (RMSE): {score}")
 
 # Write the cross-validated prediction
 print("Write the cross-validated prediction to file")
