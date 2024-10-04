@@ -38,6 +38,10 @@ df['aspect'] = zscore(df['aspect'])
 df['save_rate'] = zscore(df['save_rate'])
 df['age'] = zscore(df['age'])
 df['subscriptions'] = zscore(df['subscriptions'])
+df.to_csv("./output/class_05_2_B_jh-simple-dataset_06.csv", sep=",")
+
+# print("Table after feature vector encoding\n", df.head())
+print("dataset size after feature vector encoding:\n", df.shape)
 
 # Convert to numpy - Classification
 x_columns = df.columns.drop('product').drop('id')
@@ -45,8 +49,7 @@ x = df[x_columns].values
 dummies = pd.get_dummies(df['product']) # Classification
 products = dummies.columns
 y = dummies.values
-
-# print("Table after feature vector encoding\n", df.head())
-print("dataset size after feature vector encoding:\n", df.shape)
+# print("shape of y=",y.shape)
+# print("y=",y)
 
 
