@@ -59,7 +59,6 @@ x = df[x_columns].values
 y = df["age"].values
 
 EPOCHS = 500
-# EPOCHS = 100
 
 # Cross-Validate
 if shuffle == True:
