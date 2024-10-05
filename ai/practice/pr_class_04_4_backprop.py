@@ -9,7 +9,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn import metrics
+import os
 
+directory_path = './output'
+if not os.path.exists(directory_path):
+    os.makedirs(directory_path)
 
 # Read the data set
 df_original = pd.read_csv(
