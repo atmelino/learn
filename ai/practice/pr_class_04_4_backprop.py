@@ -11,7 +11,7 @@ import numpy as np
 from sklearn import metrics
 import os
 
-directory_path = './output'
+directory_path = "./output"
 if not os.path.exists(directory_path):
     os.makedirs(directory_path)
 
@@ -27,7 +27,7 @@ stop = 2000
 step = 100
 
 for length in range(start, stop, step):
-    print("Using" ,length, "columns")
+    print("Using", length, "rows")
 
     df = df_original.iloc[0:length]
 
@@ -63,10 +63,8 @@ for length in range(start, stop, step):
     x = df[x_columns].values
     y = df["age"].values
 
-
     x = x.astype("float32")
     y = y.astype("float32")
-
 
     # Create train/test
     x_train, x_test, y_train, y_test = train_test_split(
@@ -81,19 +79,19 @@ for length in range(start, stop, step):
     model.add(Dense(10, activation="relu"))  # Hidden 2
     model.add(Dense(1))  # Output
     model.compile(loss="mean_squared_error", optimizer="adam")  # Modify here
-    model.fit(x_train, y_train, validation_data=(x_test, y_test), verbose=0, epochs=EPOCHS)
-
+    model.fit(
+        x_train, y_train, validation_data=(x_test, y_test), verbose=0, epochs=EPOCHS
+    )
 
     pred = model.predict(x_test)
     # print(y_test.shape)
     # print(pred.shape)
     # Measure this set's RMSE
     score = np.sqrt(metrics.mean_squared_error(pred, y_test))
-    print(f"Set score (RMSE): {score}")
-
+    # print(f"Set score (RMSE): {score}")
+    print("Rows used=", length, ",   Set score (RMSE)=", score)
 
 exit()
-
 
 
 col1 = pd.DataFrame(y_test, columns=["y_test"])
