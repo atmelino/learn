@@ -85,8 +85,8 @@ for length in range(start, stop, step):
 
 
     pred = model.predict(x_test)
-    print(y_test.shape)
-    print(pred.shape)
+    # print(y_test.shape)
+    # print(pred.shape)
     # Measure this set's RMSE
     score = np.sqrt(metrics.mean_squared_error(pred, y_test))
     print(f"Set score (RMSE): {score}")
