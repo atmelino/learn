@@ -6,7 +6,11 @@ from sklearn import metrics
 from sklearn.model_selection import StratifiedKFold
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Activation
+from sklearn.model_selection import KFold
+from tensorflow.keras.models import Sequential
 pd.set_option("display.max_rows", None)
+
+print("class_05_2_kfold_B")
 
 # Options for this run
 shuffle = False
@@ -57,4 +61,55 @@ y = dummies.values
 # print("shape of y=",y.shape)
 # print("y=",y)
 
+EPOCHS=500
 
+
+# print(df['product'])
+
+
+# np.argmax(pred,axis=1)
+# Cross-validate
+# Use for StratifiedKFold classification
+kf = StratifiedKFold(5, shuffle=True, random_state=42)
+oos_y = []
+oos_pred = []
+fold = 0
+
+# Must specify y StratifiedKFold for
+for train, test in kf.split(x,df['product']):
+    fold+=1
+    print(f"Fold #{fold}")
+    if print_fold == True:
+        print(f"  Train: index={train}")
+        print(f"  Test:  index={test}")
+
+    # x_train = x[train]
+    # y_train = y[train]
+    # x_test = x[test]
+    # y_test = y[test]
+
+    x_train = np.asarray(x[train]).astype(np.float32)
+    y_train = np.asarray(y[train]).astype(np.float32)
+    x_test = np.asarray(x[test]).astype(np.float32)
+    y_test = np.asarray(y[test]).astype(np.float32)
+
+
+    model = Sequential()
+    # Hidden 1
+    model.add(Dense(50, input_dim=x.shape[1], activation='relu'))
+    model.add(Dense(25, activation='relu')) # Hidden 2
+    model.add(Dense(y.shape[1],activation='softmax')) # Output
+    model.compile(loss='categorical_crossentropy', optimizer='adam')
+    model.fit(x_train,y_train,validation_data=(x_test,y_test),
+    verbose=0, epochs=EPOCHS)
+    pred = model.predict(x_test)
+    oos_y.append(y_test)
+    # raw probabilities to chosen class (highest probability)
+    pred = np.argmax(pred,axis=1)
+    oos_pred.append(pred)
+    # Measure this fold's accuracy
+    y_compare = np.argmax(y_test,axis=1) # For accuracy calculation
+    score = metrics.accuracy_score(y_compare, pred)
+    print(f"Fold score (accuracy): {score}")
+
+exit()
