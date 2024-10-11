@@ -94,7 +94,7 @@ for train, test in kf.split(x,df['product']):
     y_train = np.asarray(y[train]).astype(np.float32)
     x_test = np.asarray(x[test]).astype(np.float32)
     y_test = np.asarray(y[test]).astype(np.float32)
-    print(y_test)
+    print("y_test=",y_test)
 
     model = Sequential()
     # Hidden 1
