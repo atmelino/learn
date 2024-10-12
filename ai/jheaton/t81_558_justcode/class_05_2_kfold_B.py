@@ -23,8 +23,12 @@ length = 400
 folds = 3
 
 # Read the data set
+# df_original = pd.read_csv(
+#     "./input/jh-simple-dataset.csv",
+#     na_values=["NA", "?"],
+# )
 df_original = pd.read_csv(
-    "./input/jh-simple-dataset.csv",
+    "./input/jh-simple-dataset_sorted.csv",
     na_values=["NA", "?"],
 )
 # print(df_original.head())
