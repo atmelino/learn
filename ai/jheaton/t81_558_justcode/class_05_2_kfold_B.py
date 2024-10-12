@@ -19,7 +19,7 @@ print_fold = True
 run_model = False
 length = 2000
 folds = 5
-length = 100
+length = 400
 folds = 3
 
 # Read the data set
@@ -68,8 +68,13 @@ print("shape of y=", y.shape)
 col1 = pd.DataFrame(df, columns=["id"])
 col2 = pd.DataFrame(df, columns=["product"])
 col3 = pd.DataFrame(y)
-compare = pd.concat([col1, col2, col3], axis=1)
-print(compare)
+product_encoded = pd.concat([col1, col2, col3], axis=1)
+print(product_encoded)
+
+product_counts = product_encoded['product'].value_counts().reset_index()
+product_counts.columns = ['product', 'counts']
+product_counts['perc'] = product_counts['counts']/len(product_encoded)*100
+print(product_counts)
 
 
 EPOCHS = 500
@@ -114,15 +119,21 @@ for train, test in kf.split(x, df["product"]):
     fold_test = pd.concat([col_id, col_p, col_y_test], axis=1)
     print(fold_test)
 
-    count_a = fold_test["product"].value_counts()["a"]
-    count_b = fold_test["product"].value_counts()["b"]
-    count_c = fold_test["product"].value_counts()["c"]
-    count_d = fold_test["product"].value_counts()["d"]
-    count_e = fold_test["product"].value_counts()["e"]
-    count_f = fold_test["product"].value_counts()["f"]
-    print(
-        "counts of a b c d e f:", count_a, count_b, count_c, count_d, count_e, count_f
-    )
+    # count_a = fold_test["product"].value_counts()["a"]
+    # count_b = fold_test["product"].value_counts()["b"]
+    # count_c = fold_test["product"].value_counts()["c"]
+    # count_d = fold_test["product"].value_counts()["d"]
+    # count_e = fold_test["product"].value_counts()["e"]
+    # count_f = fold_test["product"].value_counts()["f"]
+    # print(
+    #     "counts of a b c d e f:", count_a, count_b, count_c, count_d, count_e, count_f
+    # )
+
+    # product_counts = fold_test['product'].value_counts()
+    product_counts = fold_test['product'].value_counts().reset_index()
+    product_counts.columns = ['product', 'counts']
+    product_counts['perc'] = product_counts['counts']/len(fold_test)*100
+    print(product_counts)
 
     if run_model == True:
         model = Sequential()
