@@ -62,17 +62,13 @@ x = df[x_columns].values
 dummies = pd.get_dummies(df["product"])  # Classification
 products = dummies.columns
 y = dummies.values
+
 print("shape of y=", y.shape)
-# print("y=",y)
-
-
 col1 = pd.DataFrame(df, columns=["id"])
 col2 = pd.DataFrame(df, columns=["product"])
 col3 = pd.DataFrame(y)
 compare = pd.concat([col1, col2, col3], axis=1)
 print(compare)
-
-# print(df['product'])
 
 
 EPOCHS = 500
@@ -103,24 +99,16 @@ for train, test in kf.split(x, df["product"]):
     colp = pd.DataFrame(myarr)
     print(colp)
 
-    test_product=df["product"][7]
-    test_product=df["product"][7]
-    test_product=df["product"][7]
- 
-    print(test_product)
-    # print(test_product[test])
-    # print(df[test])
-
-    # x_train = x[train]
-    # y_train = y[train]
-    # x_test = x[test]
-    # y_test = y[test]
 
     x_train = np.asarray(x[train]).astype(np.float32)
     y_train = np.asarray(y[train]).astype(np.float32)
     x_test = np.asarray(x[test]).astype(np.float32)
     y_test = np.asarray(y[test]).astype(np.float32)
     print("y_test=", y_test)
+
+    fold_test= pd.concat([col1, col2, col3], axis=1)
+
+
 
     model = Sequential()
     # Hidden 1
