@@ -92,12 +92,15 @@ for train, test in kf.split(x, df["product"]):
         print(f"  Train: index={train} size={train.shape}")
         print(f"  Test:  index={test} size={test.shape}")
 
-    myarr=[]
+    myarr1=[]
+    myarr2=[]
     for i in test:
-        print(i,df["product"][i])
-        myarr.append(i)
-    colp = pd.DataFrame(myarr)
-    print(colp)
+        # print(i,df["product"][i])
+        myarr1.append(i)
+        myarr2.append(df["product"][i])
+    col_id = pd.DataFrame(myarr1, columns=["id"])
+    col_p=pd.DataFrame(myarr2, columns=["id"])
+    # print(col_p)
 
 
     x_train = np.asarray(x[train]).astype(np.float32)
@@ -106,7 +109,9 @@ for train, test in kf.split(x, df["product"]):
     y_test = np.asarray(y[test]).astype(np.float32)
     # print("y_test=", y_test)
 
-    fold_test= pd.concat([ colp, y_test], axis=1)
+    col_y_test = pd.DataFrame(y_test)
+
+    fold_test= pd.concat([ col_id,col_p, col_y_test], axis=1)
     print(fold_test)
 
 
