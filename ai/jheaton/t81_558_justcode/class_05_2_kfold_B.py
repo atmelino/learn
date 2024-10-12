@@ -16,6 +16,7 @@ print("class_05_2_kfold_B")
 # Options for this run
 shuffle = False
 print_fold = True
+run_model = False
 length = 2000
 folds = 5
 length = 100
@@ -92,16 +93,15 @@ for train, test in kf.split(x, df["product"]):
         print(f"  Train: index={train} size={train.shape}")
         print(f"  Test:  index={test} size={test.shape}")
 
-    myarr1=[]
-    myarr2=[]
+    myarr1 = []
+    myarr2 = []
     for i in test:
         # print(i,df["product"][i])
         myarr1.append(i)
         myarr2.append(df["product"][i])
     col_id = pd.DataFrame(myarr1, columns=["id"])
-    col_p=pd.DataFrame(myarr2, columns=["id"])
+    col_p = pd.DataFrame(myarr2, columns=["product"])
     # print(col_p)
-
 
     x_train = np.asarray(x[train]).astype(np.float32)
     y_train = np.asarray(y[train]).astype(np.float32)
@@ -111,28 +111,37 @@ for train, test in kf.split(x, df["product"]):
 
     col_y_test = pd.DataFrame(y_test)
 
-    fold_test= pd.concat([ col_id,col_p, col_y_test], axis=1)
+    fold_test = pd.concat([col_id, col_p, col_y_test], axis=1)
     print(fold_test)
 
-
-
-    model = Sequential()
-    # Hidden 1
-    model.add(Dense(50, input_dim=x.shape[1], activation="relu"))
-    model.add(Dense(25, activation="relu"))  # Hidden 2
-    model.add(Dense(y.shape[1], activation="softmax"))  # Output
-    model.compile(loss="categorical_crossentropy", optimizer="adam")
-    model.fit(
-        x_train, y_train, validation_data=(x_test, y_test), verbose=0, epochs=EPOCHS
+    count_a = fold_test["product"].value_counts()["a"]
+    count_b = fold_test["product"].value_counts()["b"]
+    count_c = fold_test["product"].value_counts()["c"]
+    count_d = fold_test["product"].value_counts()["d"]
+    count_e = fold_test["product"].value_counts()["e"]
+    count_f = fold_test["product"].value_counts()["f"]
+    print(
+        "counts of a b c d e f:", count_a, count_b, count_c, count_d, count_e, count_f
     )
-    pred = model.predict(x_test)
-    oos_y.append(y_test)
-    # raw probabilities to chosen class (highest probability)
-    pred = np.argmax(pred, axis=1)
-    oos_pred.append(pred)
-    # Measure this fold's accuracy
-    y_compare = np.argmax(y_test, axis=1)  # For accuracy calculation
-    score = metrics.accuracy_score(y_compare, pred)
-    print(f"Fold score (accuracy): {score}")
+
+    if run_model == True:
+        model = Sequential()
+        # Hidden 1
+        model.add(Dense(50, input_dim=x.shape[1], activation="relu"))
+        model.add(Dense(25, activation="relu"))  # Hidden 2
+        model.add(Dense(y.shape[1], activation="softmax"))  # Output
+        model.compile(loss="categorical_crossentropy", optimizer="adam")
+        model.fit(
+            x_train, y_train, validation_data=(x_test, y_test), verbose=0, epochs=EPOCHS
+        )
+        pred = model.predict(x_test)
+        oos_y.append(y_test)
+        # raw probabilities to chosen class (highest probability)
+        pred = np.argmax(pred, axis=1)
+        oos_pred.append(pred)
+        # Measure this fold's accuracy
+        y_compare = np.argmax(y_test, axis=1)  # For accuracy calculation
+        score = metrics.accuracy_score(y_compare, pred)
+        print(f"Fold score (accuracy): {score}")
 
 exit()
