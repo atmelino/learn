@@ -19,8 +19,8 @@ print_fold = True
 run_model = False
 length = 2000
 folds = 5
-length = 400
-folds = 3
+# length = 400
+# folds = 3
 
 # Read the data set
 # df_original = pd.read_csv(
