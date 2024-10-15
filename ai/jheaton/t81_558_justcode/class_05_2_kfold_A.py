@@ -119,7 +119,7 @@ print("Write the cross-validated prediction to file")
 oos_y = pd.DataFrame(oos_y, columns=["age"])
 oos_pred = pd.DataFrame(oos_pred, columns=["age_pred"])
 oosDF = pd.concat([df, oos_y, oos_pred], axis=1)
-filename_write = "./output/kfold_5_2.csv"
+filename_write = "./output/class_5_2_kfold_A.csv"
 oosDF.to_csv(filename_write, index=False)
 
 print("test vs predicted\n", oosDF)

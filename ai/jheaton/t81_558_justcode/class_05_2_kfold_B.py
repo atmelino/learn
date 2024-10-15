@@ -32,24 +32,24 @@ df = df_original.iloc[0:length]
 
 
 # Generate dummies for job
-df = pd.concat([df,pd.get_dummies(df['job'],prefix="job")],axis=1)
-df.drop('job', axis=1, inplace=True)
+df = pd.concat([df, pd.get_dummies(df["job"], prefix="job")], axis=1)
+df.drop("job", axis=1, inplace=True)
 # Generate dummies for area
-df = pd.concat([df,pd.get_dummies(df['area'],prefix="area")],axis=1)
-df.drop('area', axis=1, inplace=True)
+df = pd.concat([df, pd.get_dummies(df["area"], prefix="area")], axis=1)
+df.drop("area", axis=1, inplace=True)
 # Missing values for income
-med = df['income'].median()
-df['income'] = df['income'].fillna(med)
+med = df["income"].median()
+df["income"] = df["income"].fillna(med)
 # Standardize ranges
-df['income'] = zscore(df['income'])
-df['aspect'] = zscore(df['aspect'])
-df['save_rate'] = zscore(df['save_rate'])
-df['age'] = zscore(df['age'])
-df['subscriptions'] = zscore(df['subscriptions'])
+df["income"] = zscore(df["income"])
+df["aspect"] = zscore(df["aspect"])
+df["save_rate"] = zscore(df["save_rate"])
+df["age"] = zscore(df["age"])
+df["subscriptions"] = zscore(df["subscriptions"])
 # Convert to numpy - Classification
-x_columns = df.columns.drop('product').drop('id')
+x_columns = df.columns.drop("product").drop("id")
 x = df[x_columns].values
-dummies = pd.get_dummies(df['product']) # Classification
+dummies = pd.get_dummies(df["product"])  # Classification
 products = dummies.columns
 y = dummies.values
 
@@ -63,17 +63,14 @@ oos_y = []
 oos_pred = []
 fold = 0
 # Must specify y StratifiedKFold for
-for train, test in kf.split(x,df['product']):
-    fold+=1
+for train, test in kf.split(x, df["product"]):
+    fold += 1
     print(f"Fold #{fold}")
     if print_fold == True:
         # print(f"  Train: index={train}")
         # print(f"  Test:  index={test}")
         print(f"  Train: index={train} size={train.shape}")
         print(f"  Test:  index={test} size={test.shape}")
-
-
-
 
     # x_train = x[train]
     # y_train = y[train]
@@ -85,23 +82,26 @@ for train, test in kf.split(x,df['product']):
     x_test = np.asarray(x[test]).astype(np.float32)
     y_test = np.asarray(y[test]).astype(np.float32)
 
-
-
     model = Sequential()
     # Hidden 1
-    model.add(Dense(50, input_dim=x.shape[1], activation='relu'))
-    model.add(Dense(25, activation='relu')) # Hidden 2
-    model.add(Dense(y.shape[1],activation='softmax')) # Output
-    model.compile(loss='categorical_crossentropy', optimizer='adam')
-    model.fit(x_train,y_train,validation_data=(x_test,y_test),
-    verbose=0, epochs=EPOCHS)
+    model.add(Dense(50, input_dim=x.shape[1], activation="relu"))
+    model.add(Dense(25, activation="relu"))  # Hidden 2
+    model.add(Dense(y.shape[1], activation="softmax"))  # Output
+    model.compile(loss="categorical_crossentropy", optimizer="adam")
+    model.fit(
+        x_train, y_train, validation_data=(x_test, y_test), verbose=0, epochs=EPOCHS
+    )
+
     pred = model.predict(x_test)
+    print("Prediction:", pred)
+
     oos_y.append(y_test)
     # raw probabilities to chosen class (highest probability)
-    pred = np.argmax(pred,axis=1)
+    pred = np.argmax(pred, axis=1)
+
     oos_pred.append(pred)
     # Measure this fold's accuracy
-    y_compare = np.argmax(y_test,axis=1) # For accuracy calculation
+    y_compare = np.argmax(y_test, axis=1)  # For accuracy calculation
     score = metrics.accuracy_score(y_compare, pred)
     print(f"Fold score (accuracy): {score}")
 
@@ -109,14 +109,15 @@ for train, test in kf.split(x,df['product']):
 # Build the oos prediction list and calculate the error.
 oos_y = np.concatenate(oos_y)
 oos_pred = np.concatenate(oos_pred)
-oos_y_compare = np.argmax(oos_y,axis=1) # For accuracy calculation
+oos_y_compare = np.argmax(oos_y, axis=1)  # For accuracy calculation
 score = metrics.accuracy_score(oos_y_compare, oos_pred)
 print(f"Final score (accuracy): {score}")
+
 # Write the cross-validated prediction
 oos_y = pd.DataFrame(oos_y)
 oos_pred = pd.DataFrame(oos_pred)
-oosDF = pd.concat( [df, oos_y, oos_pred],axis=1 )
-#oosDF.to_csv(filename_write,index=False)
+oosDF = pd.concat([df, oos_y, oos_pred], axis=1)
+filename_write = "./output/class_5_2_kfold_B.csv"
+oosDF.to_csv(filename_write, index=False)
 
-
-
+print("test vs predicted\n", oosDF)
