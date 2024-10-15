@@ -6,6 +6,13 @@ from sklearn import metrics
 from sklearn.model_selection import StratifiedKFold
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Activation
+# import pprint
+
+# pp = pprint.PrettyPrinter(indent=4,depth=None)
+np.set_printoptions(linewidth=np.inf)
+np.set_printoptions(threshold=np.inf)
+# np.set_printoptions(precision=4)
+np.set_printoptions(floatmode='fixed', precision=5)
 
 pd.set_option("display.max_rows", None)
 
@@ -19,6 +26,8 @@ length = 2000
 folds = 5
 length = 200
 folds = 3
+length = 80
+folds = 2
 
 
 # Read the data set
@@ -58,7 +67,7 @@ EPOCHS = 500
 # np.argmax(pred,axis=1)
 # Cross-validate
 # Use for StratifiedKFold classification
-kf = StratifiedKFold(5, shuffle=True, random_state=42)
+kf = StratifiedKFold(folds, shuffle=True, random_state=42)
 oos_y = []
 oos_pred = []
 fold = 0
@@ -93,7 +102,15 @@ for train, test in kf.split(x, df["product"]):
     )
 
     pred = model.predict(x_test)
+    print("shape of pred",pred.shape)
+
+
+
     print("Prediction:", pred)
+    # pp.pprint(pred)
+    dfpred=pd.DataFrame(pred)
+    # pp.pprint(dfpred)
+    print(dfpred)
 
     oos_y.append(y_test)
     # raw probabilities to chosen class (highest probability)
