@@ -6,15 +6,16 @@ from sklearn import metrics
 from sklearn.model_selection import StratifiedKFold
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Activation
-# import pprint
+import pprint
 
 # pp = pprint.PrettyPrinter(indent=4,depth=None)
 np.set_printoptions(linewidth=np.inf)
 np.set_printoptions(threshold=np.inf)
-# np.set_printoptions(precision=4)
-np.set_printoptions(floatmode='fixed', precision=5)
+np.set_printoptions(precision=4, suppress=True)
+
 
 pd.set_option("display.max_rows", None)
+pd.set_option('display.float_format', lambda x: f'{x:.3f}')
 
 print("class_05_2_kfold_B")
 
@@ -103,10 +104,8 @@ for train, test in kf.split(x, df["product"]):
 
     pred = model.predict(x_test)
     print("shape of pred",pred.shape)
-
-
-
-    print("Prediction:", pred)
+    print("Prediction:")
+    print(pred)
     # pp.pprint(pred)
     dfpred=pd.DataFrame(pred)
     # pp.pprint(dfpred)
