@@ -27,10 +27,10 @@ length = 2000
 folds = 5
 length = 200
 folds = 3
-length = 80
-folds = 2
 length = 400
 folds = 3
+length = 80
+folds = 2
 
 
 # Read the data set
@@ -124,8 +124,11 @@ for train, test in kf.split(x, df["product"]):
     print(fold_pred)
 
 
-
+    print("oos_y before append:")
+    print(oos_y)
     oos_y.append(y_test)
+    print("oos_y after append:")
+    print(oos_y)
     # raw probabilities to chosen class (highest probability)
     pred = np.argmax(pred, axis=1)
 
