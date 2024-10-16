@@ -132,7 +132,12 @@ for train, test in kf.split(x, df["product"]):
     # raw probabilities to chosen class (highest probability)
     pred = np.argmax(pred, axis=1)
 
+    print("oos_pred before append:")
+    print(oos_pred)
     oos_pred.append(pred)
+    print("oos_pred after append:")
+    print(oos_pred)
+
     # Measure this fold's accuracy
     y_compare = np.argmax(y_test, axis=1)  # For accuracy calculation
     score = metrics.accuracy_score(y_compare, pred)
