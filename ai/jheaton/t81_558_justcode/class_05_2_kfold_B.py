@@ -29,6 +29,8 @@ length = 200
 folds = 3
 length = 80
 folds = 2
+length = 400
+folds = 3
 
 
 # Read the data set
@@ -82,10 +84,15 @@ for train, test in kf.split(x, df["product"]):
         print(f"  Train: index={train} size={train.shape}")
         print(f"  Test:  index={test} size={test.shape}")
 
-    # x_train = x[train]
-    # y_train = y[train]
-    # x_test = x[test]
-    # y_test = y[test]
+    myarr1 = []
+    myarr2 = []
+    for i in test:
+        # print(i,df["product"][i])
+        myarr1.append(i)
+        myarr2.append(df["product"][i])
+    col_id = pd.DataFrame(myarr1, columns=["id"])
+    col_p = pd.DataFrame(myarr2, columns=["product"])
+    # print(col_p)
 
     x_train = np.asarray(x[train]).astype(np.float32)
     y_train = np.asarray(y[train]).astype(np.float32)
@@ -105,11 +112,18 @@ for train, test in kf.split(x, df["product"]):
     pred = model.predict(x_test)
     print("shape of pred",pred.shape)
     print("Prediction:")
-    print(pred)
+    # print(pred)
     # pp.pprint(pred)
     dfpred=pd.DataFrame(pred)
     # pp.pprint(dfpred)
-    print(dfpred)
+    # print(dfpred)
+
+    col_y_test = pd.DataFrame(y_test, columns=['a','b','c','d','e','f'])
+    col_pred = pd.DataFrame(pred, columns=['a','b','c','d','e','f'])
+    fold_pred = pd.concat([col_id,  col_y_test,col_p,col_pred], axis=1)
+    print(fold_pred)
+
+
 
     oos_y.append(y_test)
     # raw probabilities to chosen class (highest probability)
@@ -132,7 +146,8 @@ print(f"Final score (accuracy): {score}")
 # Write the cross-validated prediction
 oos_y = pd.DataFrame(oos_y)
 oos_pred = pd.DataFrame(oos_pred)
-oosDF = pd.concat([df, oos_y, oos_pred], axis=1)
+# df_part = df.drop(columns=['income', 'aspect','subscriptions'])
+oosDF = pd.concat([df["product"], oos_y, oos_pred], axis=1)
 filename_write = "./output/class_5_2_kfold_B.csv"
 oosDF.to_csv(filename_write, index=False)
 
