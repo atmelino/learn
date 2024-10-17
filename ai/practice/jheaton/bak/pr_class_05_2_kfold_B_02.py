@@ -15,7 +15,7 @@ np.set_printoptions(precision=4, suppress=True)
 
 
 pd.set_option("display.max_rows", None)
-pd.set_option('display.float_format', lambda x: f'{x:.3f}')
+pd.set_option("display.float_format", lambda x: f"{x:.3f}")
 
 print("class_05_2_kfold_B")
 
@@ -88,7 +88,7 @@ for train, test in kf.split(x, df["product"]):
     myarr2 = []
     for i in test:
         # print(i,df["product"][i])
-        myarr1.append(i)
+        myarr1.append(i+1)
         myarr2.append(df["product"][i])
     col_id = pd.DataFrame(myarr1, columns=["id"])
     col_p = pd.DataFrame(myarr2, columns=["product"])
@@ -110,19 +110,18 @@ for train, test in kf.split(x, df["product"]):
     )
 
     pred = model.predict(x_test)
-    print("shape of pred",pred.shape)
+    print("shape of pred", pred.shape)
     print("Prediction:")
     # print(pred)
     # pp.pprint(pred)
-    dfpred=pd.DataFrame(pred)
+    dfpred = pd.DataFrame(pred)
     # pp.pprint(dfpred)
     # print(dfpred)
 
-    col_y_test = pd.DataFrame(y_test, columns=['a','b','c','d','e','f'])
-    col_pred = pd.DataFrame(pred, columns=['a','b','c','d','e','f'])
-    fold_pred = pd.concat([col_id,  col_y_test,col_p,col_pred], axis=1)
+    col_y_test = pd.DataFrame(y_test, columns=["a", "b", "c", "d", "e", "f"])
+    col_pred = pd.DataFrame(pred, columns=["a", "b", "c", "d", "e", "f"])
+    fold_pred = pd.concat([col_id, col_y_test, col_p, col_pred], axis=1)
     print(fold_pred)
-
 
     print("oos_y before append:")
     print(oos_y)
@@ -157,7 +156,7 @@ print(f"Final score (accuracy): {score}")
 oos_y = pd.DataFrame(oos_y)
 oos_pred = pd.DataFrame(oos_pred)
 # df_part = df.drop(columns=['income', 'aspect','subscriptions'])
-oosDF = pd.concat([df["product"], oos_y, oos_pred], axis=1)
+oosDF = pd.concat([oos_y, oos_pred], axis=1)
 filename_write = "./output/class_5_2_kfold_B.csv"
 oosDF.to_csv(filename_write, index=False)
 

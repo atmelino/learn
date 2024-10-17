@@ -89,7 +89,7 @@ for train, test in kf.split(x, df["product"]):
     myarr2 = []
     for i in test:
         # print(i,df["product"][i])
-        myarr1.append(i)
+        myarr1.append(i+1)
         myarr2.append(df["product"][i])
     col_id = pd.DataFrame(myarr1, columns=["id"])
     col_p = pd.DataFrame(myarr2, columns=["product"])
@@ -151,12 +151,15 @@ score = metrics.accuracy_score(oos_y_compare, oos_pred)
 print(f"Final score (accuracy): {score}")
 
 # Write the cross-validated prediction
-oos_id = pd.DataFrame(oos_id)
-oos_y = pd.DataFrame(oos_y)
-oos_pred = pd.DataFrame(oos_pred)
+oos_id = pd.DataFrame(oos_id, columns=["id"])
+oos_y = pd.DataFrame(oos_y, columns=["a", "b", "c", "d", "e", "f"])
+oos_y_compare = pd.DataFrame(oos_y_compare, columns=["test"])
+oos_pred = pd.DataFrame(oos_pred, columns=["pred"])
 # df_part = df.drop(columns=['income', 'aspect','subscriptions'])
-oosDF = pd.concat([oos_id, oos_y, oos_pred], axis=1)
+oosDF = pd.concat([oos_id, oos_y, oos_y_compare,oos_pred], axis=1)
 filename_write = "./output/class_5_2_kfold_B.csv"
 oosDF.to_csv(filename_write, index=False)
 
+print("test vs predicted\n", oosDF)
+oosDF.sort_values(by=['id'])
 print("test vs predicted\n", oosDF)

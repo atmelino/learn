@@ -157,7 +157,7 @@ print(f"Final score (accuracy): {score}")
 oos_y = pd.DataFrame(oos_y)
 oos_pred = pd.DataFrame(oos_pred)
 # df_part = df.drop(columns=['income', 'aspect','subscriptions'])
-oosDF = pd.concat([df["product"], oos_y, oos_pred], axis=1)
+oosDF = pd.concat([oos_y, oos_pred], axis=1)
 filename_write = "./output/class_5_2_kfold_B.csv"
 oosDF.to_csv(filename_write, index=False)
 
