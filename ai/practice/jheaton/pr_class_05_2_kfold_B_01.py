@@ -11,7 +11,7 @@ from tensorflow.keras.models import Sequential
 
 pd.set_option("display.max_rows", None)
 
-print("pr_class_05_2_kfold_B")
+print("pr_class_05_2_kfold_B_01")
 
 # Options for this run
 shuffle = False

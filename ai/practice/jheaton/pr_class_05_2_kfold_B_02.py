@@ -15,7 +15,7 @@ np.set_printoptions(precision=4, suppress=True)
 
 
 pd.set_option("display.max_rows", None)
-pd.set_option('display.float_format', lambda x: f'{x:.3f}')
+pd.set_option("display.float_format", lambda x: f"{x:.3f}")
 
 print("class_05_2_kfold_B")
 
@@ -71,6 +71,7 @@ EPOCHS = 500
 # Cross-validate
 # Use for StratifiedKFold classification
 kf = StratifiedKFold(folds, shuffle=True, random_state=42)
+oos_id = []
 oos_y = []
 oos_pred = []
 fold = 0
@@ -110,33 +111,26 @@ for train, test in kf.split(x, df["product"]):
     )
 
     pred = model.predict(x_test)
-    print("shape of pred",pred.shape)
+    print("shape of pred", pred.shape)
     print("Prediction:")
     # print(pred)
     # pp.pprint(pred)
-    dfpred=pd.DataFrame(pred)
+    dfpred = pd.DataFrame(pred)
     # pp.pprint(dfpred)
     # print(dfpred)
 
-    col_y_test = pd.DataFrame(y_test, columns=['a','b','c','d','e','f'])
-    col_pred = pd.DataFrame(pred, columns=['a','b','c','d','e','f'])
-    fold_pred = pd.concat([col_id,  col_y_test,col_p,col_pred], axis=1)
+    col_y_test = pd.DataFrame(y_test, columns=["a", "b", "c", "d", "e", "f"])
+    col_pred = pd.DataFrame(pred, columns=["a", "b", "c", "d", "e", "f"])
+    fold_pred = pd.concat([col_id, col_y_test, col_p, col_pred], axis=1)
     print(fold_pred)
 
+    oos_id.append(myarr1)
 
-    print("oos_y before append:")
-    print(oos_y)
     oos_y.append(y_test)
-    print("oos_y after append:")
-    print(oos_y)
     # raw probabilities to chosen class (highest probability)
     pred = np.argmax(pred, axis=1)
 
-    print("oos_pred before append:")
-    print(oos_pred)
     oos_pred.append(pred)
-    print("oos_pred after append:")
-    print(oos_pred)
 
     # Measure this fold's accuracy
     y_compare = np.argmax(y_test, axis=1)  # For accuracy calculation
@@ -145,6 +139,9 @@ for train, test in kf.split(x, df["product"]):
 
 
 # Build the oos prediction list and calculate the error.
+oos_id = np.concatenate(oos_id)
+print("oos_id after concatenate:")
+print(oos_id)
 oos_y = np.concatenate(oos_y)
 oos_pred = np.concatenate(oos_pred)
 print("oos_pred after concatenate:")
@@ -154,10 +151,11 @@ score = metrics.accuracy_score(oos_y_compare, oos_pred)
 print(f"Final score (accuracy): {score}")
 
 # Write the cross-validated prediction
+oos_id = pd.DataFrame(oos_id)
 oos_y = pd.DataFrame(oos_y)
 oos_pred = pd.DataFrame(oos_pred)
 # df_part = df.drop(columns=['income', 'aspect','subscriptions'])
-oosDF = pd.concat([df["product"], oos_y, oos_pred], axis=1)
+oosDF = pd.concat([oos_id, oos_y, oos_pred], axis=1)
 filename_write = "./output/class_5_2_kfold_B.csv"
 oosDF.to_csv(filename_write, index=False)
 
