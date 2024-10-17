@@ -157,7 +157,7 @@ oos_y_compare = pd.DataFrame(oos_y_compare, columns=["test"])
 oos_pred = pd.DataFrame(oos_pred, columns=["pred"])
 # df_part = df.drop(columns=['income', 'aspect','subscriptions'])
 oosDF = pd.concat([oos_id, oos_y, oos_y_compare,oos_pred], axis=1)
-filename_write = "./output/class_5_2_kfold_B.csv"
+filename_write = "./output/class_5_2_kfold_B_02.csv"
 oosDF.to_csv(filename_write, index=False)
 
 print("test vs predicted\n", oosDF)
