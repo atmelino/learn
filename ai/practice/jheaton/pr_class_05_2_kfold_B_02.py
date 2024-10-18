@@ -17,7 +17,7 @@ np.set_printoptions(precision=4, suppress=True)
 pd.set_option("display.max_rows", None)
 pd.set_option("display.float_format", lambda x: f"{x:.3f}")
 
-print("class_05_2_kfold_B")
+print("pr_class_05_2_kfold_B_02")
 
 # Options for this run
 shuffle = False
