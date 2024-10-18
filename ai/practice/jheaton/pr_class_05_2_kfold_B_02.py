@@ -31,6 +31,8 @@ length = 400
 folds = 3
 length = 80
 folds = 2
+length = 100
+folds = 2
 
 
 # Read the data set
@@ -111,17 +113,12 @@ for train, test in kf.split(x, df["product"]):
     )
 
     pred = model.predict(x_test)
-    print("shape of pred", pred.shape)
-    print("Prediction:")
-    # print(pred)
-    # pp.pprint(pred)
-    dfpred = pd.DataFrame(pred)
-    # pp.pprint(dfpred)
-    # print(dfpred)
 
     col_y_test = pd.DataFrame(y_test, columns=["a", "b", "c", "d", "e", "f"])
     col_pred = pd.DataFrame(pred, columns=["a", "b", "c", "d", "e", "f"])
     fold_pred = pd.concat([col_id, col_y_test, col_p, col_pred], axis=1)
+    print("shape of pred", pred.shape)
+    print("Prediction:")
     print(fold_pred)
 
     oos_id.append(myarr1)
@@ -134,7 +131,9 @@ for train, test in kf.split(x, df["product"]):
 
     # Measure this fold's accuracy
     y_compare = np.argmax(y_test, axis=1)  # For accuracy calculation
+    matches=np.count_nonzero(y_compare==pred)
     score = metrics.accuracy_score(y_compare, pred)
+    print(f"matches: {matches}")
     print(f"Fold score (accuracy): {score}")
 
 
@@ -147,7 +146,9 @@ oos_pred = np.concatenate(oos_pred)
 print("oos_pred after concatenate:")
 print(oos_pred)
 oos_y_compare = np.argmax(oos_y, axis=1)  # For accuracy calculation
+matches=np.count_nonzero(oos_y_compare==oos_pred)
 score = metrics.accuracy_score(oos_y_compare, oos_pred)
+print(f"matches: {matches} out of {length}")
 print(f"Final score (accuracy): {score}")
 
 # Write the cross-validated prediction
@@ -160,6 +161,7 @@ oosDF = pd.concat([oos_id, oos_y, oos_y_compare,oos_pred], axis=1)
 filename_write = "./output/class_5_2_kfold_B_02.csv"
 oosDF.to_csv(filename_write, index=False)
 
-print("test vs predicted\n", oosDF)
-oosDF.sort_values(by=['id'])
-print("test vs predicted\n", oosDF)
+# print("test vs predicted")
+# print(oosDF)
+oosDF2=oosDF.sort_values(by=['id'])
+print("test vs predicted\n", oosDF2)
