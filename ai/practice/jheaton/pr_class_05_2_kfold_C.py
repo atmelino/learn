@@ -68,10 +68,15 @@ for train, test in kf.split(x_main):
         print(f"  Train: index={train} size={train.shape}")
         print(f"  Test:  index={test} size={test.shape}")
 
-    # x_train = x_main[train]
-    # y_train = y_main[train]
-    # x_test = x_main[test]
-    # y_test = y_main[test]
+    myarr1 = []
+    myarr2 = []
+    for i in test:
+        # print(i,df["product"][i])
+        myarr1.append(i+1)
+        myarr2.append(df["age"][i])
+    col_id = pd.DataFrame(myarr1, columns=["id"])
+    col_p = pd.DataFrame(myarr2, columns=["age"])
+
     x_train = np.asarray(x[train]).astype(np.float32)
     y_train = np.asarray(y[train]).astype(np.float32)
     x_test = np.asarray(x[test]).astype(np.float32)
@@ -87,6 +92,15 @@ for train, test in kf.split(x_main):
         x_train, y_train, validation_data=(x_test, y_test), verbose=0, epochs=EPOCHS
     )
     pred = model.predict(x_test)
+
+    col_y_test = pd.DataFrame(y_test, columns=["age"])
+    col_pred = pd.DataFrame(pred, columns=["age"])
+    fold_pred = pd.concat([col_id, col_y_test, col_p, col_pred], axis=1)
+    print("shape of pred", pred.shape)
+    print("Prediction:")
+    print(fold_pred)
+
+    oos_id.append(myarr1)
     oos_y.append(y_test)
     oos_pred.append(pred)
     # Measure accuracy

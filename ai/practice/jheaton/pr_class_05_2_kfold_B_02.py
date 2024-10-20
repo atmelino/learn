@@ -41,9 +41,7 @@ df_original = pd.read_csv(
     na_values=["NA", "?"],
 )
 print("dataset original size:\n", df_original.shape)
-
 df = df_original.iloc[0:length]
-
 
 # Generate dummies for job
 df = pd.concat([df, pd.get_dummies(df["job"], prefix="job")], axis=1)
@@ -122,11 +120,9 @@ for train, test in kf.split(x, df["product"]):
     print(fold_pred)
 
     oos_id.append(myarr1)
-
     oos_y.append(y_test)
     # raw probabilities to chosen class (highest probability)
     pred = np.argmax(pred, axis=1)
-
     oos_pred.append(pred)
 
     # Measure this fold's accuracy
