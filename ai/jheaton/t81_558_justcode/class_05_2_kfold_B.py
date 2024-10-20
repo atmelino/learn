@@ -10,10 +10,10 @@ from tensorflow.keras.layers import Dense, Activation
 print("class_05_2_kfold_B")
 
 # Options for this run
-length = 2000
-folds = 5
 length = 100
 folds = 2
+length = 2000
+folds = 5
 
 # Read the data set
 df_original = pd.read_csv(
