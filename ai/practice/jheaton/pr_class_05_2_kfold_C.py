@@ -58,6 +58,7 @@ x_main, x_holdout, y_main, y_holdout = train_test_split(x, y, test_size=0.10)
 kf = KFold(folds)
 oos_y = []
 oos_pred = []
+oos_id=[]
 fold = 0
 for train, test in kf.split(x_main):
     fold += 1
@@ -75,7 +76,7 @@ for train, test in kf.split(x_main):
         myarr1.append(i+1)
         myarr2.append(df["age"][i])
     col_id = pd.DataFrame(myarr1, columns=["id"])
-    col_p = pd.DataFrame(myarr2, columns=["age"])
+    col_a = pd.DataFrame(myarr2, columns=["age"])
 
     x_train = np.asarray(x[train]).astype(np.float32)
     y_train = np.asarray(y[train]).astype(np.float32)
@@ -94,8 +95,9 @@ for train, test in kf.split(x_main):
     pred = model.predict(x_test)
 
     col_y_test = pd.DataFrame(y_test, columns=["age"])
-    col_pred = pd.DataFrame(pred, columns=["age"])
-    fold_pred = pd.concat([col_id, col_y_test, col_p, col_pred], axis=1)
+    col_pred = pd.DataFrame(pred, columns=["pred"])
+    print("prediction\n",col_pred)
+    fold_pred = pd.concat([col_id,  col_a, col_pred], axis=1)
     print("shape of pred", pred.shape)
     print("Prediction:")
     print(fold_pred)
