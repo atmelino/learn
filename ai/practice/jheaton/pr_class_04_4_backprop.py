@@ -25,19 +25,22 @@ df_original = pd.read_csv(
     na_values=["NA", "?"],
 )
 
-
 start = 100
 stop = 2000+1
 step = 100
+
+# start = 20
+# stop = 60+1
+# step = 20
 
 for length in range(start, stop, step):
     print("Using", length, "rows")
 
     df = df_original.iloc[0:length]
 
-    # print(df)
+    print(df)
 
-    if False:
+    if True:
 
         # Generate dummies for job
         df = pd.concat([df, pd.get_dummies(df["job"], prefix="job")], axis=1)
