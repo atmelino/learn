@@ -38,7 +38,7 @@ for length in range(start, stop, step):
 
     df = df_original.iloc[0:length]
 
-    print(df)
+    # print(df)
 
     if True:
 
