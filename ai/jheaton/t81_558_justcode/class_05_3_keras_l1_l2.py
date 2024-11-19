@@ -8,7 +8,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Activation
 from tensorflow.keras import regularizers
 
-print("class_05_3_kfold")
+print("class_05_3_keras_l1_l2")
 
 # Options for this run
 length = 100
