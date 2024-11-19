@@ -20,6 +20,8 @@ length = 100
 folds = 2
 length = 2000
 folds = 5
+length = 100
+folds = 2
 
 # Read the data set
 df_original = pd.read_csv(
@@ -98,17 +100,18 @@ for train, test in kf.split(x):
     y_compare = np.argmax(y_test,axis=1) # For accuracy calculation
     score = metrics.accuracy_score(y_compare, pred)
     print(f"Fold score (accuracy): {score}")
-    # Build the oos prediction list and calculate the error.
-    oos_y = np.concatenate(oos_y)
-    oos_pred = np.concatenate(oos_pred)
-    oos_y_compare = np.argmax(oos_y,axis=1) # For accuracy calculation
-    score = metrics.accuracy_score(oos_y_compare, oos_pred)
-    print(f"Final score (accuracy): {score}")
-    # Write the cross-validated prediction
-    oos_y = pd.DataFrame(oos_y)
-    oos_pred = pd.DataFrame(oos_pred)
-    oosDF = pd.concat( [df, oos_y, oos_pred],axis=1 )
-    #oosDF.to_csv(filename_write,index=False)
+
+# Build the oos prediction list and calculate the error.
+oos_y = np.concatenate(oos_y)
+oos_pred = np.concatenate(oos_pred)
+oos_y_compare = np.argmax(oos_y,axis=1) # For accuracy calculation
+score = metrics.accuracy_score(oos_y_compare, oos_pred)
+print(f"Final score (accuracy): {score}")
+# Write the cross-validated prediction
+oos_y = pd.DataFrame(oos_y)
+oos_pred = pd.DataFrame(oos_pred)
+oosDF = pd.concat( [df, oos_y, oos_pred],axis=1 )
+#oosDF.to_csv(filename_write,index=False)
 
 
 
