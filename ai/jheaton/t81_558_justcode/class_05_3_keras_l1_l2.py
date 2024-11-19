@@ -46,7 +46,7 @@ products = dummies.columns
 y = dummies.values
 
 # Cross-validate
-kf = KFold(5, shuffle=True, random_state=42)
+kf = KFold(folds, shuffle=True, random_state=42)
 oos_y = []
 oos_pred = []
 fold = 0

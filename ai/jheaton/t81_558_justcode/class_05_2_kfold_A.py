@@ -9,6 +9,8 @@ from sklearn.model_selection import KFold
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Activation
 
+print("class_05_2_kfold_A")
+
 pd.set_option("display.max_rows", None)
 
 # Options for this run
