@@ -13,6 +13,7 @@ from tensorflow.keras import regularizers
 from tensorflow.keras.callbacks import EarlyStopping
 from sklearn.model_selection import ShuffleSplit
 
+print("class_05_5_bootstrap_A")
 
 # Nicely formatted time string
 def hms_string(sec_elapsed):
@@ -21,10 +22,27 @@ def hms_string(sec_elapsed):
     s = sec_elapsed % 60
     return "{}:{:>02}:{:>05.2f}".format(h, m, s)
 
+# Options for this run
+length = 100
+folds = 2
+length = 2000
+folds = 5
+length = 100
+folds = 2
+
 # Read the data set
-df = pd.read_csv(
-"https://data.heatonresearch.com/data/t81-558/jh-simple-dataset.csv",
-na_values=['NA','?'])
+df_original = pd.read_csv(
+    "./input/jh-simple-dataset.csv",
+    na_values=["NA", "?"],
+)
+print("dataset original size:\n", df_original.shape)
+df = df_original.iloc[0:length]
+
+
+
+
+
+
 # Generate dummies for job
 df = pd.concat([df,pd.get_dummies(df['job'],prefix="job")],axis=1)
 df.drop('job', axis=1, inplace=True)
