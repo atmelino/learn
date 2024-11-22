@@ -38,11 +38,6 @@ df_original = pd.read_csv(
 print("dataset original size:\n", df_original.shape)
 df = df_original.iloc[0:length]
 
-
-
-
-
-
 # Generate dummies for job
 df = pd.concat([df,pd.get_dummies(df['job'],prefix="job")],axis=1)
 df.drop('job', axis=1, inplace=True)
@@ -66,7 +61,42 @@ x = df[x_columns].values
 y = df['age'].values
 
 
+SPLITS = 50
+# Bootstrap
+boot = ShuffleSplit(n_splits=SPLITS, test_size=0.1, random_state=42)
+# Track progress
+mean_benchmark = []
+epochs_needed = []
+num = 0
+# Loop through samples
+for train, test in boot.split(x):
+    start_time = time.time()
+    num+=1
+    
+    # Split train and test
+    x_train = x[train]
+    y_train = y[train]
+    x_test = x[test]
+    y_test = y[test]
 
+
+    # Construct neural network
+    model = Sequential()
+    model.add(Dense(20, input_dim=x_train.shape[1], activation='relu'))
+    model.add(Dense(10, activation='relu'))
+    model.add(Dense(1))
+    model.compile(loss='mean_squared_error', optimizer='adam')
+    monitor = EarlyStopping(monitor='val_loss', min_delta=1e-3,
+    patience=5, verbose=0, mode='auto', restore_best_weights=True)
+    # Train on the bootstrap sample
+    model.fit(x_train,y_train,validation_data=(x_test,y_test),
+    callbacks=[monitor],verbose=0,epochs=1000)
+    epochs = monitor.stopped_epoch
+    epochs_needed.append(epochs)
+    # Predict on the out of boot (validation)
+    pred = model.predict(x_test)
+    # Measure this bootstrap's log loss
+    score = np.sqrt(metrics.mean_squared_error(pred,y_test))
 
 
 
