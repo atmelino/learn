@@ -103,7 +103,16 @@ for train, test in boot.split(x):
     # Measure this bootstrap's log loss
     score = np.sqrt(metrics.mean_squared_error(pred,y_test))
 
-
+    mean_benchmark.append(score)
+    m1 = statistics.mean(mean_benchmark)
+    m2 = statistics.mean(epochs_needed)
+    mdev = statistics.pstdev(mean_benchmark)
+    # Record this iteration
+    time_took = time.time() - start_time
+    print(f"#{num}: score={score:.6f}, mean score={m1:.6f},"
+    f" stdev={mdev:.6f}",
+    f" epochs={epochs}, mean epochs={int(m2)}",
+    f" time={hms_string(time_took)}")
 
 
 
