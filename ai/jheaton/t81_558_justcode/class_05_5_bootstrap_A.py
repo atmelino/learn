@@ -27,8 +27,6 @@ length = 100
 folds = 2
 length = 2000
 folds = 5
-length = 100
-folds = 2
 
 # Read the data set
 df_original = pd.read_csv(
