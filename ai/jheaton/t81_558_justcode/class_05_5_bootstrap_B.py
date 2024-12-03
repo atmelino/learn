@@ -74,11 +74,19 @@ num = 0
 for train, test in boot.split(x, df["product"]):
     start_time = time.time()
     num += 1
+
     # Split train and test
-    x_train = x[train]
-    y_train = y[train]
-    x_test = x[test]
-    y_test = y[test]
+    # x_train = x[train]
+    # y_train = y[train]
+    # x_test = x[test]
+    # y_test = y[test]
+
+    x_train = np.asarray(x[train]).astype(np.float32)
+    y_train = np.asarray(y[train]).astype(np.float32)
+    x_test = np.asarray(x[test]).astype(np.float32)
+    y_test = np.asarray(y[test]).astype(np.float32)
+
+
     # Construct neural network
     model = Sequential()
     model.add(Dense(50, input_dim=x.shape[1], activation="relu"))  # Hidden 1
