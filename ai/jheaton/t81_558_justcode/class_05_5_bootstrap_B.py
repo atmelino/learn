@@ -1,6 +1,6 @@
-import pandas as pd
 from scipy.stats import zscore
 from sklearn.model_selection import train_test_split
+import pandas as pd
 import os
 import numpy as np
 import time
@@ -11,7 +11,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Activation
 from tensorflow.keras import regularizers
 from tensorflow.keras.callbacks import EarlyStopping
-from sklearn.model_selection import ShuffleSplit
+from sklearn.model_selection import StratifiedShuffleSplit
 
 print("class_05_5_bootstrap_B")
 
