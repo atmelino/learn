@@ -26,9 +26,9 @@ def hms_string(sec_elapsed):
 
 # Options for this run
 length = 100
-folds = 2
+mysplits=5
 length = 2000
-folds = 5
+mysplits=50
 
 # Read the data set
 df_original = pd.read_csv(
@@ -60,7 +60,7 @@ dummies = pd.get_dummies(df["product"])  # Classification
 products = dummies.columns
 y = dummies.values
 
-SPLITS = 50
+SPLITS = mysplits
 
 # Bootstrap
 boot = StratifiedShuffleSplit(n_splits=SPLITS, test_size=0.1, random_state=42)
@@ -112,8 +112,10 @@ for train, test in boot.split(x, df["product"]):
     )
     epochs = monitor.stopped_epoch
     epochs_needed.append(epochs)
+    
     # Predict on the out of boot (validation)
     pred = model.predict(x_test)
+    
     # Measure this bootstrap's log loss
     y_compare = np.argmax(y_test, axis=1)  # For log loss calculation
     score = metrics.log_loss(y_compare, pred)
@@ -121,6 +123,8 @@ for train, test in boot.split(x, df["product"]):
     m1 = statistics.mean(mean_benchmark)
     m2 = statistics.mean(epochs_needed)
     mdev = statistics.pstdev(mean_benchmark)
+    print("mean_benchmark= ",mean_benchmark)
+
     # Record this iteration
     time_took = time.time() - start_time
     print(
