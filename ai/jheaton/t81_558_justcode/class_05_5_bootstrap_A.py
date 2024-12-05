@@ -26,9 +26,9 @@ def hms_string(sec_elapsed):
 
 # Options for this run
 length = 100
-folds = 2
+mysplits=5
 length = 2000
-folds = 5
+mysplits=50
 
 # Read the data set
 df_original = pd.read_csv(
@@ -61,7 +61,8 @@ x = df[x_columns].values
 y = df["age"].values
 
 
-SPLITS = 50
+SPLITS = mysplits
+
 # Bootstrap
 boot = ShuffleSplit(n_splits=SPLITS, test_size=0.1, random_state=42)
 # Track progress

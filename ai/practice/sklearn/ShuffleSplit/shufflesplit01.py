@@ -3,6 +3,8 @@
 import numpy as np
 from sklearn.model_selection import ShuffleSplit
 
+print("ShuffleSplit example]")
+
 X = np.array([[1, 2], [3, 4], [5, 6], [7, 8], [9, 10], [11, 12]])
 y = np.array([1, 2, 1, 2, 1, 2])
 
@@ -12,10 +14,12 @@ y = np.array([1, 2, 1, 2, 1, 2])
 print("Input x output y")
 for input, output in zip(X,y):
     print(f'x = {input}, y = {output}')
+print()
 
+SPLITS = 10
 
-rs = ShuffleSplit(n_splits=5, test_size=.25, random_state=0)
-rs.get_n_splits(X)
+rs = ShuffleSplit(n_splits=SPLITS, test_size=.25, random_state=0)
+# rs.get_n_splits(X)
 print(rs)
 
 for i, (train_index, test_index) in enumerate(rs.split(X)):
@@ -31,12 +35,13 @@ for i, (train_index, test_index) in enumerate(rs.split(X)):
     # print(x_train)
     for input, output in zip(x_train,y_train):
         print(f'x = {input}, y = {output}')
-
+print()
 
 # Specify train and test size
 print("with train size specified")
 rs = ShuffleSplit(n_splits=5, train_size=0.5, test_size=.25,
                   random_state=0)
+print(rs)
 for i, (train_index, test_index) in enumerate(rs.split(X)):
     print(f"Fold {i}:")
     print(f"  Train: index={train_index}")
