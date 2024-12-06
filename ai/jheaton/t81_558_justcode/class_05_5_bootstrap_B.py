@@ -15,7 +15,6 @@ from sklearn.model_selection import StratifiedShuffleSplit
 
 print("class_05_5_bootstrap_B")
 
-
 # Nicely formatted time string
 def hms_string(sec_elapsed):
     h = int(sec_elapsed / (60 * 60))
@@ -23,9 +22,14 @@ def hms_string(sec_elapsed):
     s = sec_elapsed % 60
     return "{}:{:>02}:{:>05.2f}".format(h, m, s)
 
-
 # Options for this run
-length = 100
+print_fold = False
+do_calc=True
+length = 2000
+mysplits=50
+length = 400
+mysplits=5
+length = 200
 mysplits=5
 length = 2000
 mysplits=50
@@ -64,6 +68,7 @@ SPLITS = mysplits
 
 # Bootstrap
 boot = StratifiedShuffleSplit(n_splits=SPLITS, test_size=0.1, random_state=42)
+# print(boot)
 
 # Track progress
 mean_benchmark = []
@@ -74,61 +79,66 @@ num = 0
 for train, test in boot.split(x, df["product"]):
     start_time = time.time()
     num += 1
-
-    # Split train and test
-    # x_train = x[train]
-    # y_train = y[train]
-    # x_test = x[test]
-    # y_test = y[test]
-
-    x_train = np.asarray(x[train]).astype(np.float32)
-    y_train = np.asarray(y[train]).astype(np.float32)
-    x_test = np.asarray(x[test]).astype(np.float32)
-    y_test = np.asarray(y[test]).astype(np.float32)
+    if print_fold == True:
+        print(f"#{num}")
+        print(f"  Train: index={train}")
+        print(f"  Test:  index={test}")
 
 
-    # Construct neural network
-    model = Sequential()
-    model.add(Dense(50, input_dim=x.shape[1], activation="relu"))  # Hidden 1
-    model.add(Dense(25, activation="relu"))  # Hidden 2
-    model.add(Dense(y.shape[1], activation="softmax"))  # Output
-    model.compile(loss="categorical_crossentropy", optimizer="adam")
-    monitor = EarlyStopping(
-        monitor="val_loss",
-        min_delta=1e-3,
-        patience=25,
-        verbose=0,
-        mode="auto",
-        restore_best_weights=True,
-    )
-    # Train on the bootstrap sample
-    model.fit(
-        x_train,
-        y_train,
-        validation_data=(x_test, y_test),
-        callbacks=[monitor],
-        verbose=0,
-        epochs=1000,
-    )
-    epochs = monitor.stopped_epoch
-    epochs_needed.append(epochs)
-    
-    # Predict on the out of boot (validation)
-    pred = model.predict(x_test)
-    
-    # Measure this bootstrap's log loss
-    y_compare = np.argmax(y_test, axis=1)  # For log loss calculation
-    score = metrics.log_loss(y_compare, pred)
-    mean_benchmark.append(score)
-    m1 = statistics.mean(mean_benchmark)
-    m2 = statistics.mean(epochs_needed)
-    mdev = statistics.pstdev(mean_benchmark)
-    print("mean_benchmark= ",mean_benchmark)
+    if do_calc==True:
+        # Split train and test
+        # x_train = x[train]
+        # y_train = y[train]
+        # x_test = x[test]
+        # y_test = y[test]
 
-    # Record this iteration
-    time_took = time.time() - start_time
-    print(
-        f"#{num}: score={score:.6f}, mean score={m1:.6f},"
-        + f"stdev={mdev:.6f}, epochs={epochs}, mean epochs={int(m2)},"
-        + f" time={hms_string(time_took)}"
-    )
+        x_train = np.asarray(x[train]).astype(np.float32)
+        y_train = np.asarray(y[train]).astype(np.float32)
+        x_test = np.asarray(x[test]).astype(np.float32)
+        y_test = np.asarray(y[test]).astype(np.float32)
+
+        # Construct neural network
+        model = Sequential()
+        model.add(Dense(50, input_dim=x.shape[1], activation="relu"))  # Hidden 1
+        model.add(Dense(25, activation="relu"))  # Hidden 2
+        model.add(Dense(y.shape[1], activation="softmax"))  # Output
+        model.compile(loss="categorical_crossentropy", optimizer="adam")
+        monitor = EarlyStopping(
+            monitor="val_loss",
+            min_delta=1e-3,
+            patience=25,
+            verbose=0,
+            mode="auto",
+            restore_best_weights=True,
+        )
+        # Train on the bootstrap sample
+        model.fit(
+            x_train,
+            y_train,
+            validation_data=(x_test, y_test),
+            callbacks=[monitor],
+            verbose=0,
+            epochs=1000,
+        )
+        epochs = monitor.stopped_epoch
+        epochs_needed.append(epochs)
+        
+        # Predict on the out of boot (validation)
+        pred = model.predict(x_test)
+        
+        # Measure this bootstrap's log loss
+        y_compare = np.argmax(y_test, axis=1)  # For log loss calculation
+        score = metrics.log_loss(y_compare, pred)
+        mean_benchmark.append(score)
+        m1 = statistics.mean(mean_benchmark)
+        m2 = statistics.mean(epochs_needed)
+        mdev = statistics.pstdev(mean_benchmark)
+        # print("mean_benchmark= ",mean_benchmark)
+
+        # Record this iteration
+        time_took = time.time() - start_time
+        print(
+            f"#{num}: score={score:.6f}, mean score={m1:.6f},"
+            + f"stdev={mdev:.6f}, epochs={epochs}, mean epochs={int(m2)},"
+            + f" time={hms_string(time_took)}"
+        )
