@@ -6,39 +6,6 @@ import os
 
 print("class_06_1_python_images_F")
 
-do_download=False
-do_fileops=False
-
-URL = "https://github.com/jeffheaton/data-mirror/releases/"
-#DOWNLOAD_SOURCE = URL+"download/v1/iris-image.zip"
-DOWNLOAD_SOURCE = URL+"download/v1/paperclips.zip"
-print(DOWNLOAD_SOURCE)
-DOWNLOAD_NAME = DOWNLOAD_SOURCE[DOWNLOAD_SOURCE.rfind('/')+1:]
-
-PATH = "./not_on_github"
-EXTRACT_TARGET = os.path.join(PATH,"clips")
-SOURCE = os.path.join(PATH, "clips/paperclips")
-TARGET = os.path.join(PATH,"clips-processed")
-ZIPFILE=os.path.join(PATH, DOWNLOAD_NAME)
-
-if do_download==True:
-    cmd = "wget --directory-prefix=./input "+DOWNLOAD_SOURCE
-    os.system(cmd)
-
-if do_fileops==True:
-    cmd="mkdir -p "+ SOURCE
-    os.system(cmd)
-
-    cmd="mkdir -p "+ TARGET
-    os.system(cmd)
-
-    cmd="mkdir -p "+ EXTRACT_TARGET
-    os.system(cmd)
-
-    cmd="unzip -o -j -d "+SOURCE+" " +ZIPFILE+" >/dev/null "
-    print(cmd)
-
-
 def scale(img, scale_width, scale_height):
     # Scale the image
     img = img.resize((
@@ -69,28 +36,71 @@ def crop_square(image):
     return image.crop((left, top, right, bottom))
 
 
-files = glob.glob(os.path.join(SOURCE,"*.jpg"))
-# print(files)
+do_download=False
+do_mkdir=False
+do_unzip=False
+do_standardize=True
 
-for file in tqdm(files):
-    try:
-        target = ""
-        name = os.path.basename(file)
-        filename, _ = os.path.splitext(name)
-        img = Image.open(file)
-        img = standardize(img)
-        img = crop_square(img)
-        img = scale(img, 128, 128)
-        #fail_below(img, 128, 128)
-        target = os.path.join(TARGET,filename+".jpg")
-        print(target)
-        img.save(target, quality=25)
-    except KeyboardInterrupt:
-        print("Keyboard interrupt")
-        break
-    except AssertionError:
-        print("Assertion")
-        break
-    except:
-        print("Unexpected exception while processing image source: " \
-        f"{file}, target: {target}" , exc_info=True)
+URL = "https://github.com/jeffheaton/data-mirror/releases/"
+#DOWNLOAD_SOURCE = URL+"download/v1/iris-image.zip"
+DOWNLOAD_SOURCE = URL+"download/v1/paperclips.zip"
+print(DOWNLOAD_SOURCE)
+DOWNLOAD_NAME = DOWNLOAD_SOURCE[DOWNLOAD_SOURCE.rfind('/')+1:]
+
+PATH = "./not_on_github"
+EXTRACT_TARGET = os.path.join(PATH,"clips")
+SOURCE = os.path.join(PATH, "clips/paperclips")
+TARGET = os.path.join(PATH,"clips-processed")
+ZIPFILE=os.path.join(PATH, DOWNLOAD_NAME)
+
+if do_download==True:
+    # cmd = "wget --directory-prefix=./input "+DOWNLOAD_SOURCE
+    cmd = "wget --directory-prefix="+PATH+" "+DOWNLOAD_SOURCE
+    print(cmd)
+    # result: wget --directory-prefix=./not_on_github https://github.com/jeffheaton/data-mirror/releases/download/v1/paperclips.zip
+    # os.system(cmd)
+
+if do_mkdir==True:
+    cmd1="mkdir -p "+ SOURCE
+    cmd2="mkdir -p "+ TARGET
+    cmd3="mkdir -p "+ EXTRACT_TARGET
+
+    print(cmd1)
+    print(cmd2)
+    print(cmd3)
+
+    os.system(cmd1)
+    os.system(cmd2)
+    os.system(cmd3)
+
+if do_unzip==True:
+    cmd="unzip -o -j -d "+SOURCE+" " +ZIPFILE+" >/dev/null "
+    print(cmd)
+    # unzip -o -j -d ./not_on_github/clips/paperclips ./not_on_github/paperclips.zip >/dev/null 
+
+
+if do_standardize==True:
+    files = glob.glob(os.path.join(SOURCE,"*.jpg"))
+    # print(files)
+    for file in tqdm(files):
+        try:
+            target = ""
+            name = os.path.basename(file)
+            filename, _ = os.path.splitext(name)
+            img = Image.open(file)
+            img = standardize(img)
+            img = crop_square(img)
+            img = scale(img, 128, 128)
+            #fail_below(img, 128, 128)
+            target = os.path.join(TARGET,filename+".jpg")
+            print(target)
+            img.save(target, quality=25)
+        except KeyboardInterrupt:
+            print("Keyboard interrupt")
+            break
+        except AssertionError:
+            print("Assertion")
+            break
+        except:
+            print("Unexpected exception while processing image source: " \
+            f"{file}, target: {target}" , exc_info=True)
