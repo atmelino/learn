@@ -39,18 +39,12 @@ if do_fileops==True:
     print(cmd)
 
 
-
-import imageio
-import glob
-from tqdm import tqdm
-from PIL import Image
-import os
 def scale(img, scale_width, scale_height):
     # Scale the image
     img = img.resize((
     scale_width,
     scale_height),
-    Image.ANTIALIAS)
+    Image.LANCZOS)
     return img
 
 def standardize(image):
@@ -63,29 +57,40 @@ def fail_below(image, check_width, check_height):
     assert width == check_width
     assert height == check_height
 
+def crop_square(image):
+    width, height = image.size
+    # Crop the image, centered
+    new_width = min(width,height)
+    new_height = new_width
+    left = (width - new_width)/2
+    top = (height - new_height)/2
+    right = (width + new_width)/2
+    bottom = (height + new_height)/2
+    return image.crop((left, top, right, bottom))
+
+
 files = glob.glob(os.path.join(SOURCE,"*.jpg"))
-print(files)
+# print(files)
 
-
-
-# for file in tqdm(files):
-#     try:
-#         target = ""
-#         name = os.path.basename(file)
-#         filename, _ = os.path.splitext(name)
-#         img = Image.open(file)
-#         img = standardize(img)
-#         img = crop_square(img)
-#         img = scale(img, 128, 128)
-#         #fail_below(img, 128, 128)
-#         target = os.path.join(TARGET,filename+".jpg")
-#         img.save(target, quality=25)
-#     except KeyboardInterrupt:
-#         print("Keyboard interrupt")
-#         break
-#     except AssertionError:
-#         print("Assertion")
-#         break
-#     except:
-#         print("Unexpected exception while processing image source: " \
-#         f"{file}, target: {target}" , exc_info=True)
+for file in tqdm(files):
+    try:
+        target = ""
+        name = os.path.basename(file)
+        filename, _ = os.path.splitext(name)
+        img = Image.open(file)
+        img = standardize(img)
+        img = crop_square(img)
+        img = scale(img, 128, 128)
+        #fail_below(img, 128, 128)
+        target = os.path.join(TARGET,filename+".jpg")
+        print(target)
+        img.save(target, quality=25)
+    except KeyboardInterrupt:
+        print("Keyboard interrupt")
+        break
+    except AssertionError:
+        print("Assertion")
+        break
+    except:
+        print("Unexpected exception while processing image source: " \
+        f"{file}, target: {target}" , exc_info=True)

@@ -9,6 +9,7 @@ images = [
 "https://data.heatonresearch.com/images/jupyter/SeigleHall.jpeg",
 "https://data.heatonresearch.com/images/jupyter/WUSTLKnight.jpeg"
 ]
+
 def crop_square(image):
     width, height = image.size
     # Crop the image, centered
@@ -19,6 +20,7 @@ def crop_square(image):
     right = (width + new_width)/2
     bottom = (height + new_height)/2
     return image.crop((left, top, right, bottom))
+
 x = []
 
 for url in images:
