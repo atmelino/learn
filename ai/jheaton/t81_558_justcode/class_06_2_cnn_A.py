@@ -4,21 +4,21 @@ import tensorflow as tf
 import keras_preprocessing
 from keras_preprocessing import image
 from keras_preprocessing.image import ImageDataGenerator
+from tensorflow.keras.callbacks import EarlyStopping
+import time
 
 print("class_06_2_cnn_A")
 # this program requires the file structure to exist, that is created by running class_06_1_python_images_F.py
 
 PATH = "./not_on_github"
-EXTRACT_TARGET = os.path.join(PATH,"clips")
+EXTRACT_TARGET = os.path.join(PATH, "clips")
 SOURCE = os.path.join(PATH, "clips/paperclips")
-TARGET = os.path.join(PATH,"clips-processed")
+TARGET = os.path.join(PATH, "clips-processed")
 
 
-df = pd.read_csv(
-    os.path.join(SOURCE,"train.csv"),
-    na_values=['NA', '?'])
+df = pd.read_csv(os.path.join(SOURCE, "train.csv"), na_values=["NA", "?"])
 
-df['filename']="clips-"+df["id"].astype(str)+".jpg"
+df["filename"] = "clips-" + df["id"].astype(str) + ".jpg"
 print(df)
 
 TRAIN_PCT = 0.9
@@ -29,10 +29,8 @@ print(f"Training size: {len(df_train)}")
 print(f"Validate size: {len(df_validate)}")
 
 training_datagen = ImageDataGenerator(
-    rescale = 1./255,
-    horizontal_flip=True,
-    vertical_flip=True,
-    fill_mode='nearest')
+    rescale=1.0 / 255, horizontal_flip=True, vertical_flip=True, fill_mode="nearest"
+)
 
 train_generator = training_datagen.flow_from_dataframe(
     dataframe=df_train,
@@ -41,16 +39,56 @@ train_generator = training_datagen.flow_from_dataframe(
     y_col="clip_count",
     target_size=(256, 256),
     batch_size=32,
-    class_mode='other')
-validation_datagen = ImageDataGenerator(rescale = 1./255)
+    class_mode="other",
+)
+validation_datagen = ImageDataGenerator(rescale=1.0 / 255)
 val_generator = validation_datagen.flow_from_dataframe(
     dataframe=df_validate,
     directory=SOURCE,
     x_col="filename",
     y_col="clip_count",
     target_size=(256, 256),
-    class_mode='other')
+    class_mode="other",
+)
 
 
-
-
+model = tf.keras.models.Sequential(
+    [
+        # Note the input shape is the desired size of the image 150x150
+        # with 3 bytes color.
+        # This is the first convolution
+        tf.keras.layers.Conv2D(
+            64, (3, 3), activation="relu", input_shape=(256, 256, 3)
+        ),
+        tf.keras.layers.MaxPooling2D(2, 2),
+        # The second convolution
+        tf.keras.layers.Conv2D(64, (3, 3), activation="relu"),
+        tf.keras.layers.MaxPooling2D(2, 2),
+        tf.keras.layers.Flatten(),
+        # 512 neuron hidden layer
+        tf.keras.layers.Dense(512, activation="relu"),
+        tf.keras.layers.Dense(1, activation="linear"),
+    ]
+)
+model.summary()
+epoch_steps = 250  # needed for 2.2
+validation_steps = len(df_validate)
+model.compile(loss="mean_squared_error", optimizer="adam")
+monitor = EarlyStopping(
+    monitor="val_loss",
+    min_delta=1e-3,
+    patience=5,
+    verbose=1,
+    mode="auto",
+    restore_best_weights=True,
+)
+start_time = time.time()
+history = model.fit(
+    train_generator,
+    verbose=1,
+    validation_data=val_generator,
+    callbacks=[monitor],
+    epochs=25,
+)
+elapsed_time = time.time() - start_time
+print("Elapsed time: {}".format(hms_string(elapsed_time)))
