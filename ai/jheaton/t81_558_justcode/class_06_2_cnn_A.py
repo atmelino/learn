@@ -10,6 +10,13 @@ import time
 print("class_06_2_cnn_A")
 # this program requires the file structure to exist, that is created by running class_06_1_python_images_F.py
 
+# Nicely formatted time string
+def hms_string(sec_elapsed):
+    h = int(sec_elapsed / (60 * 60))
+    m = int((sec_elapsed % (60 * 60)) / 60)
+    s = sec_elapsed % 60
+    return f"{h}:{m:>02}:{s:>05.2f}"
+
 PATH = "./not_on_github"
 EXTRACT_TARGET = os.path.join(PATH, "clips")
 SOURCE = os.path.join(PATH, "clips/paperclips")
