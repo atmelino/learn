@@ -87,7 +87,7 @@ monitor = EarlyStopping(
     patience=5,
     verbose=1,
     mode="auto",
-    restore_best_weights=True,
+    restore_best_weights=False,
 )
 start_time = time.time()
 history = model.fit(
