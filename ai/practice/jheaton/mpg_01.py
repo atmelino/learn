@@ -39,3 +39,4 @@ print()
 pred = model.predict(x)
 print(f"Shape: {pred.shape}")
 print(pred[0:10])
+
