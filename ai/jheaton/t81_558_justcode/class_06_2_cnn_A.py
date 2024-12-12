@@ -99,3 +99,4 @@ history = model.fit(
 )
 elapsed_time = time.time() - start_time
 print("Elapsed time: {}".format(hms_string(elapsed_time)))
+
