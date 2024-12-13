@@ -84,10 +84,10 @@ model.compile(loss="mean_squared_error", optimizer="adam")
 monitor = EarlyStopping(
     monitor="val_loss",
     min_delta=1e-3,
-    patience=5,
+    patience=10,
     verbose=1,
     mode="auto",
-    restore_best_weights=False,
+    restore_best_weights=True,
 )
 start_time = time.time()
 history = model.fit(
@@ -95,8 +95,11 @@ history = model.fit(
     verbose=1,
     validation_data=val_generator,
     callbacks=[monitor],
-    epochs=25,
+    epochs=20,
 )
+
+print(history)
+
 elapsed_time = time.time() - start_time
 print("Elapsed time: {}".format(hms_string(elapsed_time)))
 
