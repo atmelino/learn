@@ -95,7 +95,7 @@ history = model.fit(
     verbose=1,
     validation_data=val_generator,
     callbacks=[monitor],
-    epochs=25,
+    epochs=25
 )
 
 print(history)
