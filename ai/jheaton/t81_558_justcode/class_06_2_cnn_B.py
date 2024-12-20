@@ -7,6 +7,9 @@ from tensorflow.keras.callbacks import EarlyStopping
 from sklearn.metrics import accuracy_score
 import numpy as np
 
+print("class_06_2_cnn_B")
+# this program requires the file structure to exist, that is created by running class_06_2_cnn_B_prepare.py
+
 PATH = "./not_on_github"
 EXTRACT_TARGET = os.path.join(PATH, "iris")
 SOURCE = EXTRACT_TARGET  # In this case its the same, no subfolder
@@ -27,7 +30,9 @@ train_generator = training_datagen.flow_from_directory(
     batch_size=32,
     shuffle=True,
 )
+
 validation_datagen = ImageDataGenerator(rescale=1.0 / 255)
+
 validation_generator = validation_datagen.flow_from_directory(
     directory=SOURCE,
     target_size=(256, 256),
@@ -37,9 +42,9 @@ validation_generator = validation_datagen.flow_from_directory(
 )
 
 
-from tensorflow.keras.callbacks import EarlyStopping
-
 class_count = len(train_generator.class_indices)
+print("number of classes=",class_count)
+
 model = tf.keras.models.Sequential(
     [
         # Note the input shape is the desired size of the image
@@ -74,16 +79,16 @@ model = tf.keras.models.Sequential(
 )
 model.summary()
 
-model.compile(loss = 'categorical_crossentropy', optimizer='adam')
+model.compile(loss="categorical_crossentropy", optimizer="adam")
 
-model.fit(train_generator, epochs=50, steps_per_epoch=10,verbose = 1)
+model.fit(train_generator, epochs=50, steps_per_epoch=10, verbose=1)
 
 
 validation_generator.reset()
 pred = model.predict(validation_generator)
 
-predict_classes = np.argmax(pred,axis=1)
+predict_classes = np.argmax(pred, axis=1)
 expected_classes = validation_generator.classes
 
-correct = accuracy_score(expected_classes,predict_classes)
+correct = accuracy_score(expected_classes, predict_classes)
 print(f"Accuracy: {correct}")
