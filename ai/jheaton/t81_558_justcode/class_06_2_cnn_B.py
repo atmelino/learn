@@ -4,11 +4,12 @@ import keras_preprocessing
 from keras_preprocessing import image
 from keras_preprocessing.image import ImageDataGenerator
 from tensorflow.keras.callbacks import EarlyStopping
+from sklearn.metrics import accuracy_score
+import numpy as np
 
 PATH = "./not_on_github"
 EXTRACT_TARGET = os.path.join(PATH, "iris")
 SOURCE = EXTRACT_TARGET  # In this case its the same, no subfolder
-
 
 training_datagen = ImageDataGenerator(
     rescale=1.0 / 255,
@@ -78,3 +79,11 @@ model.compile(loss = 'categorical_crossentropy', optimizer='adam')
 model.fit(train_generator, epochs=50, steps_per_epoch=10,verbose = 1)
 
 
+validation_generator.reset()
+pred = model.predict(validation_generator)
+
+predict_classes = np.argmax(pred,axis=1)
+expected_classes = validation_generator.classes
+
+correct = accuracy_score(expected_classes,predict_classes)
+print(f"Accuracy: {correct}")
