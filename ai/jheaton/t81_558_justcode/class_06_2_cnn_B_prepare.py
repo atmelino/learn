@@ -34,9 +34,9 @@ if do_mkdir==True:
     os.system(cmd1)
 
 if do_unzip==True:
-    cmd="unzip -o -j -d "+SOURCE+" " +ZIPFILE+" >/dev/null "
+    cmd="unzip -o -d "+SOURCE+" " +ZIPFILE+" >/dev/null "
     print(cmd)
-    # unzip -o -j -d ./not_on_github/iris ./not_on_github/iris-image.zip >/dev/null 
+    # unzip -o -d ./not_on_github/iris ./not_on_github/iris-image.zip >/dev/null 
 
 
 
