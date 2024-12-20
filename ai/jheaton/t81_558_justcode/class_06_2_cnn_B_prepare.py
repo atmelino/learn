@@ -2,8 +2,8 @@ import os
 
 
 
-do_download=True
-do_mkdir=True
+do_download=False
+do_mkdir=False
 
 
 URL = "https://github.com/jeffheaton/data-mirror/releases/"
