@@ -72,3 +72,9 @@ model = tf.keras.models.Sequential(
     ]
 )
 model.summary()
+
+model.compile(loss = 'categorical_crossentropy', optimizer='adam')
+
+model.fit(train_generator, epochs=50, steps_per_epoch=10,verbose = 1)
+
+
