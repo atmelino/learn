@@ -4,7 +4,7 @@ from tqdm import tqdm
 from PIL import Image
 import os
 
-print("class_06_1_python_images_F")
+print("class_06_2_cnn_A_prepare")
 
 def scale(img, scale_width, scale_height):
     # Scale the image
