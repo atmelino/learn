@@ -14,7 +14,7 @@ def scale(img, scale_width, scale_height):
     Image.LANCZOS)
     return img
 
-def standardize(image):
+def standardize(image): 
     rgbimg = Image.new("RGB", image.size)
     rgbimg.paste(image)
     return rgbimg
