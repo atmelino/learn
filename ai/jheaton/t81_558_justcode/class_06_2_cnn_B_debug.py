@@ -16,7 +16,8 @@ train=True
 
 
 PATH = "./not_on_github"
-EXTRACT_TARGET = os.path.join(PATH, "iris")
+# EXTRACT_TARGET = os.path.join(PATH, "iris")
+EXTRACT_TARGET = os.path.join(PATH, "animals")
 SOURCE = EXTRACT_TARGET  # In this case its the same, no subfolder
 
 training_datagen = ImageDataGenerator(
@@ -108,7 +109,7 @@ if train==True:
 
     print("Write the prediction to file")
     col_image = pd.DataFrame(train_generator.filenames, columns=["filename"])
-    cols_pred = pd.DataFrame(pred, columns=["set","ver","vir"])
+    cols_pred = pd.DataFrame(pred, columns=train_generator.class_indices)
     predDF = pd.concat([ col_image, cols_pred], axis=1)
     print("predicted\n", predDF)
     filename_write = "./output/class_06_2_cnn_B.csv"
