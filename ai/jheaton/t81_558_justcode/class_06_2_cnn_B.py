@@ -41,9 +41,7 @@ validation_generator = validation_datagen.flow_from_directory(
     shuffle=True,
 )
 
-
 class_count = len(train_generator.class_indices)
-print("number of classes=",class_count)
 
 model = tf.keras.models.Sequential(
     [
