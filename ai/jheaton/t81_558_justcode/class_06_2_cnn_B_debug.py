@@ -1,4 +1,5 @@
 import os
+import pandas as pd
 import tensorflow as tf
 import keras_preprocessing
 from keras_preprocessing import image
@@ -7,11 +8,11 @@ from tensorflow.keras.callbacks import EarlyStopping
 from sklearn.metrics import accuracy_score
 import numpy as np
 
-print("class_06_2_cnn_B")
+print("class_06_2_cnn_B_debug")
 # this program requires the file structure to exist, that is created by running class_06_2_cnn_B_prepare.py
 
 # Options for this run
-train=False
+train=True
 
 
 PATH = "./not_on_github"
@@ -97,10 +98,19 @@ if train==True:
     validation_generator.reset()
     pred = model.predict(validation_generator)
 
-    print(pred)
+    # print(pred)
 
     predict_classes = np.argmax(pred, axis=1)
     expected_classes = validation_generator.classes
 
     correct = accuracy_score(expected_classes, predict_classes)
     print(f"Accuracy: {correct}")
+
+    print("Write the prediction to file")
+    col_image = pd.DataFrame(train_generator.filenames, columns=["filename"])
+    cols_pred = pd.DataFrame(pred, columns=["set","ver","vir"])
+    predDF = pd.concat([ col_image, cols_pred], axis=1)
+    print("predicted\n", predDF)
+    filename_write = "./output/class_06_2_cnn_B.csv"
+    predDF.to_csv(filename_write, index=False)
+
