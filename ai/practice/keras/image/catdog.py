@@ -142,7 +142,7 @@ model = make_model(input_shape=image_size + (3,), num_classes=2)
 if plot==True:
     keras.utils.plot_model(model, show_shapes=True)
 
-epochs = 25
+epochs = 2
 
 callbacks = [
     keras.callbacks.ModelCheckpoint("save_at_{epoch}.keras"),
@@ -160,7 +160,7 @@ model.fit(
 )
 
 # save entire network to HDF5 (save everything, suggested)
-model.save("../output/catdog01.h5")
+# model.save("../output/catdog01.h5")
 
 img = keras.utils.load_img(imagedir+"/Cat/6779.jpg", target_size=image_size)
 
