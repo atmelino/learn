@@ -1,0 +1,79 @@
+Epoch 1/25
+Corrupt JPEG data: 2226 extraneous bytes before marker 0xd9
+2024-12-22 01:00:25.880952: I external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:454] Loaded cuDNN version 8907
+Corrupt JPEG data: 228 extraneous bytes before marker 0xd9
+Warning: unknown JFIF revision number 0.00 
+Corrupt JPEG data: 128 extraneous bytes before marker 0xd9
+Corrupt JPEG data: 65 extraneous bytes before marker 0xd9
+Corrupt JPEG data: 396 extraneous bytes before marker 0xd9
+Corrupt JPEG data: 239 extraneous bytes before marker 0xd9
+2024-12-22 01:00:32.675893: I external/local_xla/xla/service/service.cc:168] XLA service 0x7c24d00e10b0 initialized for platform CUDA (this does not guarantee that XLA 
+will be used). Devices:
+2024-12-22 01:00:32.675924: I external/local_xla/xla/service/service.cc:176]   StreamExecutor device (0): NVIDIA GeForce RTX 3090, Compute Capability 8.6
+2024-12-22 01:00:32.681041: I tensorflow/compiler/mlir/tensorflow/utils/dump_mlir_util.cc:269] disabling MLIR crash reproducer, set env var `MLIR_CRASH_REPRODUCER_DIREC
+TORY` to enable.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1734829232.754659   42455 device_compiler.h:186] Compiled cluster using XLA!  This line is logged at most once for the lifetime of the process.
+147/147 [==============================] - ETA: 0s - loss: 0.5890 - acc: 0.6726Corrupt JPEG data: 252 extraneous bytes before marker 0xd9
+Corrupt JPEG data: 1153 extraneous bytes before marker 0xd9
+Corrupt JPEG data: 162 extraneous bytes before marker 0xd9
+Corrupt JPEG data: 214 extraneous bytes before marker 0xd9
+Corrupt JPEG data: 99 extraneous bytes before marker 0xd9
+Corrupt JPEG data: 1403 extraneous bytes before marker 0xd9
+147/147 [==============================] - 67s 312ms/step - loss: 0.5890 - acc: 0.6726 - val_loss: 0.6959 - val_acc: 0.4957
+Epoch 2/25
+Corrupt JPEG data: 2226 extraneous bytes before marker 0xd9
+  2/147 [..............................] - ETA: 44s - loss: 0.4915 - acc: 0.7305 Corrupt JPEG data: 228 extraneous bytes before marker 0xd9
+  5/147 [>.............................] - ETA: 42s - loss: 0.4928 - acc: 0.7344Warning: unknown JFIF revision number 0.00
+  6/147 [>.............................] - ETA: 41s - loss: 0.5038 - acc: 0.7266Corrupt JPEG data: 128 extraneous bytes before marker 0xd9
+Corrupt JPEG data: 65 extraneous bytes before marker 0xd9
+Corrupt JPEG data: 396 extraneous bytes before marker 0xd9
+Corrupt JPEG data: 239 extraneous bytes before marker 0xd9
+147/147 [==============================] - ETA: 0s - loss: 0.4736 - acc: 0.7595Corrupt JPEG data: 252 extraneous bytes before marker 0xd9
+Corrupt JPEG data: 1153 extraneous bytes before marker 0xd9
+Corrupt JPEG data: 162 extraneous bytes before marker 0xd9
+Corrupt JPEG data: 214 extraneous bytes before marker 0xd9
+Corrupt JPEG data: 99 extraneous bytes before marker 0xd9
+Corrupt JPEG data: 1403 extraneous bytes before marker 0xd9
+147/147 [==============================] - 41s 276ms/step - loss: 0.4736 - acc: 0.7595 - val_loss: 0.6947 - val_acc: 0.4957
+Epoch 3/25                                                                                                                                           01:04:12 [305/1318]
+Corrupt JPEG data: 2226 extraneous bytes before marker 0xd9
+  2/147 [..............................] - ETA: 41s - loss: 0.4003 - acc: 0.8516 Corrupt JPEG data: 228 extraneous bytes before marker 0xd9
+  5/147 [>.............................] - ETA: 43s - loss: 0.4062 - acc: 0.8266Warning: unknown JFIF revision number 0.00
+Corrupt JPEG data: 128 extraneous bytes before marker 0xd9
+  6/147 [>.............................] - ETA: 41s - loss: 0.4043 - acc: 0.8216Corrupt JPEG data: 65 extraneous bytes before marker 0xd9
+Corrupt JPEG data: 396 extraneous bytes before marker 0xd9
+Corrupt JPEG data: 239 extraneous bytes before marker 0xd9
+147/147 [==============================] - ETA: 0s - loss: 0.3714 - acc: 0.8244Corrupt JPEG data: 252 extraneous bytes before marker 0xd9
+Corrupt JPEG data: 1153 extraneous bytes before marker 0xd9
+Corrupt JPEG data: 162 extraneous bytes before marker 0xd9
+Corrupt JPEG data: 214 extraneous bytes before marker 0xd9
+Corrupt JPEG data: 99 extraneous bytes before marker 0xd9
+Corrupt JPEG data: 1403 extraneous bytes before marker 0xd9
+147/147 [==============================] - 41s 278ms/step - loss: 0.3714 - acc: 0.8244 - val_loss: 0.7354 - val_acc: 0.5252
+Epoch 4/25
+Corrupt JPEG data: 2226 extraneous bytes before marker 0xd9
+  3/147 [..............................] - ETA: 43s - loss: 0.3089 - acc: 0.8750Corrupt JPEG data: 228 extraneous bytes before marker 0xd9
+Warning: unknown JFIF revision number 0.00 
+  5/147 [>.............................] - ETA: 42s - loss: 0.3272 - acc: 0.8516Corrupt JPEG data: 128 extraneous bytes before marker 0xd9
+Corrupt JPEG data: 65 extraneous bytes before marker 0xd9
+  6/147 [>.............................] - ETA: 42s - loss: 0.3245 - acc: 0.8529Corrupt JPEG data: 396 extraneous bytes before marker 0xd9
+Corrupt JPEG data: 239 extraneous bytes before marker 0xd9
+147/147 [==============================] - ETA: 0s - loss: 0.3191 - acc: 0.8541Corrupt JPEG data: 252 extraneous bytes before marker 0xd9
+Corrupt JPEG data: 1153 extraneous bytes before marker 0xd9
+Corrupt JPEG data: 162 extraneous bytes before marker 0xd9
+Corrupt JPEG data: 214 extraneous bytes before marker 0xd9
+Corrupt JPEG data: 99 extraneous bytes before marker 0xd9
+Corrupt JPEG data: 1403 extraneous bytes before marker 0xd9
+147/147 [==============================] - 41s 278ms/step - loss: 0.3191 - acc: 0.8541 - val_loss: 0.6845 - val_acc: 0.5269
+Epoch 5/25
+Corrupt JPEG data: 2226 extraneous bytes before marker 0xd9
+  2/147 [..............................] - ETA: 44s - loss: 0.2659 - acc: 0.8789 Corrupt JPEG data: 228 extraneous bytes before marker 0xd9
+  3/147 [..............................] - ETA: 45s - loss: 0.2716 - acc: 0.8854Warning: unknown JFIF revision number 0.00
+  4/147 [..............................] - ETA: 44s - loss: 0.2792 - acc: 0.8691Corrupt JPEG data: 128 extraneous bytes before marker 0xd9
+  5/147 [>.............................] - ETA: 49s - loss: 0.2701 - acc: 0.8781Corrupt JPEG data: 65 extraneous bytes before marker 0xd9
+Corrupt JPEG data: 396 extraneous bytes before marker 0xd9
+  6/147 [>.............................] - ETA: 50s - loss: 0.2711 - acc: 0.8750Corrupt JPEG data: 239 extraneous bytes before marker 0xd9
+147/147 [==============================] - ETA: 0s - loss: 0.2720 - acc: 0.8764Corrupt JPEG data: 252 extraneous bytes before marker 0xd9
+Corrupt JPEG data: 1153 extraneous bytes before marker 0xd9
+Corrupt JPEG data: 162 extraneous bytes before marker 0xd9
