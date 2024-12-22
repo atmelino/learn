@@ -172,6 +172,7 @@ img_array = keras.utils.img_to_array(img)
 img_array = keras.ops.expand_dims(img_array, 0)  # Create batch axis
 
 predictions = model.predict(img_array)
+print(predictions)
 score = float(keras.ops.sigmoid(predictions[0][0]))
 print(imagedir+"/Cat/6779.jpg")
 print(f"This image is {100 * (1 - score):.2f}% cat and {100 * score:.2f}% dog.")
