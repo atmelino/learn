@@ -38,6 +38,19 @@ train_ds, val_ds = keras.utils.image_dataset_from_directory(
     batch_size=batch_size,
 )
 
+print("save plot")
+plt.figure(figsize=(10, 10))
+for images, labels in train_ds.take(1):
+    for i in range(9):
+        ax = plt.subplot(3, 3, i + 1)
+        plt.imshow(np.array(images[i]).astype("uint8"))
+        plt.title(int(labels[i]))
+        plt.axis("off")
+plt.show()
+plt.savefig('../output/catdog.png')
+
+
+
 
 
 
