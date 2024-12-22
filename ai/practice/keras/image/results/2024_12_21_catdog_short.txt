@@ -1,0 +1,62 @@
+Epoch 1/25
+2024-12-22 01:00:25.880952: I external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:454] Loaded cuDNN version 8907
+2024-12-22 01:00:32.675893: I external/local_xla/xla/service/service.cc:168] XLA service 0x7c24d00e10b0 initialized for platform CUDA (this does not guarantee that XLA 
+will be used). Devices:
+2024-12-22 01:00:32.675924: I external/local_xla/xla/service/service.cc:176]   StreamExecutor device (0): NVIDIA GeForce RTX 3090, Compute Capability 8.6
+2024-12-22 01:00:32.681041: I tensorflow/compiler/mlir/tensorflow/utils/dump_mlir_util.cc:269] disabling MLIR crash reproducer, set env var `MLIR_CRASH_REPRODUCER_DIREC
+TORY` to enable.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1734829232.754659   42455 device_compiler.h:186] Compiled cluster using XLA!  This line is logged at most once for the lifetime of the process.
+147/147 [==============================] - 67s 312ms/step - loss: 0.5890 - acc: 0.6726 - val_loss: 0.6959 - val_acc: 0.4957
+Epoch 2/25
+147/147 [==============================] - 41s 276ms/step - loss: 0.4736 - acc: 0.7595 - val_loss: 0.6947 - val_acc: 0.4957
+Epoch 3/25                                                                                                                                           01:04:12 [305/1318]
+147/147 [==============================] - 41s 278ms/step - loss: 0.3714 - acc: 0.8244 - val_loss: 0.7354 - val_acc: 0.5252
+Epoch 4/25
+147/147 [==============================] - 41s 278ms/step - loss: 0.3191 - acc: 0.8541 - val_loss: 0.6845 - val_acc: 0.5269
+Epoch 5/25                                                                                                                                                              
+147/147 [==============================] - 41s 279ms/step - loss: 0.2720 - acc: 0.8764 - val_loss: 0.6991 - val_acc: 0.6049
+Epoch 6/25
+147/147 [==============================] - 41s 277ms/step - loss: 0.2343 - acc: 0.8968 - val_loss: 0.2501 - val_acc: 0.8864
+Epoch 7/25
+147/147 [==============================] - 41s 277ms/step - loss: 0.2126 - acc: 0.9098 - val_loss: 0.2170 - val_acc: 0.8981
+Epoch 8/25
+147/147 [==============================] - 42s 280ms/step - loss: 0.1879 - acc: 0.9184 - val_loss: 0.9559 - val_acc: 0.7460
+Epoch 9/25
+147/147 [==============================] - 42s 280ms/step - loss: 0.1771 - acc: 0.9228 - val_loss: 0.2140 - val_acc: 0.9084
+Epoch 10/25
+147/147 [==============================] - 42s 279ms/step - loss: 0.1627 - acc: 0.9307 - val_loss: 0.3220 - val_acc: 0.8896
+Epoch 11/25                                                                                                                                                             
+147/147 [==============================] - 41s 278ms/step - loss: 0.1539 - acc: 0.9326 - val_loss: 0.2042 - val_acc: 0.9321
+Epoch 12/25
+147/147 [==============================] - 42s 280ms/step - loss: 0.1397 - acc: 0.9398 - val_loss: 0.3338 - val_acc: 0.8840
+Epoch 13/25
+147/147 [==============================] - 42s 282ms/step - loss: 0.1309 - acc: 0.9438 - val_loss: 0.1888 - val_acc: 0.9349
+Epoch 14/25
+147/147 [==============================] - 42s 280ms/step - loss: 0.1288 - acc: 0.9467 - val_loss: 0.1779 - val_acc: 0.9282
+Epoch 15/25
+147/147 [==============================] - 42s 281ms/step - loss: 0.1223 - acc: 0.9477 - val_loss: 0.4619 - val_acc: 0.8558
+Epoch 16/25
+147/147 [==============================] - 41s 278ms/step - loss: 0.1161 - acc: 0.9506 - val_loss: 0.1542 - val_acc: 0.9391
+Epoch 17/25
+147/147 [==============================] - 41s 279ms/step - loss: 0.1103 - acc: 0.9533 - val_loss: 0.3895 - val_acc: 0.8943
+Epoch 18/25
+147/147 [==============================] - 41s 279ms/step - loss: 0.1033 - acc: 0.9582 - val_loss: 0.2761 - val_acc: 0.9182
+Epoch 19/25
+147/147 [==============================] - 41s 277ms/step - loss: 0.0959 - acc: 0.9610 - val_loss: 0.3487 - val_acc: 0.9105
+Epoch 20/25
+147/147 [==============================] - 42s 281ms/step - loss: 0.0947 - acc: 0.9595 - val_loss: 0.2358 - val_acc: 0.8902
+Epoch 21/25
+147/147 [==============================] - 42s 279ms/step - loss: 0.0904 - acc: 0.9627 - val_loss: 0.1641 - val_acc: 0.9400
+Epoch 22/25
+147/147 [==============================] - 42s 279ms/step - loss: 0.0887 - acc: 0.9618 - val_loss: 0.1507 - val_acc: 0.9492
+Epoch 23/25
+147/147 [==============================] - 42s 280ms/step - loss: 0.0839 - acc: 0.9649 - val_loss: 0.3664 - val_acc: 0.8964
+Epoch 24/25
+147/147 [==============================] - 42s 279ms/step - loss: 0.0814 - acc: 0.9679 - val_loss: 0.2473 - val_acc: 0.9261
+Epoch 25/25
+147/147 [==============================] - 41s 278ms/step - loss: 0.0796 - acc: 0.9676 - val_loss: 0.1404 - val_acc: 0.9541
+
+
+
+
