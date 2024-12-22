@@ -54,7 +54,7 @@ if plot==True:
     plt.show()
     plt.savefig('../output/catdog01.png')
 
-exit()
+# exit()
 
 
 data_augmentation_layers = [
