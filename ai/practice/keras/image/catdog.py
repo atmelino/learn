@@ -11,6 +11,7 @@ plot=False
 
 imagedir="../not_on_github/PetImages"
 
+
 num_skipped = 0
 for folder_name in ("Cat", "Dog"):
     folder_path = os.path.join(imagedir, folder_name)
@@ -52,6 +53,9 @@ if plot==True:
             plt.axis("off")
     plt.show()
     plt.savefig('../output/catdog01.png')
+
+exit()
+
 
 data_augmentation_layers = [
     layers.RandomFlip("horizontal"),
@@ -156,7 +160,21 @@ model.fit(
 )
 
 
+img = keras.utils.load_img(imagedir+"/Cat/6779.jpg", target_size=image_size)
 
+if plot==True:
+    print("show cat")
+    print(imagedir+"/Cat/6779.jpg")
+    plt.imshow(img)
+    plt.show()
+
+img_array = keras.utils.img_to_array(img)
+img_array = keras.ops.expand_dims(img_array, 0)  # Create batch axis
+
+predictions = model.predict(img_array)
+score = float(keras.ops.sigmoid(predictions[0][0]))
+print(imagedir+"/Cat/6779.jpg")
+print(f"This image is {100 * (1 - score):.2f}% cat and {100 * score:.2f}% dog.")
 
 
 
