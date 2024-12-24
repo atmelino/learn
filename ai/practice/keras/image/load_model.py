@@ -18,9 +18,12 @@ test_images = [
     "/Cat/24.jpg",
     "/Cat/25.jpg",
     "/Cat/648.jpg",
-    "/Dog/0.jpg",
+    "/Cat/3279.jpg",
     "/Cat/6779.jpg",
+    "/Dog/0.jpg",
     "/Dog/189.jpg",
+    "/Dog/278.jpg",
+    "/Dog/1014.jpg",
 ]
 
 # result_table = {}
