@@ -1,5 +1,5 @@
 import os
-import pandas
+import pandas as pd
 import keras
 from tensorflow.keras.models import load_model
 import tensorflow as tf
@@ -23,7 +23,9 @@ test_images = [
     "/Dog/189.jpg",
 ]
 
-result_table = []
+# result_table = {}
+names=[]
+predictions=[]
 
 for filename in test_images:
     img = keras.utils.load_img(imagedir + filename, target_size=image_size)
@@ -37,11 +39,17 @@ for filename in test_images:
     img_array = keras.utils.img_to_array(img)
     img_array = keras.ops.expand_dims(img_array, 0)  # Create batch axis
 
-    predictions = model.predict(img_array)
-    score = float(keras.ops.sigmoid(predictions[0][0]))
+    prediction = model.predict(img_array)
+    score = float(keras.ops.sigmoid(prediction[0][0]))
 
-    print(predictions)
+    print(prediction)
     print(imagedir + filename)
     print(f"This image is {100 * (1 - score):.2f}% cat and {100 * score:.2f}% dog.")
 
-    result_table.append(imagedir + filename, predictions, score)
+    names.append(filename)
+    predictions.append(prediction)
+    # result_table.append({imagedir + filename, predictions, score})
+
+# print results table
+results = pd.DataFrame({'filename': names, 'pred': predictions})
+print(results)
