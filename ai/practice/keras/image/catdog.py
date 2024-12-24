@@ -143,7 +143,7 @@ model = make_model(input_shape=image_size + (3,), num_classes=2)
 if plot==True:
     keras.utils.plot_model(model, show_shapes=True)
 
-epochs = 25
+epochs = 2
 
 callbacks = [
     keras.callbacks.ModelCheckpoint("save_at_{epoch}.keras"),
@@ -163,7 +163,8 @@ model.fit(
 )
 
 # save entire network to HDF5 (save everything, suggested)
-# model.save("../output/catdog01.h5")
+model.save("../output/catdog01.h5")
+model.save("../output/catdog01.keras")
 
 
 img = keras.utils.load_img(imagedir+"/Cat/6779.jpg", target_size=image_size)
@@ -175,14 +176,14 @@ if plot==True:
     plt.show()
 
 img_array = keras.utils.img_to_array(img)
-# img_array = keras.ops.expand_dims(img_array, 0)  # Create batch axis
-img_array = tf.expand_dims(img_array, 0)  # Create batch axis
+img_array = keras.ops.expand_dims(img_array, 0)  # Create batch axis
+# img_array = tf.expand_dims(img_array, 0)  # Create batch axis
 
 predictions = model.predict(img_array)
 print(predictions)
 
-# score = float(keras.ops.sigmoid(predictions[0][0]))
-score = float(tf.keras.activations.sigmoid(predictions[0][0]))
+score = float(keras.ops.sigmoid(predictions[0][0]))
+# score = float(tf.keras.activations.sigmoid(predictions[0][0]))
 
 
 print(imagedir+"/Cat/6779.jpg")
