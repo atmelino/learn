@@ -148,15 +148,17 @@ epochs = 25
 callbacks = [
     keras.callbacks.ModelCheckpoint("save_at_{epoch}.keras"),
 ]
+
 model.compile(
     optimizer=keras.optimizers.Adam(3e-4),
     loss=keras.losses.BinaryCrossentropy(from_logits=True),
     metrics=[keras.metrics.BinaryAccuracy(name="acc")],
 )
+
 model.fit(
     train_ds,
     epochs=epochs,
-    callbacks=callbacks,
+    # callbacks=callbacks,
     validation_data=val_ds,
 )
 
