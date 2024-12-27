@@ -8,7 +8,8 @@ from progressbar import ProgressBar
 # Options for this run
 plot = False
 print_in_loop = False
-nfiles=200
+partial_files = False
+mynfiles = 20
 
 imagedir = "../not_on_github/PetImages"
 image_size = (180, 180)
@@ -31,22 +32,27 @@ for file_path in os.listdir(dir_path):
     if os.path.isfile(os.path.join(dir_path, file_path)):
         filenamearray.append("/Dog/" + file_path)
 filenamearray = sorted(filenamearray)
-
+length = len(filenamearray)
 # print(len(filenamearray)," items")
 # print(filenamearray)
 
-test_images = filenamearray[0:nfiles]
+if partial_files == True:
+    nfiles = mynfiles
+else:
+    nfiles = length
 
+test_images = filenamearray[0:nfiles]
 names = []
 predictions = []
 catprobs = []
 dogprobs = []
 
+print("Total files to process: ", nfiles)
 pbar = ProgressBar(maxval=nfiles)
 pbar.start()
 
 for i, filename in enumerate(test_images):
-# for filename in test_images:
+    # for filename in test_images:
     pbar.update(i)
 
     img = keras.utils.load_img(imagedir + filename, target_size=image_size)
@@ -60,12 +66,12 @@ for i, filename in enumerate(test_images):
     img_array = keras.utils.img_to_array(img)
     img_array = keras.ops.expand_dims(img_array, 0)  # Create batch axis
 
-    prediction = model.predict(img_array,verbose = 0)
+    prediction = model.predict(img_array, verbose=0)
     score = float(keras.ops.sigmoid(prediction[0][0]))
     catprob = 100 * (1 - score)
     dogprob = 100 * score
 
-    if print_in_loop==True:
+    if print_in_loop == True:
         # print(prediction)
         print(imagedir + filename)
         print(f"This image is {100 * (1 - score):.2f}% cat and {100 * score:.2f}% dog.")
@@ -78,7 +84,9 @@ for i, filename in enumerate(test_images):
 # print results table
 pbar.finish()
 
-results = pd.DataFrame({"filename": names, "pred": predictions, "cat %": catprobs, "dog %": dogprobs})
+results = pd.DataFrame(
+    {"filename": names, "pred": predictions, "cat %": catprobs, "dog %": dogprobs}
+)
 filename_write = "../output/catdog.csv"
 results.to_csv(filename_write, index=False)
 print(results)
