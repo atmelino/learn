@@ -3,9 +3,12 @@ import pandas as pd
 import keras
 from tensorflow.keras.models import load_model
 import tensorflow as tf
+from progressbar import ProgressBar
 
 # Options for this run
 plot = False
+print_in_loop = False
+nfiles=200
 
 imagedir = "../not_on_github/PetImages"
 image_size = (180, 180)
@@ -14,56 +17,38 @@ load_path = "../not_on_github/catdogsavemodel"
 model = load_model(os.path.join(load_path, "catdog01.h5"))
 
 
-dir_path=imagedir
-# res = []
-# for (dir_path, dir_names, file_names) in os.walk(dir_path):
-#     res.extend(file_names)
-# print(res)
+dir_path = imagedir
 
+filenamearray = []
 
-
-res = []
-
-dir_path=imagedir+"/Cat"
-# Iterate directory
+dir_path = imagedir + "/Cat"
 for file_path in os.listdir(dir_path):
-    # check if current file_path is a file
     if os.path.isfile(os.path.join(dir_path, file_path)):
-        # add filename to list
-        res.append(file_path)
-res=sorted(res)
-# print(len(res))   
-print(len(res)," items")
-print(res)
+        filenamearray.append("/Cat/" + file_path)
+filenamearray = sorted(filenamearray)
+dir_path = imagedir + "/Dog"
+for file_path in os.listdir(dir_path):
+    if os.path.isfile(os.path.join(dir_path, file_path)):
+        filenamearray.append("/Dog/" + file_path)
+filenamearray = sorted(filenamearray)
 
-catarray=[]
-for name in res:
-    catarray.append("/Cat/"+name)
-print(catarray)
+# print(len(filenamearray)," items")
+# print(filenamearray)
 
-# exit()
+test_images = filenamearray[0:nfiles]
 
-test_images = catarray
+names = []
+predictions = []
+catprobs = []
+dogprobs = []
 
+pbar = ProgressBar(maxval=nfiles)
+pbar.start()
 
-# test_images = [
-#     "/Cat/22.jpg",
-#     "/Cat/24.jpg",
-#     "/Cat/25.jpg",
-#     "/Cat/648.jpg",
-#     "/Cat/3279.jpg",
-#     "/Cat/6779.jpg",
-#     "/Dog/0.jpg",
-#     "/Dog/189.jpg",
-#     "/Dog/278.jpg",
-#     "/Dog/1014.jpg",
-# ]
+for i, filename in enumerate(test_images):
+# for filename in test_images:
+    pbar.update(i)
 
-# result_table = {}
-names=[]
-predictions=[]
-
-for filename in test_images:
     img = keras.utils.load_img(imagedir + filename, target_size=image_size)
 
     if plot == True:
@@ -75,17 +60,25 @@ for filename in test_images:
     img_array = keras.utils.img_to_array(img)
     img_array = keras.ops.expand_dims(img_array, 0)  # Create batch axis
 
-    prediction = model.predict(img_array)
+    prediction = model.predict(img_array,verbose = 0)
     score = float(keras.ops.sigmoid(prediction[0][0]))
+    catprob = 100 * (1 - score)
+    dogprob = 100 * score
 
-    print(prediction)
-    print(imagedir + filename)
-    print(f"This image is {100 * (1 - score):.2f}% cat and {100 * score:.2f}% dog.")
+    if print_in_loop==True:
+        # print(prediction)
+        print(imagedir + filename)
+        print(f"This image is {100 * (1 - score):.2f}% cat and {100 * score:.2f}% dog.")
 
     names.append(filename)
     predictions.append(prediction)
-    # result_table.append({imagedir + filename, predictions, score})
+    catprobs.append(catprob)
+    dogprobs.append(dogprob)
 
 # print results table
-results = pd.DataFrame({'filename': names, 'pred': predictions})
+pbar.finish()
+
+results = pd.DataFrame({"filename": names, "pred": predictions, "cat %": catprobs, "dog %": dogprobs})
+filename_write = "../output/catdog.csv"
+results.to_csv(filename_write, index=False)
 print(results)
