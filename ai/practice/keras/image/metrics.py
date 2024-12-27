@@ -3,7 +3,9 @@ import pandas as pd
 import keras
 from tensorflow.keras.models import load_model
 import tensorflow as tf
-from progressbar import ProgressBar
+
+# from progressbar import ProgressBar
+from progress.bar import Bar
 
 # Options for this run
 plot = False
@@ -48,12 +50,38 @@ catprobs = []
 dogprobs = []
 
 print("Total files to process: ", nfiles)
-pbar = ProgressBar(maxval=nfiles)
-pbar.start()
+myfilename = "filename"
+
+
+class SlowBar(Bar):
+    message = 'Loading'
+
+    # message = "mes %(index)d %(mymessage)s"
+    suffix = "Index %(index)d ETA %(remaining_seconds)d s  File %(mymessage)s"
+
+    @property
+    def remaining_seconds(self):
+        return self.eta
+
+    @property
+    def mymessage(self):
+        # return "hello"
+        return myfilename
+
+
+# message="                    "
+# bar = Bar('Processing', max=nfiles)
+# bar = Bar(message, max=nfiles)
+# pbar = ProgressBar(maxval=nfiles)
+# pbar.start()
+bar = SlowBar(max=nfiles)
+
 
 for i, filename in enumerate(test_images):
     # for filename in test_images:
-    pbar.update(i)
+    # pbar.update(i)
+    myfilename = filename
+    bar.next()
 
     img = keras.utils.load_img(imagedir + filename, target_size=image_size)
 
@@ -82,7 +110,8 @@ for i, filename in enumerate(test_images):
     dogprobs.append(dogprob)
 
 # print results table
-pbar.finish()
+# pbar.finish()
+bar.finish()
 
 results = pd.DataFrame(
     {"filename": names, "pred": predictions, "cat %": catprobs, "dog %": dogprobs}
