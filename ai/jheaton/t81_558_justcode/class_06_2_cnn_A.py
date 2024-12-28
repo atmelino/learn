@@ -22,9 +22,7 @@ EXTRACT_TARGET = os.path.join(PATH, "clips")
 SOURCE = os.path.join(PATH, "clips/paperclips")
 TARGET = os.path.join(PATH, "clips-processed")
 
-
 df = pd.read_csv(os.path.join(SOURCE, "train.csv"), na_values=["NA", "?"])
-
 df["filename"] = "clips-" + df["id"].astype(str) + ".jpg"
 print(df)
 
