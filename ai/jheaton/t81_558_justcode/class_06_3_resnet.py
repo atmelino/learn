@@ -99,10 +99,14 @@ monitor = EarlyStopping(
 
 history = model.fit(
     train_generator,
-    epochs=100,
+    epochs=5,
     steps_per_epoch=250,
     validation_data=val_generator,
     callbacks=[monitor],
     verbose=1,
     validation_steps=STEP_SIZE_VALID,
 )
+
+# save entire network to HDF5 (save everything, suggested)
+model.save("../models/class_06_3_resnet.h5")
+model.save("../models/class_06_3_resnet.keras")
