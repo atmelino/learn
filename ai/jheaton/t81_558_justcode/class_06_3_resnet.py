@@ -108,5 +108,5 @@ history = model.fit(
 )
 
 # save entire network to HDF5 (save everything, suggested)
-model.save("../models/class_06_3_resnet.h5")
-model.save("../models/class_06_3_resnet.keras")
+model.save("./models/class_06_3_resnet.h5")
+model.save("./models/class_06_3_resnet.keras")
