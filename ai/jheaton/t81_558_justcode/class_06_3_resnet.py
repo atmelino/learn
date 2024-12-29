@@ -99,7 +99,7 @@ monitor = EarlyStopping(
 
 history = model.fit(
     train_generator,
-    epochs=5,
+    epochs=100,
     steps_per_epoch=250,
     validation_data=val_generator,
     callbacks=[monitor],
