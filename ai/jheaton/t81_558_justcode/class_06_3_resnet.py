@@ -17,7 +17,7 @@ print("class_06_3_resnet")
 
 PATH = "./not_on_github"
 SOURCE = os.path.join(PATH, "clips/paperclips")
-TARGET = os.path.join(PATH, "clips-processed")
+# TARGET = os.path.join(PATH, "clips-processed")
 
 df_train = pd.read_csv(os.path.join(SOURCE, "train.csv"))
 df_train["filename"] = "clips-" + df_train.id.astype(str) + ".jpg"
