@@ -46,7 +46,9 @@ train_generator = training_datagen.flow_from_dataframe(
     batch_size=32,
     class_mode="other",
 )
+
 validation_datagen = ImageDataGenerator(rescale=1.0 / 255)
+
 val_generator = validation_datagen.flow_from_dataframe(
     dataframe=df_validate,
     directory=SOURCE,
@@ -127,7 +129,7 @@ test_generator.reset()
 pred = model.predict(test_generator,steps=len(df_test))
 
 df_submit = pd.DataFrame({'id':df_test['id'],'clip_count':pred.flatten()})
-df_submit.to_csv(os.path.join(PATH,"submit.csv"),index=False)
+df_submit.to_csv(os.path.join(PATH,"class_06_2_cnn_A.csv"),index=False)
 
 print(df_submit)
 
