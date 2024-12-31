@@ -101,6 +101,11 @@ print(history)
 elapsed_time = time.time() - start_time
 print("Elapsed time: {}".format(hms_string(elapsed_time)))
 
+# save entire network to HDF5 (save everything, suggested)
+model.save("./models/class_06_2_cnn_A.h5")
+model.save("./models/class_06_2_cnn_A.keras")
+
+
 df_test = pd.read_csv(
     os.path.join(SOURCE,"test.csv"),
     na_values=['NA', '?'])
