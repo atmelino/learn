@@ -1,6 +1,9 @@
+# requires keras 2 meaning tensorflow version <= 2.15 
+
 import os
 import keras
 from tensorflow.keras.models import load_model
+from keras_preprocessing.image import ImageDataGenerator
 
 
 print("class_06_3_resnet_load")
