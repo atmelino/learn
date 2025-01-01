@@ -8,7 +8,8 @@ import matplotlib.pyplot as plt
 
 # Options for this run
 train_on_GPU=False
-plot=False
+plot_model=True
+plot_pets=False
 
 imagedir="../not_on_github/PetImages"
 
@@ -43,7 +44,7 @@ train_ds, val_ds = keras.utils.image_dataset_from_directory(
     batch_size=batch_size,
 )
 
-if plot==True:
+if plot_pets==True:
     print("save plot")
     plt.figure(figsize=(10, 10))
     for images, labels in train_ds.take(1):
@@ -68,7 +69,7 @@ def data_augmentation(images):
         images = layer(images)
     return images
 
-if plot==True:
+if plot_pets==True:
     plt.figure(figsize=(10, 10))
     for images, _ in train_ds.take(1):
         for i in range(9):
@@ -140,7 +141,7 @@ def make_model(input_shape, num_classes):
 
 model = make_model(input_shape=image_size + (3,), num_classes=2)
 
-if plot==True:
+if plot_model==True:
     keras.utils.plot_model(model, to_file='catdogmodel.png',show_shapes=True)
 
 epochs = 25
@@ -169,7 +170,7 @@ model.save("../output/catdog01.keras")
 
 img = keras.utils.load_img(imagedir+"/Cat/6779.jpg", target_size=image_size)
 
-if plot==True:
+if plot_pets==True:
     print("show cat")
     print(imagedir+"/Cat/6779.jpg")
     plt.imshow(img)
