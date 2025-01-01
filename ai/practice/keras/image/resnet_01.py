@@ -5,7 +5,7 @@ import numpy as np
 
 model = ResNet50(weights='imagenet')
 
-img_path = 'elephant.jpg'
+img_path = '../input/elephant.jpg'
 img = keras.utils.load_img(img_path, target_size=(224, 224))
 x = keras.utils.img_to_array(img)
 x = np.expand_dims(x, axis=0)
