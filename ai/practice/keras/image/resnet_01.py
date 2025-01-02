@@ -1,3 +1,5 @@
+# https://keras.io/api/applications/#usage-examples-for-image-classification-models
+
 import keras
 from keras.applications.resnet50 import ResNet50
 from keras.applications.resnet50 import preprocess_input, decode_predictions
