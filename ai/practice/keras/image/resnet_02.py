@@ -50,6 +50,10 @@ def display_images(digits, predictions, labels, title):
     plt.yticks([])
     plt.imshow(n_digits[i])
 
+  plt.show()
+  fig.savefig('../output/resnet02.png')
+  # fig.savefig('resnet02.png')
+
 # utility to display training and validation curves
 def plot_metrics(metric_name, title, ylim=5):
   plt.title(title)
@@ -60,6 +64,8 @@ def plot_metrics(metric_name, title, ylim=5):
 
 (training_images, training_labels) , (validation_images, validation_labels) = tf.keras.datasets.cifar10.load_data()
 
+
+display_images(training_images, training_labels, training_labels, "Training Data" )
 
 
 
