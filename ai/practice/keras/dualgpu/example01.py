@@ -4,6 +4,11 @@ print("Num GPUs Available: ", len(tf.config.experimental.list_physical_devices('
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"  # Replace with the IDs of your available GPUs
 
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.datasets import mnist
+from keras.utils import to_categorical
+import tensorflow as tf
 
 # Create a MirroredStrategy.
 strategy = tf.distribute.MirroredStrategy()
