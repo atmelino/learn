@@ -13,7 +13,7 @@ import tensorflow as tf
 # Create a MirroredStrategy.
 strategy = tf.distribute.MirroredStrategy()
 
-num_gpus = 4  # Replace with the number of available GPUs
+num_gpus = 2  # Replace with the number of available GPUs
 
 # Load a sample dataset
 (x_train, y_train), (x_val, y_val) = mnist.load_data()
@@ -39,7 +39,7 @@ with strategy.scope():
 
 # Train the model on your data
 model.fit(x_train, y_train,
-          epochs=20,
+          epochs=100,
           batch_size=128 * num_gpus,
           validation_data=(x_val, y_val))
 
