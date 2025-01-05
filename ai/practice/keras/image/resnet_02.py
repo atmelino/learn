@@ -64,8 +64,19 @@ def plot_metrics(metric_name, title, ylim=5):
 
 (training_images, training_labels) , (validation_images, validation_labels) = tf.keras.datasets.cifar10.load_data()
 
-
 display_images(training_images, training_labels, training_labels, "Training Data" )
+display_images(validation_images, validation_labels, validation_labels, "Validation Data" )
+
+
+def preprocess_image_input(input_images):
+  input_images = input_images.astype('float32')
+  output_ims = tf.keras.applications.resnet50.preprocess_input(input_images)
+  return output_ims
+
+train_X = preprocess_image_input(training_images)
+valid_X = preprocess_image_input(validation_images)
+
+
 
 
 
