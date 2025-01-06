@@ -173,3 +173,8 @@ history = model.fit(
     validation_data=(valid_X, validation_labels),
     batch_size=64,
 )
+
+# save entire network to HDF5 (save everything, suggested)
+model.save("../output/resnet_02.h5")
+model.save("../output/resnet_02.keras")
+
