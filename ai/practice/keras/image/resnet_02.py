@@ -9,6 +9,7 @@ import tensorflow as tf
 from tensorflow.keras.applications.resnet50 import ResNet50
 from matplotlib import pyplot as plt
 import tensorflow_datasets as tfds
+import pickle
 
 print("Tensorflow version " + tf.__version__)
 
@@ -155,7 +156,7 @@ model = define_compile_model()
 
 model.summary()
 
-EPOCHS = 3
+EPOCHS = 1
 history = model.fit(
     train_X,
     training_labels,
@@ -164,8 +165,13 @@ history = model.fit(
     batch_size=64,
 )
 
-# save entire network to HDF5 (save everything, suggested)
+# list all data in history
+print(history.history.keys())
+
+# save entire network to HDF5 (save everything, suggested) and history
 model.save("../not_on_github/models/resnet_02.h5")
 model.save("../not_on_github/models/resnet_02.keras")
+with open('../not_on_github/models/resnet_02.pkl', 'wb') as file_pi:
+    pickle.dump(history.history, file_pi)
 
 
