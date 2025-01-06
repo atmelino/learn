@@ -1,4 +1,5 @@
 # Requires keras version 2
+# https://machinelearningmastery.com/display-deep-learning-model-training-history-in-keras/
 
 import tensorflow as tf
 import pickle
@@ -15,7 +16,7 @@ print(history.keys())
 
 # summarize history for mae
 plt.plot(history['mae'])
-plt.plot(history['mae'])
+plt.plot(history['val_mae'])
 plt.title('model mae')
 plt.ylabel('mae')
 plt.xlabel('epoch')
