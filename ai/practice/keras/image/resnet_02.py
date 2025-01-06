@@ -175,6 +175,8 @@ history = model.fit(
 )
 
 # save entire network to HDF5 (save everything, suggested)
-model.save("../output/resnet_02.h5")
-model.save("../output/resnet_02.keras")
+model.save("../not_on_github/models/resnet_02.h5")
+model.save("../not_on_github/models/resnet_02.keras")
+
+loss, accuracy = model.evaluate(valid_X, validation_labels, batch_size=64)
 
