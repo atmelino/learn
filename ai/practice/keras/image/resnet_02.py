@@ -67,16 +67,6 @@ def display_images(digits, predictions, labels, title):
     # fig.savefig('resnet02.png')
 
 
-# utility to display training and validation curves
-def plot_metrics(metric_name, title, ylim=5):
-    plt.title(title)
-    plt.ylim(0, ylim)
-    plt.plot(history.history[metric_name], color="blue", label=metric_name)
-    plt.plot(
-        history.history["val_" + metric_name], color="green", label="val_" + metric_name
-    )
-
-
 (training_images, training_labels), (validation_images, validation_labels) = (
     tf.keras.datasets.cifar10.load_data()
 )
