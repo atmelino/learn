@@ -178,5 +178,4 @@ history = model.fit(
 model.save("../not_on_github/models/resnet_02.h5")
 model.save("../not_on_github/models/resnet_02.keras")
 
-loss, accuracy = model.evaluate(valid_X, validation_labels, batch_size=64)
 
