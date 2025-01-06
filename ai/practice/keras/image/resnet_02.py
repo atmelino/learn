@@ -156,7 +156,7 @@ model = define_compile_model()
 
 model.summary()
 
-EPOCHS = 1
+EPOCHS = 3
 history = model.fit(
     train_X,
     training_labels,
