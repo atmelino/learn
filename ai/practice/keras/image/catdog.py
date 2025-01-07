@@ -11,8 +11,10 @@ train_on_GPU=False
 plot_model=True
 plot_pets=False
 
-imagedir="../not_on_github/PetImages"
+# Create folders
+os.system("mkdir -p ../not_on_github/models/catdog")
 
+imagedir="../not_on_github/PetImages"
 
 num_skipped = 0
 for folder_name in ("Cat", "Dog"):
@@ -78,7 +80,7 @@ if plot_pets==True:
             plt.imshow(np.array(augmented_images[0]).astype("uint8"))
             plt.axis("off")
     plt.show()
-    plt.savefig('../output/catdog02.png')
+    plt.savefig('../not_on_github/models/catdog/catdog02.png')
 
 
 # if train_on_GPU==True:
