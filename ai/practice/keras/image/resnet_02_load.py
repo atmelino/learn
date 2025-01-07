@@ -47,7 +47,8 @@ def display_images(digits, predictions, labels, title):
 
     plt.show()
     filename="../output/resnet02_"+title+".png"
-    fig.savefig("../output/resnet02.png")
+    # fig.savefig("../output/resnet02.png")
+    fig.savefig(filename)
     # fig.savefig('resnet02.png')
 
 
