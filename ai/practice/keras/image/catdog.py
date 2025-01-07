@@ -61,9 +61,6 @@ if plot_pets==True:
     plt.show()
     fig.savefig('../not_on_github/models/catdog/catdog_sample.png')
 
-# exit()
-
-
 data_augmentation_layers = [
     layers.RandomFlip("horizontal"),
     layers.RandomRotation(0.1),
@@ -84,7 +81,7 @@ if plot_pets==True:
             plt.imshow(np.array(augmented_images[0]).astype("uint8"))
             plt.axis("off")
     plt.show()
-    fig.savefig('../not_on_github/models/catdog/catdog02.png')
+    fig.savefig('../not_on_github/models/catdog/catdog_augment.png')
 
 
 # if train_on_GPU==True:
@@ -148,7 +145,9 @@ def make_model(input_shape, num_classes):
 model = make_model(input_shape=image_size + (3,), num_classes=2)
 
 if plot_model==True:
-    keras.utils.plot_model(model, to_file='../output/catdogmodel.png',show_shapes=True)
+    keras.utils.plot_model(model, to_file='../not_on_github/models/catdog/catdog_model.png',show_shapes=True)
+
+exit()
 
 epochs = 25
 
