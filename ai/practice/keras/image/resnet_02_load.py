@@ -78,7 +78,8 @@ print(probabilities)
 probabilities = np.argmax(probabilities, axis = 1)
 print(probabilities)
 
-display_images(validation_images, probabilities, validation_labels, "Bad predictions indicated in red.")
+# Bad predictions indicated in red
+display_images(validation_images, probabilities, validation_labels, "predictions")
 
 
 if show_history==True:
