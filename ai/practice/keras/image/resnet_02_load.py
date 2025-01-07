@@ -46,7 +46,7 @@ def display_images(digits, predictions, labels, title):
         plt.imshow(n_digits[i])
 
     plt.show()
-    filename="../output/resnet02_"+title+".png"
+    filename="../not_on_github/models/resnet_02/resnet_02_"+title+".png"
     print("Saving plot as ",filename)
     fig.savefig(filename)
     # fig.savefig("../output/resnet02.png")
@@ -56,6 +56,9 @@ def preprocess_image_input(input_images):
     input_images = input_images.astype("float32")
     output_ims = tf.keras.applications.resnet50.preprocess_input(input_images)
     return output_ims
+
+# Create folders
+os.system("mkdir -p ../not_on_github/models/resnet_02")
 
 (training_images, training_labels), (validation_images, validation_labels) = (
     tf.keras.datasets.cifar10.load_data()
