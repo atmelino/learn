@@ -1,3 +1,6 @@
+# https://keras.io/examples/vision/image_classification_from_scratch/
+# Requires keras version 3
+
 import os
 import pandas as pd
 import keras
