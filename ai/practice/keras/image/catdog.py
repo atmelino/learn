@@ -147,7 +147,7 @@ model = make_model(input_shape=image_size + (3,), num_classes=2)
 if plot_model==True:
     keras.utils.plot_model(model, to_file='../not_on_github/models/catdog/catdog_model.png',show_shapes=True)
 
-exit()
+# exit()
 
 epochs = 25
 
