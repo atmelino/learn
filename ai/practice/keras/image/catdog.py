@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 # Options for this run
 train_on_GPU=False
 plot_model=True
-plot_pets=False
+plot_pets=True
 
 # Create folders
 os.system("mkdir -p ../not_on_github/models/catdog")
@@ -50,8 +50,8 @@ train_ds, val_ds = keras.utils.image_dataset_from_directory(
 )
 
 if plot_pets==True:
-    print("save plot")
-    plt.figure(figsize=(10, 10))
+    print("first 9 images in the training dataset")
+    fig = plt.figure(figsize=(10, 10))
     for images, labels in train_ds.take(1):
         for i in range(9):
             ax = plt.subplot(3, 3, i + 1)
@@ -59,7 +59,7 @@ if plot_pets==True:
             plt.title(int(labels[i]))
             plt.axis("off")
     plt.show()
-    plt.savefig('../output/catdog01.png')
+    fig.savefig('../not_on_github/models/catdog/catdog_sample.png')
 
 # exit()
 
@@ -75,7 +75,8 @@ def data_augmentation(images):
     return images
 
 if plot_pets==True:
-    plt.figure(figsize=(10, 10))
+    print("")
+    fig = plt.figure(figsize=(10, 10))
     for images, _ in train_ds.take(1):
         for i in range(9):
             augmented_images = data_augmentation(images)
@@ -83,7 +84,7 @@ if plot_pets==True:
             plt.imshow(np.array(augmented_images[0]).astype("uint8"))
             plt.axis("off")
     plt.show()
-    plt.savefig('../not_on_github/models/catdog/catdog02.png')
+    fig.savefig('../not_on_github/models/catdog/catdog02.png')
 
 
 # if train_on_GPU==True:

@@ -49,7 +49,6 @@ def display_images(digits, predictions, labels, title):
     filename="../not_on_github/models/resnet_02/resnet_02_"+title+".png"
     print("Saving plot as ",filename)
     fig.savefig(filename)
-    # fig.savefig("../output/resnet02.png")
 
 
 def preprocess_image_input(input_images):

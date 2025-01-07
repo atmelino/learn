@@ -67,18 +67,17 @@ def display_images(digits, predictions, labels, title):
         plt.imshow(n_digits[i])
 
     plt.show()
-    filename="../output/resnet02_"+title+".png"
-    fig.savefig("../output/resnet02.png")
-    # fig.savefig('resnet02.png')
+    filename="../not_on_github/models/resnet_02/resnet_02_"+title+".png"
+    fig.savefig(filename)
 
 
 (training_images, training_labels), (validation_images, validation_labels) = (
     tf.keras.datasets.cifar10.load_data()
 )
 
-display_images(training_images, training_labels, training_labels, "Training Data")
+display_images(training_images, training_labels, training_labels, "TrainingData")
 display_images(
-    validation_images, validation_labels, validation_labels, "Validation Data"
+    validation_images, validation_labels, validation_labels, "ValidationData"
 )
 
 
