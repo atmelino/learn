@@ -7,6 +7,37 @@ import pickle
 
 show_history=True
 
+# utility to display a row of digits with their predictions
+def display_images(digits, predictions, labels, title):
+
+    n = 10
+
+    indexes = np.random.choice(len(predictions), size=n)
+    n_digits = digits[indexes]
+    n_predictions = predictions[indexes]
+    n_predictions = n_predictions.reshape((n,))
+    n_labels = labels[indexes]
+
+    fig = plt.figure(figsize=(20, 4))
+    plt.title(title)
+    plt.yticks([])
+    plt.xticks([])
+
+    for i in range(10):
+        ax = fig.add_subplot(1, 10, i + 1)
+        class_index = n_predictions[i]
+
+        plt.xlabel(classes[class_index])
+        plt.xticks([])
+        plt.yticks([])
+        plt.imshow(n_digits[i])
+
+    plt.show()
+    filename="../output/resnet02_"+title+".png"
+    fig.savefig("../output/resnet02.png")
+    # fig.savefig('resnet02.png')
+
+
 def preprocess_image_input(input_images):
     input_images = input_images.astype("float32")
     output_ims = tf.keras.applications.resnet50.preprocess_input(input_images)
@@ -28,7 +59,12 @@ loss, accuracy = model.evaluate(valid_X, validation_labels, batch_size=64)
 
 print("loss=",loss, " accuracy=",accuracy)
 
+probabilities = model.predict(valid_X, batch_size=64)
+print(probabilities)
+probabilities = np.argmax(probabilities, axis = 1)
+print(probabilities)
 
+display_images(validation_images, probabilities, validation_labels, "Bad predictions indicated in red.")
 
 
 if show_history==True:
