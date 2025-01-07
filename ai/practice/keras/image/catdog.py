@@ -169,8 +169,8 @@ model.fit(
 )
 
 # save entire network to HDF5 (save everything, suggested)
-model.save("../output/catdog01.h5")
-model.save("../output/catdog01.keras")
+model.save("../not_on_github/models/catdog/catdog01.h5")
+model.save("../not_on_github/models/catdog/catdog01.keras")
 
 
 img = keras.utils.load_img(imagedir+"/Cat/6779.jpg", target_size=image_size)
