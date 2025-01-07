@@ -67,7 +67,7 @@ os.system("mkdir -p ../not_on_github/models/resnet_02")
 valid_X = preprocess_image_input(validation_images)
 
 
-load_path = "../not_on_github/models"
+load_path = "../not_on_github/models/resnet_02"
 model = load_model(os.path.join(load_path, "resnet_02.h5"))
 
 model.summary()
