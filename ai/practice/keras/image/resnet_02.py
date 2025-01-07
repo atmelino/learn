@@ -27,6 +27,9 @@ classes = [
     "truck",
 ]
 
+# Create folders
+os.system("mkdir -p ../not_on_github/models/resnet_02")
+
 # Matplotlib config
 plt.rc("image", cmap="gray")
 plt.rc("grid", linewidth=0)
@@ -170,9 +173,9 @@ history = model.fit(
 print(history.history.keys())
 
 # save entire network to HDF5 (save everything, suggested) and history
-model.save("../not_on_github/models/resnet_02.h5")
-model.save("../not_on_github/models/resnet_02.keras")
-with open('../not_on_github/models/resnet_02.pkl', 'wb') as file_pi:
+model.save("../not_on_github/models/resnet_02/resnet_02.h5")
+model.save("../not_on_github/models/resnet_02/resnet_02.keras")
+with open('../not_on_github/models/resnet_02/resnet_02.pkl', 'wb') as file_pi:
     pickle.dump(history.history, file_pi)
 
 
