@@ -96,7 +96,7 @@ if show_history==True:
         )
         plt.show()
 
-    with open('../not_on_github/models/resnet_02.pkl', "rb") as file_pi:
+    with open('../not_on_github/models/resnet_02/resnet_02.pkl', "rb") as file_pi:
         history = pickle.load(file_pi)
 
     print(history)
