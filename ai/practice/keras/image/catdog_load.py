@@ -10,7 +10,7 @@ plot = False
 imagedir = "../not_on_github/PetImages"
 image_size = (180, 180)
 
-load_path = "../not_on_github/catdogsavemodel"
+load_path = "../not_on_github/models/catdog"
 model = load_model(os.path.join(load_path, "catdog01.h5"))
 
 test_images = [

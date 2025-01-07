@@ -19,7 +19,7 @@ mynfiles = 20
 imagedir = "../not_on_github/PetImages"
 image_size = (180, 180)
 
-load_path = "../not_on_github/catdogsavemodel"
+load_path = "../not_on_github/models/catdog"
 model = load_model(os.path.join(load_path, "catdog01.h5"))
 
 
@@ -119,6 +119,6 @@ bar.finish()
 results = pd.DataFrame(
     {"filename": names, "pred": predictions, "cat %": catprobs, "dog %": dogprobs}
 )
-filename_write = "../output/catdog.csv"
+filename_write = "../not_on_github/models/catdog/catdog.csv"
 results.to_csv(filename_write, index=False)
 print(results)
