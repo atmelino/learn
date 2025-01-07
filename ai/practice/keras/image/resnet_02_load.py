@@ -7,6 +7,18 @@ import pickle
 
 
 show_history=True
+classes = [
+    "airplane",
+    "automobile",
+    "bird",
+    "cat",
+    "deer",
+    "dog",
+    "frog",
+    "horse",
+    "ship",
+    "truck",
+]
 
 # utility to display a row of digits with their predictions
 def display_images(digits, predictions, labels, title):
