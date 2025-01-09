@@ -10,7 +10,7 @@ from matplotlib import pyplot as plt
 import pickle
 
 
-show_history=True
+show_history=False
 classes = [
     "airplane",
     "automobile",
@@ -109,6 +109,7 @@ if show_history==True:
 
     plot_metrics("loss", "Loss")
     plot_metrics("accuracy", "Accuracy")
+
 
 
 
