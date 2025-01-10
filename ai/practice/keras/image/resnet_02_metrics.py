@@ -17,6 +17,10 @@ os.system("mkdir -p ../not_on_github/models/resnet_02")
     tf.keras.datasets.cifar10.load_data()
 )
 
+def preprocess_image_input(input_images):
+    input_images = input_images.astype("float32")
+    output_ims = tf.keras.applications.resnet50.preprocess_input(input_images)
+    return output_ims
 
 valid_X = preprocess_image_input(validation_images)
 
