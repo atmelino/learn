@@ -2,6 +2,9 @@
 
 # Run with keras version 2 meaning tensorflow <=2.15
 
+import os
+import tensorflow as tf
+from tensorflow.keras.models import load_model
 
 
 
