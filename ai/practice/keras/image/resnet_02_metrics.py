@@ -32,12 +32,18 @@ model = load_model(os.path.join(load_path, "resnet_02.h5"))
 model.summary()
 
 probabilities = model.predict(valid_X, batch_size=64)
+df1 = pd.DataFrame(probabilities)
+print(df1)
+
+predict = np.argmax(probabilities, axis = 1)
+df2 = pd.DataFrame(predict)
+print(df2)
 
 
-df = pd.DataFrame(probabilities)
+
+
+df = pd.concat([df1,df2], axis=1)
 print(df)
-
-
 
 
 
