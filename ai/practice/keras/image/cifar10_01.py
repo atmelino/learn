@@ -14,12 +14,18 @@ import numpy as np
 
 print("training_images shape= ",training_images.shape)
 print("training_labels shape= ",training_labels.shape)
-
+print("first training_label=",training_labels[0])
 print("first training_image")
 plt.imshow(training_images[0])
 plt.show()
 
-print("first training_label=",training_labels[0])
 
+
+print("validation_images shape= ",validation_images.shape)
+print("validation_labels shape= ",validation_labels.shape)
+print("first validation_labels=",validation_labels[0])
+print("first validation_images")
+plt.imshow(validation_images[0])
+plt.show()
 
 
