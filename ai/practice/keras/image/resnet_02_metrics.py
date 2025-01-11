@@ -36,8 +36,8 @@ probabilities = model.predict(valid_X, batch_size=64)
 df1 = pd.DataFrame(probabilities)
 # print(df1)
 
-predict = np.argmax(probabilities, columns=["pred"], axis=1)
-df2 = pd.DataFrame(predict)
+predict = np.argmax(probabilities, axis=1)
+df2 = pd.DataFrame(predict, columns=["pred"])
 # print(df2)
 
 print("Prediction probabilites and highest index")
