@@ -36,7 +36,7 @@ probabilities = model.predict(valid_X, batch_size=64)
 df1 = pd.DataFrame(probabilities)
 # print(df1)
 
-predict = np.argmax(probabilities, axis=1)
+predict = np.argmax(probabilities, columns=["pred"], axis=1)
 df2 = pd.DataFrame(predict)
 # print(df2)
 
@@ -45,12 +45,11 @@ df12 = pd.concat([df1, df2], axis=1)
 print(df12)
 
 print("Validation values")
-df3 = pd.DataFrame(validation_labels)
+df3 = pd.DataFrame(validation_labels, columns=["val"])
 print(df3)
 
 print("Validation vs. Prediction values")
-df32 = pd.concat([df3, df2],  columns=["val","pred"])
+df32 = pd.concat([df3, df2])
 print(df32)
 filename_write = "../not_on_github/models/resnet_02/resnet_02_metrics.csv"
 df32.to_csv(filename_write, index=False)
-
