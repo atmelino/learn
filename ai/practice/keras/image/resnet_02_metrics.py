@@ -31,6 +31,8 @@ load_path = "../not_on_github/models/resnet_02"
 model = load_model(os.path.join(load_path, "resnet_02.h5"))
 
 model.summary()
+loss, accuracy = model.evaluate(valid_X, validation_labels, batch_size=64)
+print("loss=",loss, " accuracy=",accuracy)
 
 probabilities = model.predict(valid_X, batch_size=64)
 df1 = pd.DataFrame(probabilities)
