@@ -9,8 +9,6 @@ import pandas as pd
 import numpy as np
 
 
-
-
 # Create folders
 os.system("mkdir -p ../not_on_github/models/resnet_02")
 
@@ -19,10 +17,12 @@ os.system("mkdir -p ../not_on_github/models/resnet_02")
     tf.keras.datasets.cifar10.load_data()
 )
 
+
 def preprocess_image_input(input_images):
     input_images = input_images.astype("float32")
     output_ims = tf.keras.applications.resnet50.preprocess_input(input_images)
     return output_ims
+
 
 valid_X = preprocess_image_input(validation_images)
 
@@ -36,15 +36,14 @@ probabilities = model.predict(valid_X, batch_size=64)
 df1 = pd.DataFrame(probabilities)
 # print(df1)
 
-predict = np.argmax(probabilities, axis = 1)
+predict = np.argmax(probabilities, axis=1)
 df2 = pd.DataFrame(predict)
 # print(df2)
 
-
-
 print("Prediction probabilites and highest index")
-df = pd.concat([df1,df2], axis=1)
+df = pd.concat([df1, df2], axis=1)
 print(df)
 
-
-
+print("Validation values")
+df3 = pd.DataFrame(validation_labels)
+print(df3)
