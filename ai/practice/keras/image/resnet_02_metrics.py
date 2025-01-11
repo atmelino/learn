@@ -48,6 +48,9 @@ print("Validation values")
 df3 = pd.DataFrame(validation_labels)
 print(df3)
 
-print("Prediction and Validation values")
+print("Validation vs. Prediction values")
 df32 = pd.concat([df3, df2], axis=1)
 print(df32)
+filename_write = "../not_on_github/models/resnet_02/resnet_02_metrics.csv"
+df32.to_csv(filename_write, index=False)
+
