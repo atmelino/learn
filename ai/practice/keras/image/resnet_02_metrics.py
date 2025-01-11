@@ -41,9 +41,13 @@ df2 = pd.DataFrame(predict)
 # print(df2)
 
 print("Prediction probabilites and highest index")
-df = pd.concat([df1, df2], axis=1)
-print(df)
+df12 = pd.concat([df1, df2], axis=1)
+print(df12)
 
 print("Validation values")
 df3 = pd.DataFrame(validation_labels)
 print(df3)
+
+print("Prediction and Validation values")
+df32 = pd.concat([df3, df2], axis=1)
+print(df32)
