@@ -19,16 +19,63 @@ with urllib.request.urlopen(URL) as response, open(LOCAL_IMG_FILE, "wb") as out_
 
 # Image(filename=LOCAL_IMG_FILE)
 
-img = keras.utils.load_img(LOCAL_IMG_FILE)
-plt.imshow(img)
-plt.show()
+show_original = False
+plot_grid = False
+
+if show_original == True:
+    img = keras.utils.load_img(LOCAL_IMG_FILE)
+    plt.imshow(img)
+    plt.show()
+    plt.savefig("./output/class_06_4_keras_images_original.png")
+
+
+def analyze_image(img_file):
+    # Load the requested image
+    img = load_img(img_file)
+    print("img")
+    print(img)
+
+    data = img_to_array(img)
+    print("data")
+    print("data.shape", data.shape)
+    print(data)
+
+    print("data[0]")
+    print("data[0].shape", data[0].shape)
+    print(data[0])
+    print("data[1]")
+    print("data[1].shape", data[1].shape)
+    print(data[1])
+    print("data[0][0]")
+    print("data[0][0].shape", data[0][0].shape)
+    print(data[0][0])
+    print("data[0][1]")
+    print("data[0][1].shape", data[0][1].shape)
+    print(data[0][1])
+
+
+analyze_image(LOCAL_IMG_FILE)
+
+
+exit()
 
 
 def visualize_generator(img_file, gen):
     # Load the requested image
     img = load_img(img_file)
+    print("img")
+    # print(img.shape)
+    print(img)
+
     data = img_to_array(img)
+    print("data")
+    print("data.shape", data.shape)
+    print(data)
+
     samples = expand_dims(data, 0)
+    print("samples")
+    print(samples.shape)
+    print(samples)
 
     # Generate augumentations from the generator
     it = gen.flow(samples, batch_size=1)
@@ -40,6 +87,8 @@ def visualize_generator(img_file, gen):
 
     images = np.array(images)
 
+    print(images)
+
     # Create a grid of 4 images from the generator
     index, height, width, channels = images.shape
     nrows = index // 2
@@ -48,12 +97,23 @@ def visualize_generator(img_file, gen):
         .swapaxes(1, 2)
         .reshape(height * nrows, width * 2, 3)
     )
-    fig = plt.figure(figsize=(15.0, 15.0))
-    plt.axis("off")
-    plt.imshow(grid)
-    plt.show()
-    fig.savefig('./output/class_06_4_keras_images_01.png')
 
+    if plot_grid == True:
+        fig = plt.figure(figsize=(5.0, 5.0))
+        plt.axis("off")
+        plt.imshow(grid)
+        plt.show()
+        fig.savefig("./output/class_06_4_keras_images_01.png")
+
+    # fig = plt.figure(figsize=(10, 10))
+    # for images, labels in train_ds.take(1):
+    #     for i in range(9):
+    #         ax = plt.subplot(3, 3, i + 1)
+    #         plt.imshow(np.array(images[i]).astype("uint8"))
+    #         plt.title(int(labels[i]))
+    #         plt.axis("off")
+    # plt.show()
+    # fig.savefig('../not_on_github/models/catdog/catdog_sample.png')
 
 
 visualize_generator(
