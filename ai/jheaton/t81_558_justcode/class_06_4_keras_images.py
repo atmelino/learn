@@ -21,7 +21,7 @@ LOCAL_IMG_FILE = "./not_on_github/images/landscape.jpg"
 # Image(filename=LOCAL_IMG_FILE)
 
 show_original = False
-plot_grid = False
+plot_grid = True
 
 
 def show_image():
@@ -98,9 +98,9 @@ def visualize_generator(img_file, gen):
     img = load_img(img_file)
     data = img_to_array(img)
     samples = expand_dims(data, 0)
-    print("samples")
-    print(samples.shape)
-    print(samples)
+    # print("samples")
+    # print(samples.shape)
+    # print(samples)
 
     # Generate augumentations from the generator
     it = gen.flow(samples, batch_size=1)
@@ -111,9 +111,15 @@ def visualize_generator(img_file, gen):
         images.append(image)
 
     images = np.array(images)
-    print("images array")
-    print("images array shape", images.shape)
-    print(images)
+    # print("images array")
+    # print("images array shape", images.shape)
+    # print(images)
+
+    for i in range(4):
+        img3 = Image.fromarray(images[i], "RGB")
+        img3.save("./output/class_06_4_keras_images_gen_0"+str(i)+".png")
+
+
 
     # Create a grid of 4 images from the generator
     index, height, width, channels = images.shape
@@ -129,7 +135,7 @@ def visualize_generator(img_file, gen):
         plt.axis("off")
         plt.imshow(grid)
         plt.show()
-        fig.savefig("./output/class_06_4_keras_images_01.png")
+        fig.savefig("./output/class_06_4_keras_images_quad.png")
 
     # fig = plt.figure(figsize=(10, 10))
     # for images, labels in train_ds.take(1):
