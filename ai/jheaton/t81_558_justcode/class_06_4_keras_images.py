@@ -23,16 +23,19 @@ LOCAL_IMG_FILE = "./not_on_github/images/landscape.jpg"
 show_original = False
 plot_grid = False
 
+
 def show_image():
     img = keras.utils.load_img(LOCAL_IMG_FILE)
     plt.imshow(img)
     plt.show()
     plt.savefig("./output/class_06_4_keras_images_original.png")
 
+
 if show_original == True:
     show_image()
 
-def analyze_image1(img_file):
+
+def analyze_image(img_file):
     # Load the requested image
     img = load_img(img_file)
     print("img")
@@ -55,59 +58,45 @@ def analyze_image1(img_file):
     print("data[0][1]")
     print("data[0][1].shape", data[0][1].shape)
     print(data[0][1])
-
     print(data[0][1][2])
 
 
-# analyze_image1(LOCAL_IMG_FILE)
+# analyze_image(LOCAL_IMG_FILE)
 
 
-def analyze_image2(img_file):
+def modify_image(img_file):
     # Load the requested image
     img = load_img(img_file)
     print("img")
     print(img)
 
     img_array0 = np.asarray(img)
-    img_array=img_array0.copy()
+    img_array = img_array0.copy()
     print("img_array")
     print("img_array.shape", img_array.shape)
     # print(img_array)
 
-    img2 = Image.fromarray(img_array, 'RGB')    
+    img2 = Image.fromarray(img_array, "RGB")
     img2.save("./output/class_06_4_keras_images_fromarray.png")
 
+    for row in range(0, 100):
+        for col in range(0, 100):
+            img_array[col][row] = [112, 25, 10]
 
-    # img_array[0][0][0]=23.
-
-
-    for row in range(0,100):
-        for col in range(0,100):
-            img_array[col][row]=[112,25,10]
-
-    img2 = Image.fromarray(img_array, 'RGB')    
+    img2 = Image.fromarray(img_array, "RGB")
     img2.save("./output/class_06_4_keras_images_fromarray_mod.png")
 
-analyze_image2(LOCAL_IMG_FILE)
+
+# modify_image(LOCAL_IMG_FILE)
 
 
-
-
-exit()
+# exit()
 
 
 def visualize_generator(img_file, gen):
     # Load the requested image
     img = load_img(img_file)
-    print("img")
-    # print(img.shape)
-    print(img)
-
     data = img_to_array(img)
-    print("data")
-    print("data.shape", data.shape)
-    print(data)
-
     samples = expand_dims(data, 0)
     print("samples")
     print(samples.shape)
@@ -122,7 +111,8 @@ def visualize_generator(img_file, gen):
         images.append(image)
 
     images = np.array(images)
-
+    print("images array")
+    print("images array shape", images.shape)
     print(images)
 
     # Create a grid of 4 images from the generator
