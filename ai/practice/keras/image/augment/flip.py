@@ -18,7 +18,7 @@ img = expand_dims(img, 0)
 datagen = ImageDataGenerator(horizontal_flip=True, vertical_flip=True)
 
 # iterator
-aug_iter = datagen.flow(img, batch_size=1)
+aug_iter = datagen.flow(img, batch_size=1, seed=442)
 
 # generate samples and plot
 fig, ax = plt.subplots(nrows=1, ncols=ncols, figsize=(15,15))
