@@ -93,7 +93,7 @@ def modify_image(img_file):
 # exit()
 
 
-def visualize_generator(img_file, gen):
+def visualize_generator(img_file, gen, name):
     # Load the requested image
     img = load_img(img_file)
     data = img_to_array(img)
@@ -134,7 +134,7 @@ def visualize_generator(img_file, gen):
         plt.axis("off")
         plt.imshow(grid)
         plt.show()
-        fig.savefig("./output/class_06_4_keras_images_quad.png")
+        fig.savefig("./output/class_06_4_keras_images_" + name + ".png")
 
     # fig = plt.figure(figsize=(10, 10))
     # for images, labels in train_ds.take(1):
@@ -148,5 +148,7 @@ def visualize_generator(img_file, gen):
 
 
 visualize_generator(
-    LOCAL_IMG_FILE, ImageDataGenerator(horizontal_flip=True, vertical_flip=True)
+    LOCAL_IMG_FILE,
+    ImageDataGenerator(horizontal_flip=True, vertical_flip=True),
+    name="flip",
 )
