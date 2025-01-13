@@ -103,7 +103,8 @@ def visualize_generator(img_file, gen):
     # print(samples)
 
     # Generate augumentations from the generator
-    it = gen.flow(samples, batch_size=1)
+    # it = gen.flow(samples, batch_size=1)
+    it = gen.flow(samples, batch_size=1, seed=442)
     images = []
     for i in range(4):
         batch = it.next()
@@ -117,9 +118,7 @@ def visualize_generator(img_file, gen):
 
     for i in range(4):
         img3 = Image.fromarray(images[i], "RGB")
-        img3.save("./output/class_06_4_keras_images_gen_0"+str(i)+".png")
-
-
+        img3.save("./output/class_06_4_keras_images_gen_0" + str(i) + ".png")
 
     # Create a grid of 4 images from the generator
     index, height, width, channels = images.shape
