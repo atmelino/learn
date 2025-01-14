@@ -103,8 +103,8 @@ def visualize_generator(img_file, gen, name):
     # print(samples)
 
     # Generate augumentations from the generator
-    # it = gen.flow(samples, batch_size=1)
-    it = gen.flow(samples, batch_size=1, seed=442)
+    it = gen.flow(samples, batch_size=1)
+    # it = gen.flow(samples, batch_size=1, seed=442)
     images = []
     for i in range(4):
         batch = it.next()
@@ -116,9 +116,9 @@ def visualize_generator(img_file, gen, name):
     # print("images array shape", images.shape)
     # print(images)
 
-    for i in range(4):
-        img3 = Image.fromarray(images[i], "RGB")
-        img3.save("./output/class_06_4_keras_images_gen_0" + str(i) + ".png")
+    # for i in range(4):
+    #     img3 = Image.fromarray(images[i], "RGB")
+    #     img3.save("./output/class_06_4_keras_images_gen_0" + str(i) + ".png")
 
     # Create a grid of 4 images from the generator
     index, height, width, channels = images.shape
@@ -130,25 +130,44 @@ def visualize_generator(img_file, gen, name):
     )
 
     if plot_grid == True:
-        fig = plt.figure(figsize=(5.0, 5.0))
+        fig = plt.figure(figsize=(10.0, 10.0))
         plt.axis("off")
         plt.imshow(grid)
-        plt.show()
+        # plt.show()
         fig.savefig("./output/class_06_4_keras_images_" + name + ".png")
-
-    # fig = plt.figure(figsize=(10, 10))
-    # for images, labels in train_ds.take(1):
-    #     for i in range(9):
-    #         ax = plt.subplot(3, 3, i + 1)
-    #         plt.imshow(np.array(images[i]).astype("uint8"))
-    #         plt.title(int(labels[i]))
-    #         plt.axis("off")
-    # plt.show()
-    # fig.savefig('../not_on_github/models/catdog/catdog_sample.png')
 
 
 visualize_generator(
     LOCAL_IMG_FILE,
     ImageDataGenerator(horizontal_flip=True, vertical_flip=True),
     name="flip",
+)
+
+visualize_generator(
+    LOCAL_IMG_FILE,
+    ImageDataGenerator(height_shift_range=[-200, 200], fill_mode="nearest"),
+    name="shift",
+)
+visualize_generator(
+    LOCAL_IMG_FILE,
+    ImageDataGenerator(width_shift_range=[-200, 200], fill_mode="nearest"),
+    name="shift",
+)
+
+visualize_generator(
+    LOCAL_IMG_FILE,
+    ImageDataGenerator(brightness_range=[0.2, 1]),
+    name="bright",
+)
+
+visualize_generator(
+    LOCAL_IMG_FILE,
+    ImageDataGenerator(shear_range=30),
+    name="shear",
+)
+
+visualize_generator(
+    LOCAL_IMG_FILE,
+    ImageDataGenerator(rotation_range=30),
+    name="rotate",
 )
