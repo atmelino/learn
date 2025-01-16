@@ -81,7 +81,7 @@ for i in range(SEED_FROM, SEED_TO):
     z = seed2vec(G, i)
     img = generate_image(device, G, z)
     display_image(img)
-    img2.save("./output/class_07_1_gn_intro"+str(i)+".png")
+    img.save("./output/class_07_1_gn_intro"+str(i)+".png")
 
 
 
