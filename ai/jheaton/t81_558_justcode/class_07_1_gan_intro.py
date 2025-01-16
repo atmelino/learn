@@ -69,6 +69,7 @@ my_URL="https://api.ngc.nvidia.com/v2/models/nvidia/research/stylegan3/versions/
 print(f'Loading networks from "{my_URL}"...')
 device = torch.device('cuda')
 with dnnlib.util.open_url(my_URL) as f:
+    print("dnnlib.util.open_url",f)
     G = legacy.load_network_pkl(f)['G_ema'].to(device) # type: ignore
 
 
