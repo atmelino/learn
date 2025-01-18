@@ -24,6 +24,7 @@ def display_image(image):
 
 
 def generate_image(G, z, truncation_psi):
+    print("generate_image 1 called")
     # Render images for dlatents initialized from random seeds.
     Gs_kwargs = {
         "output_transform": dict(func=tflib.convert_images_to_uint8, nchw_to_nhwc=True),
@@ -58,6 +59,8 @@ def get_label(G, device, class_idx):
 def generate_image(
     device, G, z, truncation_psi=1.0, noise_mode="const", class_idx=None
 ):
+    print("generate_image 2 called")
+
     z = torch.from_numpy(z).to(device)
     label = get_label(G, device, class_idx)
     img = G(z, label, truncation_psi=truncation_psi, noise_mode=noise_mode)
