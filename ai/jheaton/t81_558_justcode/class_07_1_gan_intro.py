@@ -1,5 +1,4 @@
 import sys
-
 sys.path.insert(0, "./not_on_github//stylegan3")
 import pickle
 import os
