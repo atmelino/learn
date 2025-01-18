@@ -51,7 +51,7 @@ def expand_seed(seeds, vector_size):
 def generate_image(
     device, G, z, truncation_psi=1.0, noise_mode="const", class_idx=None
 ):
-    print("generate_image 2 called")
+    # print("generate_image 2 called")
 
     z = torch.from_numpy(z).to(device)
     label = get_label(G, device, class_idx)
@@ -116,10 +116,10 @@ for i in range(len(SEEDS)-1):
         current = current + step
         img = generate_image(device, G, current)
         filenumber=str(idx).zfill(3)
-
         filename=f'frame-'+filenumber+'.png'
-        # filename=f'frame-{idx}.png'
-        print(filename)
+        filepath=outputdir + "/" +filename
+        print(filepath)
+        img.save(filepath)
         # img.save(f'./results"/frame-{idx}.png')
         idx+=1
 
