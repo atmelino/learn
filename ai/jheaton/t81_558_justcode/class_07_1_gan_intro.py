@@ -15,12 +15,10 @@ import legacy
 def seed2vec(G, seed):
     return np.random.RandomState(seed).randn(1, G.z_dim)
 
-
 def display_image(image):
     plt.axis("off")
     plt.imshow(image)
     plt.show()
-
 
 def generate_image(G, z, truncation_psi):
     print("generate_image 1 called")
@@ -37,7 +35,6 @@ def generate_image(G, z, truncation_psi):
     images = G.run(z, label, **G_kwargs)
     return images[0]
 
-
 def get_label(G, device, class_idx):
     label = torch.zeros([1, G.c_dim], device=device)
     if G.c_dim != 0:
@@ -53,7 +50,6 @@ def get_label(G, device, class_idx):
                 "warn: --class=lbl ignored when running on " "an unconditional network"
             )
     return label
-
 
 def generate_image(
     device, G, z, truncation_psi=1.0, noise_mode="const", class_idx=None
