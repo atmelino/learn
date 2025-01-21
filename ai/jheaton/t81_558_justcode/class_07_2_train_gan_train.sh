@@ -1,7 +1,7 @@
 # Modify these to suit your needs
-EXPERIMENTS = "not_on_github/drive/MyDrive/data/gan/experiments"
-DATA = "/content/drive/MyDrive/data/gan/dataset/circuit"
-SNAP = '10'
+$EXPERIMENTS = "not_on_github/drive/MyDrive/data/gan/experiments"
+$DATA = "/content/drive/MyDrive/data/gan/dataset/circuit"
+$SNAP = '10'
 
 
 # Build the command and run it
