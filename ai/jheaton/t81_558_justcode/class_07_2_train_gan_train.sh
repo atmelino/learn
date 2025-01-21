@@ -1,5 +1,5 @@
 # Modify these to suit your needs
-EXPERIMENTS = "/content/drive/MyDrive/data/gan/experiments"
+EXPERIMENTS = "not_on_github/drive/MyDrive/data/gan/experiments"
 DATA = "/content/drive/MyDrive/data/gan/dataset/circuit"
 SNAP = '10'
 
@@ -8,5 +8,5 @@ SNAP = '10'
 # python3 not_on_github/stylegan2-ada-pytorch/train.py --snap={SNAP} --outdir {EXPERIMENTS} --data {DATA}
 
 
-python3 not_on_github/stylegan2-ada-pytorch/train.py --snap=10 --outdir {EXPERIMENTS} --data {DATA}
+python3 not_on_github/stylegan2-ada-pytorch/train.py --snap=10 --outdir=not_on_github/class_07_2_train_gan/data/gan/output --data=not_on_github/class_07_2_train_gan/data/gan/dataset/circuit
 
