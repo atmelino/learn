@@ -1,7 +1,7 @@
 # Modify these to suit your needs
 EXPERIMENTS = "/content/drive/MyDrive/data/gan/experiments"
 DATA = "/content/drive/MyDrive/data/gan/dataset/circuit"
-SNAP = 10
+SNAP = '10'
 
 
 # Build the command and run it
