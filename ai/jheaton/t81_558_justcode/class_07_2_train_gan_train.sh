@@ -5,6 +5,6 @@ SNAP = '10'
 
 
 # Build the command and run it
-python3 not_on_github/stylegan2-ada-pytorch/train.py --snap {SNAP} --outdir {EXPERIMENTS} --data {DATA}
+python3 not_on_github/stylegan2-ada-pytorch/train.py --snap={SNAP} --outdir {EXPERIMENTS} --data {DATA}
 
 
