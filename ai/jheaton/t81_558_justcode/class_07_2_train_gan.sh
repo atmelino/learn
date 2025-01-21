@@ -12,6 +12,6 @@ mkdir ./not_on_github/class_07_2_train_gan/data/gan/dataset/circuit
 
 
 python3 not_on_github/stylegan2-ada-pytorch/dataset_tool.py \
---source /content/drive/MyDrive/data/gan/images/circuit \
---dest /content/drive/MyDrive/data/gan/dataset/circuit
+--source not_on_github/class_07_2_train_gan/data/gan/images/circuit \
+--dest not_on_github/class_07_2_train_gan/data/gan/dataset/circuit
 
