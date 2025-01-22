@@ -1,8 +1,20 @@
+
+conda list:
+tensorflow                2.10.0          cuda112py310he87a039_0    conda-forge
+output:
+2.10.0
+2.10.0
+
 conda list:
 tensorflow                2.15.0          cuda120py310h9360858_3    conda-forge
 output:
 AttributeError: module 'keras.api._v2.keras' has no attribute '__version__'
 
+conda list:
+tensorflow                2.17.0          cuda120py310heb3ae67_203    conda-forge
+output:
+2.17.0
+3.8.0
 
 
 
