@@ -14,4 +14,3 @@ SNAP='10'
 
 
 
-python3 not_on_github/stylegan3/train.py  --gpus=2 --outdir=~/sg3/output/ --cfg=stylegan2 --data=~/sg3/data --gpus=2 --batch=32 --gamma=10 --mirror=1 --aug=noaug
