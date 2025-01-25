@@ -65,7 +65,6 @@ with dnnlib.util.open_url(my_URL) as f:
     print("dnnlib.util.open_url",f)
     G = legacy.load_network_pkl(f)['G_ema'].to(device) # type: ignore
 
-
 # Choose your own starting and ending seed.
 SEED_FROM = 1000
 SEED_TO = 1003
@@ -75,7 +74,7 @@ for i in range(SEED_FROM, SEED_TO):
     z = seed2vec(G, i)
     img = generate_image(device, G, z)
     display_image(img)
-    img.save("./output/class_07_1_gn_intro"+str(i)+".png")
+    img.save("./output/class_07_1_gn_intro_"+str(i)+".png")
 
 
 

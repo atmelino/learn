@@ -59,11 +59,57 @@ def generate_image(device, G, z, truncation_psi=1.0, noise_mode='const', class_i
 
 my_URL="https://api.ngc.nvidia.com/v2/models/nvidia/research/stylegan3/versions/1/files/stylegan3-r-ffhq-1024x1024.pkl"
 
-print('Loading networks from "%s"...' % URL)
+print('Loading networks from "%s"...' % my_URL)
 device = torch.device('cuda')
-with dnnlib.util.open_url(URL) as fp:
-    print("dnnlib.util.open_url",f)
+with dnnlib.util.open_url(my_URL) as fp:
+    print("dnnlib.util.open_url",fp)
     G = legacy.load_network_pkl(fp)['G_ema'].requires_grad_(False).to(device)
+
+# Choose your own starting and ending seed.
+SEED_FROM = 4020
+SEED_TO = 4023
+# Generate the images for the seeds.
+for i in range(SEED_FROM, SEED_TO):
+    print(f"Seed {i}")
+    z = seed2vec(G, i)
+    img = generate_image(device, G, z)
+    display_image(img)
+    img.save("./output/class_07_3_latent_vector_"+str(i)+".png")
+
+
+START_SEED = 4022
+current = seed2vec(G, START_SEED)
+# img = generate_image(device, G, current)
+# SCALE = 0.5
+# display_image(img)
+
+EXPLORE_SIZE = 25
+explore = []
+for i in range(EXPLORE_SIZE):
+    explore.append( np.random.rand(1, 512) - 0.5 )
+
+# HIDE OUTPUT 1
+# Choose the direction to move. Choose -1 for the initial iteration.
+
+MOVE_DIRECTION = -1
+# SCALE = 0.5
+if MOVE_DIRECTION >=0:
+    current = current + explore[MOVE_DIRECTION]
+for i, mv in enumerate(explore):
+    print(f"Direction {i}")
+    z = current + mv
+    img = generate_image(device, G, z)
+    display_image(img)
+    # img.save("./output/class_07_3_latent_vector_dir_"+str(i)+".png")
+    filenumber=str(i).zfill(2)
+    img.save("./output/class_07_3_latent_vector_dir_"+filenumber+".png")
+
+    # filename=f'frame-'+filenumber+'.png'
+    # filepath=outputdir + "/" +filename
+    # print(filepath)
+    # img.save(filepath)
+
+
 
 
 
