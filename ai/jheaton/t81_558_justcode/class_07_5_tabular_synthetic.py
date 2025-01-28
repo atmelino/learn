@@ -8,7 +8,10 @@ import os
 import requests
 import numpy as np
 from sklearn import metrics
-
+from tabgan.sampler import GANGenerator
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
 
 df = pd.read_csv(
 "https://data.heatonresearch.com/data/t81-558/auto-mpg.csv",
@@ -23,11 +26,11 @@ df = df[COLS_USED]
 df['horsepower'] = df['horsepower'].fillna(df['horsepower'].median())
 # Split into training and test sets
 df_x_train, df_x_test, df_y_train, df_y_test = train_test_split(
-df.drop("mpg", axis=1),
-df["mpg"],
-test_size=0.20,
-#shuffle=False,
-random_state=42,
+    df.drop("mpg", axis=1),
+    df["mpg"],
+    test_size=0.20,
+    #shuffle=False,
+    random_state=42,
 )
 
 # Create dataframe versions for tabular GAN
@@ -40,10 +43,10 @@ x_train = df_x_train.values
 x_test = df_x_test.values
 y_train = df_y_train.values
 y_test = df_y_test.values
+
 # Build the neural network
 model = Sequential()
-# Hidden 1
-model.add(Dense(50, input_dim=x_train.shape[1], activation='relu'))
+model.add(Dense(50, input_dim=x_train.shape[1], activation='relu')) # Hidden 1
 model.add(Dense(25, activation='relu')) # Hidden 2
 model.add(Dense(12, activation='relu')) # Hidden 2
 model.add(Dense(1)) # Output
@@ -53,6 +56,12 @@ patience=5, verbose=1, mode='auto',
 restore_best_weights=True)
 model.fit(x_train,y_train,validation_data=(x_test,y_test),
 callbacks=[monitor], verbose=2,epochs=1000)
+
+pred = model.predict(x_test)
+score = np.sqrt(metrics.mean_squared_error(pred,y_test))
+print("Final score (RMSE): {}".format(score))
+
+
 
 
 
