@@ -105,7 +105,7 @@ gen_x, gen_y = GANGenerator(
     },
     pregeneration_frac=2,
     only_generated_data=False,
-    gan_params={
+    gen_params={
         "batch_size": 500,
         "patience": 25,
         "epochs": 500,
@@ -118,3 +118,14 @@ gen_x, gen_y = GANGenerator(
     only_adversarial=False,
     use_adversarial=True,
 )
+
+print(gen_x)
+
+
+# Predict
+pred = model.predict(gen_x.values)
+score = np.sqrt(metrics.mean_squared_error(pred,gen_y.values))
+print("Final score (RMSE): {}".format(score))
+
+
+
