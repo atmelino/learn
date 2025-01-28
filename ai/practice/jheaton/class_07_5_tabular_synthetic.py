@@ -63,7 +63,18 @@ print("Final score (RMSE): {}".format(score))
 
 
 
-
+gen_x, gen_y = GANGenerator(gen_x_times=1.1, cat_cols=None,
+bot_filter_quantile=0.001, top_filter_quantile=0.999, \
+is_post_process=True,
+adversarial_model_params={
+"metrics": "rmse", "max_depth": 2, "max_bin": 100,
+"learning_rate": 0.02, "random_state": \
+42, "n_estimators": 500,
+}, pregeneration_frac=2, only_generated_data=False,\
+gan_params = {"batch_size": 500, "patience": 25, \
+"epochs" : 500,}).generate_data_pipe(df_x_train, df_y_train,\
+df_x_test, deep_copy=True, only_adversarial=False, \
+use_adversarial=True)
 
 
 
