@@ -1,3 +1,5 @@
+# Use conda jh_class environment
+
 from numpy.random import rand
 from numpy import hstack
 from numpy import ones,zeros
@@ -101,9 +103,11 @@ print(generate_fake_samples(10))
 def train_discriminator(model, n_epochs=1000, n_batch=128):
     half_batch = int(n_batch / 2)
     # run epochs manually
+    print("Epoch    acc_real    acc_fake " )
     for i in range(n_epochs):
         # generate real examples
         X_real, y_real = generate_real_samples(half_batch)
+        print("X_real",X_real)
         # update model
         model.train_on_batch(X_real, y_real)
         # generate fake examples
@@ -113,7 +117,8 @@ def train_discriminator(model, n_epochs=1000, n_batch=128):
         # evaluate the model
         _, acc_real = model.evaluate(X_real, y_real, verbose=0)
         _, acc_fake = model.evaluate(X_fake, y_fake, verbose=0)
-        print(i, acc_real, acc_fake)
+        # print(i, acc_real, acc_fake)
+        print("%3d %.3f %.3f" % (i, acc_real, acc_fake))
 
 
 # define the standalone discriminator model
