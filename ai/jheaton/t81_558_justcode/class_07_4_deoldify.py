@@ -1,3 +1,5 @@
+# Use conda deoldify environment
+
 import sys
 sys.path.insert(0, "./not_on_github/DeOldify")
 #NOTE: This must be the first call in order to work properly!
