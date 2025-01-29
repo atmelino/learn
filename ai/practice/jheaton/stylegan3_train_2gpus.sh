@@ -1,3 +1,6 @@
+
+# conda activate stylegan3
+
 # Train StyleGAN3-T for AFHQv2 using 8 GPUs.
 # python train.py --outdir=~/training-runs --cfg=stylegan3-t --data=~/datasets/afhqv2-512x512.zip \
     # --gpus=8 --batch=32 --gamma=8.2 --mirror=1
