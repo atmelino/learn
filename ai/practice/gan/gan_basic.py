@@ -5,23 +5,11 @@ from numpy.random import rand
 from numpy import hstack
 from numpy import ones,zeros
 import numpy as np
-from matplotlib import pyplot
 from keras.models import Sequential
 from keras.layers import Dense
 from tensorflow.keras.utils import plot_model
 from numpy.random import randn
 
-
-
-
-# define the standalone discriminator model
-def define_discriminator(n_inputs=2):
-    model = Sequential()
-    model.add(Dense(25, activation='relu', kernel_initializer='he_uniform', input_dim=n_inputs))
-    model.add(Dense(1, activation='sigmoid'))
-    # compile model
-    model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
-    return model
 
 # generate n real samples with class labels
 def generate_real_samples(n):
@@ -52,6 +40,14 @@ def generate_fake_samples(n):
     y = zeros((n, 1))
     return X, y
 
+# define the standalone discriminator model
+def define_discriminator(n_inputs=2):
+    model = Sequential()
+    model.add(Dense(25, activation='relu', kernel_initializer='he_uniform', input_dim=n_inputs))
+    model.add(Dense(1, activation='sigmoid'))
+    # compile model
+    model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+    return model
 
 # train the discriminator model
 def train_discriminator(model, n_epochs=1, n_batch=128):
@@ -73,14 +69,6 @@ def train_discriminator(model, n_epochs=1, n_batch=128):
         _, acc_fake = model.evaluate(X_fake, y_fake, verbose=0)
         # print(i, acc_real, acc_fake)
         print("%3d %.3f %.3f" % (i, acc_real, acc_fake))
-
-
-
-float_formatter = "{:.2f}".format    
-np.set_printoptions(formatter={'float_kind':float_formatter})
-print(generate_real_samples(10))
-print(generate_fake_samples(10))
-
 
 
 # define the discriminator model
