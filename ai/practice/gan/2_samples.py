@@ -41,12 +41,11 @@ def generate_fake_samples(n):
 float_formatter = "{:.2f}".format    
 np.set_printoptions(formatter={'float_kind':float_formatter})
 (reals_X, reals_y)=generate_real_samples(10)
-fakes=generate_fake_samples(10)
+(fakes_X, fakes_y)=generate_fake_samples(10)
 
-print(reals_X)
-# print(fakes)
-
-# print(shape(reals))
+print("reals",reals_X)
+print("reals",fakes_X)
+print(shape(reals_X))
 
 
 pyplot.scatter(reals_X[:, 0], reals_X[:, 1])
