@@ -10,7 +10,7 @@ from keras.layers import Dense
 from tensorflow.keras.utils import plot_model
 from numpy.random import randn
 
-float_formatter = "{:1.3f}".format    
+float_formatter = "{:+1.3f}".format    
 np.set_printoptions(formatter={'float_kind':float_formatter})
 
 
@@ -75,15 +75,15 @@ def train_discriminator(model, n_epochs=1000, n_batch=128):
 
 
 # define the discriminator model
-model = define_discriminator(n_epochs=2)
+model = define_discriminator()
 # summarize the model
 model.summary()
 # plot the model
-plot_model(model, to_file='discriminator_plot.png', show_shapes=True, show_layer_names=True)
+# plot_model(model, to_file='discriminator_plot.png', show_shapes=True, show_layer_names=True)
 
 
 # fit the model
-train_discriminator(model)
+train_discriminator(model,n_epochs=2)
 
 
 
