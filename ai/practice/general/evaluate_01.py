@@ -82,7 +82,7 @@ model.fit(
     y_train,
     validation_data=(x_test, y_test),
     callbacks=[monitor],
-    verbose=0,
+    verbose=1,
     epochs=1000,
 )
 
@@ -100,20 +100,15 @@ compare.columns=["y_test","pred","diff"]
 print(compare)
 
 
-# test_loss, test_acc = model.evaluate(x_test, y_test,verbose=2)
-# print(f'Test loss: {test_loss}   Test accuracy: {test_acc}')
-
 # scores = model.evaluate(x_test, y_test,verbose=2)
 # print("%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
 # print(scores)
 
 
 # evaluate the model
-
 print("model.metrics_names",model.metrics_names)
-
-# scores = model.evaluate(x_test, y_test, verbose=0)
-# print("%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
+scores = model.evaluate(x_test, y_test, verbose=0)
+print("%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
 # cvscores.append(scores[1] * 100)
 
 
