@@ -45,7 +45,7 @@ np.set_printoptions(formatter={'float_kind':float_formatter})
 
 print("reals",reals_X)
 print("reals",fakes_X)
-print(shape(reals_X))
+print(reals_X.shape)
 
 
 pyplot.scatter(reals_X[:, 0], reals_X[:, 1])
