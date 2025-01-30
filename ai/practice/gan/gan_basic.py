@@ -10,6 +10,9 @@ from keras.layers import Dense
 from tensorflow.keras.utils import plot_model
 from numpy.random import randn
 
+float_formatter = "{:1.3f}".format    
+np.set_printoptions(formatter={'float_kind':float_formatter})
+
 
 # generate n real samples with class labels
 def generate_real_samples(n):
@@ -50,7 +53,7 @@ def define_discriminator(n_inputs=2):
     return model
 
 # train the discriminator model
-def train_discriminator(model, n_epochs=1, n_batch=128):
+def train_discriminator(model, n_epochs=1000, n_batch=128):
     half_batch = int(n_batch / 2)
     # run epochs manually
     print("Epoch    acc_real    acc_fake " )
@@ -72,7 +75,7 @@ def train_discriminator(model, n_epochs=1, n_batch=128):
 
 
 # define the discriminator model
-model = define_discriminator()
+model = define_discriminator(n_epochs=2)
 # summarize the model
 model.summary()
 # plot the model
