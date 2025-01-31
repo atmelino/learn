@@ -9,6 +9,7 @@ from numpy.random import rand
 from numpy import hstack
 from numpy import ones,zeros
 from numpy.random import randn
+from matplotlib import pyplot
 
 
 # define the standalone discriminator model
@@ -54,6 +55,14 @@ def generate_real_samples(n):
     y = ones((n, 1))
     return X, y
 
+# generate points in latent space as input for the generator
+def generate_latent_points(latent_dim, n):
+    # generate points in the latent space
+    x_input = randn(latent_dim * n)
+    # reshape into a batch of inputs for the network
+    x_input = x_input.reshape(n, latent_dim)
+    return x_input    
+
 # use the generator to generate n fake examples, with class labels
 def generate_fake_samples(generator, latent_dim, n):
     # generate points in latent space
@@ -64,30 +73,25 @@ def generate_fake_samples(generator, latent_dim, n):
     y = zeros((n, 1))
     return X, y
 
-# generate points in latent space as input for the generator
-def generate_latent_points(latent_dim, n):
-    # generate points in the latent space
-    x_input = randn(latent_dim * n)
-    # reshape into a batch of inputs for the network
-    x_input = x_input.reshape(n, latent_dim)
-    return x_input    
-
-
-# # train the composite model
-# def train_gan(gan_model, latent_dim, n_epochs=10000, n_batch=128):
-#     # manually enumerate epochs
-#     for i in range(n_epochs):
-#         # prepare points in latent space as input for the generator
-#         x_gan = generate_latent_points(latent_dim, n_batch)
-#         # create inverted labels for the fake samples
-#         y_gan = ones((n_batch, 1))
-#         # update the generator via the discriminator's error
-#         gan_model.train_on_batch(x_gan, y_gan)
-
-
+# evaluate the discriminator and plot real and fake points
+def summarize_performance(epoch, generator, discriminator, latent_dim, n=100):
+    # prepare real samples
+    x_real, y_real = generate_real_samples(n)
+    # evaluate discriminator on real examples
+    _, acc_real = discriminator.evaluate(x_real, y_real, verbose=0)
+    # prepare fake examples
+    x_fake, y_fake = generate_fake_samples(generator, latent_dim, n)
+    # evaluate discriminator on fake examples
+    _, acc_fake = discriminator.evaluate(x_fake, y_fake, verbose=0)
+    # summarize discriminator performance
+    print(epoch, acc_real, acc_fake)
+    # scatter plot real and fake data points
+    pyplot.scatter(x_real[:, 0], x_real[:, 1], color='red')
+    pyplot.scatter(x_fake[:, 0], x_fake[:, 1], color='blue')
+    pyplot.show()
 
 # train the generator and discriminator
-def train(g_model, d_model, gan_model, latent_dim, n_epochs=10000, n_batch=128):
+def train(g_model, d_model, gan_model, latent_dim, n_epochs=10000, n_batch=128, n_eval=2000):
     # determine half the size of one batch, for updating the discriminator
     half_batch = int(n_batch / 2)
     # manually enumerate epochs
@@ -105,11 +109,9 @@ def train(g_model, d_model, gan_model, latent_dim, n_epochs=10000, n_batch=128):
         y_gan = ones((n_batch, 1))
         # update the generator via the discriminator's error
         gan_model.train_on_batch(x_gan, y_gan)
-
-
-
-
-
+        # evaluate the model every n_eval epochs
+        if (i+1) % n_eval == 0:
+            summarize_performance(i, g_model, d_model, latent_dim)
 
 # size of the latent space
 latent_dim = 5
