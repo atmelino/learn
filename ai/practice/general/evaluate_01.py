@@ -67,7 +67,7 @@ model = Sequential()
 model.add(Dense(25, input_dim=x.shape[1], activation="relu"))  # Hidden 1
 model.add(Dense(10, activation="relu"))  # Hidden 2
 model.add(Dense(1))  # Output
-model.compile(loss="mean_squared_error", optimizer="adam", metrics=["accuracy"])  # Modify here
+model.compile(loss="mean_squared_error", optimizer="adam", metrics=["RootMeanSquaredError"])
 # model.compile(loss='mean_squared_error', optimizer='sgd') # Modify here
 monitor = EarlyStopping(
     monitor="val_loss",
@@ -108,7 +108,7 @@ print(compare)
 # evaluate the model
 print("model.metrics_names",model.metrics_names)
 scores = model.evaluate(x_test, y_test, verbose=0)
-print("%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
+print("%s: %.2f%%" % (model.metrics_names[1], scores[1]))
 # cvscores.append(scores[1] * 100)
 
 
