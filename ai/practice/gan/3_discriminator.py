@@ -83,7 +83,7 @@ model.summary()
 
 
 # fit the model
-train_discriminator(model,n_epochs=300,n_batch=128)
+train_discriminator(model,n_epochs=400,n_batch=128)
 
 # Predict
 pred=model.predict([[0.5,0.25]])
