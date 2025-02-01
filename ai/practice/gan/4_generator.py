@@ -30,12 +30,12 @@ plot_model(model, to_file='generator_plot.png', show_shapes=True, show_layer_nam
 def generate_latent_points(latent_dim, n):
     # generate points in the latent space
     x_input = randn(latent_dim * n)
+    # print(x_input)
     # reshape into a batch of inputs for the network
     x_input = x_input.reshape(n, latent_dim)
+    # print(x_input)
+
     return x_input
-
-
-
 
 # use the generator to generate n fake examples and plot the results
 def generate_fake_samples(generator, latent_dim, n):
