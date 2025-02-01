@@ -2,6 +2,7 @@
 # https://machinelearningmastery.com/how-to-develop-a-generative-adversarial-network-for-a-1-dimensional-function-from-scratch-in-keras/
 
 # demonstrate creating the three models in the gan
+import os
 from keras.models import Sequential
 from keras.layers import Dense
 from tensorflow.keras.utils import plot_model
@@ -12,6 +13,7 @@ from numpy import ones,zeros
 from numpy.random import randn
 import matplotlib.pyplot as plt
 
+os.system("mkdir -p ./output")
 
 # define the standalone discriminator model
 def define_discriminator(n_inputs=2):
