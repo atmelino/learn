@@ -108,7 +108,7 @@ def train(g_model, d_model, gan_model, latent_dim, n_epochs=10000, n_batch=128, 
     tf.keras.utils.disable_interactive_logging()
     # manually enumerate epochs
     for i in range(n_epochs):
-        print("\rIteration: {} of 10000".format(i), end='')
+        print("\rIteration: {} of 10000   ".format(i), end='')
         # prepare real samples
         x_real, y_real = generate_real_samples(half_batch)
         # prepare fake examples
