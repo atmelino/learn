@@ -97,6 +97,7 @@ def summarize_performance(epoch, generator, discriminator, latent_dim, n=100):
     # plt.show()
     filename="./output/plot%05d.png" % epoch
     fig.savefig(filename)
+    plt.close(fig)
 
 # train the generator and discriminator
 def train(g_model, d_model, gan_model, latent_dim, n_epochs=10000, n_batch=128, n_eval=20):
