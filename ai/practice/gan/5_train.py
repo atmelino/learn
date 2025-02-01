@@ -88,9 +88,11 @@ def summarize_performance(epoch, generator, discriminator, latent_dim, n=100):
     print(epoch, acc_real, acc_fake)
     # scatter plot real and fake data points
     fig = plt.figure(figsize=(10, 10))
+    plt.xlim(-2, 2)
+    plt.ylim(-2, 2)
     plt.scatter(x_real[:, 0], x_real[:, 1], color='red')
     plt.scatter(x_fake[:, 0], x_fake[:, 1], color='blue')
-    plt.show()
+    # plt.show()
     filename="./output/plot%05d.png" % epoch
     fig.savefig(filename)
 
