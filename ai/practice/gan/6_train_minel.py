@@ -6,6 +6,7 @@ from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import LeakyReLU
 from tensorflow.keras.utils import plot_model
+import tensorflow as tf
 from numpy.random import rand
 from numpy import hstack
 from numpy import ones,zeros
@@ -104,20 +105,25 @@ def summarize_performance(epoch, generator, discriminator, latent_dim, n=100):
 def train(g_model, d_model, gan_model, latent_dim, n_epochs=10000, n_batch=128, n_eval=2000):
     # determine half the size of one batch, for updating the discriminator
     half_batch = int(n_batch / 2)
+    tf.keras.utils.disable_interactive_logging()
     # manually enumerate epochs
     for i in range(n_epochs):
+        print("\rIteration: {} of 10000".format(i), end='')
         # prepare real samples
         x_real, y_real = generate_real_samples(half_batch)
         # prepare fake examples
         x_fake, y_fake = generate_fake_samples(g_model, latent_dim, half_batch)
         # update discriminator
+        # print("real")
         d_model.train_on_batch(x_real, y_real)
+        # print("fake")
         d_model.train_on_batch(x_fake, y_fake)
         # prepare points in latent space as input for the generator
         x_gan = generate_latent_points(latent_dim, n_batch)
         # create inverted labels for the fake samples
         y_gan = ones((n_batch, 1))
         # update the generator via the discriminator's error
+        # print("gan")
         gan_model.train_on_batch(x_gan, y_gan)
         # evaluate the model every n_eval epochs
         if (i+1) % n_eval == 0:
