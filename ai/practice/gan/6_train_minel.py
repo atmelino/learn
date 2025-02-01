@@ -4,6 +4,7 @@
 # demonstrate creating the three models in the gan
 from keras.models import Sequential
 from keras.layers import Dense
+from keras.layers import LeakyReLU
 from tensorflow.keras.utils import plot_model
 from numpy.random import rand
 from numpy import hstack
