@@ -5,11 +5,12 @@
 from keras.models import Sequential
 from keras.layers import Dense
 from tensorflow.keras.utils import plot_model
+import tensorflow as tf
 from numpy.random import rand
 from numpy import hstack
 from numpy import ones,zeros
 from numpy.random import randn
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 
 
 # define the standalone discriminator model
@@ -86,14 +87,18 @@ def summarize_performance(epoch, generator, discriminator, latent_dim, n=100):
     # summarize discriminator performance
     print(epoch, acc_real, acc_fake)
     # scatter plot real and fake data points
-    pyplot.scatter(x_real[:, 0], x_real[:, 1], color='red')
-    pyplot.scatter(x_fake[:, 0], x_fake[:, 1], color='blue')
-    pyplot.show()
+    fig = plt.figure(figsize=(10, 10))
+    plt.scatter(x_real[:, 0], x_real[:, 1], color='red')
+    plt.scatter(x_fake[:, 0], x_fake[:, 1], color='blue')
+    plt.show()
+    filename="./output/plot%05d.png" % epoch
+    fig.savefig(filename)
 
 # train the generator and discriminator
-def train(g_model, d_model, gan_model, latent_dim, n_epochs=10000, n_batch=128, n_eval=2000):
+def train(g_model, d_model, gan_model, latent_dim, n_epochs=10000, n_batch=128, n_eval=20):
     # determine half the size of one batch, for updating the discriminator
     half_batch = int(n_batch / 2)
+    tf.keras.utils.disable_interactive_logging()
     # manually enumerate epochs
     for i in range(n_epochs):
         print("\rIteration: {} of 10000   ".format(i), end='')
