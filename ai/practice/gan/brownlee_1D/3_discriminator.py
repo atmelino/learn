@@ -1,17 +1,19 @@
 # Use conda jh_class environment
 # https://machinelearningmastery.com/how-to-develop-a-generative-adversarial-network-for-a-1-dimensional-function-from-scratch-in-keras/
 
+import os
 from numpy.random import rand
 from numpy import hstack
-from numpy import ones,zeros
+from numpy import ones, zeros
 import numpy as np
 from keras.models import Sequential
 from keras.layers import Dense
 from tensorflow.keras.utils import plot_model
 from numpy.random import randn
 
-float_formatter = "{:+1.3f}".format    
-np.set_printoptions(formatter={'float_kind':float_formatter})
+float_formatter = "{:+1.3f}".format
+np.set_printoptions(formatter={"float_kind": float_formatter})
+os.system("mkdir -p ./models")
 
 
 # generate n real samples with class labels
@@ -27,7 +29,7 @@ def generate_real_samples(n):
     # generate class labels
     y = ones((n, 1))
     return X, y
- 
+
 
 # generate n fake samples with class labels
 def generate_fake_samples(n):
@@ -43,20 +45,26 @@ def generate_fake_samples(n):
     y = zeros((n, 1))
     return X, y
 
+
 # define the standalone discriminator model
 def define_discriminator(n_inputs=2):
     model = Sequential()
-    model.add(Dense(25, activation='relu', kernel_initializer='he_uniform', input_dim=n_inputs))
-    model.add(Dense(1, activation='sigmoid'))
+    model.add(
+        Dense(
+            25, activation="relu", kernel_initializer="he_uniform", input_dim=n_inputs
+        )
+    )
+    model.add(Dense(1, activation="sigmoid"))
     # compile model
-    model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+    model.compile(loss="binary_crossentropy", optimizer="adam", metrics=["accuracy"])
     return model
+
 
 # train the discriminator model
 def train_discriminator(model, n_epochs=1000, n_batch=128):
     half_batch = int(n_batch / 2)
     # run epochs manually
-    print("Epoch    acc_real    acc_fake " )
+    print("Epoch    acc_real    acc_fake ")
     for i in range(n_epochs):
         # generate real examples
         X_real, y_real = generate_real_samples(half_batch)
@@ -83,9 +91,18 @@ model.summary()
 
 
 # fit the model
-train_discriminator(model,n_epochs=400,n_batch=128)
+train_discriminator(model, n_epochs=1000, n_batch=128)
+
+# save entire network to HDF5 (save everything, suggested)
+model.save("./models/discriminator.h5")
+model.save("./models/discriminator.keras")
+
+
 
 # Predict
-pred=model.predict([[0.5,0.25]])
 
-print("pred",pred)
+xinput = [[0.5, 0.25], [0.1, 0.25]]
+# pred=model.predict([[0.5,0.25]])
+pred = model.predict(xinput)
+
+print("pred", pred)
