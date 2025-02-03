@@ -100,8 +100,8 @@ def train_discriminator(model, n_epochs=1000, n_batch=128):
 
 
 
-print(generate_real_samples(n_batch))
-print(generate_fake_samples(n_batch))
+# print(generate_real_samples(n_batch))
+# print(generate_fake_samples(n_batch))
 
 def show_samples():
     (reals_X, reals_y)=generate_real_samples(10)
