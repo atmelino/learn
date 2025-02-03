@@ -11,11 +11,21 @@ from keras.layers import Dense
 from tensorflow.keras.utils import plot_model
 from numpy.random import randn
 import matplotlib.pyplot as plt
+import json
 
 float_formatter = "{:+1.3f}".format
 np.set_printoptions(formatter={"float_kind": float_formatter})
 os.system("mkdir -p ./models")
 
+
+with open('./config/config.json') as json_data:
+    d = json.load(json_data)
+    print(d)
+
+# print(d['n_epochs'])
+
+n_epochs=d['n_epochs']
+n_batch=d['n_batch']
 
 # generate n real samples with class labels
 def generate_real_samples(n):
@@ -90,8 +100,8 @@ def train_discriminator(model, n_epochs=1000, n_batch=128):
 
 
 
-print(generate_real_samples(64))
-print(generate_fake_samples(64))
+print(generate_real_samples(n_batch))
+print(generate_fake_samples(n_batch))
 
 def show_samples():
     (reals_X, reals_y)=generate_real_samples(10)
@@ -121,7 +131,7 @@ model.summary()
 # plot the model
 # plot_model(model, to_file='discriminator_plot.png', show_shapes=True, show_layer_names=True)
 # fit the model
-train_discriminator(model, n_epochs=1000, n_batch=128)
+train_discriminator(model, n_epochs=n_epochs, n_batch=n_batch)
 
 # save entire network to HDF5 (save everything, suggested)
 model.save("./models/disc_mod.h5")
