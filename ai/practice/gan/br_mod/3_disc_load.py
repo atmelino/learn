@@ -41,25 +41,34 @@ xinput = [
     [5, 25],
 ]
 
-xinput=[]
 dfs=[]
-for j in range(4,9):
+# df_xvalues=pd.DataFrame(range(0,100))
+dfs=pd.DataFrame(range(0,100),columns=["x"])
+for j in range(0,10):
+    xinput=[]
     for i in range(0,100):
         xinput.append([j,i])
     pred = model.predict(xinput)
-    dfs.append( pd.DataFrame(pred,columns=["pred"]))
+    df1=pd.DataFrame(pred,columns=[str(j)])
+    # print(df1)
+    dfs = pd.concat([dfs, df1], axis=1)
 
+    # dfs.append( pd.DataFrame(pred,columns=["pred"]))
+
+
+pd.options.display.float_format = '{:,.3f}'.format
+# print(dfs)
+print(dfs.to_string(index=False))
 
 
 # pred=model.predict([[0.5,0.25]])
-pred = model.predict(xinput)
+# pred = model.predict(xinput)
 
 inp =  pd.DataFrame(xinput)
 pred_df = pd.DataFrame(pred,columns=["pred"])
 DF = pd.concat([inp, pred_df], axis=1)
 DF.to_csv("./output/disc.csv",index=False)
-
 # print(DF)
-print(DF.to_string())
+# print(DF.to_string())
 
 
