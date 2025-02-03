@@ -20,18 +20,13 @@ os.system("mkdir -p ./models")
 # generate n real samples with class labels
 def generate_real_samples(n):
     # generate inputs in [-10, 10]
-    X1 = 20*rand(n) - 10
-
-
+    # X1 = 20*rand(n) - 10
     arr = np.arange(0, n)
-
-
-
-    indices=range(0,n)
-    print(indices[3])
-    arr/=10.
-    exit()
-
+    # print(arr)
+    arr=arr*20/n-10
+    # print(arr)
+    # exit()
+    X1=arr
     # generate outputs X^2
     X2 = X1 * X1
     # stack arrays
@@ -95,8 +90,8 @@ def train_discriminator(model, n_epochs=1000, n_batch=128):
 
 
 
-# print(generate_real_samples(10))
-# print(generate_fake_samples(10))
+print(generate_real_samples(64))
+print(generate_fake_samples(64))
 
 def show_samples():
     (reals_X, reals_y)=generate_real_samples(10)
@@ -115,6 +110,8 @@ def show_samples():
 
 
 
+
+
 # exit()
 
 # define the discriminator model
@@ -123,8 +120,6 @@ model = define_discriminator()
 model.summary()
 # plot the model
 # plot_model(model, to_file='discriminator_plot.png', show_shapes=True, show_layer_names=True)
-
-
 # fit the model
 train_discriminator(model, n_epochs=1000, n_batch=128)
 
