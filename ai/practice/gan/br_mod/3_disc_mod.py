@@ -21,6 +21,17 @@ os.system("mkdir -p ./models")
 def generate_real_samples(n):
     # generate inputs in [-10, 10]
     X1 = 20*rand(n) - 10
+
+
+    arr = np.arange(0, n)
+
+
+
+    indices=range(0,n)
+    print(indices[3])
+    arr/=10.
+    exit()
+
     # generate outputs X^2
     X2 = X1 * X1
     # stack arrays
@@ -62,7 +73,7 @@ def define_discriminator(n_inputs=2):
 
 
 # train the discriminator model
-def train_discriminator(model, n_epochs=2000, n_batch=256):
+def train_discriminator(model, n_epochs=1000, n_batch=128):
     half_batch = int(n_batch / 2)
     # run epochs manually
     print("Epoch    acc_real    acc_fake ")
