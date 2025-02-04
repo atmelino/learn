@@ -53,10 +53,10 @@ xinput = [
     [5, 25],
 ]
 
-dfs=[]
+df1s=[]
 # df_xvalues=pd.DataFrame(range(0,100))
 # dfs=pd.DataFrame(range(0,100),columns=["x"])
-dfs=pd.DataFrame()
+df1s=pd.DataFrame()
 for i in range(0,10):
     xinput=[]
     for j in range(0,100):
@@ -67,25 +67,32 @@ for i in range(0,10):
     pred = model.predict(xinput)
     df1=pd.DataFrame(pred,columns=[str(xval)])
     # print(df1)
-    dfs = pd.concat([dfs, df1], axis=1)
+    df1s = pd.concat([df1s, df1], axis=1)
 
     # dfs.append( pd.DataFrame(pred,columns=["pred"]))
 
 
-print(xinput[:0])
+xinput_np = np.array(xinput)
+# print(xinput_np)
+# print(xinput_np[:,[1]])
+df2=pd.DataFrame(xinput_np[:,[1]],columns=["x"])
+# print(df2)
+# exit()
+dfs = pd.concat([df2,df1s], axis=1)
 
 pd.options.display.float_format = '{:,.3f}'.format
 # print(dfs)
 print(dfs.to_string(index=False))
+dfs.to_csv("./output/disc.csv",index=False)
 
 
 # pred=model.predict([[0.5,0.25]])
 # pred = model.predict(xinput)
 
-inp =  pd.DataFrame(xinput)
-pred_df = pd.DataFrame(pred,columns=["pred"])
-DF = pd.concat([inp, pred_df], axis=1)
-DF.to_csv("./output/disc.csv",index=False)
+# inp =  pd.DataFrame(xinput)
+# pred_df = pd.DataFrame(pred,columns=["pred"])
+# DF = pd.concat([inp, pred_df], axis=1)
+# DF.to_csv("./output/disc.csv",index=False)
 # print(DF)
 # print(DF.to_string())
 
