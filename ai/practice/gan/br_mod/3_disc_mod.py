@@ -22,12 +22,11 @@ with open('./config/config.json') as json_data:
     d = json.load(json_data)
     print(d)
 
-# print(d['n_epochs'])
-
 n_epochs=d['n_epochs']
 n_batch=d['n_batch']
 x_min=d['x_min']
 x_max=d['x_max']
+width=x_max-x_min
 
 # generate n real samples with class labels
 def generate_real_samples(n):
@@ -35,7 +34,6 @@ def generate_real_samples(n):
     # X1 = 20*rand(n) - 10
     arr = np.arange(0, n)
     # print(arr)
-    width=x_max-x_min
     arr=arr*width/n-width/2
     # exit()
     X1=arr
@@ -54,7 +52,6 @@ def generate_real_samples(n):
 # generate n fake samples with class labels
 def generate_fake_samples(n):
     # generate inputs in [-1, 1]
-    width=x_max-x_min
     X1 = x_min + rand(n) * width
     # print(X1)
     # exit()

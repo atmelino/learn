@@ -8,10 +8,22 @@ from tensorflow.keras.utils import plot_model
 from numpy.random import randn
 from tensorflow.keras.models import load_model
 import pandas as pd
+import json
 
 float_formatter = "{:+1.3f}".format
 np.set_printoptions(formatter={"float_kind": float_formatter})
 os.system("mkdir -p ./output")
+
+with open('./config/config.json') as json_data:
+    d = json.load(json_data)
+    print(d)
+
+n_epochs=d['n_epochs']
+n_batch=d['n_batch']
+x_min=d['x_min']
+x_max=d['x_max']
+func_range=d['func_range']
+width=x_max-x_min
 
 
 # load the discriminator model
@@ -43,18 +55,24 @@ xinput = [
 
 dfs=[]
 # df_xvalues=pd.DataFrame(range(0,100))
-dfs=pd.DataFrame(range(0,100),columns=["x"])
-for j in range(0,10):
+# dfs=pd.DataFrame(range(0,100),columns=["x"])
+dfs=pd.DataFrame()
+for i in range(0,10):
     xinput=[]
-    for i in range(0,100):
-        xinput.append([j,i])
+    for j in range(0,100):
+        xval=i*width/2/10
+        yval=j/func_range/100
+        # print(xval,yval)
+        xinput.append([xval,yval])
     pred = model.predict(xinput)
-    df1=pd.DataFrame(pred,columns=[str(j)])
+    df1=pd.DataFrame(pred,columns=[str(xval)])
     # print(df1)
     dfs = pd.concat([dfs, df1], axis=1)
 
     # dfs.append( pd.DataFrame(pred,columns=["pred"]))
 
+
+print(xinput[:0])
 
 pd.options.display.float_format = '{:,.3f}'.format
 # print(dfs)
