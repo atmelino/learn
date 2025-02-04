@@ -8,11 +8,22 @@ from tensorflow.keras.utils import plot_model
 from numpy.random import randn
 from tensorflow.keras.models import load_model
 import pandas as pd
+import json
 
-float_formatter = "{:+1.3f}".format
+float_formatter = "{:+1.5f}".format
 np.set_printoptions(formatter={"float_kind": float_formatter})
 os.system("mkdir -p ./output")
 
+with open('./config/config.json') as json_data:
+    d = json.load(json_data)
+    print(d)
+
+n_epochs=d['n_epochs']
+n_batch=d['n_batch']
+x_min=d['x_min']
+x_max=d['x_max']
+func_range=d['func_range']
+width=x_max-x_min
 
 # load the discriminator model
 load_path = "./models"
@@ -55,13 +66,26 @@ xinput = [
 ]
 
 
+for i in range(0,10):
+    xinput=[]
+    for j in range(0,100):
+        xval=i*width/2/10
+        yval=j/func_range/100
+        # print(xval,yval)
+        xinput.append([xval,yval])
+    pred = model.predict(xinput)
+    print(pred)
+
+
+
+
 # pred=model.predict([[0.5,0.25]])
-pred = model.predict(xinput)
+# pred = model.predict(xinput)
 
-inp =  pd.DataFrame(xinput)
-pred_df = pd.DataFrame(pred,columns=["pred"])
-DF = pd.concat([inp, pred_df], axis=1)
-DF.to_csv("./output/disc.csv",index=False)
+# inp =  pd.DataFrame(xinput)
+# pred_df = pd.DataFrame(pred,columns=["pred"])
+# DF = pd.concat([inp, pred_df], axis=1)
+# DF.to_csv("./output/disc.csv",index=False)
 
-print(DF)
+# print(DF)
 
