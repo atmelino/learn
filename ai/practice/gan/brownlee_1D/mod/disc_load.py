@@ -36,36 +36,7 @@ model.summary()
 
 
 # Predict
-xinput = [
-    [-0.5, -0.3], 
-    [-0.5, -0.1], 
-    [-0.5, 0], 
-    [-0.5, 0.1], 
-    [-0.5, 0.25], 
-    [-0.5, 0.4],
-    [0.5, -0.3], 
-    [0.5, -0.1], 
-    [0.5, 0], 
-    [0.5, 0.1], 
-    [0.5, 0.25], 
-    [0.5, 0.4],
-    [0.2, 0.04],
-]
-
-xinput = [
-    [0.2, 0.00],
-    [0.2, 0.01],
-    [0.2, 0.02],
-    [0.2, 0.03],
-    [0.2, 0.04],
-    [0.2, 0.05],
-    [0.2, 0.06],
-    [0.2, 0.07],
-    [0.2, 0.08],
-    [0.2, 0.09],
-]
-
-
+pred_dfs=pd.DataFrame()
 for i in range(0,10):
     xinput=[]
     for j in range(0,100):
@@ -74,9 +45,15 @@ for i in range(0,10):
         # print(xval,yval)
         xinput.append([xval,yval])
     pred = model.predict(xinput)
-    print(pred)
+    pred_df=pd.DataFrame(pred,columns=[str(xval)])
+    pred_dfs = pd.concat([pred_dfs, pred_df], axis=1)
 
 
+xinput_np = np.array(xinput)
+firstcol=pd.DataFrame(xinput_np[:,[1]],columns=["x"])
+pred_dfs = pd.concat([firstcol,pred_dfs], axis=1)
+
+print(pred_dfs.to_string(index=False))
 
 
 # pred=model.predict([[0.5,0.25]])

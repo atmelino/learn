@@ -25,23 +25,17 @@ model.summary()
 
 
 # Predict
-xinput = [
-    [-0.5, -0.3], 
-    [-0.5, -0.1], 
-    [-0.5, 0], 
-    [-0.5, 0.1], 
-    [-0.5, 0.25], 
-    [-0.5, 0.4],
-    [0.5, -0.3], 
-    [0.5, -0.1], 
+xinput_05 = [
     [0.5, 0], 
     [0.5, 0.1], 
+    [0.5, 0.2], 
     [0.5, 0.25], 
+    [0.5, 0.3], 
     [0.5, 0.4],
-    [0.2, 0.04],
+    [0.5, 0.5],
 ]
 
-xinput = [
+xinput_02 = [
     [0.2, 0.00],
     [0.2, 0.01],
     [0.2, 0.02],
@@ -56,10 +50,11 @@ xinput = [
 
 
 # pred=model.predict([[0.5,0.25]])
-pred = model.predict(xinput)
 
-inp =  pd.DataFrame(xinput)
+xinput=xinput_05
+pred = model.predict(xinput)
 pred_df = pd.DataFrame(pred,columns=["pred"])
+inp =  pd.DataFrame(xinput)
 DF = pd.concat([inp, pred_df], axis=1)
 DF.to_csv("./output/disc.csv",index=False)
 
