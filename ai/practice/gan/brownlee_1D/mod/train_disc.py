@@ -10,16 +10,26 @@ from keras.models import Sequential
 from keras.layers import Dense
 from tensorflow.keras.utils import plot_model
 from numpy.random import randn
+import json
 
 float_formatter = "{:+1.3f}".format
 np.set_printoptions(formatter={"float_kind": float_formatter})
 os.system("mkdir -p ./models")
 
+with open('./config/config.json') as json_data:
+    d = json.load(json_data)
+    print(d)
+
+n_epochs=d['n_epochs']
+n_batch=d['n_batch']
+x_min=d['x_min']
+x_max=d['x_max']
+width=x_max-x_min
 
 # generate n real samples with class labels
 def generate_real_samples(n):
     # generate inputs in [-0.5, 0.5]
-    X1 = 2*(rand(n) - 0.5)
+    X1 = rand(n) - 0.5
     # print(X1)
     # generate outputs X^2
     X2 = X1 * X1

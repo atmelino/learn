@@ -51,7 +51,7 @@ xinput_02 = [
 
 # pred=model.predict([[0.5,0.25]])
 
-xinput=xinput_05
+xinput=xinput_02
 pred = model.predict(xinput)
 pred_df = pd.DataFrame(pred,columns=["pred"])
 inp =  pd.DataFrame(xinput)
