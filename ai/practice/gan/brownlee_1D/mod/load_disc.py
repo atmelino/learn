@@ -54,15 +54,7 @@ firstcol=pd.DataFrame(xinput_np[:,[1]],columns=["x"])
 pred_dfs = pd.concat([firstcol,pred_dfs], axis=1)
 
 print(pred_dfs.to_string(index=False))
+pred_dfs.to_csv("./output/disc.csv",index=False)
 
 
-# pred=model.predict([[0.5,0.25]])
-# pred = model.predict(xinput)
-
-# inp =  pd.DataFrame(xinput)
-# pred_df = pd.DataFrame(pred,columns=["pred"])
-# DF = pd.concat([inp, pred_df], axis=1)
-# DF.to_csv("./output/disc.csv",index=False)
-
-# print(DF)
 
