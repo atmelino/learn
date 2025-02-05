@@ -39,11 +39,11 @@ random_real=config['random_real']
 # generate n real samples with class labels
 def generate_real_samples(n):
     if(random_real==False):
-        print("sequential")
+        # print("sequential")
         arr = np.arange(0, n)
         X1=arr*width/n-width/2
     else:
-        print("random")
+        # print("random")
         X1 = rand(n) - 0.5
     # print(X1)
     # generate outputs X^2
@@ -123,7 +123,7 @@ filename="./output/plot_init.png"
 fig.savefig(filename)
 plt.close(fig)
 
-exit()
+# exit()
 
 # define the discriminator model
 model = define_discriminator()

@@ -18,12 +18,17 @@ with open('./config/config.json') as json_data:
     d = json.load(json_data)
     print(d)
 
-n_epochs=d['n_epochs']
-n_batch=d['n_batch']
-x_min=d['x_min']
-x_max=d['x_max']
-func_range=d['func_range']
+print(d['selected'])
+name=d['selected']
+config=d[name]
+print(config)
+
+n_epochs=config['n_epochs']
+n_batch=config['n_batch']
+x_min=config['x_min']
+x_max=config['x_max']
 width=x_max-x_min
+random_real=config['random_real']
 
 # load the discriminator model
 load_path = "./models"
