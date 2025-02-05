@@ -11,6 +11,7 @@ from keras.layers import Dense
 from tensorflow.keras.utils import plot_model
 from numpy.random import randn
 import json
+import copy
 
 float_formatter = "{:+1.3f}".format
 np.set_printoptions(formatter={"float_kind": float_formatter})
@@ -18,13 +19,25 @@ os.system("mkdir -p ./models")
 
 with open('./config/config.json') as json_data:
     d = json.load(json_data)
+    # d = json.load(json_data)['original']
     print(d)
+    # print(d['original'])
 
-n_epochs=d['n_epochs']
-n_batch=d['n_batch']
-x_min=d['x_min']
-x_max=d['x_max']
+print(d['selected'])
+name=d['selected']
+# config = copy.deepcopy(d['selected'])
+# config=d['selected']
+# config = copy.deepcopy(d['selected'])
+config=d[name]
+print(config)
+
+n_epochs=config['n_epochs']
+n_batch=config['n_batch']
+x_min=config['x_min']
+x_max=config['x_max']
 width=x_max-x_min
+
+# exit()
 
 # generate n real samples with class labels
 def generate_real_samples(n):
@@ -92,6 +105,11 @@ def train_discriminator(model, n_epochs=1000, n_batch=128):
         # print(i, acc_real, acc_fake)
         print("epoch %3d acc_real %.3f acc_fake %.3f" % (i, acc_real, acc_fake))
 
+
+print(generate_real_samples(n_batch))
+print(generate_fake_samples(n_batch))
+
+exit()
 
 # define the discriminator model
 model = define_discriminator()
