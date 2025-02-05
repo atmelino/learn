@@ -12,20 +12,24 @@ from tensorflow.keras.utils import plot_model
 from numpy.random import randn
 import json
 import matplotlib.pyplot as plt
+import pprint
 
 os.system("mkdir -p ./models")
 os.system("mkdir -p ./output")
+pp = pprint.PrettyPrinter(indent=4)
 float_formatter = "{:+1.3f}".format
 np.set_printoptions(formatter={"float_kind": float_formatter})
 
-with open('./config/config.json') as json_data:
+with open('./config/train.json') as json_data:
     d = json.load(json_data)
-    print(d)
+    # print(d)
 
-print(d['selected'])
+# print(d['selected'])
 name=d['selected']
 config=d[name]
-print(config)
+print(name)
+# print(config)
+pp.pprint(config)
 
 n_epochs=config['n_epochs']
 n_batch=config['n_batch']

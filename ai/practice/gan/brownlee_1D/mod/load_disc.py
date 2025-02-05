@@ -9,27 +9,28 @@ from numpy.random import randn
 from tensorflow.keras.models import load_model
 import pandas as pd
 import json
+import pprint
 
+pp = pprint.PrettyPrinter(indent=4)
 float_formatter = "{:+1.5f}".format
 np.set_printoptions(formatter={"float_kind": float_formatter})
 os.system("mkdir -p ./output")
 
-with open('./config/config.json') as json_data:
+with open('./config/load.json') as json_data:
     d = json.load(json_data)
-    print(d)
+    # print(d)
 
-print(d['selected'])
+# print(d['selected'])
 name=d['selected']
 config=d[name]
-print(config)
-
-n_epochs=config['n_epochs']
-n_batch=config['n_batch']
-x_min=config['x_min']
-x_max=config['x_max']
+# print(config)
+print(name)
+pp.pprint(config)
+width=config['width']
 func_range=config['func_range']
-random_real=config['random_real']
-width=x_max-x_min
+
+
+# width=x_max-x_min
 
 # load the discriminator model
 load_path = "./models"
