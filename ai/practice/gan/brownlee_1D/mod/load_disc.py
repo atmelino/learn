@@ -27,8 +27,9 @@ n_epochs=config['n_epochs']
 n_batch=config['n_batch']
 x_min=config['x_min']
 x_max=config['x_max']
-width=x_max-x_min
+func_range=config['func_range']
 random_real=config['random_real']
+width=x_max-x_min
 
 # load the discriminator model
 load_path = "./models"
