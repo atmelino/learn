@@ -11,7 +11,6 @@ from keras.layers import Dense
 from tensorflow.keras.utils import plot_model
 from numpy.random import randn
 import json
-import copy
 
 float_formatter = "{:+1.3f}".format
 np.set_printoptions(formatter={"float_kind": float_formatter})
@@ -19,15 +18,10 @@ os.system("mkdir -p ./models")
 
 with open('./config/config.json') as json_data:
     d = json.load(json_data)
-    # d = json.load(json_data)['original']
     print(d)
-    # print(d['original'])
 
 print(d['selected'])
 name=d['selected']
-# config = copy.deepcopy(d['selected'])
-# config=d['selected']
-# config = copy.deepcopy(d['selected'])
 config=d[name]
 print(config)
 
@@ -36,13 +30,19 @@ n_batch=config['n_batch']
 x_min=config['x_min']
 x_max=config['x_max']
 width=x_max-x_min
+random_real=config['random_real']
 
 # exit()
 
 # generate n real samples with class labels
 def generate_real_samples(n):
-    # generate inputs in [-0.5, 0.5]
-    X1 = rand(n) - 0.5
+    if(random_real==False):
+        print("sequential")
+        arr = np.arange(0, n)
+        X1=arr*width/n-width/2
+    else:
+        print("random")
+        X1 = rand(n) - 0.5
     # print(X1)
     # generate outputs X^2
     X2 = X1 * X1
@@ -106,8 +106,8 @@ def train_discriminator(model, n_epochs=1000, n_batch=128):
         print("epoch %3d acc_real %.3f acc_fake %.3f" % (i, acc_real, acc_fake))
 
 
-print(generate_real_samples(n_batch))
-print(generate_fake_samples(n_batch))
+print("real samples",generate_real_samples(n_batch))
+print("fake samples",generate_fake_samples(n_batch))
 
 exit()
 
@@ -120,18 +120,9 @@ model.summary()
 
 
 # fit the model
-train_discriminator(model, n_epochs=1000, n_batch=128)
+train_discriminator(model, n_epochs=n_epochs, n_batch=n_batch)
 
 # save entire network to HDF5 (save everything, suggested)
 model.save("./models/discriminator.h5")
 model.save("./models/discriminator.keras")
 
-
-
-# Predict
-
-xinput = [[0.5, 0.25], [0.1, 0.25]]
-# pred=model.predict([[0.5,0.25]])
-pred = model.predict(xinput)
-
-print("pred", pred)
