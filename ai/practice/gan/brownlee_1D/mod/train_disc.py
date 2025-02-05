@@ -11,10 +11,12 @@ from keras.layers import Dense
 from tensorflow.keras.utils import plot_model
 from numpy.random import randn
 import json
+import matplotlib.pyplot as plt
 
+os.system("mkdir -p ./models")
+os.system("mkdir -p ./output")
 float_formatter = "{:+1.3f}".format
 np.set_printoptions(formatter={"float_kind": float_formatter})
-os.system("mkdir -p ./models")
 
 with open('./config/config.json') as json_data:
     d = json.load(json_data)
@@ -57,10 +59,10 @@ def generate_real_samples(n):
 
 # generate n fake samples with class labels
 def generate_fake_samples(n):
-    # generate inputs in [-1, 1]
-    X1 = -1 + rand(n) * 2
-    # generate outputs in [-1, 1]
-    X2 = -1 + rand(n) * 2
+    # generate inputs in double the real samples range
+    X1 = 2*(x_min + rand(n) * width)
+    # generate outputs in double the real samples range
+    X2 = 2*(x_min + rand(n) * width)
     # stack arrays
     X1 = X1.reshape(n, 1)
     X2 = X2.reshape(n, 1)
@@ -106,8 +108,20 @@ def train_discriminator(model, n_epochs=1000, n_batch=128):
         print("epoch %3d acc_real %.3f acc_fake %.3f" % (i, acc_real, acc_fake))
 
 
-print("real samples",generate_real_samples(n_batch))
-print("fake samples",generate_fake_samples(n_batch))
+x_real,_=generate_real_samples(n_batch)
+x_fake,_=generate_fake_samples(n_batch)
+# print("real samples",generate_real_samples(n_batch))
+# print("fake samples",generate_fake_samples(n_batch))
+fig = plt.figure(figsize=(10, 10))
+plt.xlim(4*x_min, 4*x_max)
+plt.ylim(4*x_min, 4*x_max)
+plt.scatter(x_real[:, 0], x_real[:, 1], color='red')
+plt.scatter(x_fake[:, 0], x_fake[:, 1], color='blue')
+plt.show()
+# filename="./output/plot%05d.png" % epoch
+filename="./output/plot_init.png"
+fig.savefig(filename)
+plt.close(fig)
 
 exit()
 
