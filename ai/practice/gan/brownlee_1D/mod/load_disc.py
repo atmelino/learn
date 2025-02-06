@@ -57,7 +57,7 @@ for i in range(0,10):
 
 
 xinput_np = np.array(xinput)
-firstcol=pd.DataFrame(xinput_np[:,[1]],columns=["x"])
+firstcol=pd.DataFrame(xinput_np[:,[1]],columns=["y\p/x"])
 pred_dfs = pd.concat([firstcol,pred_dfs], axis=1)
 
 print(pred_dfs.to_string(index=False))
