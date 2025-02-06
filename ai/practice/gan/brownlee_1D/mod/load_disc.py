@@ -11,7 +11,7 @@ import pandas as pd
 import json
 import pprint
 
-pp = pprint.PrettyPrinter(indent=4)
+pp = pprint.PrettyPrinter(indent=4,compact=False,width=20)
 float_formatter = "{:+1.5f}".format
 np.set_printoptions(formatter={"float_kind": float_formatter})
 os.system("mkdir -p ./output")

@@ -66,7 +66,7 @@ def generate_fake_samples(n):
     # generate inputs in double the real samples range
     X1 = 2*(x_min + rand(n) * width)
     # generate outputs in double the real samples range
-    X2 = 2*(x_min + rand(n) * width)
+    X2 = 1*(x_min + rand(n) * width*width)
     # stack arrays
     X1 = X1.reshape(n, 1)
     X2 = X2.reshape(n, 1)
@@ -118,7 +118,7 @@ x_fake,_=generate_fake_samples(n_batch)
 # print("fake samples",generate_fake_samples(n_batch))
 fig = plt.figure(figsize=(10, 10))
 plt.xlim(4*x_min, 4*x_max)
-plt.ylim(4*x_min, 4*x_max)
+plt.ylim(1.2*x_min,2* x_max*x_max)
 plt.scatter(x_real[:, 0], x_real[:, 1], color='red')
 plt.scatter(x_fake[:, 0], x_fake[:, 1], color='blue')
 plt.show()
