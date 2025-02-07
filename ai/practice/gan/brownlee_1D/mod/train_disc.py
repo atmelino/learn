@@ -13,6 +13,7 @@ from numpy.random import randn
 import json
 import matplotlib.pyplot as plt
 import pprint
+import tables as tb
 
 os.system("mkdir -p ./models")
 os.system("mkdir -p ./output")
@@ -143,4 +144,19 @@ train_discriminator(model, n_epochs=n_epochs, n_batch=n_batch)
 # save entire network to HDF5 (save everything, suggested)
 model.save("./models/discriminator.h5")
 model.save("./models/discriminator.keras")
+
+# Save additional training information 
+fname = './models/discriminator.h5'
+# Load model and add some metadata
+with tb.open_file(fname, 'a') as h5_mod:
+    node = h5_mod.get_node('/')
+    node._v_attrs['test_meta'] = 'My test attibute {}'.format(3.1415)
+
+# Load model, now with metadata
+with tb.open_file(fname, 'r') as h5_mod:
+    node = h5_mod.get_node('/')
+    # Check if it worked
+    print('test_meta:', node._v_attrs['test_meta'])
+
+
 
