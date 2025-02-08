@@ -96,10 +96,10 @@ plt.ylim(plotrange['ylim0'], plotrange['ylim1'])
 axr=plt.scatter(x_real[:, 0], x_real[:, 1], color='red')
 axf=plt.scatter(x_fake[:, 0], x_fake[:, 1], color='blue')
 plt.legend((axr,axf),
-           ('Low x_real', 'x_fake'),
+           ('x_real', 'x_fake'),
            scatterpoints=1,
            loc='lower left',
-           ncol=3,
+           ncol=2,
            fontsize=8)
 plt.show()
 # filename="./output/plot%05d.png" % epoch
