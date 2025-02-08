@@ -93,9 +93,9 @@ plotrange={'xlim0':1.2*x_min, 'xlim1':1.2*x_max,'ylim0':1.2*x_min, 'ylim1':1.2* 
 print(plotrange)
 plt.xlim(plotrange['xlim0'], plotrange['xlim1'])
 plt.ylim(plotrange['ylim0'], plotrange['ylim1'])
-plt.scatter(x_real[:, 0], x_real[:, 1], color='red')
-plt.scatter(x_fake[:, 0], x_fake[:, 1], color='blue')
-plt.legend((x_real,x_fake),
+axr=plt.scatter(x_real[:, 0], x_real[:, 1], color='red')
+axf=plt.scatter(x_fake[:, 0], x_fake[:, 1], color='blue')
+plt.legend((axr,axf),
            ('Low x_real', 'x_fake'),
            scatterpoints=1,
            loc='lower left',
