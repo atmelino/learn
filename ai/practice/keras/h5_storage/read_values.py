@@ -11,8 +11,6 @@ class Config(tb.IsDescription):
 
 
 
-
-
 fname = "./models/discriminator.h5"
 with tb.open_file(fname, "r") as h5file:
     node = h5file.get_node("/")
@@ -21,35 +19,9 @@ with tb.open_file(fname, "r") as h5file:
 
     print(table)
     print(table.row)
-    print(table.col('x_min'))
+    print("x_min=",table.col('x_min')[0])
 
-
-    exit()
-
-
-    try:
-        h5file.remove_node("/training_config", recursive=True)
-    except tb.NoSuchNodeError:
-        print("file does not have training_config node")
-
-    # try:
-    #     node.__contains__(node.training_config)
-    #     print('contains training_config')
-    # except tb.NoSuchNodeError:
-    #     print('there is no training_config, will create it')
-    print("Create training_config node")
-    group = h5file.create_group(
-        "/", "training_config", "Training configurationinformation"
-    )
-    table = h5file.create_table(group, "config", Config, "config data")
-    config = table.row
-    config["name"] = f"Config: 1"
-    config["n_epochs"] = 1000
-    config["n_batch"] = 128
-    config["x_min"] = -0.5
-    config["x_max"] = 0.5
-    config["random_real"] = True
-    # Insert a new config record
-    config.append()
-    table.flush()
     h5file.close()
+
+
+
