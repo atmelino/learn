@@ -10,6 +10,7 @@ from keras.models import Sequential
 from keras.layers import Dense
 from tensorflow.keras.utils import plot_model
 from numpy.random import randn
+import matplotlib.pyplot as plt
 
 float_formatter = "{:+1.3f}".format
 np.set_printoptions(formatter={"float_kind": float_formatter})
@@ -80,6 +81,32 @@ def train_discriminator(model, n_epochs=1000, n_batch=128):
         _, acc_fake = model.evaluate(X_fake, y_fake, verbose=0)
         # print(i, acc_real, acc_fake)
         print("epoch %3d acc_real %.3f acc_fake %.3f" % (i, acc_real, acc_fake))
+
+
+
+x_real,_=generate_real_samples(128)
+x_fake,_=generate_fake_samples(128)
+fig = plt.figure(figsize=(10, 10))
+x_min=-1
+x_max=1
+plotrange={'xlim0':1.2*x_min, 'xlim1':1.2*x_max,'ylim0':1.2*x_min, 'ylim1':1.2* x_max}
+print(plotrange)
+plt.xlim(plotrange['xlim0'], plotrange['xlim1'])
+plt.ylim(plotrange['ylim0'], plotrange['ylim1'])
+plt.scatter(x_real[:, 0], x_real[:, 1], color='red')
+plt.scatter(x_fake[:, 0], x_fake[:, 1], color='blue')
+plt.legend((x_real,x_fake),
+           ('Low x_real', 'x_fake'),
+           scatterpoints=1,
+           loc='lower left',
+           ncol=3,
+           fontsize=8)
+plt.show()
+# filename="./output/plot%05d.png" % epoch
+filename="./output/plot_init.png"
+fig.savefig(filename)
+plt.close(fig)
+
 
 
 # define the discriminator model
