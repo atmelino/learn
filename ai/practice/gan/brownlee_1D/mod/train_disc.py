@@ -156,26 +156,20 @@ class Config(tb.IsDescription):
 
 
 fname = "./models/discriminator.h5"
-with tb.open_file(fname, "a") as h5_mod:
-    node = h5_mod.get_node("/")
+with tb.open_file(fname, "a") as h5file:
+    node = h5file.get_node("/")
 
     try:
-        h5_mod.remove_node("/training_config", recursive=True)
+        h5file.remove_node("/training_config", recursive=True)
     except tb.NoSuchNodeError:
         print("file does not have training_config node")
-
-    # try:
-    #     node.__contains__(node.training_config)
-    #     print('contains training_config')
-    # except tb.NoSuchNodeError:
-    #     print('there is no training_config, will create it')
     print("Create training_config node")
-    group = h5_mod.create_group(
+    group = h5file.create_group(
         "/", "training_config", "Training configurationinformation"
     )
-    table = h5_mod.create_table(group, "config", Config, "config data")
+    table = h5file.create_table(group, "config", Config, "config data")
     config = table.row
-    config["name"] = f"Config: 1"
+    config["name"] = f"Config name"
     config["n_epochs"] = n_epochs
     config["n_batch"] = n_batch
     config["x_min"] = x_min
@@ -184,7 +178,7 @@ with tb.open_file(fname, "a") as h5_mod:
     # Insert a new config record
     config.append()
     table.flush()
-    h5_mod.close()
+    h5file.close()
 
 
 

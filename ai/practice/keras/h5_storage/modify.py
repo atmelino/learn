@@ -11,12 +11,12 @@ class Config(tb.IsDescription):
     random_real = tb.BoolCol()
 
 
-fname = "./discriminator.h5"
-with tb.open_file(fname, "a") as h5_mod:
-    node = h5_mod.get_node("/")
+fname = "./models/discriminator.h5"
+with tb.open_file(fname, "a") as h5file:
+    node = h5file.get_node("/")
 
     try:
-        h5_mod.remove_node("/training_config", recursive=True)
+        h5file.remove_node("/training_config", recursive=True)
     except tb.NoSuchNodeError:
         print("file does not have training_config node")
 
@@ -26,10 +26,10 @@ with tb.open_file(fname, "a") as h5_mod:
     # except tb.NoSuchNodeError:
     #     print('there is no training_config, will create it')
     print("Create training_config node")
-    group = h5_mod.create_group(
-        "/", "training_config", "Training configurationinformation"
+    group = h5file.create_group(
+        "/", "training_config", "Training configuration information"
     )
-    table = h5_mod.create_table(group, "config", Config, "config data")
+    table = h5file.create_table(group, "config", Config, "config data")
     config = table.row
     config["name"] = f"Config: 1"
     config["n_epochs"] = 1000
@@ -40,4 +40,4 @@ with tb.open_file(fname, "a") as h5_mod:
     # Insert a new config record
     config.append()
     table.flush()
-    h5_mod.close()
+    h5file.close()
