@@ -21,32 +21,33 @@ pp = pprint.PrettyPrinter(indent=4)
 float_formatter = "{:+1.3f}".format
 np.set_printoptions(formatter={"float_kind": float_formatter})
 
-with open('./config/train.json') as json_data:
+with open("./config/train.json") as json_data:
     d = json.load(json_data)
     # print(d)
 
 # print(d['selected'])
-name=d['selected']
-config=d[name]
+name = d["selected"]
+config = d[name]
 print(name)
 # print(config)
 pp.pprint(config)
 
-n_epochs=config['n_epochs']
-n_batch=config['n_batch']
-x_min=config['x_min']
-x_max=config['x_max']
-width=x_max-x_min
-random_real=config['random_real']
+n_epochs = config["n_epochs"]
+n_batch = config["n_batch"]
+x_min = config["x_min"]
+x_max = config["x_max"]
+width = x_max - x_min
+random_real = config["random_real"]
 
 # exit()
 
+
 # generate n real samples with class labels
 def generate_real_samples(n):
-    if(random_real==False):
+    if random_real == False:
         # print("sequential")
         arr = np.arange(0, n)
-        X1=arr*width/n-width/2
+        X1 = arr * width / n - width / 2
     else:
         # print("random")
         X1 = rand(n) - 0.5
@@ -65,10 +66,11 @@ def generate_real_samples(n):
 # generate n fake samples with class labels
 def generate_fake_samples(n):
     # generate inputs in double the real samples range
-    X1 = 2*(x_min + rand(n) * width)
+    X1 = 2 * (x_min + rand(n) * width)
     # generate outputs in double the real samples range
     # X2 = 1*(x_min + rand(n) * x_max*x_max)
-    X2 = 2*(x_min + rand(n) * width)
+    # X2 = 2*(x_min + rand(n) * width)
+    X2 = 2 * rand(n) * x_max * x_max - x_max
     # stack arrays
     X1 = X1.reshape(n, 1)
     X2 = X2.reshape(n, 1)
@@ -114,20 +116,26 @@ def train_discriminator(model, n_epochs=1000, n_batch=128):
         print("epoch %3d acc_real %.3f acc_fake %.3f" % (i, acc_real, acc_fake))
 
 
-x_real,_=generate_real_samples(n_batch)
-x_fake,_=generate_fake_samples(n_batch)
+x_real, _ = generate_real_samples(n_batch)
+x_fake, _ = generate_fake_samples(n_batch)
 # print("real samples",generate_real_samples(n_batch))
 # print("fake samples",generate_fake_samples(n_batch))
 fig = plt.figure(figsize=(10, 10))
-plotrange={'xlim0':4*x_min, 'xlim1':4*x_max,'ylim0':1.2*x_min, 'ylim1':5* x_max*x_max}
+padding=2.2
+plotrange = {
+    "xlim0": padding * x_min,
+    "xlim1": padding * x_max,
+    "ylim0": padding * x_min,
+    "ylim1": padding * x_max * x_max,
+}
 print(plotrange)
-plt.xlim(plotrange['xlim0'], plotrange['xlim1'])
-plt.ylim(plotrange['ylim0'], plotrange['ylim1'])
-plt.scatter(x_real[:, 0], x_real[:, 1], color='red')
-plt.scatter(x_fake[:, 0], x_fake[:, 1], color='blue')
+plt.xlim(plotrange["xlim0"], plotrange["xlim1"])
+plt.ylim(plotrange["ylim0"], plotrange["ylim1"])
+plt.scatter(x_real[:, 0], x_real[:, 1], color="red")
+plt.scatter(x_fake[:, 0], x_fake[:, 1], color="blue")
 plt.show()
 # filename="./output/plot%05d.png" % epoch
-filename="./output/plot_init.png"
+filename = "./output/plot_init.png"
 fig.savefig(filename)
 plt.close(fig)
 
@@ -148,7 +156,8 @@ train_discriminator(model, n_epochs=n_epochs, n_batch=n_batch)
 model.save("./models/discriminator.h5")
 model.save("./models/discriminator.keras")
 
-# Save additional training information 
+
+# Save additional training information
 class Config(tb.IsDescription):
     name = tb.StringCol(16)  # 16-character String
     n_epochs = tb.UInt64Col()  # Signed 64-bit integer
@@ -182,6 +191,3 @@ with tb.open_file(fname, "a") as h5file:
     config.append()
     table.flush()
     h5file.close()
-
-
-
