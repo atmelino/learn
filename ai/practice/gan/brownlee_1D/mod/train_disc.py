@@ -22,15 +22,10 @@ np.set_printoptions(formatter={"float_kind": float_formatter})
 
 with open("./config/train.json") as json_data:
     d = json.load(json_data)
-    # print(d)
-
-# print(d['selected'])
 name = d["selected"]
 config = d[name]
 print(name)
-# print(config)
 pp.pprint(config)
-
 n_epochs = config["n_epochs"]
 n_batch = config["n_batch"]
 x_max = config["x_max"]
@@ -39,6 +34,7 @@ xsquared = x_max * x_max
 random_real = config["random_real"]
 
 # exit()
+# acc_real = 0
 
 
 # generate n real samples with class labels
@@ -114,6 +110,7 @@ def train_discriminator(model, n_epochs=1000, n_batch=128):
         _, acc_fake = model.evaluate(X_fake, y_fake, verbose=0)
         # print(i, acc_real, acc_fake)
         print("epoch %3d acc_real %.3f acc_fake %.3f" % (i, acc_real, acc_fake))
+        return (acc_real, acc_fake)
 
 
 x_real, _ = generate_real_samples(n_batch)
@@ -153,7 +150,7 @@ model.summary()
 
 
 # fit the model
-train_discriminator(model, n_epochs=n_epochs, n_batch=n_batch)
+acc_real, acc_fake = train_discriminator(model, n_epochs=n_epochs, n_batch=n_batch)
 
 # save entire network to HDF5 (save everything, suggested)
 model.save("./models/discriminator.h5")
@@ -166,6 +163,7 @@ class Config(tb.IsDescription):
     n_epochs = tb.UInt64Col()  # Signed 64-bit integer
     n_batch = tb.UInt64Col()  # Signed 64-bit integer
     x_max = tb.Float64Col()  # double (double-precision)
+    acc_real = tb.Float64Col()  # double (double-precision)
     random_real = tb.BoolCol()
 
 
@@ -187,6 +185,7 @@ with tb.open_file(fname, "a") as h5file:
     config["n_epochs"] = n_epochs
     config["n_batch"] = n_batch
     config["x_max"] = x_max
+    config["acc_real"] = acc_real
     config["random_real"] = random_real
     # Insert a new config record
     config.append()
