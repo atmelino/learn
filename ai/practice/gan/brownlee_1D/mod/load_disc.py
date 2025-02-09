@@ -11,7 +11,7 @@ import pandas as pd
 import json
 import pprint
 import tables as tb
-import termcolor
+from termcolor import colored
 import tabulate
 
 pp = pprint.PrettyPrinter(indent=4,compact=False,width=20)
@@ -103,11 +103,13 @@ print(column.nlargest(3).values)
 
 
 
+header='0.0'
+
 nl3 = pred_dfs['0.0'].nlargest(3).values
 print(nl3)
-# nl4 = pred_dfs.Col4.nlargest(3).values
-pred_dfs['0.0'] = pred_dfs[1:2].apply(lambda x: colored(x, "red") if x in nl3 else x)
-# pred_dfs.Col4 = pred_dfs.Col4.apply(lambda x: colored(x, "red") if x in nl4 else x)
+# # nl4 = pred_dfs.Col4.nlargest(3).values
+pred_dfs['0.0'] = pred_dfs['0.0'].apply(lambda x: colored(x, "red") if x in nl3 else x)
+# # pred_dfs.Col4 = pred_dfs.Col4.apply(lambda x: colored(x, "red") if x in nl4 else x)
 print(tabulate.tabulate(pred_dfs, headers=pred_dfs.columns))
 
 
