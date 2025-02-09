@@ -86,30 +86,17 @@ xinput_np = np.array(xinput)
 firstcol=pd.DataFrame(xinput_np[:,[1]],columns=["y\p/x"])
 pred_dfs = pd.concat([firstcol,pred_dfs], axis=1)
 
-print(pred_dfs.to_string(index=False))
+# print(pred_dfs.to_string(index=False))
 pred_dfs.to_csv("./output/disc.csv",index=False)
 
-
-column=pred_dfs['0.0']
-print(pred_dfs['0.0'])
-print(column.nlargest(3).values)
-
-# exit()
-
-
-# for column in pred_dfs:
-#     print(f"Column: {column}, Data: {pred_dfs[column]}")
-#     print(column.nlargest(3).values)
-
-
-
-header='0.0'
-
-nl3 = pred_dfs['0.0'].nlargest(3).values
-print(nl3)
-# # nl4 = pred_dfs.Col4.nlargest(3).values
-pred_dfs['0.0'] = pred_dfs['0.0'].apply(lambda x: colored(x, "red") if x in nl3 else x)
-# # pred_dfs.Col4 = pred_dfs.Col4.apply(lambda x: colored(x, "red") if x in nl4 else x)
+# headers=['0.0','0.1']
+headers=pred_dfs.columns
+for header in headers:
+    nl3 = pred_dfs[header].nlargest(3).values
+    # print(nl3)
+    # # nl4 = pred_dfs.Col4.nlargest(3).values
+    pred_dfs[header] = pred_dfs[header].apply(lambda x: colored(x, "red") if x in nl3 else x)
+    # # pred_dfs.Col4 = pred_dfs.Col4.apply(lambda x: colored(x, "red") if x in nl4 else x)
 print(tabulate.tabulate(pred_dfs, headers=pred_dfs.columns))
 
 
