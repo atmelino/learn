@@ -70,8 +70,7 @@ def generate_fake_samples(n):
     # X2 = 1*(x_min + rand(n) * x_max*x_max)
     # X2 = 2*(x_min + rand(n) * width)
     # X2 = 2 * rand(n) * x_max * x_max
-    X2 = 2 * rand(n) * xsquared - 0.5 * xsquared
-    print(X2)
+    X2 = 1.4 * rand(n) * xsquared - 0.2 * xsquared
     # stack arrays
     X1 = X1.reshape(n, 1)
     X2 = X2.reshape(n, 1)
@@ -143,7 +142,7 @@ filename = "./output/plot_init.png"
 fig.savefig(filename)
 plt.close(fig)
 
-exit()
+# exit()
 
 # define the discriminator model
 model = define_discriminator()
