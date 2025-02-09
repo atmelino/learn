@@ -110,7 +110,7 @@ def train_discriminator(model, n_epochs=1000, n_batch=128):
         _, acc_fake = model.evaluate(X_fake, y_fake, verbose=0)
         # print(i, acc_real, acc_fake)
         print("epoch %3d acc_real %.3f acc_fake %.3f" % (i, acc_real, acc_fake))
-        return (acc_real, acc_fake)
+    return (acc_real, acc_fake)
 
 
 x_real, _ = generate_real_samples(n_batch)

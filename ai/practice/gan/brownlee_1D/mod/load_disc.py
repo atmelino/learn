@@ -11,6 +11,8 @@ import pandas as pd
 import json
 import pprint
 import tables as tb
+import termcolor
+import tabulate
 
 pp = pprint.PrettyPrinter(indent=4,compact=False,width=20)
 float_formatter = "{:+1.5f}".format
@@ -75,6 +77,7 @@ for i in range(0,10):
         # print(xval,yval)
         xinput.append([xval,yval])
     pred = model.predict(xinput)
+    # pred_df=pd.DataFrame(pred,columns=[str(xval)])
     pred_df=pd.DataFrame(pred,columns=[str(xval)])
     pred_dfs = pd.concat([pred_dfs, pred_df], axis=1)
 
@@ -85,6 +88,28 @@ pred_dfs = pd.concat([firstcol,pred_dfs], axis=1)
 
 print(pred_dfs.to_string(index=False))
 pred_dfs.to_csv("./output/disc.csv",index=False)
+
+
+column=pred_dfs['0.0']
+print(pred_dfs['0.0'])
+print(column.nlargest(3).values)
+
+# exit()
+
+
+# for column in pred_dfs:
+#     print(f"Column: {column}, Data: {pred_dfs[column]}")
+#     print(column.nlargest(3).values)
+
+
+
+nl3 = pred_dfs['0.0'].nlargest(3).values
+print(nl3)
+# nl4 = pred_dfs.Col4.nlargest(3).values
+pred_dfs['0.0'] = pred_dfs[1:2].apply(lambda x: colored(x, "red") if x in nl3 else x)
+# pred_dfs.Col4 = pred_dfs.Col4.apply(lambda x: colored(x, "red") if x in nl4 else x)
+print(tabulate.tabulate(pred_dfs, headers=pred_dfs.columns))
+
 
 
 
