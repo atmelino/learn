@@ -9,7 +9,6 @@ import numpy as np
 from keras.models import Sequential
 from keras.layers import Dense
 from tensorflow.keras.utils import plot_model
-from numpy.random import randn
 import json
 import matplotlib.pyplot as plt
 import pprint
@@ -34,9 +33,9 @@ pp.pprint(config)
 
 n_epochs = config["n_epochs"]
 n_batch = config["n_batch"]
-x_min = config["x_min"]
 x_max = config["x_max"]
-width = x_max - x_min
+width = 2 * x_max
+xsquared = x_max * x_max
 random_real = config["random_real"]
 
 # exit()
@@ -66,11 +65,13 @@ def generate_real_samples(n):
 # generate n fake samples with class labels
 def generate_fake_samples(n):
     # generate inputs in double the real samples range
-    X1 = 2 * (x_min + rand(n) * width)
+    X1 = 2 * (-x_max + rand(n) * width)
     # generate outputs in double the real samples range
     # X2 = 1*(x_min + rand(n) * x_max*x_max)
     # X2 = 2*(x_min + rand(n) * width)
-    X2 = 2 * rand(n) * x_max * x_max - x_max
+    # X2 = 2 * rand(n) * x_max * x_max
+    X2 = 2 * rand(n) * xsquared - 0.5 * xsquared
+    print(X2)
     # stack arrays
     X1 = X1.reshape(n, 1)
     X2 = X2.reshape(n, 1)
@@ -121,12 +122,15 @@ x_fake, _ = generate_fake_samples(n_batch)
 # print("real samples",generate_real_samples(n_batch))
 # print("fake samples",generate_fake_samples(n_batch))
 fig = plt.figure(figsize=(10, 10))
-padding=2.2
+xpadding = 0.3
+ypadding = 0.3
 plotrange = {
-    "xlim0": padding * x_min,
-    "xlim1": padding * x_max,
-    "ylim0": padding * x_min,
-    "ylim1": padding * x_max * x_max,
+    "xlim0": (-1 - xpadding) * width,
+    "xlim1": (1 + xpadding) * width,
+    # "ylim0": ypadding * 2 * -xsquared + 0.5 * xsquared,
+    # "ylim1": ypadding * 2 * xsquared + 0.5 * xsquared,
+    "ylim0": (-0.5 - ypadding) * xsquared,
+    "ylim1": (1.5 + ypadding) * xsquared,
 }
 print(plotrange)
 plt.xlim(plotrange["xlim0"], plotrange["xlim1"])
@@ -139,7 +143,7 @@ filename = "./output/plot_init.png"
 fig.savefig(filename)
 plt.close(fig)
 
-# exit()
+exit()
 
 # define the discriminator model
 model = define_discriminator()
@@ -162,7 +166,6 @@ class Config(tb.IsDescription):
     name = tb.StringCol(16)  # 16-character String
     n_epochs = tb.UInt64Col()  # Signed 64-bit integer
     n_batch = tb.UInt64Col()  # Signed 64-bit integer
-    x_min = tb.Float64Col()  # double (double-precision)
     x_max = tb.Float64Col()  # double (double-precision)
     random_real = tb.BoolCol()
 
@@ -184,7 +187,6 @@ with tb.open_file(fname, "a") as h5file:
     config["name"] = f"Config name"
     config["n_epochs"] = n_epochs
     config["n_batch"] = n_batch
-    config["x_min"] = x_min
     config["x_max"] = x_max
     config["random_real"] = random_real
     # Insert a new config record

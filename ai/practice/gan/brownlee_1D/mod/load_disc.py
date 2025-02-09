@@ -37,12 +37,12 @@ with tb.open_file(fname, "r") as h5file:
     # print(table.row)
     n_epochs=table.col('n_epochs')[0]
     n_batch=table.col('n_batch')[0]
-    x_min=table.col('x_min')[0]
+    # x_min=table.col('x_min')[0]
     x_max=table.col('x_max')[0]
 
     print("n_epochs=",n_epochs)
     print("n_batch=",n_batch)
-    print("x_min=",x_min)
+    # print("x_min=",x_min)
     print("x_max=",x_max)
 
     h5file.close()
