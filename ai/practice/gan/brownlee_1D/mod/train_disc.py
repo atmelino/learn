@@ -112,36 +112,52 @@ def train_discriminator(model, n_epochs=1000, n_batch=128):
         _, acc_fake = model.evaluate(X_fake, y_fake, verbose=0)
         # print(i, acc_real, acc_fake)
         print("epoch %3d acc_real %.3f acc_fake %.3f" % (i, acc_real, acc_fake))
+
+        pred = model.predict(X_real)
+        print(pred)
+
+        vals_greater_0_5 = (pred > 0.5).sum()
+        print(
+            "predicted real samples=",
+            vals_greater_0_5,
+            "total real samples=",
+            len(pred),
+            "accuracy=",
+            vals_greater_0_5 / len(pred),
+        )
+
     return (acc_real, acc_fake)
 
 
-x_real, _ = generate_real_samples(n_batch)
-x_fake, _ = generate_fake_samples(n_batch)
-# print("real samples",generate_real_samples(n_batch))
-# print("fake samples",generate_fake_samples(n_batch))
-fig = plt.figure(figsize=(10, 10))
-xpadding = 0.3
-ypadding = 0.3
-plotrange = {
-    "xlim0": (-1 - xpadding) * width,
-    "xlim1": (1 + xpadding) * width,
-    # "ylim0": ypadding * 2 * -xsquared + 0.5 * xsquared,
-    # "ylim1": ypadding * 2 * xsquared + 0.5 * xsquared,
-    "ylim0": (-0.5 - ypadding) * xsquared,
-    "ylim1": (1.5 + ypadding) * xsquared,
-}
-print(plotrange)
-plt.xlim(plotrange["xlim0"], plotrange["xlim1"])
-plt.ylim(plotrange["ylim0"], plotrange["ylim1"])
-plt.scatter(x_real[:, 0], x_real[:, 1], color="red")
-plt.scatter(x_fake[:, 0], x_fake[:, 1], color="blue")
-plt.show()
-# filename="./output/plot%05d.png" % epoch
-filename = "./output/plot_init.png"
-fig.savefig(filename)
-plt.close(fig)
+def plot_initial():
+    x_real, _ = generate_real_samples(n_batch)
+    x_fake, _ = generate_fake_samples(n_batch)
+    # print("real samples",generate_real_samples(n_batch))
+    # print("fake samples",generate_fake_samples(n_batch))
+    fig = plt.figure(figsize=(10, 10))
+    xpadding = 0.3
+    ypadding = 0.3
+    plotrange = {
+        "xlim0": (-1 - xpadding) * width,
+        "xlim1": (1 + xpadding) * width,
+        # "ylim0": ypadding * 2 * -xsquared + 0.5 * xsquared,
+        # "ylim1": ypadding * 2 * xsquared + 0.5 * xsquared,
+        "ylim0": (-0.5 - ypadding) * xsquared,
+        "ylim1": (1.5 + ypadding) * xsquared,
+    }
+    print(plotrange)
+    plt.xlim(plotrange["xlim0"], plotrange["xlim1"])
+    plt.ylim(plotrange["ylim0"], plotrange["ylim1"])
+    plt.scatter(x_real[:, 0], x_real[:, 1], color="red")
+    plt.scatter(x_fake[:, 0], x_fake[:, 1], color="blue")
+    plt.show()
+    # filename="./output/plot%05d.png" % epoch
+    filename = "./output/plot_init.png"
+    fig.savefig(filename)
+    plt.close(fig)
 
-# exit()
+
+# plot_initial()
 
 # define the discriminator model
 model = define_discriminator()
