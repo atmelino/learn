@@ -1,0 +1,16 @@
+{
+    "selected":"original",
+    "original": {
+        "n_epochs": 1000,
+        "n_batch": 128,
+        "x_max": 0.5,
+        "random_real": true
+    },
+    "config1": {
+        "n_epochs": 1000,
+        "n_batch": 128,
+        "x_max": 1,
+        "random_real": false
+    }
+    
+}

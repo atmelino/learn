@@ -60,13 +60,15 @@ def generate_real_samples(n):
 
 # generate n fake samples with class labels
 def generate_fake_samples(n):
-    # generate inputs in double the real samples range
-    X1 = 2 * (-x_max + rand(n) * width)
-    # generate outputs in double the real samples range
-    # X2 = 1*(x_min + rand(n) * x_max*x_max)
-    # X2 = 2*(x_min + rand(n) * width)
-    # X2 = 2 * rand(n) * x_max * x_max
-    X2 = 1.4 * rand(n) * xsquared - 0.2 * xsquared
+    if random_real == False:
+        # generate inputs in double the real samples range
+        X1 = 2 * (-x_max + rand(n) * width)
+        X2 = 1.4 * rand(n) * xsquared - 0.2 * xsquared
+    else:
+        # generate inputs in [-1, 1]
+        X1 = -1 + rand(n) * 2
+        # generate outputs in [-1, 1]
+        X2 = -1 + rand(n) * 2
     # stack arrays
     X1 = X1.reshape(n, 1)
     X2 = X2.reshape(n, 1)
