@@ -113,20 +113,26 @@ def train_discriminator(model, n_epochs=1000, n_batch=128):
         # print(i, acc_real, acc_fake)
         print("epoch %3d acc_real %.3f acc_fake %.3f" % (i, acc_real, acc_fake))
 
-        pred = model.predict(X_real)
-        print(pred)
-
-        vals_greater_0_5 = (pred > 0.5).sum()
-        print(
-            "predicted real samples=",
-            vals_greater_0_5,
-            "total real samples=",
-            len(pred),
-            "accuracy=",
-            vals_greater_0_5 / len(pred),
-        )
-
+        # manual_acc_calc(X_real,1)
+        # manual_acc_calc(X_fake,1)
     return (acc_real, acc_fake)
+
+def manual_acc_calc(xinput,target):
+    pred = model.predict(xinput)
+    print(pred)
+    if target==1:
+        vals_pos = (pred > 0.5).sum()
+    if target==1:
+        vals_pos = (pred < 0.5).sum()
+
+    print(
+        "correctly predicted samples=",
+        vals_pos,
+        "total real samples=",
+        len(pred),
+        "accuracy=",
+        vals_pos / len(pred),
+    )
 
 
 def plot_initial():
