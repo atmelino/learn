@@ -6,8 +6,12 @@
 from keras.models import Sequential
 from keras.layers import Dense
 from tensorflow.keras.utils import plot_model
-from numpy.random import randn
-from matplotlib import pyplot
+# from numpy.random import randn
+# from matplotlib import pyplot
+import matplotlib.pyplot as plt
+import numpy as np
+
+np.random.seed(42)
 
 # define the standalone generator model
 def define_generator(latent_dim, n_outputs=2):
@@ -29,7 +33,7 @@ plot_model(model, to_file='generator_plot.png', show_shapes=True, show_layer_nam
 # generate points in latent space as input for the generator
 def generate_latent_points(latent_dim, n):
     # generate points in the latent space
-    x_input = randn(latent_dim * n)
+    x_input = np.random.randn(latent_dim * n)
     # print(x_input)
     # reshape into a batch of inputs for the network
     x_input = x_input.reshape(n, latent_dim)
@@ -44,8 +48,11 @@ def generate_fake_samples(generator, latent_dim, n):
     # predict outputs
     X = generator.predict(x_input)
     # plot the results
-    pyplot.scatter(X[:, 0], X[:, 1])
-    pyplot.show()
+    size=5
+    plt.xlim(-size,size)
+    plt.ylim(-size,size)
+    plt.scatter(X[:, 0], X[:, 1])
+    plt.show()
 
 # size of the latent space
 latent_dim = 5
