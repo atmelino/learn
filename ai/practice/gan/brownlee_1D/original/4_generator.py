@@ -11,7 +11,7 @@ from tensorflow.keras.utils import plot_model
 import matplotlib.pyplot as plt
 import numpy as np
 
-np.random.seed(42)
+# np.random.seed(42)
 
 # define the standalone generator model
 def define_generator(latent_dim, n_outputs=2):
