@@ -12,6 +12,7 @@ from numpy import hstack
 from numpy import ones, zeros
 from numpy.random import randn
 import matplotlib.pyplot as plt
+import numpy as np
 
 os.system("mkdir -p ./output")
 
@@ -91,6 +92,31 @@ def generate_fake_samples(generator, latent_dim, n):
     return X, y
 
 
+def plot_state_future(epoch, x_real, x_fake):
+    fig = plt.figure(figsize=(10, 10))
+    plt.xlim(-2, 2)
+    plt.ylim(-2, 2)
+    plt.scatter(x_real[:, 0], x_real[:, 1], color="red")
+    plt.scatter(x_fake[:, 0], x_fake[:, 1], color="blue")
+    plt.show()
+    # filename = "./output/plot%05d.png" % epoch
+    # fig.savefig(filename)
+    # plt.close(fig)
+
+def plot_state(epoch, x_real, x_fake):
+    # if 'ax' in globals(): ax.remove()
+    # scatter_fake.remove()
+    plt.cla()
+
+    # newx = np.random.choice(x, size = 10)
+    # ax = plt.scatter(newx, F(newx))
+    plt.xlim(-2, 2)
+    plt.ylim(-2, 2)
+    scatter_real=plt.scatter(x_real[:, 0], x_real[:, 1], color="red")
+    scatter_fake=plt.scatter(x_fake[:, 0], x_fake[:, 1], color="blue")
+    plt.pause(0.05)
+
+
 # evaluate the discriminator and plot real and fake points
 def summarize_performance(epoch, generator, discriminator, latent_dim, n=100):
     # prepare real samples
@@ -104,15 +130,8 @@ def summarize_performance(epoch, generator, discriminator, latent_dim, n=100):
     # summarize discriminator performance
     print(epoch, acc_real, acc_fake)
     # scatter plot real and fake data points
-    fig = plt.figure(figsize=(10, 10))
-    plt.xlim(-2, 2)
-    plt.ylim(-2, 2)
-    plt.scatter(x_real[:, 0], x_real[:, 1], color="red")
-    plt.scatter(x_fake[:, 0], x_fake[:, 1], color="blue")
-    # plt.show()
-    filename = "./output/plot%05d.png" % epoch
-    fig.savefig(filename)
-    plt.close(fig)
+    plt.ion()    
+    plot_state(epoch, x_real, x_fake)
 
 
 # train the generator and discriminator
@@ -155,5 +174,14 @@ gan_model = define_gan(generator, discriminator)
 gan_model.summary()
 # plot gan model
 # plot_model(gan_model, to_file='gan_plot.png', show_shapes=True, show_layer_names=True)
-# train model
+
+
+F = lambda x: np.sin(2*x)
+
+plt.ion()    
+x = np.linspace(0, 1, 200)
+plt.plot(x, F(x))
+
+
+# train model0
 train(generator, discriminator, gan_model, latent_dim)
