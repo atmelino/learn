@@ -13,13 +13,17 @@ import splitfolders
 
 ultralytics.checks()
 
-datafoldername="../../../../local_data/kaggle/statefarm"
+extract=False
 
-trainfoldername=os.path.join(datafoldername, "imgs/train")
-datasetfoldername=os.path.join(datafoldername, "dataset/")
-# splitfolders.ratio("/kaggle/input/state-farm-distracted-driver-detection/imgs/train", output="dataset", seed=32, ratio=(0.7, 0.15, 0.15))
-splitfolders.ratio(trainfoldername, output=datasetfoldername, seed=32, ratio=(0.7, 0.15, 0.15))
+projecfoldername="../../../../local_data/kaggle/statefarm"
+trainfoldername=os.path.join(projecfoldername, "imgs/train")
+datasetfoldername=os.path.join(projecfoldername, "dataset/")
 
+if extract==True:
+    splitfolders.ratio(trainfoldername, output=datasetfoldername, seed=32, ratio=(0.7, 0.15, 0.15))
 
+model = YOLO('yolo11s-cls.pt')
+
+results = model.train(data = datasetfoldername, epochs = 150, batch=32, imgsz=640,degrees=10, patience=8,seed=42)
 
 
