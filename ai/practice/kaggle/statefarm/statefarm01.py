@@ -7,7 +7,7 @@ import ultralytics
 from ultralytics import YOLO
 from IPython.display import Image
 from roboflow import Roboflow
-from kaggle_secrets import UserSecretsClient
+# from kaggle_secrets import UserSecretsClient
 import os
 import splitfolders
 

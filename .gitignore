@@ -9,4 +9,5 @@ output
 models
 trainer_great
 config
+local_data
 
