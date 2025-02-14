@@ -26,4 +26,7 @@ model = YOLO('yolo11s-cls.pt')
 
 results = model.train(data = datasetfoldername, epochs = 150, batch=32, imgsz=640,degrees=10, patience=8,seed=42)
 
+metrics = model.val()
+print("Validation Metrics:")
+print(metrics)
 
