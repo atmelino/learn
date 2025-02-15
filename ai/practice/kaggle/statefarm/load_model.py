@@ -47,11 +47,12 @@ model = YOLO('./runs/classify/train/weights/best.pt')
 
 images=[
     "c0/img_100074.jpg",
-    "c6/img_100109.jpg"
+    "c6/img_100109.jpg",
+    "c3/img_100139.jpg" 
 ]
 
   
-test_img_path=os.path.join(datasetfoldername, "test/"+images[1])
+test_img_path=os.path.join(datasetfoldername, "test/"+images[2])
 # test_img_path=os.path.join(datasetfoldername, "test/c0/img_100074.jpg")
 # test_img_path = '/kaggle/working/dataset/test/c0/img_100074.jpg'  # adjust path as needed
 results = model.predict(test_img_path, imgsz=640)
