@@ -16,11 +16,11 @@ ultralytics.checks()
 extract=False
 
 projecfoldername="../../../../local_data/kaggle/statefarm"
-trainfoldername=os.path.join(projecfoldername, "imgs/train")
+sourcefoldername=os.path.join(projecfoldername, "imgs/train")
 datasetfoldername=os.path.join(projecfoldername, "dataset/")
 
 if extract==True:
-    splitfolders.ratio(trainfoldername, output=datasetfoldername, seed=32, ratio=(0.7, 0.15, 0.15))
+    splitfolders.ratio(sourcefoldername, output=datasetfoldername, seed=32, ratio=(0.7, 0.15, 0.15))
 
 model = YOLO('yolo11s-cls.pt')
 
