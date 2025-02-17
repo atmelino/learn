@@ -125,6 +125,58 @@ image = Image.open(projecfoldername+"/working/test/test1/10.jpg")
 plt.imshow(image)
 plt.savefig("./plot01.png")
 
+model = models.resnet18(pretrained=True) #Or Any Other Model
+
+#Freeze All Layers Except Last Layer
+
+for param in model.parameters():
+    param.requires_grad = False
+
+#Modify The Final Layer For Binary Classification (2 Classes : Cat And Dog)
+
+num_ftrs = model.fc.in_features
+model.fc = nn.Linear(num_ftrs, 2)
+
+#Move The Model To GPU If It's Available
+
+model = model.to(device)
+
+
+#Set Optimizer And Loss Function
+
+optimizer = optim.Adam(model.fc.parameters(), lr=LEARNING_RATE)
+criterion = nn.CrossEntropyLoss()
+
+def train(model, train_loader, criterion, optimizer, epochs):
+    model.train()
+    for epoch in range(epochs):
+        running_loss = 0.0
+        for i, (inputs, labels) in enumerate(train_loader):
+            inputs, labels = inputs.to(device), labels.to(device)
+            
+            optimizer.zero_grad()
+
+            outputs = model(inputs)
+            loss = criterion(outputs, labels)
+
+            loss.backward()
+            optimizer.step()
+
+            running_loss += loss.item()
+        print(f"Epoch : [{epoch+1} / {epochs}], Average Loss : {running_loss / len(train_loader):.4f}")
+
+
+#Train Model
+
+train(model, train_loader, criterion, optimizer, epochs=EPOCHS)
+
+
+
+
+
+
+
+
 
 
 
