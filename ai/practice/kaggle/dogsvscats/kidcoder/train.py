@@ -6,9 +6,6 @@ from torch import optim
 from torch.utils.data import DataLoader, Dataset
 import torchvision
 from torchvision import datasets, models, transforms
-
-#Basic Imports
-
 import numpy as np #For Linear Algebra
 import pandas as pd #For Data Frame Making
 import matplotlib.pyplot as plt #For Visualization And Plot Making
@@ -19,6 +16,7 @@ from tqdm import tqdm
 import shutil
 from PIL import Image
 
+os.system("mkdir -p ./output")
 
 #Set Our Device
 
@@ -170,7 +168,7 @@ def train(model, train_loader, criterion, optimizer, epochs):
 
 train(model, train_loader, criterion, optimizer, epochs=EPOCHS)
 
-torch.save(model.state_dict(), './dogsvscats_model_weights.pth')
+torch.save(model.state_dict(), './output/dogsvscats_model_weights.pth')
 
 
 
