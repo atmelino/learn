@@ -3,21 +3,16 @@
 # conda remove -n ENVNAME --all
 
 
-name: kd6
+name: pt2
 channels:
   - pytorch
   - nvidia
-  # - conda-forge
 dependencies:
   - python=3.10
   - pytorch
   - torchvision
   - pytorch-cuda=12.1
-  - numpy
-  - pandas
-  - matplotlib
-  - scikit-learn
-  - tqdm
+
 
 
   # - conda-forge::numpy=1.21.*
