@@ -1,4 +1,5 @@
-#conda env create -f environment.yml
+# conda env create -f environment.yml
+# conda info --envs
 # conda remove -n ENVNAME --all
 
 
