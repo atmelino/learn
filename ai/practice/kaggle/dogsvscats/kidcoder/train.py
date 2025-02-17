@@ -170,6 +170,7 @@ def train(model, train_loader, criterion, optimizer, epochs):
 
 train(model, train_loader, criterion, optimizer, epochs=EPOCHS)
 
+torch.save(model.state_dict(), './dogsvscats_model_weights.pth')
 
 
 
