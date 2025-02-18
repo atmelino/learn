@@ -29,7 +29,7 @@ print(f"Available Device : {device}")
 #Set Our Hyperparameters(Prameters Of Our Model For Learning Loop)
 
 BATCH_SIZE = 64
-EPOCHS = 10
+EPOCHS = 1
 LEARNING_RATE = 0.00001
 
 
@@ -162,6 +162,10 @@ def train(model, train_loader, criterion, optimizer, epochs):
 
 train(model, train_loader, criterion, optimizer, epochs=EPOCHS)
 
-torch.save(model.state_dict(), './output/dogsvscats_model_weights.pth')
+# torch.save(model.state_dict(), './output/dogsvscats_model_weights.pth')
 
-
+PATH='./output/dogsvscats_model_weights.pth'
+torch.save({
+            'model_state_dict': model.state_dict(),
+            'optimizer_state_dict': optimizer.state_dict(),
+            }, PATH)

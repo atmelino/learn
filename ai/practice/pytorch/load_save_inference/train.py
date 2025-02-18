@@ -3,6 +3,9 @@
 import torch
 from torch import nn
 from torch import optim
+import os
+
+os.system("mkdir -p ./output")
 
 # Define model
 class TheModelClass(nn.Module):
@@ -41,8 +44,8 @@ for var_name in optimizer.state_dict():
     print(var_name, "\t", optimizer.state_dict()[var_name])
 
 
-PATH="./model.pth"
-torch.save(model, PATH)
+PATH="./output/model.pth"
+torch.save(model.state_dict(), PATH)
 
 
 
