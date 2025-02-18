@@ -1,3 +1,5 @@
+# https://www.kaggle.com/code/tirdadlajmouraki/transfer-learning-with-pytorch
+
 #Torch Imports
 
 import torch
@@ -32,21 +34,14 @@ LEARNING_RATE = 0.00001
 
 
 #Set Our Train And Test Path
-projecfoldername="../../../../../local_data/kaggle/dogsvscats"
 
-# train_zip_path = "/kaggle/input/dogsvscats/train.zip"
-# test_zip_path = "/kaggle/input/dogsvscats/test1.zip"
-
-
-# train_zip_path = "/kaggle/input/dogsvscats/train.zip"
-# test_zip_path = "/kaggle/input/dogsvscats/test1.zip"
-train_zip_path=os.path.join(projecfoldername, "train.zip")
-test_zip_path=os.path.join(projecfoldername, "test1.zip")
+projectfoldername="../../../../../local_data/kaggle/dogsvscats"
+train_zip_path=os.path.join(projectfoldername, "train.zip")
+test_zip_path=os.path.join(projectfoldername, "test1.zip")
 
 #Set Where Unzipped Data Save
 
-# unzipped_dir = "/kaggle/working/"
-unzipped_dir=os.path.join(projecfoldername, "working/")
+unzipped_dir=os.path.join(projectfoldername, "working/")
 
 #Unzip Function
 
@@ -74,7 +69,7 @@ data_transforms = transforms.Compose([
     ])
 
 
-#Make Our Trian And Test Custom Dataset
+#Make Our Train And Test Custom Dataset
 
 class TrainCustomDataset(Dataset):
     def __init__(self, root_dir, transform=None):
@@ -102,10 +97,9 @@ class TrainCustomDataset(Dataset):
         return image, label
 
 
-#Load Dataaset
+#Load Dataset
 
-# dataset = TrainCustomDataset(root_dir="/kaggle/working/train/train", transform=data_transforms)
-dataset = TrainCustomDataset(root_dir=projecfoldername+"/working/train/train", transform=data_transforms)
+dataset = TrainCustomDataset(root_dir=projectfoldername+"/working/train/train", transform=data_transforms)
 
 #Split Dataset
 
@@ -119,7 +113,7 @@ train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)
 val_loader = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=False)
 
 # image = Image.open("/kaggle/working/test/test1/10.jpg")
-image = Image.open(projecfoldername+"/working/test/test1/10.jpg")
+image = Image.open(projectfoldername+"/working/test/test1/10.jpg")
 plt.imshow(image)
 plt.savefig("./plot01.png")
 
@@ -169,30 +163,5 @@ def train(model, train_loader, criterion, optimizer, epochs):
 train(model, train_loader, criterion, optimizer, epochs=EPOCHS)
 
 torch.save(model.state_dict(), './output/dogsvscats_model_weights.pth')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
