@@ -10,12 +10,12 @@ import numpy as np
 import os
 
 os.system("mkdir -p ./output")
-
 basepath="../../../../../../../local_data/oneoffcoder"
+np.set_printoptions(threshold=np.inf)
 
 #Set Our Hyperparameters(Prameters Of Our Model For Learning Loop)
 
-EPOCHS = 5
+EPOCHS = 2
 
 
 def train(dataloader, model, criterion, optimizer, scheduler, num_epochs=20):
@@ -85,10 +85,14 @@ def evaluate(model, val_loader):
     total = 0
     with torch.no_grad():
         for inputs, labels in val_loader:
-            inputs, labels = inputs.to(device), labels.to(device)
+            inputs = inputs.to(device)
+            labels = labels.to(device)
             outputs = model(inputs)
             _, predicted = torch.max(outputs.data, 1)
-            print(predicted)
+            print("output\n",outputs)
+            # print("inputs",inputs)
+            print("labels",labels)
+            print("predic",predicted)
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
     
