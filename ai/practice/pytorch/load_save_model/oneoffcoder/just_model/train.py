@@ -11,7 +11,7 @@ import os
 
 os.system("mkdir -p ./output")
 
-basepath="../../../../../local_data/oneoffcoder"
+basepath="../../../../../../../local_data/oneoffcoder"
 
 def train(dataloader, model, criterion, optimizer, scheduler, num_epochs=20):
     for epoch in range(num_epochs):
