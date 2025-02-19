@@ -15,7 +15,7 @@ np.set_printoptions(threshold=np.inf)
 
 #Set Our Hyperparameters(Prameters Of Our Model For Learning Loop)
 
-EPOCHS = 2
+EPOCHS = 20
 
 
 def train(dataloader, model, criterion, optimizer, scheduler, num_epochs=20):
