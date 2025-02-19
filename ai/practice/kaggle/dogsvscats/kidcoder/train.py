@@ -31,7 +31,7 @@ print(f"Available Device : {device}")
 BATCH_SIZE = 64
 EPOCHS = 1
 LEARNING_RATE = 0.00001
-
+do_unzip=False
 
 #Set Our Train And Test Path
 
@@ -56,9 +56,9 @@ train_path = os.path.join(unzipped_dir, "train")
 test_path = os.path.join(unzipped_dir, "test")
 
 #Unzip Train And Test Zip Files
-
-unzip(train_zip_path, train_path)
-unzip(test_zip_path, test_path)
+if(do_unzip==True):
+    unzip(train_zip_path, train_path)
+    unzip(test_zip_path, test_path)
 
 #Define Transformations
 
@@ -161,6 +161,30 @@ def train(model, train_loader, criterion, optimizer, epochs):
 #Train Model
 
 train(model, train_loader, criterion, optimizer, epochs=EPOCHS)
+
+#Test Function
+
+def evaluate(model, val_loader):
+    model.eval()
+    correct = 0
+    total = 0
+    with torch.no_grad():
+        for inputs, labels in val_loader:
+            inputs, labels = inputs.to(device), labels.to(device)
+            outputs = model(inputs)
+            _, predicted = torch.max(outputs.data, 1)
+            total += labels.size(0)
+            correct += (predicted == labels).sum().item()
+    
+    accuracy = 100 * correct / total
+    print(f"Validation Accuracy: {accuracy:.2f}%")
+
+evaluate(model, val_loader)
+
+
+
+
+
 
 # torch.save(model.state_dict(), './output/dogsvscats_model_weights.pth')
 

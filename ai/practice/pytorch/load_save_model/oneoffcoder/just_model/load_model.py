@@ -18,7 +18,6 @@ model = model.to(device)
 
 model.load_state_dict(torch.load('./output/resnet18-model.pt', map_location=device))
 
-model.eval()
 
 
 
