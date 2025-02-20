@@ -28,27 +28,22 @@ print(f"Available Device : {device}")
 
 #Set Our Hyperparameters(Prameters Of Our Model For Learning Loop)
 
-BATCH_SIZE = 64
-EPOCHS = 1
+short_version=True
+if(short_version==True):
+    projectfoldername="../../../../../../local_data/kaggle/dogsvscats_short"
+    BATCH_SIZE = 4
+    EPOCHS = 1
+else:
+    projectfoldername="../../../../../../local_data/kaggle/dogsvscats"
+    BATCH_SIZE = 64
+    EPOCHS = 20
+
 LEARNING_RATE = 0.00001
 do_unzip=False
 
 #Set Our Train And Test Path
 
-projectfoldername="../../../../../local_data/kaggle/dogsvscats"
-train_zip_path=os.path.join(projectfoldername, "train.zip")
-test_zip_path=os.path.join(projectfoldername, "test1.zip")
-
-#Set Where Unzipped Data Save
-
 unzipped_dir=os.path.join(projectfoldername, "working/")
-
-#Unzip Function
-
-def unzip(zip_path, extract_to):
-    with zipfile.ZipFile(zip_path) as zip_ref:
-        zip_ref.extractall(extract_to)
-    print(f"Unzip File Saved To : {extract_to}")
 
 #Make Test And Train Folder
 
@@ -57,6 +52,19 @@ test_path = os.path.join(unzipped_dir, "test")
 
 #Unzip Train And Test Zip Files
 if(do_unzip==True):
+    #Unzip Function
+
+    def unzip(zip_path, extract_to):
+        with zipfile.ZipFile(zip_path) as zip_ref:
+            zip_ref.extractall(extract_to)
+        print(f"Unzip File Saved To : {extract_to}")
+
+    train_zip_path=os.path.join(projectfoldername, "train.zip")
+    test_zip_path=os.path.join(projectfoldername, "test1.zip")
+
+    #Set Where Unzipped Data Save
+
+
     unzip(train_zip_path, train_path)
     unzip(test_zip_path, test_path)
 
@@ -175,6 +183,8 @@ def evaluate(model, val_loader):
             _, predicted = torch.max(outputs.data, 1)
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
+            print("labels",labels)
+            print("predic",predicted)
     
     accuracy = 100 * correct / total
     print(f"Validation Accuracy: {accuracy:.2f}%")

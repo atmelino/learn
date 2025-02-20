@@ -3,7 +3,7 @@
 # conda remove -n ENVNAME --all
 
 
-name: kd6
+name: kd
 channels:
   - pytorch
   - nvidia
