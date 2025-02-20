@@ -102,7 +102,7 @@ class TrainCustomDataset(Dataset):
         if self.transform:
             image = self.transform(image)
         
-        return image, label
+        return image, label, img_path
 
 
 #Load Dataset
@@ -151,7 +151,7 @@ def train(model, train_loader, criterion, optimizer, epochs):
     model.train()
     for epoch in range(epochs):
         running_loss = 0.0
-        for i, (inputs, labels) in enumerate(train_loader):
+        for i, (inputs, labels,img_path) in enumerate(train_loader):
             inputs, labels = inputs.to(device), labels.to(device)
             
             optimizer.zero_grad()
@@ -176,23 +176,37 @@ def evaluate(model, val_loader):
     model.eval()
     correct = 0
     total = 0
+
+    compare_data = []
+
     with torch.no_grad():
-        for inputs, labels in val_loader:
+        for inputs, labels,img_path in val_loader:
             inputs, labels = inputs.to(device), labels.to(device)
             outputs = model(inputs)
             _, predicted = torch.max(outputs.data, 1)
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
-            print("labels",labels)
-            print("predic",predicted)
-    
+            # print("labels",labels)
+            # print("predic",predicted)
+            # print("labels",labels.tolist())
+            # print("predic",predicted.tolist())
+
+            for i in range(len(labels)):
+                # label = 'dog' if predicted[i].item() == 1 else 'cat'
+                compare_data.append([labels[i].item(), predicted[i].item(),img_path[i]])
+
     accuracy = 100 * correct / total
     print(f"Validation Accuracy: {accuracy:.2f}%")
+    # print(compare_data)
+    return(compare_data)
 
-evaluate(model, val_loader)
 
+myresults=evaluate(model, val_loader)
+compare_df = pd.DataFrame(myresults, columns=['label', 'prediction','path'])
 
+# print(compare_df)
 
+print(compare_df.to_string())
 
 
 
