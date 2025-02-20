@@ -9,7 +9,7 @@ import torch
 num_classes = 3
 pretrained=True
 basepath="../../../../../../../local_data/oneoffcoder"
-
+modelpath='./output/resnet18-model.pt'
 
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
@@ -18,15 +18,12 @@ model = models.resnet18(pretrained=pretrained)
 model.fc = nn.Linear(model.fc.in_features, num_classes)
 model = model.to(device)
 
-model.load_state_dict(torch.load('./output/resnet18-model.pt', map_location=device))
-
-
+model.load_state_dict(torch.load(modelpath, map_location=device))
 
 # Validation
 transform = transforms.Compose([Resize(224), ToTensor()])
 val_image_folder = datasets.ImageFolder(basepath+'/shapes/valid', transform=transform)
 val_loader = DataLoader(val_image_folder, batch_size=4, shuffle=False)
-
 
 def evaluate(model, val_loader):
     model.eval()
