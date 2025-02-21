@@ -3,6 +3,10 @@ from torch import nn
 from torchvision import datasets, models, transforms
 from torchvision.transforms import *
 from torch.utils.data import DataLoader
+from torch.utils.data import DataLoader, Dataset
+import os
+from PIL import Image
+import pandas as pd #For Data Frame Making
 
 
 
@@ -10,11 +14,65 @@ from torch.utils.data import DataLoader
 print("load model dogs vs cats")
 
 num_classes = 2
+BATCH_SIZE = 4
 pretrained=True
 basepath="../../../../../../local_data/kaggle/dogsvscats_short"
 modelpath='./output/dogsvscats_model_weights.pth'
 
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+
+
+#Define Transformations
+
+data_transforms = transforms.Compose([
+        transforms.Resize((224,224)),
+        transforms.ToTensor(),
+        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+    ])
+
+
+#Make Our Train And Test Custom Dataset
+
+class TrainCustomDataset(Dataset):
+    def __init__(self, root_dir, transform=None):
+        self.root_dir = root_dir
+        self.transform = transform
+        self.cat_images = [os.path.join(root_dir, i) for i in os.listdir(root_dir) if i.split(".")[0] == "cat"]
+        self.dog_images = [os.path.join(root_dir, i) for i in os.listdir(root_dir) if i.split(".")[0] == "dog"]
+
+        self.images = self.cat_images + self.dog_images
+        self.labels = [0] * len(self.cat_images) + [1] * len(self.dog_images)
+        
+    def __len__(self):
+        return len(self.images)
+        
+    def __getitem__(self, idx):
+        img_path = self.images[idx]
+        label = self.labels[idx]
+        
+        with Image.open(img_path) as img:
+            image = img.convert('RGB')
+        
+        if self.transform:
+            image = self.transform(image)
+        
+        return image, label, img_path
+
+
+#Load Dataset
+
+dataset = TrainCustomDataset(root_dir=basepath+"/working/train/train", transform=data_transforms)
+
+#Split Dataset
+
+train_size = int(0.8 * len(dataset))
+val_size = len(dataset) - train_size
+train_dataset, val_dataset = torch.utils.data.random_split(dataset, [train_size, val_size])
+
+#Make Dataloader
+
+train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)
+val_loader = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=False)
 
 
 model = models.resnet18(pretrained=pretrained)
@@ -24,9 +82,9 @@ model = model.to(device)
 model.load_state_dict(torch.load(modelpath, map_location=device))
 
 # Validation
-transform = transforms.Compose([Resize(224), ToTensor()])
-val_image_folder = datasets.ImageFolder(basepath+"/working/valid", transform=transform)
-val_loader = DataLoader(val_image_folder, batch_size=4, shuffle=False)
+# transform = transforms.Compose([Resize(224), ToTensor()])
+# val_image_folder = datasets.ImageFolder(basepath+"/working/valid", transform=transform)
+# val_loader = DataLoader(val_image_folder, batch_size=4, shuffle=False)
 
 def evaluate(model, val_loader):
     model.eval()
@@ -63,7 +121,7 @@ compare_df = pd.DataFrame(myresults, columns=['label', 'prediction','path'])
 # print(compare_df)
 
 print(compare_df.to_string())
-filename_write = "./output/compare.csv"
+filename_write = "./output/compare_load.csv"
 compare_df.to_csv(filename_write, index=False)
 
 

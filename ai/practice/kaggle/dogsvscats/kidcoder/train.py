@@ -30,11 +30,11 @@ print(f"Available Device : {device}")
 
 short_version=True
 if(short_version==True):
-    projectfoldername="../../../../../../local_data/kaggle/dogsvscats_short"
+    basepath="../../../../../../local_data/kaggle/dogsvscats_short"
     BATCH_SIZE = 4
     EPOCHS = 1
 else:
-    projectfoldername="../../../../../../local_data/kaggle/dogsvscats"
+    basepath="../../../../../../local_data/kaggle/dogsvscats"
     BATCH_SIZE = 64
     EPOCHS = 20
 
@@ -43,7 +43,7 @@ do_unzip=False
 
 #Set Our Train And Test Path
 
-unzipped_dir=os.path.join(projectfoldername, "working/")
+unzipped_dir=os.path.join(basepath, "working/")
 
 #Make Test And Train Folder
 
@@ -59,11 +59,10 @@ if(do_unzip==True):
             zip_ref.extractall(extract_to)
         print(f"Unzip File Saved To : {extract_to}")
 
-    train_zip_path=os.path.join(projectfoldername, "train.zip")
-    test_zip_path=os.path.join(projectfoldername, "test1.zip")
+    train_zip_path=os.path.join(basepath, "train.zip")
+    test_zip_path=os.path.join(basepath, "test1.zip")
 
     #Set Where Unzipped Data Save
-
 
     unzip(train_zip_path, train_path)
     unzip(test_zip_path, test_path)
@@ -107,7 +106,7 @@ class TrainCustomDataset(Dataset):
 
 #Load Dataset
 
-dataset = TrainCustomDataset(root_dir=projectfoldername+"/working/train/train", transform=data_transforms)
+dataset = TrainCustomDataset(root_dir=basepath+"/working/train/train", transform=data_transforms)
 
 #Split Dataset
 
@@ -121,7 +120,7 @@ train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)
 val_loader = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=False)
 
 # image = Image.open("/kaggle/working/test/test1/10.jpg")
-image = Image.open(projectfoldername+"/working/test/test1/10.jpg")
+image = Image.open(basepath+"/working/test/test1/10.jpg")
 plt.imshow(image)
 plt.savefig("./plot01.png")
 
@@ -207,7 +206,7 @@ compare_df = pd.DataFrame(myresults, columns=['label', 'prediction','path'])
 # print(compare_df)
 
 print(compare_df.to_string())
-filename_write = "./output/compare.csv"
+filename_write = "./output/compare_train.csv"
 compare_df.to_csv(filename_write, index=False)
 
 
