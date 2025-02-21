@@ -9,8 +9,6 @@ from PIL import Image
 import pandas as pd #For Data Frame Making
 
 
-
-
 print("load model dogs vs cats")
 
 num_classes = 2
@@ -73,6 +71,18 @@ train_dataset, val_dataset = torch.utils.data.random_split(dataset, [train_size,
 
 train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)
 val_loader = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=False)
+
+
+filelist=[]
+
+for inputs, labels,img_path in val_loader:
+    # print(img_path)
+    for i in range(len(img_path)):
+        filelist.append([img_path[i]])
+
+filelist_df = pd.DataFrame(filelist, columns=['path'])
+print(filelist_df.sort_values('path').to_string())
+exit()
 
 
 model = models.resnet18(pretrained=pretrained)

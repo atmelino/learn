@@ -209,16 +209,6 @@ print(compare_df.to_string())
 filename_write = "./output/compare_train.csv"
 compare_df.to_csv(filename_write, index=False)
 
-
-
-# torch.save(model.state_dict(), './output/dogsvscats_model_weights.pth')
-
 PATH='./output/dogsvscats_model_weights.pth'
 torch.save(model.state_dict(), PATH)
 
-
-
-# torch.save({
-#             'model_state_dict': model.state_dict(),
-#             'optimizer_state_dict': optimizer.state_dict(),
-#             }, PATH)
