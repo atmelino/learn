@@ -6,12 +6,53 @@ from torchvision.transforms import *
 from torch.utils.data import DataLoader
 import torch
 import pandas as pd #For Data Frame Making
+import numpy as np
 
 
 num_classes = 3
+EPOCHS = 3
+num_epochs = EPOCHS
 pretrained=True
 basepath="../../../../../../../local_data/oneoffcoder"
 modelpath='./output/resnet18-model.pt'
+
+def train(dataloader, model, criterion, optimizer, scheduler, num_epochs=20):
+    for epoch in range(num_epochs):
+        optimizer.step()
+        scheduler.step()
+        model.train()
+
+        running_loss = 0.0
+        running_corrects = 0
+
+        n = 0
+        for inputs, labels in dataloader:
+            inputs = inputs.to(device)
+            labels = labels.to(device)
+
+            optimizer.zero_grad()
+
+            with torch.set_grad_enabled(True):
+                outputs = model(inputs)
+                loss = criterion(outputs, labels)
+                _, preds = torch.max(outputs, 1)
+
+                loss.backward()
+                optimizer.step()
+
+            running_loss += loss.item() * inputs.size(0)
+            running_corrects += torch.sum(preds == labels.data)
+            n += len(labels)
+
+        epoch_loss = running_loss / float(n)
+        epoch_acc = running_corrects.double() / float(n)
+
+        print(f'epoch {epoch}/{num_epochs} : {epoch_loss:.5f}, {epoch_acc:.5f}')
+
+np.random.seed(37)
+torch.manual_seed(37)
+torch.backends.cudnn.deterministic = True
+torch.backends.cudnn.benchmark = False
 
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
@@ -22,16 +63,6 @@ model.fc = nn.Linear(model.fc.in_features, num_classes)
 model = model.to(device)
 
 def validate(val_loader):
-
-    # filelist=[]
-
-    # for inputs, labels,img_path in val_loader:
-    #     # print(img_path)
-    #     for i in range(len(img_path)):
-    #         filelist.append([img_path[i]])
-
-    # filelist_df = pd.DataFrame(filelist, columns=['path'])
-    # print(filelist_df.sort_values('path').to_string())
 
     def evaluate(model, val_loader):
         model.eval()
@@ -83,3 +114,13 @@ val_image_folder = datasets.ImageFolder(basepath+'/shapes/valid', transform=tran
 val_loader = DataLoader(val_image_folder, batch_size=4, shuffle=False)
 validate(val_loader)
 
+
+# Continue training
+transform = transforms.Compose([Resize(224), ToTensor()])
+train_image_folder = datasets.ImageFolder(basepath+'/shapes/train', transform=transform)
+dataloader = DataLoader(train_image_folder, batch_size=4, shuffle=True, num_workers=4)
+
+train(dataloader, model, criterion, optimizer, scheduler, num_epochs=num_epochs)
+
+# Validate again
+validate(val_loader)

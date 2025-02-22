@@ -18,7 +18,10 @@ import pandas as pd #For Data Frame Making
 #Set Our Hyperparameters(Prameters Of Our Model For Learning Loop)
 
 # EPOCHS = 20
-EPOCHS = 2
+EPOCHS = 3
+pretrained=True
+num_classes = 3
+num_epochs = EPOCHS
 
 def train(dataloader, model, criterion, optimizer, scheduler, num_epochs=20):
     for epoch in range(num_epochs):
@@ -59,9 +62,6 @@ torch.backends.cudnn.deterministic = True
 torch.backends.cudnn.benchmark = False
 
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
-pretrained=True
-num_classes = 3
-num_epochs = EPOCHS
 
 transform = transforms.Compose([Resize(224), ToTensor()])
 train_image_folder = datasets.ImageFolder(basepath+'/shapes/train', transform=transform)
