@@ -32,7 +32,7 @@ short_version=True
 if(short_version==True):
     basepath="../../../../../../local_data/kaggle/dogsvscats_short"
     BATCH_SIZE = 4
-    EPOCHS = 1
+    EPOCHS = 10
 else:
     basepath="../../../../../../local_data/kaggle/dogsvscats"
     BATCH_SIZE = 64
