@@ -1,5 +1,6 @@
 
 from torchvision import datasets, models, transforms
+import torch.optim as optim
 import torch.nn as nn
 from torchvision.transforms import *
 from torch.utils.data import DataLoader
@@ -14,6 +15,7 @@ modelpath='./output/resnet18-model.pt'
 
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
+checkpoint = torch.load('./output/resnet18-checkpoint1.pt', map_location=device)
 
 model = models.resnet18(pretrained=pretrained)
 model.fc = nn.Linear(model.fc.in_features, num_classes)
@@ -66,7 +68,14 @@ def validate(val_loader):
 
 # Load model
 
-model.load_state_dict(torch.load(modelpath, map_location=device))
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.Rprop(model.parameters(), lr=0.01)
+scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=1)
+
+model.load_state_dict(checkpoint['model_state_dict'])
+criterion.load_state_dict(checkpoint['criterion_state_dict'])
+optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+scheduler.load_state_dict(checkpoint['scheduler_state_dict'])
 
 
 # Validation
@@ -74,4 +83,9 @@ transform = transforms.Compose([Resize(224), ToTensor()])
 val_image_folder = datasets.ImageFolder(basepath+'/shapes/valid', transform=transform)
 val_loader = DataLoader(val_image_folder, batch_size=4, shuffle=False)
 validate(val_loader)
+
+
+# Continue training
+
+# train(dataloader, model, criterion, optimizer, scheduler, num_epochs=num_epochs)
 

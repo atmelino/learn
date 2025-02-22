@@ -7,6 +7,7 @@ from torchvision.transforms import *
 from torch.utils.data import DataLoader
 import torch
 import numpy as np
+import pandas as pd #For Data Frame Making
 import os
 
 os.system("mkdir -p ./output")
@@ -15,8 +16,8 @@ np.set_printoptions(threshold=np.inf)
 
 #Set Our Hyperparameters(Prameters Of Our Model For Learning Loop)
 
-EPOCHS = 20
-
+# EPOCHS = 20
+EPOCHS = 2
 
 def train(dataloader, model, criterion, optimizer, scheduler, num_epochs=20):
     for epoch in range(num_epochs):
@@ -75,38 +76,56 @@ scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=1)
 
 train(dataloader, model, criterion, optimizer, scheduler, num_epochs=num_epochs)
 
-# Validation
-val_image_folder = datasets.ImageFolder(basepath+'/shapes/valid', transform=transform)
-val_loader = DataLoader(val_image_folder, batch_size=4, shuffle=False)
+def validate(val_loader):
 
-def evaluate(model, val_loader):
-    model.eval()
-    correct = 0
-    total = 0
-    with torch.no_grad():
-        for inputs, labels in val_loader:
-            inputs = inputs.to(device)
-            labels = labels.to(device)
-            outputs = model(inputs)
-            _, predicted = torch.max(outputs.data, 1)
-            print("output\n",outputs)
-            # print("inputs",inputs)
-            print("labels",labels)
-            print("predic",predicted)
-            total += labels.size(0)
-            correct += (predicted == labels).sum().item()
-    
-    accuracy = 100 * correct / total
-    print(f"Validation Accuracy: {accuracy:.2f}%")
+    # filelist=[]
 
-evaluate(model, val_loader)
+    # for inputs, labels,img_path in val_loader:
+    #     # print(img_path)
+    #     for i in range(len(img_path)):
+    #         filelist.append([img_path[i]])
 
+    # filelist_df = pd.DataFrame(filelist, columns=['path'])
+    # print(filelist_df.sort_values('path').to_string())
 
+    def evaluate(model, val_loader):
+        model.eval()
+        correct = 0
+        total = 0
+        compare_data = []
+        with torch.no_grad():
+            for inputs, labels in val_loader:
+                inputs = inputs.to(device)
+                labels = labels.to(device)
+                outputs = model(inputs)
+                _, predicted = torch.max(outputs.data, 1)
+                total += labels.size(0)
+                correct += (predicted == labels).sum().item()
+                # print("output\n",outputs)
+                # print("inputs",inputs)
+                # print("labels",labels)
+                # print("predic",predicted)
+                for i in range(len(labels)):
+                    # compare_data.append([labels[i].item(), predicted[i].item(),img_path[i]])
+                    compare_data.append([labels[i].item(), predicted[i].item()])
 
+        accuracy = 100 * correct / total
+        print(f"Validation Accuracy: {accuracy:.2f}%")
+        return(compare_data)
+
+    myresults=evaluate(model, val_loader)
+    compare_df = pd.DataFrame(myresults, columns=['label', 'prediction'])
+    # print(compare_df)
+    print(compare_df.to_string())
+    filename_write = "./output/compare_train.csv"
+    compare_df.to_csv(filename_write, index=False)
 
 
 # Save model
 
 torch.save(model.state_dict(), './output/resnet18-model.pt')
 
-
+# Validation
+val_image_folder = datasets.ImageFolder(basepath+'/shapes/valid', transform=transform)
+val_loader = DataLoader(val_image_folder, batch_size=4, shuffle=False)
+validate(val_loader)

@@ -209,9 +209,7 @@ def validate(val_loader):
 
     myresults=evaluate(model, val_loader)
     compare_df = pd.DataFrame(myresults, columns=['label', 'prediction','path'])
-
     # print(compare_df)
-
     print(compare_df.to_string())
     filename_write = "./output/compare_train.csv"
     compare_df.to_csv(filename_write, index=False)
