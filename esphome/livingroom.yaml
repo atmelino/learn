@@ -1,0 +1,42 @@
+esphome:
+  name: esphometest01
+
+esp32:
+  board: esp32doit-devkit-v1
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: ""
+
+ota:
+  - platform: esphome
+    password: ""
+
+wifi:
+  ssid: "TP-LINK_MR3040_4B611E"
+  password: ""
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Esphometest01 Fallback Hotspot"
+    password: "password"
+
+captive_portal:
+    
+
+
+
+
+switch:
+  - platform: gpio
+    name: "on board LED"
+    pin: GPIO2
+    
+    
+
+
