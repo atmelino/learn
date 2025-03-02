@@ -183,14 +183,14 @@ one_wire:
   
 output:
   - platform: ledc
-    pin: GPIO13
+    pin: GPIO14
     id: fan1
     frequency: 25600Hz
     
   - platform: ledc
     pin:
-      number: GPIO2
-      ignore_strapping_warning: true
+      number: GPIO13
+      # ignore_strapping_warning: true
     id: gpio_02
 
 light:
@@ -388,7 +388,7 @@ sensor:
 
 fan:
   - platform: speed
-    output: fan1
+    output: gpio_02
     id: fan1_speed
     name: ${fdevicename}Fan 1 Speed
     #entity_category: "CONFIG"
