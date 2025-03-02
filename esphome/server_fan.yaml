@@ -5,8 +5,8 @@
 # Ver 3.1
 
 substitutions:
-  devicename: server_fan
-  friendlyname: SERVER_FAN
+  devicename: serverfan
+  friendlyname: SERVERFAN
   fdevicename: ""
   ip: 192.168.0.178 # For static IP adressing
 
@@ -28,8 +28,6 @@ substitutions:
 #[18:16:42][D][dallas.sensor:084]:     0x043c6ef649772f28 3
   # dallasaddress1: "0xc13c01f09642c928"
   dallasaddress1: "0x910fc2d446308528"
-
-
 
 
 esphome:
@@ -117,39 +115,36 @@ globals:
     type: int
     restore_value: true
     initial_value: '26'
-  - id: source1
-    type: unsigned int
-    restore_value: true
-    initial_value: '0'
-  - id: source2
-    type: unsigned int
-    restore_value: true
-    initial_value: '0'
-  - id: source3
-    type: unsigned int
-    restore_value: true
-    initial_value: '0'
-  - id: source4
-    type: unsigned int
-    restore_value: true
-    initial_value: '0'
 
 
 number:
   - platform: template
-    id: set_target_temp_1
-    name: ${fdevicename}Fan 1 Target
+    id: set_low_temp_1
+    name: ${fdevicename}01 Fan 1 Low Temp
     optimistic: true
     min_value: 15
+    max_value: 50
+    initial_value: '26'
+    step: 1
+    restore_value: true
+    unit_of_measurement: °C
+    #device_class: "TEMPERATURE"
+    #entity_category: "CONFIG"
+    icon: mdi:temperature-celsius
+
+  - platform: template
+    id: set_high_temp_1
+    name: ${fdevicename}02 Fan 1 High Temp
+    optimistic: true
+    min_value: 50
     max_value: 100
     initial_value: '26'
     step: 1
     restore_value: true
-    #unit_of_measurement: °C
+    unit_of_measurement: °C
     #device_class: "TEMPERATURE"
     #entity_category: "CONFIG"
     icon: mdi:temperature-celsius
-    #command_topic: ${devicename}/number/${devicename}_target_temp_1/command  #add for MQTT
   
 switch:
   - platform: restart
@@ -270,38 +265,11 @@ interval:
 
       - lambda: !lambda |
           if (id(auto_fan1).state) {
-            float fan_actual_temp1;
-            auto index1 = id(fan_1_source).active_index();
-            //if (index1.has_value()) {
-            //  ESP_LOGE("Fan1", "Index %d ", index1.value());
-            //} else {
-            //  ESP_LOGE("Fan1", "No option is active");
-            //}
-            if (index1.value() == 0) fan_actual_temp1 =  id(AHT20T).state;
-            else if (index1.value() == 1) fan_actual_temp1 = id(AHT20H).state;
-            else if (index1.value() == 2) fan_actual_temp1 = id(Dallas_1).state;
-            else ESP_LOGE("Fan1", "Index %d does not exist", index1);
-            float fan_desired_temp1 = id(set_target_temp_1).state;
-            float diff1 = fan_actual_temp1 - fan_desired_temp1;
-            id(fan1_sum) =id(fan1_sum) + diff1;
-            float fan_pdiff1=diff1 * $ptemp;
-            float fan_idiff1= id(fan1_sum) * $itemp;
-            float fan_set_speed1 = fan_pdiff1 + fan_idiff1;
-            if (fan_set_speed1 >100) fan_set_speed1 = 100;
-            if (fan_set_speed1 <10) fan_set_speed1 = 1;
-            if (id(fan1_sum) >100) id(fan1_sum) = 100;
-            if (id(fan1_sum) < -100) id(fan1_sum) = -100;
-            if (fan_set_speed1 <10) {
-              fan_set_speed1 = 1;
-              auto calloff1 = id(fan1_speed).turn_off();           
-              calloff1.set_speed(fan_set_speed1);
-              calloff1.perform();
-            } else {
-              auto call1 = id(fan1_speed).turn_on();
-              call1.set_speed(fan_set_speed1);
-              call1.perform();
-            }
+
+
+
           }
+
 
 
 sensor:
@@ -386,7 +354,7 @@ sensor:
 
 fan:
   - platform: speed
-    output: fan1
+    output: gpio_02
     id: fan1_speed
     name: ${fdevicename}Fan 1 Speed
     #entity_category: "CONFIG"
