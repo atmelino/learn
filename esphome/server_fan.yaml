@@ -265,6 +265,19 @@ interval:
 
       - lambda: !lambda |
           if (id(auto_fan1).state) {
+            float actual_temp1=id(Dallas_1).state;
+            float fan_low_temp1=id(set_low_temp_1).state;
+            float fan_high_temp1=id(set_high_temp_1).state;
+            float fan_set_speed1;
+            float range, exceed, percentage;  
+
+            ESP_LOGD("main", "temp= %f", actual_temp1);
+            if (actual_temp1>fan_low_temp1) {
+              range=fan_high_temp1-fan_low_temp1;
+              exceed=actual_temp1-fan_low_temp1;
+              percentage=exceed/range;
+              ESP_LOGD("main", "exceed= %f", exceed);            
+            }
 
 
 
