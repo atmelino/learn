@@ -388,7 +388,7 @@ sensor:
 
 fan:
   - platform: speed
-    output: gpio_02
+    output: fan1
     id: fan1_speed
     name: ${fdevicename}Fan 1 Speed
     #entity_category: "CONFIG"
