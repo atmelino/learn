@@ -124,7 +124,7 @@ number:
     optimistic: true
     min_value: 15
     max_value: 50
-    initial_value: '26'
+    initial_value: '15'
     step: 1
     restore_value: true
     unit_of_measurement: °C
@@ -138,7 +138,7 @@ number:
     optimistic: true
     min_value: 50
     max_value: 100
-    initial_value: '26'
+    initial_value: '50'
     step: 1
     restore_value: true
     unit_of_measurement: °C
@@ -269,14 +269,35 @@ interval:
             float fan_low_temp1=id(set_low_temp_1).state;
             float fan_high_temp1=id(set_high_temp_1).state;
             float fan_set_speed1;
-            float range, exceed, percentage;  
+            float range, exceed,fpercentage;  
+            int percentage;  
 
+            ESP_LOGD("main", "low temp= %f", fan_low_temp1);            
+            ESP_LOGD("main", "high temp= %f", fan_high_temp1);            
             ESP_LOGD("main", "temp= %f", actual_temp1);
             if (actual_temp1>fan_low_temp1) {
               range=fan_high_temp1-fan_low_temp1;
               exceed=actual_temp1-fan_low_temp1;
-              percentage=exceed/range;
+              fpercentage=100.*exceed/range;
+              percentage=(int)fpercentage;
+              if(percentage>100)
+                percentage=100;
+              ESP_LOGD("main", "range= %f", range);            
               ESP_LOGD("main", "exceed= %f", exceed);            
+              ESP_LOGD("main", "fpercentage= %f", fpercentage);            
+              ESP_LOGD("main", "percentage= %d", percentage);            
+              fan_set_speed1=percentage;
+              if (fan_set_speed1 <10) {
+                fan_set_speed1 = 1;
+                auto calloff1 = id(fan1_speed).turn_off();           
+                calloff1.set_speed(fan_set_speed1);
+                calloff1.perform();
+              } else {
+                auto call1 = id(fan1_speed).turn_on();
+                call1.set_speed(fan_set_speed1);
+                call1.perform();
+              }
+
             }
 
 
