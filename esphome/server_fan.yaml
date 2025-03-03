@@ -175,6 +175,20 @@ switch:
           auto callb = id(fan1_speed).turn_off();
           callb.perform();
 
+  - platform: template
+    id: auto_fan2
+    name: ${fdevicename}Fan 2 Auto Mode
+    restore_mode: RESTORE_DEFAULT_ON
+    optimistic: true 
+    icon: mdi:fan-auto   
+    turn_off_action:
+       then:
+        lambda: |-
+          auto calla = id(fan2_speed).turn_on();
+          calla.set_speed(1);
+          calla.perform();
+          auto callb = id(fan2_speed).turn_off();
+          callb.perform();
   
 one_wire:
   - platform: gpio
@@ -190,6 +204,11 @@ output:
     id: gpio_13
     frequency: 25600Hz
  
+  - platform: ledc
+    pin: GPIO14
+    id: fan2
+    frequency: 25600Hz
+
   # - platform: ledc
   #   pin:
   #     number: GPIO2
@@ -205,6 +224,13 @@ fan:
     icon: mdi:fan
     restore_mode: RESTORE_DEFAULT_OFF
 
+  - platform: speed
+    output: fan2
+    id: fan2_speed
+    name: ${fdevicename}Fan 2 Speed
+    #entity_category: "CONFIG"
+    icon: mdi:fan
+    restore_mode: RESTORE_DEFAULT_OFF
 
 #font:
 #  - file: "fonts/comic-sans-ms/ComicSansMS3.ttf"
