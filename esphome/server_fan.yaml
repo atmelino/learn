@@ -119,8 +119,8 @@ globals:
 
 number:
   - platform: template
-    id: set_low_temp_1
-    name: ${fdevicename}01 Fan 1 Low Temp
+    id: set_off_temp_1
+    name: ${fdevicename}01 Fan 1 Off Temp
     optimistic: true
     min_value: 15
     max_value: 50
@@ -133,8 +133,8 @@ number:
     icon: mdi:temperature-celsius
 
   - platform: template
-    id: set_high_temp_1
-    name: ${fdevicename}02 Fan 1 High Temp
+    id: set_full_temp_1
+    name: ${fdevicename}02 Fan 1 Full Temp
     optimistic: true
     min_value: 50
     max_value: 100
@@ -248,8 +248,11 @@ i2c:
 font:
 #  - file: "fonts/comic-sans-ms/ComicSansMS3.ttf"
  - file: "fonts/UbuntuMono/UbuntuMono-R.ttf"
-   id: my_font
+   id: small_font
    size: 12
+ - file: "fonts/UbuntuMono/UbuntuMono-R.ttf"
+   id: large_font
+   size: 24
 
 display:
  - platform: ssd1306_i2c
@@ -260,9 +263,8 @@ display:
    pages:
      - id: page1
        lambda: |-
-          it.print(0, 0, id(my_font), "ESP32 Control Board");
-          it.printf(0, 1*12, id(my_font), "Line 2");
-          it.printf(0, 2*12, id(my_font), "Temp: %.1f", id(Dallas_1).state);
+          it.printf(0, 0*12, id(large_font), "Temp: %.1f", id(Dallas_1).state);
+          it.printf(0, 2*12, id(small_font), "RPM: %.1f", id(fan1_speed).state);
 
 select:
   - platform: template
@@ -289,14 +291,14 @@ interval:
     then:
       #- display.page.show_next: my_display
       #- component.update: my_display
-      # does not id(my_display).print(0, 0, id(my_font), "Hello");
+      # does not work : id(my_display).print(0, 0, id(small_font), "Hello");
 
       - lambda: !lambda |
 
           if (id(auto_fan1).state) {
             float actual_temp1=id(Dallas_1).state;
-            float fan_low_temp1=id(set_low_temp_1).state;
-            float fan_high_temp1=id(set_high_temp_1).state;
+            float fan_low_temp1=id(set_off_temp_1).state;
+            float fan_high_temp1=id(set_full_temp_1).state;
             float fan_set_speed1;
             float range, exceed,fpercentage;  
             int percentage;  
