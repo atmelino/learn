@@ -163,7 +163,7 @@ switch:
   - platform: template
     id: auto_fan1
     name: ${fdevicename}Fan 1 Auto Mode
-    restore_mode: RESTORE_DEFAULT_ON
+    restore_mode: ALWAYS_ON
     optimistic: true
     icon: mdi:fan-auto     
     turn_off_action:
@@ -182,31 +182,13 @@ one_wire:
 
   
 output:
-  - platform: ledc
-    pin: GPIO14
-    id: fan1
-    frequency: 25600Hz
     
   - platform: ledc
     pin:
       number: GPIO13
       # ignore_strapping_warning: true
-    id: gpio_02
-
-light:
-  - platform: monochromatic
-    id: alarm_light
-    output: gpio_02
-    name: ${fdevicename}Alarm Light
-    entity_category: "CONFIG"
-    icon: mdi:light-alert
-    effects:
-      - pulse:
-          name: "Fast Pulse"
-          transition_length: 0.5s
-          update_interval: 0.5s
-          min_brightness: 0%
-          max_brightness: 100%
+    id: gpio_13
+    frequency: 25600Hz
  
 
 #font:
@@ -297,11 +279,7 @@ interval:
                 call1.set_speed(fan_set_speed1);
                 call1.perform();
               }
-
             }
-
-
-
           }
 
 
@@ -388,7 +366,7 @@ sensor:
 
 fan:
   - platform: speed
-    output: gpio_02
+    output: gpio_13
     id: fan1_speed
     name: ${fdevicename}Fan 1 Speed
     #entity_category: "CONFIG"
