@@ -196,6 +196,16 @@ output:
   #     ignore_strapping_warning: true
   #   id: gpio_02
 
+fan:
+  - platform: speed
+    output: gpio_13
+    id: fan1_speed
+    name: ${fdevicename}Fan 1 Speed
+    #entity_category: "CONFIG"
+    icon: mdi:fan
+    restore_mode: RESTORE_DEFAULT_OFF
+
+
 #font:
 #  - file: "fonts/comic-sans-ms/ComicSansMS3.ttf"
 #    id: my_font
@@ -373,18 +383,7 @@ sensor:
       web_server:
         sorting_weight: 8
       
-      
-
-fan:
-  - platform: speed
-    output: gpio_13
-    id: fan1_speed
-    name: ${fdevicename}Fan 1 Speed
-    #entity_category: "CONFIG"
-    icon: mdi:fan
-    restore_mode: RESTORE_DEFAULT_OFF
-
-        
+            
 text_sensor:
   - platform: template
     name: ${fdevicename}Device Sensor
