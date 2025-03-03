@@ -123,7 +123,7 @@ number:
     name: ${fdevicename}01 Fan 1 Low Temp
     optimistic: true
     min_value: 15
-    max_value: 50
+    max_value: 40
     initial_value: '15'
     step: 1
     restore_value: true
