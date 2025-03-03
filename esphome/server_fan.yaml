@@ -232,10 +232,6 @@ fan:
     icon: mdi:fan
     restore_mode: RESTORE_DEFAULT_OFF
 
-#font:
-#  - file: "fonts/comic-sans-ms/ComicSansMS3.ttf"
-#    id: my_font
-#    size: 12
 
 i2c:
   - id: bus_a
@@ -249,16 +245,24 @@ i2c:
     scan: True
     frequency: 800khz
 
-#display:
-#  - platform: ssd1306_i2c
-#    i2c_id: bus_a
-#    address: 0x3D
-#    model: "SSD1306 128x64"
-#    id: my_display
-#    pages:
-#      - id: page1
-#        lambda: |-
-#          it.print(0, 0, id(my_font), "ESP32 Control Board");
+font:
+#  - file: "fonts/comic-sans-ms/ComicSansMS3.ttf"
+ - file: "fonts/UbuntuMono/UbuntuMono-R.ttf"
+   id: my_font
+   size: 12
+
+display:
+ - platform: ssd1306_i2c
+   i2c_id: bus_a
+   address: 0x3D
+   model: "SSD1306 128x64"
+   id: my_display
+   pages:
+     - id: page1
+       lambda: |-
+          it.print(0, 0, id(my_font), "ESP32 Control Board");
+          it.printf(0, 1*12, id(my_font), "Line 2");
+          it.printf(0, 2*12, id(my_font), "Temp: %.1f", id(Dallas_1).state);
 
 select:
   - platform: template
@@ -285,8 +289,10 @@ interval:
     then:
       #- display.page.show_next: my_display
       #- component.update: my_display
+      # does not id(my_display).print(0, 0, id(my_font), "Hello");
 
       - lambda: !lambda |
+
           if (id(auto_fan1).state) {
             float actual_temp1=id(Dallas_1).state;
             float fan_low_temp1=id(set_low_temp_1).state;
