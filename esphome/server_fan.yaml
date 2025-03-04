@@ -115,8 +115,12 @@ globals:
     type: int
     restore_value: true
     initial_value: '26'
+  - id: fan_set_speed1_glob
+    type: float
+    restore_value: no
+    initial_value: '0'
 
-
+    
 number:
   - platform: template
     id: set_off_temp_1
@@ -264,7 +268,10 @@ display:
      - id: page1
        lambda: |-
           it.printf(0, 0*12, id(large_font), "Temp: %.1f", id(Dallas_1).state);
-          it.printf(0, 2*12, id(small_font), "RPM: %.1f", id(fan1_speed).state);
+          it.printf(0, 2*12, id(small_font), "RPM: %.1f", id(fan1_RPM).state);
+          it.printf(0, 3*12, id(small_font), "Fan Set   Speed %.0f%", id(fan_set_speed1_glob));
+          it.printf(0, 4*12, id(small_font), "Off %3.0fC  Full %3.0fC", id(set_off_temp_1).state, id(set_full_temp_1).state);
+
 
 select:
   - platform: template
@@ -334,7 +341,7 @@ interval:
               call1.set_speed(fan_set_speed1);
               call1.perform();
             }
-
+            id(fan_set_speed1_glob)=fan_set_speed1;
           }
 
 
@@ -376,6 +383,7 @@ sensor:
     
   - platform: pulse_counter
     pin: GPIO33
+    id: fan1_RPM
     unit_of_measurement: 'rpm'
     name: ${fdevicename}Fan 1 Monitor
     device_class: "SPEED"
