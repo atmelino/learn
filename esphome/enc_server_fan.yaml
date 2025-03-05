@@ -344,9 +344,36 @@ interval:
             id(fan_set_speed1_glob)=fan_set_speed1;
           }
 
+seesaw:
+  i2c_id: bus_a
+  address: 0x49
+  # The default I2C address is 0x49. Using the three onboard address jumpers, you can connect up to 8 of these encoders on a single I2C port. The first one will be at address 0x49, the last one at 0x51 when all three jumpers are cut open.
+  # https://learn.adafruit.com/adafruit-i2c-quad-rotary-encoder-breakout
 
 
 sensor:
+
+  - platform: seesaw
+    id: encoder0
+    type: encoder
+    name: "Seesaw encoder #0"
+
+  - platform: seesaw
+    id: encoder1
+    type: encoder
+    name: "Seesaw encoder #1"
+
+  - platform: seesaw
+    id: encoder2
+    type: encoder
+    name: "Seesaw encoder #2"
+
+  - platform: seesaw
+    id: encoder3
+    type: encoder
+    name: "Seesaw encoder #3"
+
+
 
   - platform: aht10
     i2c_id: bus_b
@@ -481,3 +508,44 @@ text_sensor:
       name: ${fdevicename}Reset Reason
       entity_category: "DIAGNOSTIC"
   
+external_components:
+  - source:
+      type: git
+      url: https://github.com/ssieb/custom_components
+    components: [ seesaw ]
+
+  
+
+binary_sensor:
+  - platform: seesaw
+    id: button0
+    name: "Seesaw encoder button #0"
+
+  - platform: seesaw
+    id: button1
+    name: "Seesaw encoder button #1"
+
+  - platform: seesaw
+    id: button2
+    name: "Seesaw encoder button #2"
+
+  - platform: seesaw
+    id: button3
+    name: "Seesaw encoder button #3"
+
+light:
+  - platform: seesaw
+    id: pixel0
+    name: "Seesaw neopixel LED#0"
+    
+  - platform: seesaw
+    id: pixel1
+    name: "Seesaw neopixel LED#1"
+    
+  - platform: seesaw
+    id: pixel2
+    name: "Seesaw neopixel LED#2"
+    
+  - platform: seesaw
+    id: pixel3
+    name: "Seesaw neopixel LED#3"
