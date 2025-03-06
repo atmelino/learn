@@ -261,7 +261,8 @@ font:
 display:
  - platform: ssd1306_i2c
    i2c_id: bus_a
-   address: 0x3D
+   address: 0x3D   # Sparkfun
+  #  address: 0x3C   # Generic
    model: "SSD1306 128x64"
    id: my_display
    pages:
