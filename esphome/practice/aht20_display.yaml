@@ -26,15 +26,6 @@ preferences:
 wifi:
   ssid: ${ssid}
   password: ${password}
-  #fast_connect: true
-  #example static IP settings
-  #manual_ip:
-    #static_ip: ${ip}
-    #gateway: 192.168.0.1
-    #subnet: 255.255.255.0
-    #dns1: 192.168.0.1
-    #dns2: 8.8.8.8
-
 
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
@@ -177,7 +168,6 @@ display:
           it.printf(0, 0*16, id(mid_font), "Temp: %.1f", id(AHT20T).state);
           it.printf(0, 1*16, id(mid_font), "Hum: %.1f", id(AHT20H).state);
           it.printf(0, 2*16, id(mid_font), "LED Bright: %.1f", id(set_LED_bright).state);
-          it.printf(0, 4*12, id(mid_font), "Off %3.0fC"  , id(set_off_temp_1).state);
 
 
 interval:
@@ -191,7 +181,6 @@ interval:
       - lambda: !lambda |
 
           float actual_temp1=id(AHT20T).state;
-          float fan_low_temp1=id(set_off_temp_1).state;
           float LED_brightness=id(set_LED_bright).state;
           ESP_LOGD("main", "temp= %f", actual_temp1);
           ESP_LOGD("main", "LED Brightness= %f", LED_brightness);            
