@@ -10,20 +10,6 @@ substitutions:
   ssid: "TP-LINK_MR3040_4B611E"
   password: ""
 
-  ptemp: "20"
-  itemp: "0.1"
-
-# Connect your Dallas sensors with logger: DEBUG enabled (factory flash default).
-# Open the ESPHome webtool, connect to the ECB board, view the "Logs" window, hit "Reset",
-# and search for Dallas scan addresses and replace the below addresses with your unique ones.
-# Example Scan
-#[18:16:42][D][dallas.sensor:084]:     0x8b3ca8f64935b228 4
-#[18:16:42][D][dallas.sensor:084]:     0x783c0af6490d3628 2
-#[18:16:42][D][dallas.sensor:084]:     0xc13c01f09642c928 1
-#[18:16:42][D][dallas.sensor:084]:     0x043c6ef649772f28 3
-  # dallasaddress1: "0xc13c01f09642c928"
-  dallasaddress1: "0x910fc2d446308528"
-
 
 esphome:
   name: ${devicename}
@@ -59,25 +45,11 @@ wifi:
       gateway: 192.168.100.2
       subnet: 255.255.255.0
     
-#captive_portal:
-
-#esp32_improv:
-  #authorizer: false
-  #status_indicator: gpio_02
-  #identify_duration: 20s
-  #wifi_timeout: 30s
 
 ota:
   - platform: esphome
     password: "esphome1"
 
-#safe_mode:
-
-#mqtt:
-  #broker: 192.168.2.11   # use your own MQTT server address and credentials
-  #username: "john"
-  #password: "trek6666"
-  #reboot_timeout: 0s
 
 api:
   encryption:
@@ -263,7 +235,7 @@ display:
    pages:
      - id: page1
        lambda: |-
-          it.printf(0, 0*12, id(large_font), "Temp: %.1f", id(Dallas_1).state);
+          it.printf(0, 0*12, id(large_font), "Temp: %.1f", id(AHT20T).state);
           it.printf(0, 2*12, id(small_font), "RPM: %.1f", id(fan1_RPM).state);
           it.printf(0, 3*12, id(small_font), "Fan Set   Speed %.0f %%", id(fan_set_speed1_glob));
           it.printf(0, 4*12, id(small_font), "Off %3.0fC  Full %3.0fC", id(set_off_temp_1).state, id(set_full_temp_1).state);
@@ -279,7 +251,6 @@ select:
     options:
       - AHT20T
       - AHT20H
-      - Dallas_1
     initial_option: AHT20T
     on_value:
       then:
@@ -299,7 +270,7 @@ interval:
       - lambda: !lambda |
 
           if (id(auto_fan1).state) {
-            float actual_temp1=id(Dallas_1).state;
+            float actual_temp1=id(AHT20T).state;
             float fan_low_temp1=id(set_off_temp_1).state;
             float fan_high_temp1=id(set_full_temp_1).state;
             float fan_set_speed1;
@@ -362,20 +333,6 @@ sensor:
       device_class: "HUMIDITY"
       icon: mdi:water-percent
     update_interval: 2s
-
-  - platform: dallas_temp
-    address: ${dallasaddress1}
-    id: Dallas_1
-    name: ${fdevicename}Dallas Temp 1
-    update_interval: 2s
-    #index: 0
-    filters:
-      - filter_out: NaN
-      - offset: 0.0
-      #- lambda: return x * (9.0/5.0) + 32.0;
-    unit_of_measurement: "°C"
-    device_class: "TEMPERATURE"
-    icon: mdi:thermometer
     
   - platform: pulse_counter
     pin: GPIO33
@@ -420,11 +377,6 @@ sensor:
       entity_category: "DIAGNOSTIC"
       web_server:
         sorting_weight: 8
-
-  - platform: adc
-    pin: GPIO36
-    name: "Potentiometer Value"        
-    update_interval: 2s
 
 
             
