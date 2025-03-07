@@ -1,8 +1,3 @@
-# Four automatically controlled PWM fan outputs (J4-J7), each set by four target temperatures,
-# maintained by four Dallas sensor's temperatures. MQTT enabled. Home Assistant API disabled. DHCP enabled.
-# Other control configurations available with modification of Dallas platform LAMBDA function. 
-# Contact us at esp32andmore@gmail.com for no cost customization.
-# Ver 3.1
 
 substitutions:
   devicename: serverfan
@@ -15,8 +10,6 @@ substitutions:
   ssid: "TP-LINK_MR3040_4B611E"
   password: ""
 
-  ptemp: "20"
-  itemp: "0.1"
 
 # Connect your Dallas sensors with logger: DEBUG enabled (factory flash default).
 # Open the ESPHome webtool, connect to the ECB board, view the "Logs" window, hit "Reset",

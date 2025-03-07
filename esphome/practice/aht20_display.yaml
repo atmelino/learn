@@ -74,15 +74,7 @@ logger:
   level: Debug
 
 globals:
-  - id: fan1_sum
-    type: float
-    restore_value: no
-    initial_value: '0'
-  - id: target1
-    type: int
-    restore_value: true
-    initial_value: '26'
-  - id: fan_set_speed1_glob
+  - id: global_var
     type: float
     restore_value: no
     initial_value: '0'
@@ -90,47 +82,18 @@ globals:
     
 number:
   - platform: template
-    id: set_off_temp_1
-    name: ${fdevicename}01 Fan 1 Off Temp
+    id: set_LED_bright
+    name: ${fdevicename}LED Brightness
     optimistic: true
-    min_value: 15
-    max_value: 50
-    initial_value: '15'
-    step: 1
-    restore_value: true
-    unit_of_measurement: °C
-    #device_class: "TEMPERATURE"
-    #entity_category: "CONFIG"
-    icon: mdi:temperature-celsius
-
-  - platform: template
-    id: set_full_temp_1
-    name: ${fdevicename}02 Fan 1 Full Temp
-    optimistic: true
-    min_value: 50
+    min_value: 0
     max_value: 100
     initial_value: '50'
     step: 1
     restore_value: true
-    unit_of_measurement: °C
-    #device_class: "TEMPERATURE"
-    #entity_category: "CONFIG"
-    icon: mdi:temperature-celsius
+    icon: mdi:lightbulb
+
   
 switch:
-  - platform: restart
-    name: ${fdevicename}Restart
-    entity_category: "CONFIG"
-    icon: mdi:restart
-
-  - platform: gpio
-    name: ${fdevicename}Relay 0
-    pin: GPIO18
-    id: relay_0
-    restore_mode: restore_default_off
-    entity_category: "CONFIG"
-    icon: mdi:power
-
   - platform: template
     id: auto_fan1
     name: ${fdevicename}Fan 1 Auto Mode
@@ -146,63 +109,36 @@ switch:
           auto callb = id(fan1_speed).turn_off();
           callb.perform();
 
-  - platform: template
-    id: auto_fan2
-    name: ${fdevicename}Fan 2 Auto Mode
-    restore_mode: RESTORE_DEFAULT_ON
-    optimistic: true 
-    icon: mdi:fan-auto   
-    turn_off_action:
-       then:
-        lambda: |-
-          auto calla = id(fan2_speed).turn_on();
-          calla.set_speed(1);
-          calla.perform();
-          auto callb = id(fan2_speed).turn_off();
-          callb.perform();
-  
-one_wire:
-  - platform: gpio
-    pin: GPIO27
+  - platform: restart
+    name: ${fdevicename}Restart
+    entity_category: "CONFIG"
+    icon: mdi:restart
 
   
 output:
-    
   - platform: ledc
     pin:
-      number: GPIO13
-      # ignore_strapping_warning: true
-    id: gpio_13
-    frequency: 25600Hz
- 
-  - platform: ledc
-    pin: GPIO14
-    id: fan2
-    frequency: 25600Hz
+      number: GPIO2
+      ignore_strapping_warning: true
+    id: gpio_02
 
-  # - platform: ledc
-  #   pin:
-  #     number: GPIO2
-  #     ignore_strapping_warning: true
-  #   id: gpio_02
 
 fan:
   - platform: speed
-    output: gpio_13
+    output: gpio_02
     id: fan1_speed
     name: ${fdevicename}Fan 1 Speed
     #entity_category: "CONFIG"
     icon: mdi:fan
     restore_mode: RESTORE_DEFAULT_OFF
 
-  - platform: speed
-    output: fan2
-    id: fan2_speed
-    name: ${fdevicename}Fan 2 Speed
-    #entity_category: "CONFIG"
-    icon: mdi:fan
-    restore_mode: RESTORE_DEFAULT_OFF
 
+
+# Example usage in a light
+light:
+  - platform: monochromatic
+    output: gpio_02
+    name: "On Board LED"
 
 i2c:
   - id: bus_a
@@ -222,6 +158,9 @@ font:
    id: small_font
    size: 12
  - file: "fonts/UbuntuMono/UbuntuMono-R.ttf"
+   id: mid_font
+   size: 16
+ - file: "fonts/UbuntuMono/UbuntuMono-R.ttf"
    id: large_font
    size: 24
 
@@ -235,28 +174,10 @@ display:
    pages:
      - id: page1
        lambda: |-
-          it.printf(0, 0*12, id(large_font), "Temp: %.1f", id(AHT20T).state);
-          it.printf(0, 2*12, id(small_font), "RPM: %.1f", id(fan1_RPM).state);
-          it.printf(0, 3*12, id(small_font), "Fan Set   Speed %.0f %%", id(fan_set_speed1_glob));
-          it.printf(0, 4*12, id(small_font), "Off %3.0fC  Full %3.0fC", id(set_off_temp_1).state, id(set_full_temp_1).state);
-
-
-select:
-  - platform: template
-    name: ${fdevicename}Fan 1 Sensor
-    id: fan_1_source
-    icon: mdi:temperature-check
-    optimistic: true
-    restore_value: true
-    options:
-      - AHT20T
-      - AHT20H
-    initial_option: AHT20T
-    on_value:
-      then:
-        - globals.set:
-            id: fan1_sum
-            value: '0'
+          it.printf(0, 0*16, id(mid_font), "Temp: %.1f", id(AHT20T).state);
+          it.printf(0, 1*16, id(mid_font), "Hum: %.1f", id(AHT20H).state);
+          it.printf(0, 2*16, id(mid_font), "LED Bright: %.1f", id(set_LED_bright).state);
+          it.printf(0, 4*12, id(mid_font), "Off %3.0fC"  , id(set_off_temp_1).state);
 
 
 interval:
@@ -269,48 +190,11 @@ interval:
 
       - lambda: !lambda |
 
-          if (id(auto_fan1).state) {
-            float actual_temp1=id(AHT20T).state;
-            float fan_low_temp1=id(set_off_temp_1).state;
-            float fan_high_temp1=id(set_full_temp_1).state;
-            float fan_set_speed1;
-            float range, exceed,fpercentage;  
-            int percentage;  
-
-            ESP_LOGD("main", "low temp= %f", fan_low_temp1);            
-            ESP_LOGD("main", "high temp= %f", fan_high_temp1);            
-            ESP_LOGD("main", "temp= %f", actual_temp1);
-            if (actual_temp1>=fan_low_temp1) {
-              range=fan_high_temp1-fan_low_temp1;
-              exceed=actual_temp1-fan_low_temp1;
-              fpercentage=100.*exceed/range;
-              percentage=(int)fpercentage;
-              if(percentage>100)
-                percentage=100;
-              ESP_LOGD("main", "range= %f", range);            
-              ESP_LOGD("main", "exceed= %f", exceed);            
-              ESP_LOGD("main", "fpercentage= %f", fpercentage);            
-              ESP_LOGD("main", "percentage= %d", percentage);            
-              fan_set_speed1=percentage;
-            }
-            else
-            {
-              fan_set_speed1=0;
-            }
-
-            if (fan_set_speed1 <10) {
-              fan_set_speed1 = 1;
-              auto calloff1 = id(fan1_speed).turn_off();           
-              calloff1.set_speed(fan_set_speed1);
-              calloff1.perform();
-            } else {
-              auto call1 = id(fan1_speed).turn_on();
-              call1.set_speed(fan_set_speed1);
-              call1.perform();
-            }
-            id(fan_set_speed1_glob)=fan_set_speed1;
-          }
-
+          float actual_temp1=id(AHT20T).state;
+          float fan_low_temp1=id(set_off_temp_1).state;
+          float LED_brightness=id(set_LED_bright).state;
+          ESP_LOGD("main", "temp= %f", actual_temp1);
+          ESP_LOGD("main", "LED Brightness= %f", LED_brightness);            
 
 
 sensor:
@@ -334,17 +218,6 @@ sensor:
       icon: mdi:water-percent
     update_interval: 2s
     
-  - platform: pulse_counter
-    pin: GPIO33
-    id: fan1_RPM
-    unit_of_measurement: 'rpm'
-    name: ${fdevicename}Fan 1 Monitor
-    device_class: "SPEED"
-    icon: mdi:fan
-    update_interval: 5s
-    filters:
-      - multiply: 0.5
-        
   - platform: wifi_signal
     name: ${fdevicename}WiFi
     entity_category: "DIAGNOSTIC"
@@ -377,7 +250,6 @@ sensor:
       entity_category: "DIAGNOSTIC"
       web_server:
         sorting_weight: 8
-
 
             
 text_sensor:
