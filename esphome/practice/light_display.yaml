@@ -1,16 +1,12 @@
-# ESP32 with built-in LED at GPIO 2 and SSD1306 display on I2C bus
+# https://community.home-assistant.io/t/esphome-show-light-brightness-on-oled-display/218687
 
 substitutions:
   devicename: light_display
   friendlyname: light_display
   fdevicename: ""
   ip: 192.168.0.178 # For static IP adressing
-
-  # ssid: !secret wifi_ssid
-  # password: !secret wifi_password
   ssid: "TP-LINK_MR3040_4B611E"
   password: ""
-
 
 esphome:
   name: ${devicename}
@@ -22,7 +18,7 @@ esp32:
     type: esp-idf
 
 preferences:
-  flash_write_interval: 10min
+  flash_write_interval: 2min
     
 wifi:
   ssid: ${ssid}
@@ -37,60 +33,21 @@ wifi:
       gateway: 192.168.100.2
       subnet: 255.255.255.0
     
-
 ota:
   - platform: esphome
     password: "esphome1"
 
-
-api:
-  encryption:
-    key: "itqzvhZMJj8wuTJX0GTOuL/ffESFROzUlmcO0u2+sfo="  #use your own HA generated Key
-  reboot_timeout: 0s
-  
 web_server:
   port: 80
   version: 3
   local: true
   log: true
 
-
-time:
-  - platform: sntp
-    id: current_time
-
 debug:
   update_interval: 1s
 
 logger:
   level: Debug
-
-globals:
-  - id: global_var
-    type: float
-    restore_value: no
-    initial_value: '0'
-  
-switch:
-  - platform: restart
-    name: ${fdevicename}Restart
-    entity_category: "CONFIG"
-    icon: mdi:restart
-
-  
-output:
-  - platform: ledc
-    pin:
-      number: GPIO2
-      ignore_strapping_warning: true
-    id: gpio_02
-
-
-light:
-  - platform: monochromatic
-    id: mylight
-    output: gpio_02
-    name: "On Board LED"
 
 i2c:
   - id: bus_a
@@ -104,8 +61,42 @@ i2c:
     scan: True
     frequency: 800khz
 
+sensor:
+  - platform: template
+    name: "${device_name} brightness"
+    id: sensor_g_bright
+    internal: true
+    update_interval: 25ms
+    # Ensure on_value only triggered when brightness (0-255) changes
+    filters:
+      delta: 0.8
+    # Read brightness (0 - 1) from light , convert to (0-255) for MCU
+    lambda: |-
+      if (id(light_main).remote_values.is_on()) {
+        return (int(id(light_main).remote_values.get_brightness() * 255));
+      }
+      else {
+        return 0;
+      }
+    # On Change send to MCU via UART
+    on_value:
+      then:
+        - logger.log:
+            level: INFO
+            format: "Sensor Value Change sent to UART %3.1f"
+            args: ["id(sensor_g_bright).state"]    
+
+display:
+  - platform: ssd1306_i2c
+    i2c_id: bus_a
+    #  address: 0x3D   # Sparkfun
+    address: 0x3C   # Generic
+    model: "SSD1306 128x64"
+    id: my_display
+    lambda: |-
+        it.printf(0, 0*16, id(mid_font), "PWM: %.1f", id(sensor_g_bright).state);
+
 font:
-#  - file: "fonts/comic-sans-ms/ComicSansMS3.ttf"
  - file: "fonts/UbuntuMono/UbuntuMono-R.ttf"
    id: small_font
    size: 12
@@ -115,137 +106,22 @@ font:
  - file: "fonts/UbuntuMono/UbuntuMono-R.ttf"
    id: large_font
    size: 24
-
-display:
- - platform: ssd1306_i2c
-   i2c_id: bus_a
-  #  address: 0x3D   # Sparkfun
-   address: 0x3C   # Generic
-   model: "SSD1306 128x64"
-   id: my_display
-   pages:
-     - id: page1
-       lambda: |-
-          it.printf(0, 0*16, id(mid_font), "Temp: %.1f", id(AHT20T).state);
-          it.printf(0, 1*16, id(mid_font), "Hum: %.1f", id(AHT20H).state);
-
-# it.printf(0, 2*16, id(mid_font), "LED Bright: %.1f", id(mylight).state);
-
-
-interval:
-  - interval: 2000ms
-    startup_delay: 2s
-    then:
-      #- display.page.show_next: my_display
-      #- component.update: my_display
-      # does not work : id(my_display).print(0, 0, id(small_font), "Hello");
-
-      - lambda: !lambda |
-
-          float actual_temp1=id(AHT20T).state;
-          ESP_LOGD("main", "temp= %f", actual_temp1);
-
-
-sensor:
-  - platform: aht10
-    i2c_id: bus_b
-    address: 0x38
-    variant: AHT20
-    temperature:
-      id: AHT20T
-      name: ${fdevicename}AHT20 Temp
-      device_class: "TEMPERATURE"
-      icon: mdi:thermometer
-      filters:
-      - filter_out: NaN
-      - offset: -6.0
-    humidity:
-      name: ${fdevicename}AHT20 Humidity
-      id: AHT20H
-      device_class: "HUMIDITY"
-      icon: mdi:water-percent
-    update_interval: 2s
     
-  - platform: wifi_signal
-    name: ${fdevicename}WiFi
-    entity_category: "DIAGNOSTIC"
-    icon: mdi:wifi
-    web_server:
-      sorting_weight: 4
-    update_interval: 30s
-  
-  - platform: uptime
-    name: ${fdevicename}Uptime
-    entity_category: "DIAGNOSTIC"
-    icon: mdi:timer-sync-outline
-    web_server:
-      sorting_weight: 6
-    update_interval: 1s
+switch:
+  - platform: restart
+    name: "${device_name} REBOOT"
 
-  - platform: debug
-    free:
-      name: ${fdevicename}Heap Free
-      entity_category: "DIAGNOSTIC"
-      web_server:
-        sorting_weight: 9
-    block:
-      name: ${fdevicename}Heap Max Block
-      entity_category: "DIAGNOSTIC"
-      web_server:
-        sorting_weight: 10
-    loop_time:
-      name: ${fdevicename}Loop Time
-      entity_category: "DIAGNOSTIC"
-      web_server:
-        sorting_weight: 8
+# Example configuration entry
+output:
+  - platform: ledc
+    pin: 2
+    frequency: 5000
+    id: ledc_pwm
 
-            
-text_sensor:
-  - platform: template
-    name: ${fdevicename}Device Sensor
-    entity_category: "DIAGNOSTIC"
-    icon: mdi:devices
-    web_server:
-      sorting_weight: 14
-    lambda: |-
-      return {"ESP32 Control Board"};
-
-  - platform: version
-    name: ${fdevicename}Version
-    entity_category: "DIAGNOSTIC"
-    web_server:
-      sorting_weight: 15
-
-  - platform: wifi_info
-    ip_address:
-      name: ${fdevicename}IP Address
-      entity_category: "DIAGNOSTIC"
-      icon: mdi:ip
-      web_server:
-        sorting_weight: 0
-    ssid:
-      name: ${fdevicename}Connected SSID
-      entity_category: "DIAGNOSTIC"
-      icon: mdi:wifi
-      web_server:
-        sorting_weight: 2
-    bssid:
-      name: ${fdevicename}Connected BSSID
-      entity_category: "DIAGNOSTIC"
-      icon: mdi:wifi
-      web_server:
-        sorting_weight: 3
-    mac_address:
-      name: ${fdevicename}Mac Wifi Address
-      entity_category: "DIAGNOSTIC"
-      icon: mdi:wifi
-      web_server:
-        sorting_weight: 1
-
-  - platform: debug
- #   device:
- #     name: ${fdevicename}Device Info
-    reset_reason:
-      name: ${fdevicename}Reset Reason
-      entity_category: "DIAGNOSTIC"
-  
+# Example usage in a light
+light:
+  - platform: monochromatic
+    output: ledc_pwm
+    name: "Grow1 Light"
+    id: light_main
+    restore_mode: RESTORE_DEFAULT_OFF
