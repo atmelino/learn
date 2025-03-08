@@ -1,7 +1,9 @@
+# ESP32 with built-in LED at GPIO 2 and SSD1306 display on I2C bus
+# https://community.home-assistant.io/t/esphome-show-light-brightness-on-oled-display/218687
 
 substitutions:
-  devicename: aht20_display
-  friendlyname: aht20_display
+  devicename: light_brightness
+  friendlyname: light_brightness
   fdevicename: ""
   ip: 192.168.0.178 # For static IP adressing
 
@@ -69,67 +71,56 @@ globals:
     type: float
     restore_value: no
     initial_value: '0'
-
-    
-number:
-  - platform: template
-    id: set_LED_bright
-    name: ${fdevicename}LED Brightness
-    optimistic: true
-    min_value: 0
-    max_value: 100
-    initial_value: '50'
-    step: 1
-    restore_value: true
-    icon: mdi:lightbulb
-
   
 switch:
-  # - platform: template
-  #   id: auto_fan1
-  #   name: ${fdevicename}Fan 1 Auto Mode
-  #   restore_mode: ALWAYS_ON
-  #   optimistic: true
-  #   icon: mdi:fan-auto     
-  #   turn_off_action:
-  #     then:
-  #       lambda: |-
-  #         auto calla = id(fan1_speed).turn_on();
-  #         calla.set_speed(1);
-  #         calla.perform();
-  #         auto callb = id(fan1_speed).turn_off();
-  #         callb.perform();
-
   - platform: restart
     name: ${fdevicename}Restart
     entity_category: "CONFIG"
     icon: mdi:restart
 
   
+# output:
+#   - platform: ledc
+#     pin:
+#       number: GPIO2
+#       ignore_strapping_warning: true
+#     id: gpio_02
+
+
+# light:
+#   - platform: monochromatic
+#     id: mylight
+#     output: gpio_02
+#     name: "On Board LED"
+
+
+#Readings calculated from light output
+- platform: template
+    name: "Grow1 LED PWM"
+    id: "led1_pwm"
+    update_interval: 10s
+    accuracy_decimals: 0
+    lambda: |-
+      return (int(id(light_main).remote_values.get_brightness() * 255));
+
+
+# light output pin 19 is PMW pin important is frequency: 5000
 output:
   - platform: ledc
     pin:
-      number: GPIO2
-      ignore_strapping_warning: true
-    id: gpio_02
+       number: GPIO2
+    frequency: 5000
+    id: ledc_pmw
 
-
-# fan:
-#   - platform: speed
-#     output: gpio_02
-#     id: fan1_speed
-#     name: ${fdevicename}Fan 1 Speed
-#     #entity_category: "CONFIG"
-#     icon: mdi:fan
-#     restore_mode: RESTORE_DEFAULT_OFF
-
-
-
-# Example usage in a light
+# LED PMW light -> from here grab the id for reading in template sensors
 light:
   - platform: monochromatic
-    output: gpio_02
-    name: "On Board LED"
+    output: ledc_pmw
+    name: "Grow1 Light"
+    id: light_main
+    restore_mode: RESTORE_DEFAULT_OFF
+
+
 
 i2c:
   - id: bus_a
@@ -167,7 +158,8 @@ display:
        lambda: |-
           it.printf(0, 0*16, id(mid_font), "Temp: %.1f", id(AHT20T).state);
           it.printf(0, 1*16, id(mid_font), "Hum: %.1f", id(AHT20H).state);
-          it.printf(0, 2*16, id(mid_font), "LED Bright: %.1f", id(set_LED_bright).state);
+
+# it.printf(0, 2*16, id(mid_font), "LED Bright: %.1f", id(mylight).state);
 
 
 interval:
@@ -181,13 +173,10 @@ interval:
       - lambda: !lambda |
 
           float actual_temp1=id(AHT20T).state;
-          float LED_brightness=id(set_LED_bright).state;
           ESP_LOGD("main", "temp= %f", actual_temp1);
-          ESP_LOGD("main", "LED Brightness= %f", LED_brightness);            
 
 
 sensor:
-
   - platform: aht10
     i2c_id: bus_b
     address: 0x38
