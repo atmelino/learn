@@ -1,4 +1,4 @@
-https://community.home-assistant.io/t/esp32-ledc-output-variable-frequency/618050
+# https://community.home-assistant.io/t/esp32-ledc-output-variable-frequency/618050
 
 substitutions:
   devicename: generic_pwm
