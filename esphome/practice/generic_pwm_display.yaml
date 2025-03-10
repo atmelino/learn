@@ -1,8 +1,8 @@
 # https://community.home-assistant.io/t/esp32-ledc-output-variable-frequency/618050
 
 substitutions:
-  devicename: generic_pwm
-  friendlyname: generic_pwm
+  devicename: generic_pwm_display
+  friendlyname: generic_pwm_display
   fdevicename: ""
   ip: 192.168.0.178 # For static IP adressing
   ssid: "TP-LINK_MR3040_4B611E"
@@ -60,6 +60,27 @@ i2c:
     scl: GPIO17
     scan: True
     frequency: 800khz
+
+display:
+  - platform: ssd1306_i2c
+    i2c_id: bus_a
+    #  address: 0x3D   # Sparkfun
+    address: 0x3C   # Generic
+    model: "SSD1306 128x64"
+    id: my_display
+    lambda: |-
+        it.printf(0, 0*16, id(mid_font), "PWM: %.1f", id(myPWM).state);
+
+font:
+ - file: "fonts/UbuntuMono/UbuntuMono-R.ttf"
+   id: small_font
+   size: 12
+ - file: "fonts/UbuntuMono/UbuntuMono-R.ttf"
+   id: mid_font
+   size: 16
+ - file: "fonts/UbuntuMono/UbuntuMono-R.ttf"
+   id: large_font
+   size: 24
     
 switch:
   - platform: restart
@@ -67,6 +88,7 @@ switch:
 
 number:
   - platform: template
+    id: myPWM
     name: PWM %
     optimistic: true
     initial_value: 30 
