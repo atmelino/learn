@@ -101,7 +101,7 @@ time:
     id: current_time
 
 debug:
-  update_interval: 1s
+  update_interval: 15s
 
 logger:
   level: Debug
@@ -373,8 +373,6 @@ sensor:
     type: encoder
     name: "Seesaw encoder #3"
 
-
-
   - platform: aht10
     i2c_id: bus_b
     address: 0x38
@@ -451,11 +449,6 @@ sensor:
       entity_category: "DIAGNOSTIC"
       web_server:
         sorting_weight: 8
-
-  - platform: adc
-    pin: GPIO36
-    name: "Potentiometer Value"        
-    update_interval: 2s
 
 
             
