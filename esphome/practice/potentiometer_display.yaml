@@ -69,7 +69,7 @@ display:
     model: "SSD1306 128x64"
     id: my_display
     lambda: |-
-        it.printf(0, 0*16, id(mid_font), "PWM: %.1f", id(myPWM).state);
+        it.printf(0, 0*16, id(mid_font), "Pot: %.1f", id(pot).state);
 
 font:
  - file: "fonts/UbuntuMono/UbuntuMono-R.ttf"
@@ -110,6 +110,18 @@ output:
 sensor:
   - platform: adc
     pin: GPIO34
+    id: pot
     name: "Potentiometer Value"        
     update_interval: 2s
 
+text_sensor:
+  - platform: template
+    name: ${fdevicename}Device Sensor
+    entity_category: "DIAGNOSTIC"
+    icon: mdi:devices
+    web_server:
+      sorting_weight: 14
+    lambda: |-
+      return to_string(id(pot).state);
+
+# return to_string(id(myPWM).state);
