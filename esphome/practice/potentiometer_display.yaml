@@ -1,8 +1,8 @@
 # https://community.home-assistant.io/t/esp32-ledc-output-variable-frequency/618050
 
 substitutions:
-  devicename: generic_pwm_display
-  friendlyname: generic_pwm_display
+  devicename: potentiometer_display
+  friendlyname: potentiometer_display
   fdevicename: ""
   ip: 192.168.0.178 # For static IP adressing
   ssid: "TP-LINK_MR3040_4B611E"
@@ -85,27 +85,6 @@ font:
 switch:
   - platform: restart
     name: "${device_name} REBOOT"
-
-number:
-  - platform: template
-    id: myPWM
-    name: PWM %
-    optimistic: true
-    initial_value: 30 
-    min_value: 0
-    max_value: 100
-    step: 1
-    mode: slider
-    on_value:
-      then:
-        lambda: 'id(PWM).set_level(x/100);'
-
-output:
-  - platform: ledc
-    pin: GPIO2
-    id: PWM
-    frequency: 100Hz
-    # inverted: true
 
 sensor:
   - platform: adc
