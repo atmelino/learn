@@ -1,8 +1,8 @@
 # https://community.home-assistant.io/t/esp32-ledc-output-variable-frequency/618050
 
 substitutions:
-  devicename: generic_pwm_display
-  friendlyname: generic_pwm_display
+  devicename: pwm_generic_display
+  friendlyname: pwm_generic_display
   fdevicename: ""
   ip: 192.168.0.178 # For static IP adressing
   ssid: "TP-LINK_MR3040_4B611E"
