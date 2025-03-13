@@ -1,0 +1,111 @@
+# https://github.com/mathertel/RotaryEncoder
+
+substitutions:
+  devicename: encoder_generic
+  friendlyname: encoder_generic
+  fdevicename: ""
+  ip: 192.168.0.178 # For static IP adressing
+  ssid: "TP-LINK_MR3040_4B611E"
+  password: ""
+
+esphome:
+  name: ${devicename}
+  friendly_name: ${friendlyname}
+
+esp32:
+  board: wemos_d1_mini32
+  framework:
+    type: esp-idf
+
+preferences:
+  flash_write_interval: 2min
+    
+wifi:
+  ssid: ${ssid}
+  password: ${password}
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: ${fdevicename}Fallback Hotspot
+    password: "esphome1"
+    manual_ip:
+      static_ip: 192.168.100.2
+      gateway: 192.168.100.2
+      subnet: 255.255.255.0
+    
+ota:
+  - platform: esphome
+    password: "esphome1"
+
+web_server:
+  port: 80
+  version: 3
+  local: true
+  log: true
+
+debug:
+  update_interval: 10s
+
+logger:
+  level: Debug
+
+i2c:
+  - id: bus_a
+    sda: GPIO21
+    scl: GPIO22
+    scan: True
+    frequency: 400khz
+  - id: bus_b
+    sda: GPIO16
+    scl: GPIO17
+    scan: True
+    frequency: 800khz
+
+display:
+  - platform: ssd1306_i2c
+    i2c_id: bus_a
+    #  address: 0x3D   # Sparkfun
+    address: 0x3C   # Generic
+    model: "SSD1306 128x64"
+    id: my_display
+    lambda: |-
+        it.printf(0, 0*16, id(mid_font), "encoder1: %.1f", id(encoder1).state);
+
+font:
+ - file: "fonts/UbuntuMono/UbuntuMono-R.ttf"
+   id: small_font
+   size: 12
+ - file: "fonts/UbuntuMono/UbuntuMono-R.ttf"
+   id: mid_font
+   size: 16
+ - file: "fonts/UbuntuMono/UbuntuMono-R.ttf"
+   id: large_font
+   size: 24
+    
+switch:
+  - platform: restart
+    name: "${device_name} REBOOT"
+
+sensor:
+  - platform: rotary_encoder
+    name: "Rotary Encoder"
+    id: encoder1
+    pin_a: GPIO18
+    pin_b: GPIO19
+    min_value: 0
+    max_value: 100
+    filters:
+    - or:
+        - debounce: 0.1s
+        - delta: 2
+    # on_clockwise:
+    #   - light.dim_relative:
+    #       id: marek_light
+    #       relative_brightness: 5%
+    #       transition_length: 0.01s
+
+    # on_anticlockwise:
+    #   - light.dim_relative:
+    #       id: marek_light
+    #       relative_brightness: -5%
+    #       transition_length: 0.01s
