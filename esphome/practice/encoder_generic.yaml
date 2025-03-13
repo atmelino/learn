@@ -92,8 +92,9 @@ sensor:
     id: encoder1
     pin_a: GPIO18
     pin_b: GPIO19
-    min_value: 0
-    max_value: 100
+    min_value: -20
+    max_value: 20
+    restore_mode: ALWAYS_ZERO 
     filters:
     - or:
         - debounce: 0.1s
