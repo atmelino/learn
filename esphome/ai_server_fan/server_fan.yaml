@@ -119,13 +119,13 @@ switch:
     entity_category: "CONFIG"
     icon: mdi:restart
 
-  - platform: gpio
-    name: ${fdevicename}Relay 0
-    pin: GPIO18
-    id: relay_0
-    restore_mode: restore_default_off
-    entity_category: "CONFIG"
-    icon: mdi:power
+  # - platform: gpio
+  #   name: ${fdevicename}Relay 0
+  #   pin: GPIO18
+  #   id: relay_0
+  #   restore_mode: restore_default_off
+  #   entity_category: "CONFIG"
+  #   icon: mdi:power
 
   - platform: template
     id: auto_fan1
@@ -336,6 +336,31 @@ sensor:
     update_interval: 5s
     filters:
       - multiply: 0.5
+
+  - platform: rotary_encoder
+    name: "Rotary Encoder"
+    id: encoder1
+    pin_a: GPIO18
+    pin_b: GPIO19
+    min_value: -20
+    max_value: 20
+    restore_mode: ALWAYS_ZERO 
+    filters:
+    - or:
+        - debounce: 0.1s
+        - delta: 2
+    on_clockwise:
+        - logger.log:
+            level: INFO
+            format: "+ dir Encoder step %3.1f"
+            args: ["id(encoder1).state"]    
+        - lambda: |-
+            id(encoder1).publish_state(42.0);
+    on_anticlockwise:
+        - logger.log:
+            level: INFO
+            format: "- dir Encoder step %3.1f"
+            args: ["id(encoder1).state"]    
 
   - platform: wifi_signal
     name: ${fdevicename}WiFi
