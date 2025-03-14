@@ -244,10 +244,6 @@ interval:
             float range, exceed,fpercentage;  
             int percentage;  
 
-            //ESP_LOGD("main", "low temp= %f", fan_low_temp1);            
-            //ESP_LOGD("main", "high temp= %f", fan_high_temp1);            
-            //ESP_LOGD("main", "temp= %f", actual_temp1);
-
             ESP_LOGD("main", "temp  actual %3.1f off %3.1f full %3.1f", actual_temp1,fan_low_temp1,fan_high_temp1);
 
             if (actual_temp1>=fan_low_temp1) {
@@ -342,6 +338,31 @@ sensor:
     id: encoder1
     pin_a: GPIO18
     pin_b: GPIO19
+    min_value: -20
+    max_value: 20
+    restore_mode: ALWAYS_ZERO 
+    filters:
+    - or:
+        - debounce: 0.1s
+        - delta: 2
+    on_clockwise:
+        - logger.log:
+            level: INFO
+            format: "+ dir Encoder step %3.1f"
+            args: ["id(encoder1).state"]    
+        - lambda: |-
+            id(encoder1).publish_state(42.0);
+    on_anticlockwise:
+        - logger.log:
+            level: INFO
+            format: "- dir Encoder step %3.1f"
+            args: ["id(encoder1).state"]    
+
+  - platform: rotary_encoder
+    name: "Rotary Encoder"
+    id: encoder2
+    pin_a: GPIO23
+    pin_b: GPIO26
     min_value: -20
     max_value: 20
     restore_mode: ALWAYS_ZERO 
