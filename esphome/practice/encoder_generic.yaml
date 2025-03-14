@@ -99,18 +99,22 @@ sensor:
     - or:
         - debounce: 0.1s
         - delta: 2
+
     on_clockwise:
         - logger.log:
             level: INFO
             format: "+ dir Encoder step %3.1f"
             args: ["id(encoder1).state"]    
-
+        - lambda: |-
+            id(encoder1).publish_state(42.0);
 
     on_anticlockwise:
         - logger.log:
             level: INFO
             format: "- dir Encoder step %3.1f"
             args: ["id(encoder1).state"]    
+
+
 
 
     # - lambda: |-
