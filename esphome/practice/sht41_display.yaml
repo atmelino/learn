@@ -1,8 +1,8 @@
 # https://community.home-assistant.io/t/rotary-encoder-and-switch/478308/4
 
 substitutions:
-  devicename: encoder_generic
-  friendlyname: encoder_generic
+  devicename: sht41_display
+  friendlyname: sht41_display
   fdevicename: ""
   ip: 192.168.0.178 # For static IP adressing
   ssid: "TP-LINK_MR3040_4B611E"
@@ -44,7 +44,7 @@ web_server:
   log: true
 
 debug:
-  update_interval: 10s
+  update_interval: 2s
 
 logger:
   # level: Debug
@@ -70,7 +70,7 @@ display:
     model: "SSD1306 128x64"
     id: my_display
     lambda: |-
-        it.printf(0, 0*16, id(mid_font), "encoder1: %.1f", id(encoder1).state);
+        it.printf(0, 0*16, id(mid_font), "temperature: %.1f", id(SHT41T).state);
 
 font:
  - file: "fonts/UbuntuMono/UbuntuMono-R.ttf"
@@ -88,28 +88,14 @@ switch:
     name: "${device_name} REBOOT"
 
 sensor:
-  - platform: rotary_encoder
-    name: "Rotary Encoder"
-    id: encoder1
-    pin_a: GPIO18
-    pin_b: GPIO19
-    min_value: -20
-    max_value: 20
-    restore_mode: ALWAYS_ZERO 
-    filters:
-    - or:
-        - debounce: 0.1s
-        - delta: 2
-    on_clockwise:
-        - logger.log:
-            level: INFO
-            format: "+ dir Encoder step %3.1f"
-            args: ["id(encoder1).state"]    
-        - lambda: |-
-            id(encoder1).publish_state(42.0);
-    on_anticlockwise:
-        - logger.log:
-            level: INFO
-            format: "- dir Encoder step %3.1f"
-            args: ["id(encoder1).state"]    
+  - platform: sht4x
+    i2c_id: bus_a
+    address: 0x44
+    update_interval: 2s
+    temperature:
+      name: "Temperature"
+      id: SHT41T
+    humidity:
+      name: "Relative Humidity"
+      id: SHT41H
 

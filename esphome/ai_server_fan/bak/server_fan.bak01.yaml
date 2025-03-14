@@ -1,3 +1,4 @@
+
 substitutions:
   devicename: serverfan
   friendlyname: SERVERFAN
@@ -9,16 +10,18 @@ substitutions:
   ssid: "TP-LINK_MR3040_4B611E"
   password: ""
 
-  # Connect your Dallas sensors with logger: DEBUG enabled (factory flash default).
-  # Open the ESPHome webtool, connect to the ECB board, view the "Logs" window, hit "Reset",
-  # and search for Dallas scan addresses and replace the below addresses with your unique ones.
-  # Example Scan
-  #[18:16:42][D][dallas.sensor:084]:     0x8b3ca8f64935b228 4
-  #[18:16:42][D][dallas.sensor:084]:     0x783c0af6490d3628 2
-  #[18:16:42][D][dallas.sensor:084]:     0xc13c01f09642c928 1
-  #[18:16:42][D][dallas.sensor:084]:     0x043c6ef649772f28 3
+
+# Connect your Dallas sensors with logger: DEBUG enabled (factory flash default).
+# Open the ESPHome webtool, connect to the ECB board, view the "Logs" window, hit "Reset",
+# and search for Dallas scan addresses and replace the below addresses with your unique ones.
+# Example Scan
+#[18:16:42][D][dallas.sensor:084]:     0x8b3ca8f64935b228 4
+#[18:16:42][D][dallas.sensor:084]:     0x783c0af6490d3628 2
+#[18:16:42][D][dallas.sensor:084]:     0xc13c01f09642c928 1
+#[18:16:42][D][dallas.sensor:084]:     0x043c6ef649772f28 3
   # dallasaddress1: "0xc13c01f09642c928"
   dallasaddress1: "0x910fc2d446308528"
+
 
 esphome:
   name: ${devicename}
@@ -31,10 +34,19 @@ esp32:
 
 preferences:
   flash_write_interval: 10min
-
+    
 wifi:
   ssid: ${ssid}
   password: ${password}
+  #fast_connect: true
+  #example static IP settings
+  #manual_ip:
+    #static_ip: ${ip}
+    #gateway: 192.168.0.1
+    #subnet: 255.255.255.0
+    #dns1: 192.168.0.1
+    #dns2: 8.8.8.8
+
 
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
@@ -44,21 +56,38 @@ wifi:
       static_ip: 192.168.100.2
       gateway: 192.168.100.2
       subnet: 255.255.255.0
+    
+#captive_portal:
+
+#esp32_improv:
+  #authorizer: false
+  #status_indicator: gpio_02
+  #identify_duration: 20s
+  #wifi_timeout: 30s
 
 ota:
   - platform: esphome
     password: "esphome1"
 
+#safe_mode:
+
+#mqtt:
+  #broker: 192.168.2.11   # use your own MQTT server address and credentials
+  #username: "john"
+  #password: "trek6666"
+  #reboot_timeout: 0s
+
 api:
   encryption:
-    key: "itqzvhZMJj8wuTJX0GTOuL/ffESFROzUlmcO0u2+sfo=" #use your own HA generated Key
+    key: "itqzvhZMJj8wuTJX0GTOuL/ffESFROzUlmcO0u2+sfo="  #use your own HA generated Key
   reboot_timeout: 0s
-
+  
 web_server:
   port: 80
   version: 3
   local: true
   log: true
+
 
 time:
   - platform: sntp
@@ -74,16 +103,17 @@ globals:
   - id: fan1_sum
     type: float
     restore_value: no
-    initial_value: "0"
+    initial_value: '0'
   - id: target1
     type: int
     restore_value: true
-    initial_value: "26"
+    initial_value: '26'
   - id: fan_set_speed1_glob
     type: float
     restore_value: no
-    initial_value: "0"
+    initial_value: '0'
 
+    
 number:
   - platform: template
     id: set_off_temp_1
@@ -91,7 +121,7 @@ number:
     optimistic: true
     min_value: 15
     max_value: 50
-    initial_value: "15"
+    initial_value: '15'
     step: 1
     restore_value: true
     unit_of_measurement: °C
@@ -105,14 +135,14 @@ number:
     optimistic: true
     min_value: 50
     max_value: 100
-    initial_value: "50"
+    initial_value: '50'
     step: 1
     restore_value: true
     unit_of_measurement: °C
     #device_class: "TEMPERATURE"
     #entity_category: "CONFIG"
     icon: mdi:temperature-celsius
-
+  
 switch:
   - platform: restart
     name: ${fdevicename}Restart
@@ -132,7 +162,7 @@ switch:
     name: ${fdevicename}Fan 1 Auto Mode
     restore_mode: ALWAYS_ON
     optimistic: true
-    icon: mdi:fan-auto
+    icon: mdi:fan-auto     
     turn_off_action:
       then:
         lambda: |-
@@ -142,16 +172,38 @@ switch:
           auto callb = id(fan1_speed).turn_off();
           callb.perform();
 
+  - platform: template
+    id: auto_fan2
+    name: ${fdevicename}Fan 2 Auto Mode
+    restore_mode: RESTORE_DEFAULT_ON
+    optimistic: true 
+    icon: mdi:fan-auto   
+    turn_off_action:
+       then:
+        lambda: |-
+          auto calla = id(fan2_speed).turn_on();
+          calla.set_speed(1);
+          calla.perform();
+          auto callb = id(fan2_speed).turn_off();
+          callb.perform();
+  
 one_wire:
   - platform: gpio
     pin: GPIO27
 
+  
 output:
+    
   - platform: ledc
     pin:
       number: GPIO13
       # ignore_strapping_warning: true
     id: gpio_13
+    frequency: 25600Hz
+ 
+  - platform: ledc
+    pin: GPIO14
+    id: fan2
     frequency: 25600Hz
 
   # - platform: ledc
@@ -169,6 +221,15 @@ fan:
     icon: mdi:fan
     restore_mode: RESTORE_DEFAULT_OFF
 
+  - platform: speed
+    output: fan2
+    id: fan2_speed
+    name: ${fdevicename}Fan 2 Speed
+    #entity_category: "CONFIG"
+    icon: mdi:fan
+    restore_mode: RESTORE_DEFAULT_OFF
+
+
 i2c:
   - id: bus_a
     sda: GPIO21
@@ -182,28 +243,29 @@ i2c:
     frequency: 800khz
 
 font:
-  #  - file: "fonts/comic-sans-ms/ComicSansMS3.ttf"
-  - file: "fonts/UbuntuMono/UbuntuMono-R.ttf"
-    id: small_font
-    size: 12
-  - file: "fonts/UbuntuMono/UbuntuMono-R.ttf"
-    id: large_font
-    size: 24
+#  - file: "fonts/comic-sans-ms/ComicSansMS3.ttf"
+ - file: "fonts/UbuntuMono/UbuntuMono-R.ttf"
+   id: small_font
+   size: 12
+ - file: "fonts/UbuntuMono/UbuntuMono-R.ttf"
+   id: large_font
+   size: 24
 
 display:
-  - platform: ssd1306_i2c
-    i2c_id: bus_a
-    #  address: 0x3D   # Sparkfun
-    address: 0x3C # Generic
-    model: "SSD1306 128x64"
-    id: my_display
-    pages:
-      - id: page1
-        lambda: |-
+ - platform: ssd1306_i2c
+   i2c_id: bus_a
+   address: 0x3D   # Sparkfun
+  #  address: 0x3C   # Generic
+   model: "SSD1306 128x64"
+   id: my_display
+   pages:
+     - id: page1
+       lambda: |-
           it.printf(0, 0*12, id(large_font), "Temp: %.1f", id(Dallas_1).state);
           it.printf(0, 2*12, id(small_font), "RPM: %.1f", id(fan1_RPM).state);
           it.printf(0, 3*12, id(small_font), "Fan Set   Speed %.0f %%", id(fan_set_speed1_glob));
           it.printf(0, 4*12, id(small_font), "Off %3.0fC  Full %3.0fC", id(set_off_temp_1).state, id(set_full_temp_1).state);
+
 
 select:
   - platform: template
@@ -221,7 +283,8 @@ select:
       then:
         - globals.set:
             id: fan1_sum
-            value: "0"
+            value: '0'
+
 
 interval:
   - interval: 2000ms
@@ -241,12 +304,9 @@ interval:
             float range, exceed,fpercentage;  
             int percentage;  
 
-            //ESP_LOGD("main", "low temp= %f", fan_low_temp1);            
-            //ESP_LOGD("main", "high temp= %f", fan_high_temp1);            
-            //ESP_LOGD("main", "temp= %f", actual_temp1);
-
-            ESP_LOGD("main", "temp  actual %3.1f off %3.1f full %3.1f", actual_temp1,fan_low_temp1,fan_high_temp1);
-
+            ESP_LOGD("main", "low temp= %f", fan_low_temp1);            
+            ESP_LOGD("main", "high temp= %f", fan_high_temp1);            
+            ESP_LOGD("main", "temp= %f", actual_temp1);
             if (actual_temp1>=fan_low_temp1) {
               range=fan_high_temp1-fan_low_temp1;
               exceed=actual_temp1-fan_low_temp1;
@@ -278,7 +338,10 @@ interval:
             id(fan_set_speed1_glob)=fan_set_speed1;
           }
 
+
+
 sensor:
+
   - platform: aht10
     i2c_id: bus_b
     address: 0x38
@@ -289,8 +352,8 @@ sensor:
       device_class: "TEMPERATURE"
       icon: mdi:thermometer
       filters:
-        - filter_out: NaN
-        - offset: -6.0
+      - filter_out: NaN
+      - offset: -6.0
     humidity:
       name: ${fdevicename}AHT20 Humidity
       id: AHT20H
@@ -311,18 +374,18 @@ sensor:
     unit_of_measurement: "°C"
     device_class: "TEMPERATURE"
     icon: mdi:thermometer
-
+    
   - platform: pulse_counter
     pin: GPIO33
     id: fan1_RPM
-    unit_of_measurement: "rpm"
+    unit_of_measurement: 'rpm'
     name: ${fdevicename}Fan 1 Monitor
     device_class: "SPEED"
     icon: mdi:fan
     update_interval: 5s
     filters:
       - multiply: 0.5
-
+        
   - platform: wifi_signal
     name: ${fdevicename}WiFi
     entity_category: "DIAGNOSTIC"
@@ -330,14 +393,14 @@ sensor:
     web_server:
       sorting_weight: 4
     update_interval: 30s
-
+  
   - platform: uptime
     name: ${fdevicename}Uptime
     entity_category: "DIAGNOSTIC"
     icon: mdi:timer-sync-outline
     web_server:
       sorting_weight: 6
-    update_interval: 10s
+    update_interval: 1s
 
   - platform: debug
     free:
@@ -356,6 +419,13 @@ sensor:
       web_server:
         sorting_weight: 8
 
+  - platform: adc
+    pin: GPIO36
+    name: "Potentiometer Value"        
+    update_interval: 2s
+
+
+            
 text_sensor:
   - platform: template
     name: ${fdevicename}Device Sensor
@@ -399,8 +469,9 @@ text_sensor:
         sorting_weight: 1
 
   - platform: debug
-    #   device:
-    #     name: ${fdevicename}Device Info
+ #   device:
+ #     name: ${fdevicename}Device Info
     reset_reason:
       name: ${fdevicename}Reset Reason
       entity_category: "DIAGNOSTIC"
+  
