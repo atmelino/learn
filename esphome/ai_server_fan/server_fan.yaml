@@ -213,10 +213,11 @@ select:
     optimistic: true
     restore_value: true
     options:
+      - SHT41T
       - AHT20T
       - AHT20H
       - Dallas_1
-    initial_option: AHT20T
+    initial_option: SHT41T
     on_value:
       then:
         - globals.set:
@@ -297,6 +298,17 @@ sensor:
       device_class: "HUMIDITY"
       icon: mdi:water-percent
     update_interval: 2s
+
+  - platform: sht4x
+    i2c_id: bus_a
+    address: 0x44
+    update_interval: 2s
+    temperature:
+      name: "Temperature"
+      id: SHT41T
+    humidity:
+      name: "Relative Humidity"
+      id: SHT41H
 
   - platform: dallas_temp
     address: ${dallasaddress1}
