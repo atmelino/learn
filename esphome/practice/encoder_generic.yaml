@@ -99,6 +99,24 @@ sensor:
     - or:
         - debounce: 0.1s
         - delta: 2
+    on_clockwise:
+        - logger.log:
+            level: INFO
+            format: "+ dir Encoder step %3.1f"
+            args: ["id(encoder1).state"]    
+
+
+    on_anticlockwise:
+        - logger.log:
+            level: INFO
+            format: "- dir Encoder step %3.1f"
+            args: ["id(encoder1).state"]    
+
+
+    # - lambda: |-
+    #     id(my_display).printf(0, 2*16, id(mid_font), "encoder1: %.1f", id(encoder1).state);
+
+
     # on_clockwise:
     #   - light.dim_relative:
     #       id: marek_light
