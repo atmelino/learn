@@ -30,8 +30,8 @@ esp32:
     type: esp-idf
 
 preferences:
-  # flash_write_interval: 10min
-  flash_write_interval: 20s
+  flash_write_interval: 2min
+  # flash_write_interval: 20s
 
 wifi:
   ssid: ${ssid}
