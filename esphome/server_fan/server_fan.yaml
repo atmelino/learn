@@ -30,7 +30,8 @@ esp32:
     type: esp-idf
 
 preferences:
-  flash_write_interval: 10min
+  # flash_write_interval: 10min
+  flash_write_interval: 20s
 
 wifi:
   ssid: ${ssid}
@@ -346,6 +347,12 @@ sensor:
         - debounce: 0.1s
         - delta: 2
     on_clockwise:
+        - number.decrement:
+            id: set_off_temp_1
+            cycle: false
+        # - number.set:
+        #     id: set_off_temp_1
+        #     value: 42
         - logger.log:
             level: INFO
             format: "+ dir Encoder step %3.1f"
@@ -353,6 +360,9 @@ sensor:
         - lambda: |-
             id(encoder1).publish_state(42.0);
     on_anticlockwise:
+        - number.increment:
+            id: set_off_temp_1
+            cycle: false
         - logger.log:
             level: INFO
             format: "- dir Encoder step %3.1f"
@@ -371,11 +381,11 @@ sensor:
         - debounce: 0.1s
         - delta: 2
     on_clockwise:
-        - logger.log:
+      - logger.log:
             level: INFO
             format: "+ dir Encoder step %3.1f"
             args: ["id(encoder1).state"]    
-        - lambda: |-
+      - lambda: |-
             id(encoder1).publish_state(42.0);
     on_anticlockwise:
         - logger.log:
