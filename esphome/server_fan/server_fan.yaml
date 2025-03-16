@@ -350,15 +350,10 @@ sensor:
         - number.decrement:
             id: set_off_temp_1
             cycle: false
-        # - number.set:
-        #     id: set_off_temp_1
-        #     value: 42
         - logger.log:
             level: INFO
             format: "+ dir Encoder step %3.1f"
             args: ["id(encoder1).state"]    
-        - lambda: |-
-            id(encoder1).publish_state(42.0);
     on_anticlockwise:
         - number.increment:
             id: set_off_temp_1
@@ -381,13 +376,17 @@ sensor:
         - debounce: 0.1s
         - delta: 2
     on_clockwise:
-      - logger.log:
+        - number.decrement:
+            id: set_full_temp_1
+            cycle: false
+        - logger.log:
             level: INFO
             format: "+ dir Encoder step %3.1f"
             args: ["id(encoder1).state"]    
-      - lambda: |-
-            id(encoder1).publish_state(42.0);
     on_anticlockwise:
+        - number.increment:
+            id: set_full_temp_1
+            cycle: false
         - logger.log:
             level: INFO
             format: "- dir Encoder step %3.1f"
