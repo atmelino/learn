@@ -337,7 +337,7 @@ sensor:
   - platform: rotary_encoder
     name: "Rotary Encoder"
     id: encoder1
-    pin_a: GPIO18
+    pin_a: GPIO26
     pin_b: GPIO19
     min_value: -20
     max_value: 20
@@ -367,7 +367,7 @@ sensor:
     name: "Rotary Encoder"
     id: encoder2
     pin_a: GPIO23
-    pin_b: GPIO26
+    pin_b: GPIO05
     min_value: -20
     max_value: 20
     restore_mode: ALWAYS_ZERO 
