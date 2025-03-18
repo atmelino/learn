@@ -185,10 +185,13 @@ i2c:
 font:
   #  - file: "fonts/comic-sans-ms/ComicSansMS3.ttf"
   - file: "fonts/UbuntuMono/UbuntuMono-R.ttf"
-    id: small_font
+    id: font_12
     size: 12
   - file: "fonts/UbuntuMono/UbuntuMono-R.ttf"
-    id: large_font
+    id: font_16
+    size: 16
+  - file: "fonts/UbuntuMono/UbuntuMono-R.ttf"
+    id: font_24
     size: 24
 
 display:
@@ -201,11 +204,11 @@ display:
     pages:
       - id: page1
         lambda: |-
-          //it.printf(0, 0*12, id(large_font), "Temp: %.1f", id(Dallas_1).state);
-          it.printf(0, 0*12, id(large_font), "Temp: %.1f", id(SHT41T).state);
-          it.printf(0, 2*12, id(small_font), "RPM: %.1f", id(fan1_RPM).state);
-          it.printf(0, 3*12, id(small_font), "Fan Set   Speed %.0f %%", id(fan_set_speed1_glob));
-          it.printf(0, 4*12, id(small_font), "Off %3.0fC  Full %3.0fC", id(set_off_temp_1).state, id(set_full_temp_1).state);
+          //it.printf(0, 0*12, id(font_24), "Temp: %.1f", id(Dallas_1).state);
+          it.printf(0, 0*12, id(font_24), "Temp: %.1f", id(SHT41T).state);
+          it.printf(0, 2*12, id(font_12), "RPM: %.1f", id(fan1_RPM).state);
+          it.printf(0, 3*12, id(font_12), "Fan Set   Speed %.0f %%", id(fan_set_speed1_glob));
+          it.printf(0, 4*12, id(font_12), "Off %3.0fC  Full %3.0fC", id(set_off_temp_1).state, id(set_full_temp_1).state);
 
 select:
   - platform: template
@@ -232,7 +235,7 @@ interval:
     then:
       #- display.page.show_next: my_display
       #- component.update: my_display
-      # does not work : id(my_display).print(0, 0, id(small_font), "Hello");
+      # does not work : id(my_display).print(0, 0, id(font_12), "Hello");
 
       - lambda: !lambda |
 
