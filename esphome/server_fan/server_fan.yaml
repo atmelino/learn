@@ -204,8 +204,8 @@ display:
     pages:
       - id: page1
         lambda: |-
-          //it.printf(0, 0*12, id(font_24), "Temp: %.1f", id(Dallas_1).state);
-          it.printf(0, 0*12, id(font_24), "Temp: %.1f", id(SHT41T).state);
+          it.printf(0, 0*12, id(font_24), "Temp: %.1f", id(Dallas_1).state);
+          //it.printf(0, 0*12, id(font_24), "Temp: %.1f", id(SHT41T).state);
           it.printf(0, 2*12, id(font_12), "RPM: %.1f", id(fan1_RPM).state);
           it.printf(0, 3*12, id(font_12), "Fan Set   Speed %.0f %%", id(fan_set_speed1_glob));
           it.printf(0, 4*12, id(font_12), "Off %3.0fC  Full %3.0fC", id(set_off_temp_1).state, id(set_full_temp_1).state);
@@ -240,8 +240,8 @@ interval:
       - lambda: !lambda |
 
           if (id(auto_fan1).state) {
-            //float actual_temp1=id(Dallas_1).state;
-            float actual_temp1=id(SHT41T).state;
+            float actual_temp1=id(Dallas_1).state;
+            //float actual_temp1=id(SHT41T).state;
             float fan_low_temp1=id(set_off_temp_1).state;
             float fan_high_temp1=id(set_full_temp_1).state;
             float fan_set_speed1;
@@ -340,6 +340,35 @@ sensor:
   - platform: rotary_encoder
     name: "Rotary Encoder"
     id: encoder1
+    pin_a: GPIO05
+    pin_b: GPIO23
+    min_value: -20
+    max_value: 20
+    restore_mode: ALWAYS_ZERO 
+    filters:
+    - or:
+        - debounce: 0.1s
+        - delta: 2
+    on_clockwise:
+        - number.increment:
+            id: set_off_temp_1
+            cycle: false
+        - logger.log:
+            level: INFO
+            format: "+ dir Encoder 1 step %3.1f"
+            args: ["id(encoder1).state"]    
+    on_anticlockwise:
+        - number.decrement:
+            id: set_off_temp_1
+            cycle: false
+        - logger.log:
+            level: INFO
+            format: "- dir Encoder 1 step %3.1f"
+            args: ["id(encoder1).state"]    
+
+  - platform: rotary_encoder
+    name: "Rotary Encoder"
+    id: encoder2
     pin_a: GPIO26
     pin_b: GPIO19
     min_value: -20
@@ -350,49 +379,20 @@ sensor:
         - debounce: 0.1s
         - delta: 2
     on_clockwise:
-        - number.decrement:
-            id: set_off_temp_1
-            cycle: false
-        - logger.log:
-            level: INFO
-            format: "+ dir Encoder step %3.1f"
-            args: ["id(encoder1).state"]    
-    on_anticlockwise:
-        - number.increment:
-            id: set_off_temp_1
-            cycle: false
-        - logger.log:
-            level: INFO
-            format: "- dir Encoder step %3.1f"
-            args: ["id(encoder1).state"]    
-
-  - platform: rotary_encoder
-    name: "Rotary Encoder"
-    id: encoder2
-    pin_a: GPIO23
-    pin_b: GPIO05
-    min_value: -20
-    max_value: 20
-    restore_mode: ALWAYS_ZERO 
-    filters:
-    - or:
-        - debounce: 0.1s
-        - delta: 2
-    on_clockwise:
-        - number.decrement:
-            id: set_full_temp_1
-            cycle: false
-        - logger.log:
-            level: INFO
-            format: "+ dir Encoder step %3.1f"
-            args: ["id(encoder1).state"]    
-    on_anticlockwise:
         - number.increment:
             id: set_full_temp_1
             cycle: false
         - logger.log:
             level: INFO
-            format: "- dir Encoder step %3.1f"
+            format: "+ dir Encoder 2 step %3.1f"
+            args: ["id(encoder1).state"]    
+    on_anticlockwise:
+        - number.decrement:
+            id: set_full_temp_1
+            cycle: false
+        - logger.log:
+            level: INFO
+            format: "- dir Encoder 2 step %3.1f"
             args: ["id(encoder1).state"]    
 
   - platform: wifi_signal
