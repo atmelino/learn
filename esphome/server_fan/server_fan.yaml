@@ -151,7 +151,6 @@ output:
   - platform: ledc
     pin:
       number: GPIO13
-      # ignore_strapping_warning: true
     id: gpio_13
     frequency: 25600Hz
 
