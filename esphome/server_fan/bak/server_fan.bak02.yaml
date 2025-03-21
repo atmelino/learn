@@ -142,11 +142,6 @@ switch:
           calla.perform();
           auto callb = id(fan1_speed).turn_off();
           callb.perform();
-          auto callc = id(fan2_speed).turn_on();
-          callc.set_speed(1);
-          callc.perform();
-          auto calld = id(fan2_speed).turn_off();
-          calld.perform();
 
 one_wire:
   - platform: gpio
@@ -154,26 +149,22 @@ one_wire:
 
 output:
   - platform: ledc
-    pin: GPIO13
-    id: fan1
+    pin:
+      number: GPIO13
+    id: gpio_13
     frequency: 25600Hz
-  - platform: ledc
-    pin: GPIO14
-    id: fan2
-    frequency: 25600Hz
+
+  # - platform: ledc
+  #   pin:
+  #     number: GPIO2
+  #     ignore_strapping_warning: true
+  #   id: gpio_02
 
 fan:
   - platform: speed
-    output: fan1
+    output: gpio_13
     id: fan1_speed
     name: ${fdevicename}Fan 1 Speed
-    #entity_category: "CONFIG"
-    icon: mdi:fan
-    restore_mode: RESTORE_DEFAULT_OFF
-  - platform: speed
-    output: fan2
-    id: fan2_speed
-    name: ${fdevicename}Fan 2 Speed
     #entity_category: "CONFIG"
     icon: mdi:fan
     restore_mode: RESTORE_DEFAULT_OFF
@@ -281,16 +272,10 @@ interval:
               auto calloff1 = id(fan1_speed).turn_off();           
               calloff1.set_speed(fan_set_speed1);
               calloff1.perform();
-              auto calloff2 = id(fan2_speed).turn_off();           
-              calloff2.set_speed(fan_set_speed1);
-              calloff2.perform();
             } else {
               auto call1 = id(fan1_speed).turn_on();
               call1.set_speed(fan_set_speed1);
               call1.perform();
-              auto call2 = id(fan2_speed).turn_on();
-              call2.set_speed(fan_set_speed1);
-              call2.perform();
             }
             id(fan_set_speed1_glob)=fan_set_speed1;
           }
