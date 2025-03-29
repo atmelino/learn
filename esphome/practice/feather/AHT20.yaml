@@ -1,0 +1,75 @@
+substitutions:
+  devicename: light_display
+  friendlyname: light_display
+  fdevicename: ""
+  ip: 192.168.0.178 # For static IP adressing
+  ssid: "TP-LINK_MR3040_4B611E"
+  password: ""
+
+esphome:
+  name: feather-esp32-s2-aht20
+
+esp32:
+  board: wemos_d1_mini32
+  framework:
+    type: esp-idf
+
+logger:
+  level: Debug
+
+api:
+
+i2c:
+  sda: GPIO3
+  scl: GPIO4
+
+switch:
+  - platform: gpio
+    id: I2C_POWER
+    restore_mode: RESTORE_DEFAULT_ON
+    pin:
+      number: 7
+      inverted: true
+
+sensor:
+
+  - platform: aht10
+    address: 0x38
+    variant: AHT20
+    temperature:
+      id: AHT20T
+      name: ${fdevicename}AHT20 Temp
+      device_class: "TEMPERATURE"
+      icon: mdi:thermometer
+      filters:
+      - filter_out: NaN
+      - offset: -6.0
+    humidity:
+      name: ${fdevicename}AHT20 Humidity
+      id: AHT20H
+      device_class: "HUMIDITY"
+      icon: mdi:water-percent
+    update_interval: 2s
+    on_value:
+      then:
+        - logger.log:
+            level: INFO
+            format: "Sensor Value Change sent to UART %3.1f"
+            args: ["id(AHT20T).state"]    
+
+
+
+# ota:
+#   password: !secret ota_password
+
+# wifi:
+#   ssid: !secret wifi_ssid
+#   password: !secret wifi_password
+#   ap:
+#     ssid: "Feather-Esp32-S2-Bme280"
+#     password: !secret ap_password
+  
+
+wifi:
+  ssid: ${ssid}
+  password: ${password}

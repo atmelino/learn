@@ -1,0 +1,119 @@
+# https://community.home-assistant.io/t/esphome-show-light-brightness-on-oled-display/218687
+
+substitutions:
+  devicename: light_display
+  friendlyname: light_display
+  fdevicename: ""
+  ip: 192.168.0.178 # For static IP adressing
+  ssid: "TP-LINK_MR3040_4B611E"
+  password: ""
+
+esphome:
+  name: ${devicename}
+  friendly_name: ${friendlyname}
+
+esp32:
+  board: wemos_d1_mini32
+  framework:
+    type: esp-idf
+
+preferences:
+  flash_write_interval: 2min
+    
+wifi:
+  ssid: ${ssid}
+  password: ${password}
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: ${fdevicename}Fallback Hotspot
+    password: "esphome1"
+    manual_ip:
+      static_ip: 192.168.100.2
+      gateway: 192.168.100.2
+      subnet: 255.255.255.0
+    
+ota:
+  - platform: esphome
+    password: "esphome1"
+
+web_server:
+  port: 80
+  version: 3
+  local: true
+  log: true
+
+debug:
+  update_interval: 10s
+
+logger:
+  level: Debug
+
+i2c:
+  sda: GPIO3
+  scl: GPIO4
+
+display:
+  - platform: ssd1306_i2c
+    address: 0x3D   # Sparkfun
+    # address: 0x3C   # Generic
+    model: "SSD1306 128x64"
+    id: my_display
+    lambda: |-
+        it.printf(0, 0*16, id(mid_font), "PWM: %.1f", id(sensor_g_bright).state);
+
+font:
+ - file: "fonts/UbuntuMono/UbuntuMono-R.ttf"
+   id: small_font
+   size: 12
+ - file: "fonts/UbuntuMono/UbuntuMono-R.ttf"
+   id: mid_font
+   size: 16
+ - file: "fonts/UbuntuMono/UbuntuMono-R.ttf"
+   id: large_font
+   size: 24
+    
+
+# Example configuration entry
+output:
+  - platform: ledc
+    pin: 2
+    frequency: 5000
+    id: ledc_pwm
+
+# Example usage in a light
+light:
+  - platform: monochromatic
+    output: ledc_pwm
+    name: "Grow1 Light"
+    id: light_main
+    restore_mode: RESTORE_DEFAULT_OFF
+
+sensor:
+  - platform: template
+    name: "${device_name} brightness"
+    id: sensor_g_bright
+    internal: true
+    update_interval: 25ms
+    # Ensure on_value only triggered when brightness (0-255) changes
+    filters:
+      delta: 0.8
+    # Read brightness (0 - 1) from light , convert to (0-255) for MCU
+    lambda: |-
+      if (id(light_main).remote_values.is_on()) {
+        return (int(id(light_main).remote_values.get_brightness() * 255));
+      }
+      else {
+        return 0;
+      }
+    # On Change send to MCU via UART
+    on_value:
+      then:
+        - logger.log:
+            level: INFO
+            format: "Sensor Value Change sent to UART %3.1f"
+            args: ["id(sensor_g_bright).state"]    
+
+switch:
+  - platform: restart
+    name: "${device_name} REBOOT"
