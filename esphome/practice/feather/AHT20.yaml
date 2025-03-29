@@ -24,15 +24,14 @@ i2c:
   scl: GPIO4
 
 switch:
-  - platform: gpio
-    id: I2C_POWER
-    restore_mode: RESTORE_DEFAULT_ON
-    pin:
-      number: 7
-      inverted: true
+  # - platform: gpio
+  #   id: I2C_POWER
+  #   restore_mode: RESTORE_DEFAULT_ON
+  #   pin:
+  #     number: 7
+  #     inverted: true
 
 sensor:
-
   - platform: aht10
     address: 0x38
     variant: AHT20
@@ -50,24 +49,27 @@ sensor:
       device_class: "HUMIDITY"
       icon: mdi:water-percent
     update_interval: 2s
-    on_value:
-      then:
-        - logger.log:
-            level: INFO
-            format: "Sensor Value Change sent to UART %3.1f"
-            args: ["id(AHT20T).state"]    
+    # on_value:
+    #   then:
+    #     - logger.log:
+    #         level: INFO
+    #         format: "Sensor Value Change sent to UART %3.1f"
+    #         args: ["id(AHT20T).state"]    
 
+interval:
+  - interval: 2000ms
+    startup_delay: 2s
+    then:
+      #- display.page.show_next: my_display
+      #- component.update: my_display
+      # does not work : id(my_display).print(0, 0, id(small_font), "Hello");
 
+      - lambda: !lambda |
 
-# ota:
-#   password: !secret ota_password
-
-# wifi:
-#   ssid: !secret wifi_ssid
-#   password: !secret wifi_password
-#   ap:
-#     ssid: "Feather-Esp32-S2-Bme280"
-#     password: !secret ap_password
+          float actual_temp1=id(AHT20T).state;
+          //float LED_brightness=id(set_LED_bright).state;
+          ESP_LOGD("main", "temp= %f", actual_temp1);
+          //ESP_LOGD("main", "LED Brightness= %f", LED_brightness);            
   
 
 wifi:
