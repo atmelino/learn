@@ -1,7 +1,7 @@
 
 substitutions:
-  devicename: aht20_display
-  friendlyname: aht20_display
+  devicename: aht20-display
+  friendlyname: aht20-display
   fdevicename: ""
   ip: 192.168.0.178 # For static IP adressing
 
@@ -9,7 +9,6 @@ substitutions:
   # password: !secret wifi_password
   ssid: "TP-LINK_MR3040_4B611E"
   password: ""
-
 
 esphome:
   name: ${devicename}
@@ -36,11 +35,9 @@ wifi:
       gateway: 192.168.100.2
       subnet: 255.255.255.0
     
-
 ota:
   - platform: esphome
     password: "esphome1"
-
 
 api:
   encryption:
@@ -52,7 +49,6 @@ web_server:
   version: 3
   local: true
   log: true
-
 
 time:
   - platform: sntp
@@ -70,7 +66,6 @@ globals:
     restore_value: no
     initial_value: '0'
 
-    
 number:
   - platform: template
     id: set_LED_bright
@@ -83,23 +78,7 @@ number:
     restore_value: true
     icon: mdi:lightbulb
 
-  
 switch:
-  # - platform: template
-  #   id: auto_fan1
-  #   name: ${fdevicename}Fan 1 Auto Mode
-  #   restore_mode: ALWAYS_ON
-  #   optimistic: true
-  #   icon: mdi:fan-auto     
-  #   turn_off_action:
-  #     then:
-  #       lambda: |-
-  #         auto calla = id(fan1_speed).turn_on();
-  #         calla.set_speed(1);
-  #         calla.perform();
-  #         auto callb = id(fan1_speed).turn_off();
-  #         callb.perform();
-
   - platform: restart
     name: ${fdevicename}Restart
     entity_category: "CONFIG"
@@ -114,22 +93,13 @@ output:
     id: gpio_02
 
 
-# fan:
-#   - platform: speed
-#     output: gpio_02
-#     id: fan1_speed
-#     name: ${fdevicename}Fan 1 Speed
-#     #entity_category: "CONFIG"
-#     icon: mdi:fan
-#     restore_mode: RESTORE_DEFAULT_OFF
-
-
-
 # Example usage in a light
 light:
   - platform: monochromatic
+    id: mylight
     output: gpio_02
     name: "On Board LED"
+    restore_mode: ALWAYS_ON
 
 i2c:
   - id: bus_a
@@ -144,7 +114,6 @@ i2c:
     frequency: 800khz
 
 font:
-#  - file: "fonts/comic-sans-ms/ComicSansMS3.ttf"
  - file: "fonts/UbuntuMono/UbuntuMono-R.ttf"
    id: small_font
    size: 12
@@ -158,8 +127,8 @@ font:
 display:
  - platform: ssd1306_i2c
    i2c_id: bus_a
-  #  address: 0x3D   # Sparkfun
-   address: 0x3C   # Generic
+   address: 0x3D   # Sparkfun
+  #  address: 0x3C   # Generic
    model: "SSD1306 128x64"
    id: my_display
    pages:
@@ -189,7 +158,7 @@ interval:
 sensor:
 
   - platform: aht10
-    i2c_id: bus_b
+    i2c_id: bus_a
     address: 0x38
     variant: AHT20
     temperature:

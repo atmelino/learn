@@ -83,6 +83,7 @@ light:
     id: mylight
     output: gpio_02
     name: "On Board LED"
+    restore_mode: ALWAYS_ON
 
 i2c:
   - id: bus_a
