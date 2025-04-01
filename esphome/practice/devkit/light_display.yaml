@@ -64,8 +64,8 @@ i2c:
 display:
   - platform: ssd1306_i2c
     i2c_id: bus_a
-    #  address: 0x3D   # Sparkfun
-    address: 0x3C   # Generic
+    address: 0x3D   # Sparkfun
+    # address: 0x3C   # Generic
     model: "SSD1306 128x64"
     id: my_display
     lambda: |-
@@ -96,7 +96,7 @@ light:
     output: ledc_pwm
     name: "Grow1 Light"
     id: light_main
-    restore_mode: RESTORE_DEFAULT_OFF
+    restore_mode: ALWAYS_ON
 
 sensor:
   - platform: template
