@@ -65,12 +65,12 @@ i2c:
 display:
   - platform: ssd1306_i2c
     i2c_id: bus_a
-    #  address: 0x3D   # Sparkfun
-    address: 0x3C   # Generic
+    address: 0x3D   # Sparkfun
+    # address: 0x3C   # Generic
     model: "SSD1306 128x64"
     id: my_display
     lambda: |-
-        it.printf(0, 0*16, id(mid_font), "temperature: %.1f", id(SHT41T).state);
+        it.printf(0, 0*16, id(mid_font), "temp: %.1f C", id(SHT41T).state);
 
 font:
  - file: "fonts/UbuntuMono/UbuntuMono-R.ttf"
