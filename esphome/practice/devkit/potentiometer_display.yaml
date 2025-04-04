@@ -64,12 +64,12 @@ i2c:
 display:
   - platform: ssd1306_i2c
     i2c_id: bus_a
-    #  address: 0x3D   # Sparkfun
-    address: 0x3C   # Generic
+    address: 0x3D   # Sparkfun
+    # address: 0x3C   # Generic
     model: "SSD1306 128x64"
     id: my_display
     lambda: |-
-        it.printf(0, 0*16, id(mid_font), "Pot: %.1f", id(pot).state);
+        it.printf(0, 0*16, id(mid_font), "Pot: %.4f", id(pot).state);
 
 font:
  - file: "fonts/UbuntuMono/UbuntuMono-R.ttf"
@@ -91,7 +91,7 @@ sensor:
     pin: GPIO34
     id: pot
     name: "Potentiometer Value"        
-    update_interval: 2s
+    update_interval: 1s
 
 text_sensor:
   - platform: template
