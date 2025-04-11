@@ -68,22 +68,3 @@ print(f"Predict that these two flowers {sample_flower} ")
 print(f"are: {species[pred]}")
 
 
-# print(x.shape)
-# print(y.shape)
-
-# print("model.fit")
-# print()
-
-# pred = model.predict(x)
-# print(f"Shape: {pred.shape}")
-# print(pred[0:10])
-
-# # Measure RMSE error.  RMSE is common for regression.
-# score = np.sqrt(metrics.mean_squared_error(pred,y))
-# print(f"Final score (RMSE): {score}")
-
-
-# # Sample predictions
-# for i in range(10):
-#     print(f"{i+1}. Car name: {cars[i]}, MPG: {y[i]}, "
-#           + f"predicted MPG: {pred[i]}")
