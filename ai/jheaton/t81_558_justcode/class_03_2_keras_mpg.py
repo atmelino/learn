@@ -98,10 +98,9 @@ if mandelbrot:
   print("mandelbrot", img.size)
   img
 
-  dirname=os.path.dirname(__file__)
-  imgname=dirname+"/images/mandel.png"
+  # dirname=os.path.dirname(__file__)
+  imgname="../../../../local_data/jheaton/class_03_2_keras/images/mandel.png"
   img.save(imgname)
-  # img.save('jheaton/t81_558_justcode/large_csv/madel01.png')
 
 
 

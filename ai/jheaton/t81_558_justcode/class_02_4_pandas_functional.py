@@ -46,7 +46,7 @@ df['efficiency'] = efficiency
 import pandas as pd
 
 # df=pd.read_csv('https://www.irs.gov/pub/irs-soi/16zpallagi.csv')
-df=pd.read_csv('jheaton/t81_558_justcode/large_csv/16zpallagi.csv')
+df=pd.read_csv('../../../../local_data/jheaton/class_02_4_pandas_functional/16zpallagi.csv')
 print(df)
 
 df=df.loc[(df['zipcode']!=0) & (df['zipcode']!=99999),
