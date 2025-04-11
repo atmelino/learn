@@ -13,7 +13,7 @@ from sklearn import metrics
 # df = pd.read_csv(
 #     "https://data.heatonresearch.com/data/t81-558/auto-mpg.csv",
 #     na_values=['NA', '?'])
-df = pd.read_csv("datasets/auto-mpg.csv", na_values=["NA", "?"])
+df = pd.read_csv("input/auto-mpg.csv", na_values=["NA", "?"])
 print(df)
 
 cars = df["name"]
