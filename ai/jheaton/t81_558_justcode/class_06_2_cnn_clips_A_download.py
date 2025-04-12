@@ -4,7 +4,7 @@ from tqdm import tqdm
 from PIL import Image
 import os
 
-print("class_06_2_cnn_A_prepare")
+print("class_06_2_cnn_clips_A_download")
 
 URL = "https://github.com/jeffheaton/data-mirror/releases/"
 DOWNLOAD_SOURCE = URL+"download/v1/paperclips.zip"

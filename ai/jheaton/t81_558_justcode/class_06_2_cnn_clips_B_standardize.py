@@ -4,7 +4,7 @@ from tqdm import tqdm
 from PIL import Image
 import os
 
-print("class_06_2_cnn_A_prepare")
+print("class_06_2_cnn_clips_B_standardize")
 
 def scale(img, scale_width, scale_height):
     # Scale the image
@@ -35,7 +35,7 @@ def crop_square(image):
     bottom = (height + new_height)/2
     return image.crop((left, top, right, bottom))
 
-PATH = "./not_on_github"
+PATH = "../../../../local_data/jheaton"
 SOURCE = os.path.join(PATH, "clips/paperclips")
 TARGET = os.path.join(PATH,"clips-processed")
 

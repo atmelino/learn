@@ -3,7 +3,7 @@ import os
 from keras_preprocessing.image import ImageDataGenerator
 from tensorflow.keras.models import load_model
 
-print("class_06_2_cnn_A_load")
+print("class_06_2_cnn_clips_D_load")
 
 PATH = "./not_on_github"
 SOURCE = os.path.join(PATH, "clips/paperclips")

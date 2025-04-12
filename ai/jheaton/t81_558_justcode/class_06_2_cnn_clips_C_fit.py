@@ -7,7 +7,7 @@ from keras_preprocessing.image import ImageDataGenerator
 from tensorflow.keras.callbacks import EarlyStopping
 import time
 
-print("class_06_2_cnn_A")
+print("class_06_2_cnn_clips_C_fit")
 # this program requires the file structure to exist, that is created by running class_06_2_cnn_A_prepare.py
 
 # Nicely formatted time string
