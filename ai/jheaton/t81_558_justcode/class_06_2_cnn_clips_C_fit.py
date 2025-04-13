@@ -17,10 +17,10 @@ def hms_string(sec_elapsed):
     s = sec_elapsed % 60
     return f"{h}:{m:>02}:{s:>05.2f}"
 
-PATH = "../../../../local_data/jheaton"
-EXTRACT_TARGET = os.path.join(PATH, "clips")
-SOURCE = os.path.join(PATH, "clips/paperclips")
-TARGET = os.path.join(PATH, "clips-processed")
+BASE_PATH = "../../../../local_data/jheaton"
+EXTRACT_TARGET = os.path.join(BASE_PATH, "clips")
+SOURCE = os.path.join(BASE_PATH, "clips/paperclips")
+TARGET = os.path.join(BASE_PATH, "clips-processed")
 
 df = pd.read_csv(os.path.join(SOURCE, "train.csv"), na_values=["NA", "?"])
 df["filename"] = "clips-" + df["id"].astype(str) + ".jpg"
@@ -104,8 +104,9 @@ elapsed_time = time.time() - start_time
 print("Elapsed time: {}".format(hms_string(elapsed_time)))
 
 # save entire network to HDF5 (save everything, suggested)
-model.save("./models/class_06_2_cnn_A.h5")
-model.save("./models/class_06_2_cnn_A.keras")
+model_path = os.path.join(BASE_PATH, "models")
+model.save(model_path+"/class_06_2_cnn_clips_C_fit.h5")
+model.save(model_path+"/class_06_2_cnn_clips_C_fit.keras")
 
 
 df_test = pd.read_csv(
@@ -129,7 +130,7 @@ test_generator.reset()
 pred = model.predict(test_generator,steps=len(df_test))
 
 df_submit = pd.DataFrame({'id':df_test['id'],'clip_count':pred.flatten()})
-df_submit.to_csv(os.path.join(PATH,"class_06_2_cnn_A.csv"),index=False)
+df_submit.to_csv(os.path.join(BASE_PATH,"class_06_2_cnn_clips_C_fit.csv"),index=False)
 
 print(df_submit)
 
