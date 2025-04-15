@@ -17,7 +17,7 @@
 code_path="../../../../../local_data/stylegan3/train.py"
 
 
-python3 $code_path --outdir=../../../../../sg3/training-runs --cfg=stylegan2 --data=../../../../../local_data/sg3/datasets/ffhq-256x256.zip \
+python3 $code_path --outdir=../../../../../local_data/practice/sg3/training-runs --cfg=stylegan2 --data=../../../../../local_data/practice/sg3/datasets/ffhq-256x256.zip \
     --gpus=1 --batch=32 --gamma=10 --mirror=1 --aug=noaug
 
 
