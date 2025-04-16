@@ -9,7 +9,7 @@
 #
 # 3. Run the script:
 
-code_path="../../../../../local_data/practice/test_sg3/download_ffhq.py"
+flickrfaces_path="../../../../../local_data/practice/test_sg3"
 
-cd $code_path
+cd $flickrfaces_path
 python3 download_ffhq.py --json --images
