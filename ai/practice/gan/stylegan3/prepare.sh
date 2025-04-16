@@ -3,8 +3,6 @@
 
 # Scaled down 256x256 resolution.
 
-
-# 
 flickrfaces_path="../../../../../local_data/practice/test_sg3"
 code_path="../../../../../local_data/stylegan3/dataset_tool.py"
 source_path="../../../../../local_data/practice/test_sg3/images1024x1024"
