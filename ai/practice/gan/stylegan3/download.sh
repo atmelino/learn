@@ -11,4 +11,5 @@
 
 code_path="../../../../../local_data/practice/test_sg3/download_ffhq.py"
 
-python3 $code_path --json --images
+cd $code_path
+python3 download_ffhq.py --json --images
