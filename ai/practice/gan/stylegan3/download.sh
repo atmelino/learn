@@ -14,4 +14,5 @@ echo
 echo 5. Run the script:
 echo python3 download_ffhq.py --json --images
 echo
+echo 6. If an error occurs, run the script again until all images have been downloaded
 
