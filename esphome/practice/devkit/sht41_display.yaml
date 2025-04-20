@@ -70,7 +70,8 @@ display:
     model: "SSD1306 128x64"
     id: my_display
     lambda: |-
-        it.printf(0, 0*16, id(mid_font), "temp: %.1f C", id(SHT41T).state);
+        it.printf(0, 0*16, id(mid_font), "Temp: %.1f C", id(SHT41T).state);
+        it.printf(0, 1*16, id(mid_font), "Hum : %.1f %" , id(SHT41H).state);
 
 font:
  - file: "fonts/UbuntuMono/UbuntuMono-R.ttf"
