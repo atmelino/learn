@@ -1,7 +1,7 @@
 echo Download the flickrfaces dataset:
 echo
 echo 1. Create a directory for the data, for example:
-echo mkdir ../../../../../local_data/practice/stylegan3_01
+echo mkdir ../../../../../local_data/practice/stylegan3_ffhq
 echo
 echo 2. Open a browser at the address in the script
 # https://drive.usercontent.google.com/download?id=16N0RV4fHI6joBuKbQAoG34V_cQk7vxSA&export=download
