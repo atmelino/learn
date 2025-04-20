@@ -5,7 +5,8 @@ substitutions:
   friendlyname: pwm_generic
   fdevicename: ""
   ip: 192.168.0.178 # For static IP adressing
-  ssid: "TP-LINK_MR3040_4B611E"
+  # ssid: "TP-LINK_MR3040_4B611E"
+  ssid: "NETGEAR53"
   password: ""
 
 esphome:
@@ -77,10 +78,26 @@ number:
     on_value:
       then:
         lambda: 'id(PWM).set_level(x/100);'
+  - platform: template
+    name: PWM04 %
+    optimistic: true
+    initial_value: 50 
+    min_value: 0
+    max_value: 100
+    step: 1
+    mode: slider
+    on_value:
+      then:
+        lambda: 'id(PWM04).set_level(x/100);'
 
 output:
   - platform: ledc
     pin: GPIO2
     id: PWM
+    frequency: 100Hz
+    # inverted: true
+  - platform: ledc
+    pin: GPIO4
+    id: PWM04
     frequency: 100Hz
     # inverted: true
