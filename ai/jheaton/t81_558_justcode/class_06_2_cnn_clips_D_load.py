@@ -35,7 +35,7 @@ pred = model.predict(test_generator,steps=len(df_test))
 
 submit_path = os.path.join(BASE_PATH, "class_06_2_cnn_clips")
 df_submit = pd.DataFrame({'id':df_test['id'],'clip_count':pred.flatten()})
-df_submit.to_csv(os.path.join(BASE_PATH,"class_06_2_cnn_clips_D_load.csv"),index=False)
+df_submit.to_csv(os.path.join(submit_path+"/class_06_2_cnn_clips_D_load.csv"),index=False)
 
 print(df_submit)
 
