@@ -19,7 +19,8 @@ if do_download==True:
     # cmd = "wget --directory-prefix=./input "+DOWNLOAD_SOURCE
     cmd = "wget --directory-prefix="+BASE_PATH+" "+DOWNLOAD_SOURCE
     print(cmd)
-    # result: wget --directory-prefix=./not_on_github https://github.com/jeffheaton/data-mirror/releases/download/v1/iris-image.zip
+    # result: 
+    # wget --directory-prefix=../../../../local_data/jheaton https://github.com/jeffheaton/data-mirror/releases/download/v1/iris-image.zip
     # os.system(cmd)
 
 if do_mkdir==True:
@@ -30,7 +31,8 @@ if do_mkdir==True:
 if do_unzip==True:
     cmd="unzip -o -d "+SOURCE+" " +ZIPFILE+" >/dev/null "
     print(cmd)
-    # unzip -o -d ./not_on_github/iris ./not_on_github/iris-image.zip >/dev/null 
+    # result:
+    # unzip -o -d ../../../../local_data/jheaton/iris ../../../../local_data/jheaton/iris-image.zip >/dev/null 
 
 
 
