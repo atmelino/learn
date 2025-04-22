@@ -7,11 +7,11 @@ from tensorflow.keras.callbacks import EarlyStopping
 from sklearn.metrics import accuracy_score
 import numpy as np
 
-print("class_06_2_cnn_B")
+print("class_06_2_cnn_iris_B_fit")
 # this program requires the file structure to exist, that is created by running class_06_2_cnn_B_prepare.py
 
-PATH = "./not_on_github"
-EXTRACT_TARGET = os.path.join(PATH, "iris")
+BASE_PATH = "../../../../local_data/jheaton"
+EXTRACT_TARGET = os.path.join(BASE_PATH, "iris")
 SOURCE = EXTRACT_TARGET  # In this case its the same, no subfolder
 
 training_datagen = ImageDataGenerator(

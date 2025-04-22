@@ -1,7 +1,5 @@
 import os
 
-
-
 do_download=False
 do_mkdir=False
 do_unzip=True
@@ -12,15 +10,15 @@ DOWNLOAD_SOURCE = URL+"download/v1/iris-image.zip"
 print(DOWNLOAD_SOURCE)
 DOWNLOAD_NAME = DOWNLOAD_SOURCE[DOWNLOAD_SOURCE.rfind('/')+1:]
 
-PATH = "./not_on_github"
-EXTRACT_TARGET = os.path.join(PATH,"iris")
+BASE_PATH = "../../../../local_data/jheaton"
+EXTRACT_TARGET = os.path.join(BASE_PATH,"iris")
 SOURCE = EXTRACT_TARGET # In this case its the same, no subfolder
-ZIPFILE=os.path.join(PATH, DOWNLOAD_NAME)
+ZIPFILE=os.path.join(BASE_PATH, DOWNLOAD_NAME)
 
 
 if do_download==True:
     # cmd = "wget --directory-prefix=./input "+DOWNLOAD_SOURCE
-    cmd = "wget --directory-prefix="+PATH+" "+DOWNLOAD_SOURCE
+    cmd = "wget --directory-prefix="+BASE_PATH+" "+DOWNLOAD_SOURCE
     print(cmd)
     # result: wget --directory-prefix=./not_on_github https://github.com/jeffheaton/data-mirror/releases/download/v1/iris-image.zip
     # os.system(cmd)
