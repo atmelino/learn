@@ -15,7 +15,7 @@ print("class_06_2_cnn_animals")
 
 BASE_PATH = "../../../../local_data/jheaton"
 DATA_PATH = os.path.join(BASE_PATH, "animals")
-OUTPUT_PATH=os.path.join(BASE_PATH, "class_06_2_cnn_animals")
+OUTPUT_PATH = os.path.join(BASE_PATH, "class_06_2_cnn_animals")
 
 training_datagen = ImageDataGenerator(
     rescale=1.0 / 255,
@@ -48,7 +48,7 @@ validation_generator = validation_datagen.flow_from_directory(
 print(validation_generator.samples)
 
 class_count = len(train_generator.class_indices)
-print("number of classes=",class_count)
+print("number of classes=", class_count)
 print(train_generator.class_indices)
 print(train_generator.filenames)
 
@@ -106,15 +106,16 @@ print(f"Accuracy: {correct}")
 print("Write the prediction to file")
 col_image = pd.DataFrame(train_generator.filenames, columns=["filename"])
 cols_pred = pd.DataFrame(pred, columns=train_generator.class_indices)
-predDF = pd.concat([ col_image, cols_pred], axis=1)
+predDF = pd.concat([col_image, cols_pred], axis=1)
 print("predicted\n", predDF)
 
 
 submit_path = os.path.join(BASE_PATH, "class_06_2_cnn_clips")
-df_submit = pd.DataFrame({'id':df_test['id'],'clip_count':pred.flatten()})
-df_submit.to_csv(os.path.join(submit_path+"/class_06_2_cnn_clips_C_fit.csv"),index=False)
+df_submit = pd.DataFrame({"id": df_test["id"], "clip_count": pred.flatten()})
+df_submit.to_csv(
+    os.path.join(submit_path + "/class_06_2_cnn_clips_C_fit.csv"), index=False
+)
 
 
-filename_write = "./output/class_06_2_cnn_B.csv"
+filename_write = OUTPUT_PATH + "/class_06_2_cnn_B.csv"
 predDF.to_csv(filename_write, index=False)
-
