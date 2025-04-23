@@ -1,3 +1,4 @@
+import os
 import urllib.request
 import shutil
 from IPython.display import Image
@@ -13,12 +14,15 @@ import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib
 
-# URL = "https://github.com/jeffheaton/t81_558_deep_learning/blob/master/photos/landscape.jpg?raw=true"
-LOCAL_IMG_FILE = "./not_on_github/images/landscape.jpg"
-# with urllib.request.urlopen(URL) as response, open(LOCAL_IMG_FILE, "wb") as out_file:
-#     shutil.copyfileobj(response, out_file)
+print("class_06_4_keras_images")
 
-# Image(filename=LOCAL_IMG_FILE)
+# URL = "https://github.com/jeffheaton/t81_558_deep_learning/blob/master/photos/landscape.jpg?raw=true"
+
+BASE_PATH = "../../../../local_data/jheaton"
+DATA_PATH = os.path.join(BASE_PATH, "images")
+OUTPUT_PATH = os.path.join(BASE_PATH, "class_06_4_keras_images")
+os.system("mkdir -p " + OUTPUT_PATH)
+LOCAL_IMG_FILE = DATA_PATH+"/landscape.jpg"
 
 show_original = False
 plot_grid = True
@@ -28,7 +32,7 @@ def show_image():
     img = keras.utils.load_img(LOCAL_IMG_FILE)
     plt.imshow(img)
     plt.show()
-    plt.savefig("./output/class_06_4_keras_images_original.png")
+    plt.savefig(OUTPUT_PATH + "/class_06_4_keras_images_original.png")
 
 
 if show_original == True:
@@ -77,14 +81,14 @@ def modify_image(img_file):
     # print(img_array)
 
     img2 = Image.fromarray(img_array, "RGB")
-    img2.save("./output/class_06_4_keras_images_fromarray.png")
+    img2.save(OUTPUT_PATH + "/class_06_4_keras_images_fromarray.png")
 
     for row in range(0, 100):
         for col in range(0, 100):
             img_array[col][row] = [112, 25, 10]
 
     img2 = Image.fromarray(img_array, "RGB")
-    img2.save("./output/class_06_4_keras_images_fromarray_mod.png")
+    img2.save(OUTPUT_PATH + "/class_06_4_keras_images_fromarray_mod.png")
 
 
 # modify_image(LOCAL_IMG_FILE)
@@ -134,7 +138,7 @@ def visualize_generator(img_file, gen, name):
         plt.axis("off")
         plt.imshow(grid)
         # plt.show()
-        fig.savefig("./output/class_06_4_keras_images_" + name + ".png")
+        fig.savefig(OUTPUT_PATH + "/class_06_4_keras_images_" + name + ".png")
 
 
 visualize_generator(
