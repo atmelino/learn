@@ -89,7 +89,7 @@ model.summary()
 
 model.compile(loss="categorical_crossentropy", optimizer="adam")
 
-model.fit(train_generator, epochs=50, steps_per_epoch=10, verbose=1)
+model.fit(train_generator, epochs=5, steps_per_epoch=10, verbose=1)
 
 
 validation_generator.reset()
