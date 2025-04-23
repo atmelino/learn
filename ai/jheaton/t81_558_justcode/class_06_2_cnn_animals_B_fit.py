@@ -109,13 +109,5 @@ cols_pred = pd.DataFrame(pred, columns=train_generator.class_indices)
 predDF = pd.concat([col_image, cols_pred], axis=1)
 print("predicted\n", predDF)
 
-
-submit_path = os.path.join(BASE_PATH, "class_06_2_cnn_clips")
-df_submit = pd.DataFrame({"id": df_test["id"], "clip_count": pred.flatten()})
-df_submit.to_csv(
-    os.path.join(submit_path + "/class_06_2_cnn_clips_C_fit.csv"), index=False
-)
-
-
 filename_write = OUTPUT_PATH + "/class_06_2_cnn_B.csv"
 predDF.to_csv(filename_write, index=False)
