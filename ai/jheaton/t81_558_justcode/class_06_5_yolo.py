@@ -10,6 +10,9 @@ LOCAL_IMG_FILE = DATA_PATH+"/jeff_cook.jpg"
 import torch
 import pandas as pd
 
+print("conda environment for this program:")
+print("conda activate vision")
+
 pd.set_option('display.width', 1000)
 
 # Model
