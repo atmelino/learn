@@ -7,7 +7,7 @@ from tensorflow.keras.models import load_model
 
 print("class_06_3_resnet_load")
 
-PATH = "./not_on_github"
+PATH = "../../../../local_data/jheaton"
 SOURCE = os.path.join(PATH, "clips/paperclips")
 
 validation_datagen = ImageDataGenerator(rescale=1.0 / 255)
