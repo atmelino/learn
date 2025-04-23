@@ -30,7 +30,7 @@ IMAGE_CHANNELS = 3
 
 
 # ROOT = "https://data.heatonresearch.com/data/t81-558/images/"
-ROOT = "./not_on_github/images/"
+ROOT = "../../../../local_data/jheaton/images/"
 
 def make_square(img):
     cols,rows = img.size
