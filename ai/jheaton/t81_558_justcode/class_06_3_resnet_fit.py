@@ -15,11 +15,12 @@ from tensorflow.keras.metrics import RootMeanSquaredError
 print("class_06_3_resnet")
 # this program requires the file structure to exist, that is created by running class_06_2_cnn_A_prepare.py
 
-PATH = "../../../../local_data/jheaton"
-SOURCE = os.path.join(PATH, "clips/paperclips")
-# TARGET = os.path.join(PATH, "clips-processed")
+BASE_PATH = "../../../../local_data/jheaton"
+DATA_PATH = os.path.join(BASE_PATH, "clips/paperclips")
+OUTPUT_PATH = os.path.join(BASE_PATH, "class_06_3_resnet")
+os.system("mkdir -p " + OUTPUT_PATH)
 
-df_train = pd.read_csv(os.path.join(SOURCE, "train.csv"))
+df_train = pd.read_csv(os.path.join(DATA_PATH, "train.csv"))
 df_train["filename"] = "clips-" + df_train.id.astype(str) + ".jpg"
 print(df_train)
 
@@ -42,7 +43,7 @@ training_datagen = ImageDataGenerator(
 
 train_generator = training_datagen.flow_from_dataframe(
     dataframe=df_train_cut,
-    directory=SOURCE,
+    directory=DATA_PATH,
     x_col="filename",
     y_col="clip_count",
     target_size=(HEIGHT, WIDTH),
@@ -56,7 +57,7 @@ validation_datagen = ImageDataGenerator(rescale=1.0 / 255)
 
 val_generator = validation_datagen.flow_from_dataframe(
     dataframe=df_validate_cut,
-    directory=SOURCE,
+    directory=DATA_PATH,
     x_col="filename",
     y_col="clip_count",
     target_size=(HEIGHT, WIDTH),
@@ -99,7 +100,7 @@ monitor = EarlyStopping(
 
 history = model.fit(
     train_generator,
-    epochs=100,
+    epochs=2,
     steps_per_epoch=250,
     validation_data=val_generator,
     callbacks=[monitor],
@@ -108,5 +109,5 @@ history = model.fit(
 )
 
 # save entire network to HDF5 (save everything, suggested)
-model.save("./models/class_06_3_resnet.h5")
-model.save("./models/class_06_3_resnet.keras")
+model.save(OUTPUT_PATH + "/class_06_3_resnet.h5")
+model.save(OUTPUT_PATH + "/class_06_3_resnet.keras")
