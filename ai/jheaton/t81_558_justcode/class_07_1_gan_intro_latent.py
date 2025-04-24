@@ -1,9 +1,8 @@
 # Use conda stylegan3 environment
-print("Run this command")
+print("conda environment for this program:")
 print("conda activate stylegan3")
 
 import sys
-# sys.path.insert(0, "./not_on_github//stylegan3")
 sys.path.insert(0, "../../../../local_data//stylegan3")
 import pickle
 import os
@@ -17,6 +16,9 @@ import dnnlib
 import legacy
 
 print("class_07_1_gan_intro_latent")
+
+outputdir="../../../../local_data/jheaton/class_07_1_gan_intro_latent"
+os.makedirs(outputdir, exist_ok=True)
 
 
 def seed2vec(G, seed):
@@ -98,8 +100,6 @@ STEPS = 100
 # !rm /content/results/*
 from tqdm.notebook import tqdm
 
-outputdir="./not_on_github/results/class_07_1_latent"
-os.makedirs(outputdir, exist_ok=True)
 
 # Generate the images for the video.
 idx = 0
