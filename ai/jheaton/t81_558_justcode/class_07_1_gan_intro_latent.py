@@ -16,6 +16,7 @@ import torch
 import dnnlib
 import legacy
 
+print("class_07_1_gan_intro_latent")
 
 
 def seed2vec(G, seed):

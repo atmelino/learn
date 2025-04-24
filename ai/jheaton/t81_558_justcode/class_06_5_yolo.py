@@ -1,18 +1,16 @@
-import os
-# https://github.com/ultralytics/yolov5
-
 print("conda environment for this program:")
 print("conda activate vision")
 
+# https://github.com/ultralytics/yolov5
+
+import os
 import torch
 import pandas as pd
-
-# URL = "https://github.com/jeffheaton/t81_558_deep_learning/raw/master/photos/jeff_cook.jpg"
 
 BASE_PATH = "../../../../local_data/jheaton"
 DATA_PATH = os.path.join(BASE_PATH, "images")
 LOCAL_IMG_FILE = DATA_PATH+"/jeff_cook.jpg"
-
+# URL = "https://github.com/jeffheaton/t81_558_deep_learning/raw/master/photos/jeff_cook.jpg"
 
 pd.set_option('display.width', 1000)
 
