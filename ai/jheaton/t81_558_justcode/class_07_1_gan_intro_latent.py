@@ -1,7 +1,10 @@
 # Use conda stylegan3 environment
+print("Run this command")
+print("conda activate stylegan3")
 
 import sys
-sys.path.insert(0, "./not_on_github//stylegan3")
+# sys.path.insert(0, "./not_on_github//stylegan3")
+sys.path.insert(0, "../../../../local_data//stylegan3")
 import pickle
 import os
 import numpy as np
