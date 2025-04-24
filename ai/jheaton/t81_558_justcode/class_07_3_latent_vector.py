@@ -83,7 +83,11 @@ for i in range(SEED_FROM, SEED_TO):
     z = seed2vec(G, i)
     img = generate_image(device, G, z)
     display_image(img)
-    img.save("./output/class_07_3_latent_vector_"+str(i)+".png")
+    filenumber=str(i).zfill(2)
+    filename=f'frame-part1'+filenumber+'.png'
+    filepath=outputdir + "/" +filename
+    print(filepath)
+    img.save(filepath)
 
 
 START_SEED = 4022
@@ -110,7 +114,7 @@ for i, mv in enumerate(explore):
     img = generate_image(device, G, z)
     display_image(img)
     filenumber=str(i).zfill(2)
-    filename=f'frame-'+filenumber+'.png'
+    filename=f'frame-part2'+filenumber+'.png'
     filepath=outputdir + "/" +filename
     print(filepath)
     img.save(filepath)
