@@ -1,7 +1,9 @@
 # Use conda stylegan3 environment
+print("conda environment for this program:")
+print("conda activate stylegan3")
 
 import sys
-sys.path.insert(0, "./not_on_github/stylegan3")
+sys.path.insert(0, "../../../../local_data//stylegan3")
 import pickle
 import os
 import numpy as np
@@ -12,6 +14,11 @@ import IPython.display
 import torch
 import dnnlib
 import legacy
+
+print("class_07_3_latent_vector")
+
+outputdir="../../../../local_data/jheaton/class_07_3_latent_vector"
+os.makedirs(outputdir, exist_ok=True)
 
 
 def seed2vec(G, seed):
@@ -102,14 +109,12 @@ for i, mv in enumerate(explore):
     z = current + mv
     img = generate_image(device, G, z)
     display_image(img)
-    # img.save("./output/class_07_3_latent_vector_dir_"+str(i)+".png")
     filenumber=str(i).zfill(2)
-    img.save("./output/class_07_3_latent_vector_dir_"+filenumber+".png")
+    filename=f'frame-'+filenumber+'.png'
+    filepath=outputdir + "/" +filename
+    print(filepath)
+    img.save(filepath)
 
-    # filename=f'frame-'+filenumber+'.png'
-    # filepath=outputdir + "/" +filename
-    # print(filepath)
-    # img.save(filepath)
 
 
 
