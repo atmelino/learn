@@ -1,4 +1,6 @@
 # Use conda deoldify environment
+print("conda environment for this program:")
+print("conda activate deoldify")
 
 import sys
 sys.path.insert(0, "./not_on_github/DeOldify")
@@ -15,13 +17,6 @@ import os
 
 
 warnings.filterwarnings("ignore", category=UserWarning,message=".*?Your .*? set is empty.*?")
-
-# URL = 'https://raw.githubusercontent.com/jeffheaton/t81_558_deep_learning/master/photos/scooby_family.jpg'
-# !wget {URL}
-# URL ='./not_on_github/images/scooby_family.jpg'
-# a = urlparse(URL)
-# before_file = os.path.basename(a.path)
-# print(before_file)
 
 before_file ='./not_on_github/images/scooby_family.jpg'
 
