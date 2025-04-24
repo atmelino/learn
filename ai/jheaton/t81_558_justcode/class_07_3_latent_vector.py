@@ -84,7 +84,7 @@ for i in range(SEED_FROM, SEED_TO):
     img = generate_image(device, G, z)
     display_image(img)
     filenumber=str(i).zfill(2)
-    filename=f'frame-part1'+filenumber+'.png'
+    filename=f'frame-part1_'+filenumber+'.png'
     filepath=outputdir + "/" +filename
     print(filepath)
     img.save(filepath)
@@ -114,7 +114,7 @@ for i, mv in enumerate(explore):
     img = generate_image(device, G, z)
     display_image(img)
     filenumber=str(i).zfill(2)
-    filename=f'frame-part2'+filenumber+'.png'
+    filename=f'frame-part2_'+filenumber+'.png'
     filepath=outputdir + "/" +filename
     print(filepath)
     img.save(filepath)
