@@ -1,7 +1,9 @@
 # Use conda stylegan3 environment
+print("conda environment for this program:")
+print("conda activate stylegan3")
 
 import sys
-sys.path.insert(0, "./not_on_github/stylegan3")
+sys.path.insert(0, "../../../../local_data//stylegan3")
 import pickle
 import os
 import numpy as np
@@ -12,6 +14,11 @@ import IPython.display
 import torch
 import dnnlib
 import legacy
+
+print("class_07_1_gan_intro")
+
+outputdir="../../../../local_data/jheaton/class_07_1_gan_intro"
+os.makedirs(outputdir, exist_ok=True)
 
 
 def seed2vec(G, seed):
@@ -76,7 +83,11 @@ for i in range(SEED_FROM, SEED_TO):
     z = seed2vec(G, i)
     img = generate_image(device, G, z)
     display_image(img)
-    img.save("./output/class_07_1_gn_intro_"+str(i)+".png")
+    filenumber=str(i)
+    filename=f'frame-'+filenumber+'.png'
+    filepath=outputdir + "/" +filename
+    print(filepath)
+    img.save(filepath)
 
 
 
