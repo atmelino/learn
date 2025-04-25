@@ -5,6 +5,7 @@ echo conda activate stylegan3
 
 mkdir ../../../../local_data/jheaton/class_07_2_train_gan/images/dogs
 mkdir ../../../../local_data/jheaton/class_07_2_train_gan/datasets
+mkdir ../../../../local_data/jheaton/class_07_2_train_gan/output
 
 
 code_path="../../../../local_data/stylegan3/dataset_tool.py"
@@ -12,32 +13,3 @@ source_path="../../../../local_data/jheaton/class_07_2_train_gan/images/dogs"
 destination_path="../../../../local_data/jheaton/class_07_2_train_gan/datasets/dogs-256x256.zip"
 
 python $code_path --source=$source_path --dest=$destination_path  --resolution=256x256
-
-
-
-
-
-
-
-
-
-
-# mkdir ../../../../local_data/jheaton/class_07_2_train_gan
-# mkdir ../../../../local_data/jheaton/class_07_2_train_gan/data
-# mkdir ../../../../local_data/jheaton/class_07_2_train_gan/data/gan
-# mkdir ../../../../local_data/jheaton/class_07_2_train_gan/data/gan/images
-# mkdir ../../../../local_data/jheaton/class_07_2_train_gan/data/gan/dataset
-# mkdir ../../../../local_data/jheaton/class_07_2_train_gan/data/gan/images/circuit
-# mkdir ../../../../local_data/jheaton/class_07_2_train_gan/data/gan/dataset/circuit
-
-
-# ../../../../local_data/jheaton
-
-# code_path="../../../../local_data/stylegan3/dataset_tool.py"
-# data_path="../../../../local_data/jheaton/class_07_2_train_gan/data/gan/images/circuit"
-# outdir_path="../../../../local_data/jheaton/class_07_2_train_gan/data/gan/dataset/circuit"
-
-# python3 $code_path  --source $data_path --dest $outdir_path 
-
-
-
