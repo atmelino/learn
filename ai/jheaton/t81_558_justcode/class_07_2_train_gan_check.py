@@ -1,9 +1,14 @@
+# Use conda stylegan3 environment
+print("conda environment for this program:")
+print("conda activate stylegan3")
+
+
 from os import listdir
 from os.path import isfile, join
 import os
 from PIL import Image
 from tqdm.notebook import tqdm
-IMAGE_PATH = 'not_on_github/class_07_2_train_gan/data/gan/images/dog'
+IMAGE_PATH = '../../../../local_data/jheaton/class_07_2_train_gan/class_07_2_train_gan/data/gan/images/dog'
 files = [f for f in listdir(IMAGE_PATH) if isfile(join(IMAGE_PATH, f))]
 base_size = None
 for file in tqdm(files):

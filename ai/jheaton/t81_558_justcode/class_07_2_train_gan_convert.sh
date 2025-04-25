@@ -1,3 +1,4 @@
+# Using stylegan3 for this module because stylegan2 did not work on my systems
 echo conda environment for this program:
 echo conda activate stylegan3
 
@@ -19,8 +20,4 @@ outdir_path="../../../../local_data/jheaton/class_07_2_train_gan/data/gan/datase
 python3 $code_path  --source $data_path --dest $outdir_path 
 
 
-
-# python3 not_on_github/stylegan2-ada-pytorch/dataset_tool.py \
-# --source not_on_github/class_07_2_train_gan/data/gan/images/circuit \
-# --dest not_on_github/class_07_2_train_gan/data/gan/dataset/circuit
 
