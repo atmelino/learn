@@ -17,15 +17,20 @@ from urllib.parse import urlparse
 import os
 
 
+print("class_07_4_deoldify")
+
+outputdir="../../../../local_data/jheaton/class_07_4_deoldify"
+os.makedirs(outputdir, exist_ok=True)
+
+
 warnings.filterwarnings("ignore", category=UserWarning,message=".*?Your .*? set is empty.*?")
 
-before_file ='./not_on_github/images/scooby_family.jpg'
+before_file ='../../../../local_data/jheaton/images/scooby_family.jpg'
 
 
 RENDER_FACTOR = 35
 WATERMARK = False
-model_path = "./not_on_github/models/ColorizeArtistic_gen.pth"
-root_path="./not_on_github/"
+model_path = "../../../../local_data/jheaton/models/ColorizeArtistic_gen.pth"
 colorizer = get_image_colorizer(artistic=True)
 # colorizer = get_image_colorizer(artistic=True, weights_path=model_path)
 # colorizer = get_image_colorizer(artistic=True, root_folder =root_path)
@@ -37,12 +42,8 @@ after_image = colorizer.get_transformed_image(
     watermarked=WATERMARK
 )
 
-after_image.save("./output/class_07_4_deoldify.png")
+after_image.save(outputdir+"/class_07_4_deoldify.png")
 
 #print("Starting image:")
-
-
-
-
 
 
