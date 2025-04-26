@@ -12,7 +12,7 @@
     # --gpus=8 --batch=32 --gamma=10 --mirror=1 --aug=noaug
 
 # Train StyleGAN2 for FFHQ at 256x256 resolution using 2 GPUs.
-# python3 not_on_github/stylegan3/train.py --outdir=../../../../../stylegan3_ffhq/training-runs --cfg=stylegan2 --data=../../../../../local_data/stylegan3_ffhq/datasets/ffhq-256x256.zip \
+# python3 train.py --outdir=../../../../../stylegan3_ffhq/training-runs --cfg=stylegan2 --data=../../../../../local_data/stylegan3_ffhq/datasets/ffhq-256x256.zip \
 #     --gpus=2 --batch=32 --gamma=10 --mirror=1 --aug=noaug
 
 
