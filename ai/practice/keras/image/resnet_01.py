@@ -1,3 +1,5 @@
+# conda activate jh_class
+
 # https://keras.io/api/applications/#usage-examples-for-image-classification-models
 
 import keras

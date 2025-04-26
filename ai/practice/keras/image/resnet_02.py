@@ -1,3 +1,5 @@
+# conda activate jh_class
+
 # https://www.kaggle.com/code/kutaykutlu/resnet50-transfer-learning-cifar-10-beginner/notebook
 
 # Run with keras version 2 meaning tensorflow <=2.15
@@ -28,7 +30,8 @@ classes = [
 ]
 
 # Create folders
-os.system("mkdir -p ../not_on_github/models/resnet_02")
+model_path="../../../../../local_data/practice/keras/models/resnet_02"
+os.system("mkdir -p "+model_path)
 
 # Matplotlib config
 plt.rc("image", cmap="gray")
@@ -67,18 +70,8 @@ def display_images(digits, predictions, labels, title):
         plt.imshow(n_digits[i])
 
     plt.show()
-    filename="../not_on_github/models/resnet_02/resnet_02_"+title+".png"
+    filename=model_path+"/resnet_02_"+title+".png"
     fig.savefig(filename)
-
-
-(training_images, training_labels), (validation_images, validation_labels) = (
-    tf.keras.datasets.cifar10.load_data()
-)
-
-display_images(training_images, training_labels, training_labels, "TrainingData")
-display_images(
-    validation_images, validation_labels, validation_labels, "ValidationData"
-)
 
 
 def preprocess_image_input(input_images):
@@ -86,9 +79,6 @@ def preprocess_image_input(input_images):
     output_ims = tf.keras.applications.resnet50.preprocess_input(input_images)
     return output_ims
 
-
-train_X = preprocess_image_input(training_images)
-valid_X = preprocess_image_input(validation_images)
 
 
 """
@@ -155,6 +145,20 @@ def define_compile_model():
     return model
 
 
+(training_images, training_labels), (validation_images, validation_labels) = (
+    tf.keras.datasets.cifar10.load_data()
+)
+
+train_X = preprocess_image_input(training_images)
+valid_X = preprocess_image_input(validation_images)
+
+display_images(training_images, training_labels, training_labels, "TrainingData")
+display_images(
+    validation_images, validation_labels, validation_labels, "ValidationData"
+)
+
+
+
 model = define_compile_model()
 
 model.summary()
@@ -172,9 +176,9 @@ history = model.fit(
 print(history.history.keys())
 
 # save entire network to HDF5 (save everything, suggested) and history
-model.save("../not_on_github/models/resnet_02/resnet_02.h5")
-model.save("../not_on_github/models/resnet_02/resnet_02.keras")
-with open('../not_on_github/models/resnet_02/resnet_02.pkl', 'wb') as file_pi:
+model.save(model_path+"/resnet_02.h5")
+model.save(model_path+"/resnet_02.keras")
+with open(model_path+'/resnet_02.pkl', 'wb') as file_pi:
     pickle.dump(history.history, file_pi)
 
 
