@@ -1,3 +1,5 @@
+# conda activate jh_class
+
 # https://www.analyticsvidhya.com/blog/2020/08/image-augmentation-on-the-fly-using-keras-imagedatagenerator/
 
 import keras
@@ -8,7 +10,7 @@ import matplotlib.pyplot as plt
 
 
 ncols=8
-LOCAL_IMG_FILE = "../../not_on_github/images/landscape.jpg"
+LOCAL_IMG_FILE = "../../../../../../local_data/jheaton/images/landscape.jpg"
 
 img = keras.utils.load_img(LOCAL_IMG_FILE)
 
