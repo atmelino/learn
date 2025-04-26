@@ -3,7 +3,8 @@ print("conda environment for this program:")
 print("conda activate deoldify")
 
 import sys
-sys.path.insert(0, "./not_on_github/DeOldify")
+sys.path.insert(0, "../../../../local_data//DeOldify")
+# sys.path.insert(0, "../../../../local_data//stylegan3")
 #NOTE: This must be the first call in order to work properly!
 from deoldify import device
 from deoldify.device_id import DeviceId
