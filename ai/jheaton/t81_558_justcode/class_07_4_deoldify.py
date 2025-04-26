@@ -31,8 +31,8 @@ before_file ='../../../../local_data/jheaton/images/scooby_family.jpg'
 RENDER_FACTOR = 35
 WATERMARK = False
 model_path = "../../../../local_data/jheaton/models/ColorizeArtistic_gen.pth"
-colorizer = get_image_colorizer(artistic=True)
-# colorizer = get_image_colorizer(artistic=True, weights_path=model_path)
+# colorizer = get_image_colorizer(artistic=True)
+colorizer = get_image_colorizer(artistic=True, weights_path=model_path)
 # colorizer = get_image_colorizer(artistic=True, root_folder =root_path)
 
  
