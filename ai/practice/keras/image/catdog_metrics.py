@@ -16,11 +16,11 @@ print_in_loop = False
 partial_files = False
 mynfiles = 20
 
-imagedir = "../not_on_github/PetImages"
+imagedir="../../../../../local_data/practice/PetImages"
 image_size = (180, 180)
 
-load_path = "../not_on_github/models/catdog"
-model = load_model(os.path.join(load_path, "catdog01.h5"))
+model_path="../../../../../local_data/practice/keras/models/catdog"
+model = load_model(os.path.join(model_path, "catdog01.h5"))
 
 
 dir_path = imagedir
@@ -119,6 +119,6 @@ bar.finish()
 results = pd.DataFrame(
     {"filename": names, "pred": predictions, "cat %": catprobs, "dog %": dogprobs}
 )
-filename_write = "../not_on_github/models/catdog/catdog.csv"
+filename_write = model_path+"/catdog_metrics.csv"
 results.to_csv(filename_write, index=False)
 print(results)
