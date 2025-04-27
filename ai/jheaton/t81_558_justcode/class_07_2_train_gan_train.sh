@@ -3,8 +3,6 @@ echo conda environment for this program:
 echo conda activate stylegan3
 
 
-
-
 # Modify these to suit your needs
 code_path="../../../../local_data/stylegan3/train.py"
 data_path="../../../../local_data/jheaton/class_07_2_train_gan/datasets/dogs-256x256.zip"
