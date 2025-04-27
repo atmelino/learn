@@ -14,10 +14,13 @@ train_on_GPU=False
 plot_model=True
 plot_pets=True
 
-# Create folders
-os.system("mkdir -p ../not_on_github/models/catdog")
+print("catdog")
 
-imagedir="../not_on_github/PetImages"
+# Create folders
+model_path="../../../../../local_data/practice/keras/models/catdog"
+os.system("mkdir -p "+model_path)
+
+imagedir="../../../../../local_data/practice/PetImages"
 
 num_skipped = 0
 for folder_name in ("Cat", "Dog"):
@@ -59,7 +62,7 @@ if plot_pets==True:
             plt.title(int(labels[i]))
             plt.axis("off")
     plt.show()
-    fig.savefig('../not_on_github/models/catdog/catdog_sample.png')
+    fig.savefig(model_path+'/catdog_sample.png')
 
 data_augmentation_layers = [
     layers.RandomFlip("horizontal"),
@@ -81,7 +84,7 @@ if plot_pets==True:
             plt.imshow(np.array(augmented_images[0]).astype("uint8"))
             plt.axis("off")
     plt.show()
-    fig.savefig('../not_on_github/models/catdog/catdog_augment.png')
+    fig.savefig(model_path+'/catdog_augment.png')
 
 
 # if train_on_GPU==True:
@@ -145,7 +148,7 @@ def make_model(input_shape, num_classes):
 model = make_model(input_shape=image_size + (3,), num_classes=2)
 
 if plot_model==True:
-    keras.utils.plot_model(model, to_file='../not_on_github/models/catdog/catdog_model.png',show_shapes=True)
+    keras.utils.plot_model(model, to_file=model_path+'/catdog_model.png',show_shapes=True)
 
 # exit()
 
@@ -169,8 +172,8 @@ model.fit(
 )
 
 # save entire network to HDF5 (save everything, suggested)
-model.save("../not_on_github/models/catdog/catdog01.h5")
-model.save("../not_on_github/models/catdog/catdog01.keras")
+model.save(model_path+"/catdog01.h5")
+model.save(model_path+"/catdog01.keras")
 
 
 img = keras.utils.load_img(imagedir+"/Cat/6779.jpg", target_size=image_size)
