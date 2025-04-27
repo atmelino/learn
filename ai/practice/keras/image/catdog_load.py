@@ -1,3 +1,5 @@
+# conda activate vision
+
 import os
 import pandas as pd
 import keras
@@ -7,11 +9,11 @@ import tensorflow as tf
 # Options for this run
 plot = False
 
-imagedir = "../not_on_github/PetImages"
+imagedir="../../../../../local_data/practice/PetImages"
 image_size = (180, 180)
 
-load_path = "../not_on_github/models/catdog"
-model = load_model(os.path.join(load_path, "catdog01.h5"))
+model_path="../../../../../local_data/practice/keras/models/catdog"
+model = load_model(os.path.join(model_path, "catdog01.h5"))
 
 test_images = [
     "/Cat/22.jpg",
