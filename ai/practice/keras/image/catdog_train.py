@@ -154,7 +154,7 @@ if plot_model==True:
 
 # exit()
 
-epochs = 5
+epochs = 25
 
 callbacks = [
     keras.callbacks.ModelCheckpoint("save_at_{epoch}.keras"),
