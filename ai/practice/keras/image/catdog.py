@@ -1,3 +1,5 @@
+# conda activate vision
+
 # https://keras.io/examples/vision/image_classification_from_scratch/
 # Requires keras version 3
 
@@ -152,7 +154,7 @@ if plot_model==True:
 
 # exit()
 
-epochs = 25
+epochs = 5
 
 callbacks = [
     keras.callbacks.ModelCheckpoint("save_at_{epoch}.keras"),
