@@ -1,3 +1,5 @@
+# conda activate jh_class
+
 # https://www.kaggle.com/code/kutaykutlu/resnet50-transfer-learning-cifar-10-beginner/notebook
 
 # Run with keras version 2 meaning tensorflow <=2.15
@@ -9,14 +11,9 @@ import pandas as pd
 import numpy as np
 
 
-# Create folders
-os.system("mkdir -p ../not_on_github/models/resnet_02")
-
-
 (training_images, training_labels), (validation_images, validation_labels) = (
     tf.keras.datasets.cifar10.load_data()
 )
-
 
 def preprocess_image_input(input_images):
     input_images = input_images.astype("float32")
@@ -26,9 +23,8 @@ def preprocess_image_input(input_images):
 
 valid_X = preprocess_image_input(validation_images)
 
-
-load_path = "../not_on_github/models/resnet_02"
-model = load_model(os.path.join(load_path, "resnet_02.h5"))
+model_path = "../../../../../local_data/practice/keras/models/resnet_02"
+model = load_model(os.path.join(model_path, "resnet_02.h5"))
 
 model.summary()
 loss, accuracy = model.evaluate(valid_X, validation_labels, batch_size=64)
@@ -53,5 +49,5 @@ print(df3)
 print("Validation vs. Prediction values")
 df32 = pd.concat([df3, df2], axis=1)
 print(df32)
-filename_write = "../not_on_github/models/resnet_02/resnet_02_metrics.csv"
+filename_write = model_path+"/resnet_02_metrics.csv"
 df32.to_csv(filename_write, index=False)
