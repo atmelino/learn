@@ -1,3 +1,5 @@
+# conda activate vision
+
 # https://keras.io/examples/vision/image_classification_from_scratch/
 # Requires keras version 3
 
