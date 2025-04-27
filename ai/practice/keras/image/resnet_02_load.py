@@ -1,3 +1,5 @@
+# conda activate jh_class
+
 # https://www.kaggle.com/code/kutaykutlu/resnet50-transfer-learning-cifar-10-beginner/notebook
 
 # Run with keras version 2 meaning tensorflow <=2.15
@@ -10,7 +12,7 @@ from matplotlib import pyplot as plt
 import pickle
 
 
-show_history=False
+show_history = False
 classes = [
     "airplane",
     "automobile",
@@ -23,6 +25,7 @@ classes = [
     "ship",
     "truck",
 ]
+
 
 # utility to display a row of digits with their predictions
 def display_images(digits, predictions, labels, title):
@@ -50,8 +53,8 @@ def display_images(digits, predictions, labels, title):
         plt.imshow(n_digits[i])
 
     plt.show()
-    filename="../not_on_github/models/resnet_02/resnet_02_"+title+".png"
-    print("Saving plot as ",filename)
+    filename = model_path + "/resnet_02_" + title + ".png"
+    print("Saving plot as ", filename)
     fig.savefig(filename)
 
 
@@ -60,8 +63,6 @@ def preprocess_image_input(input_images):
     output_ims = tf.keras.applications.resnet50.preprocess_input(input_images)
     return output_ims
 
-# Create folders
-os.system("mkdir -p ../not_on_github/models/resnet_02")
 
 (training_images, training_labels), (validation_images, validation_labels) = (
     tf.keras.datasets.cifar10.load_data()
@@ -70,25 +71,25 @@ os.system("mkdir -p ../not_on_github/models/resnet_02")
 valid_X = preprocess_image_input(validation_images)
 
 
-load_path = "../not_on_github/models/resnet_02"
-model = load_model(os.path.join(load_path, "resnet_02.h5"))
+model_path = "../../../../../local_data/practice/keras/models/resnet_02"
+model = load_model(os.path.join(model_path, "resnet_02.h5"))
 
 model.summary()
 
 loss, accuracy = model.evaluate(valid_X, validation_labels, batch_size=64)
 
-print("loss=",loss, " accuracy=",accuracy)
+print("loss=", loss, " accuracy=", accuracy)
 
 probabilities = model.predict(valid_X, batch_size=64)
 print(probabilities)
-probabilities = np.argmax(probabilities, axis = 1)
+probabilities = np.argmax(probabilities, axis=1)
 print(probabilities)
 
 # Bad predictions indicated in red
 display_images(validation_images, probabilities, validation_labels, "predictions")
 
 
-if show_history==True:
+if show_history == True:
     # utility to display training and validation curves
     def plot_metrics(metric_name, title, ylim=5):
         plt.title(title)
@@ -99,7 +100,7 @@ if show_history==True:
         )
         plt.show()
 
-    with open('../not_on_github/models/resnet_02/resnet_02.pkl', "rb") as file_pi:
+    with open(model_path + "/resnet_02.pkl", "rb") as file_pi:
         history = pickle.load(file_pi)
 
     print(history)
@@ -109,10 +110,3 @@ if show_history==True:
 
     plot_metrics("loss", "Loss")
     plot_metrics("accuracy", "Accuracy")
-
-
-
-
-
-
-
