@@ -1,4 +1,4 @@
-# conda activate stylegan3
+echo conda activate stylegan3
 
 # Train StyleGAN2 for FFHQ at 256x256 resolution using 1 GPU.
 
