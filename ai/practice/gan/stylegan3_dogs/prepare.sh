@@ -1,8 +1,3 @@
-# Use conda stylegan3 environment
-print("conda environment for this program:")
-print("conda activate stylegan3")
-
-
 # Using stylegan3 for this module because stylegan2 did not work on my systems
 echo conda environment for this program:
 echo conda activate stylegan3
