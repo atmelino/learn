@@ -9,7 +9,7 @@ mkdir ../../../../../local_data/practice/stylegan3_dogs/datasets
 mkdir ../../../../../local_data/practice/stylegan3_dogs/output
 
 
-code_path="../../../../local_data/stylegan3/dataset_tool.py"
+code_path="../../../../../local_data/stylegan3/dataset_tool.py"
 source_path="../../../../../local_data/practice/stylegan3_dogs/images"
 destination_path="../../../../local_data/practice/stylegan3_dogs/datasets/dogs-256x256.zip"
 
