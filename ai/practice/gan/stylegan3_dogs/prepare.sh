@@ -3,6 +3,7 @@ echo conda environment for this program:
 echo conda activate stylegan3
 
 
+mkdir ../../../../../local_data/practice/stylegan3_dogs
 mkdir ../../../../../local_data/practice/stylegan3_dogs/images
 mkdir ../../../../../local_data/practice/stylegan3_dogs/datasets
 mkdir ../../../../../local_data/practice/stylegan3_dogs/output
