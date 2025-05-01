@@ -1,4 +1,4 @@
-# Using stylegan3 for this module because stylegan2 did not work on my systems
+# Use stylegan3 conda environment
 echo conda environment for this program:
 echo conda activate stylegan3
 
