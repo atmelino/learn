@@ -42,9 +42,15 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Activation
 from tensorflow.keras.callbacks import EarlyStopping
 from sklearn.model_selection import train_test_split
+
+# df = pd.read_csv(
+# "https://data.heatonresearch.com/data/t81-558/iris.csv",
+# na_values=['NA', '?'])
+
 df = pd.read_csv(
-"https://data.heatonresearch.com/data/t81-558/iris.csv",
+"../../../../local_data/jheaton/class_08_2_keras_ensembles/iris.csv",
 na_values=['NA', '?'])
+
 # Convert to numpy - Classification
 x = df[['sepal_l', 'sepal_w', 'petal_l', 'petal_w']].values
 dummies = pd.get_dummies(df['species']) # Classification
