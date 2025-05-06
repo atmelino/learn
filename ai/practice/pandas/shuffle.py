@@ -17,16 +17,22 @@ species = dummies.columns
 y = dummies.values
 # Split into train/test
 x_train, x_test, y_train, y_test = train_test_split(
-    x, y, test_size=0.25, random_state=42
+    x, y, test_size=0.1, random_state=42
 )
 
+x_before = pd.DataFrame(x_test,columns=["sl","sw","pl","pw"])
 print(x_test)
 
 
 np.random.shuffle(x_test[:, 0])
 
-
+x_after = pd.DataFrame(x_test)
 print(x_test)
+
+
+compare = pd.concat([x_before, x_after], axis=1)
+print(compare)
+
 
 
 
