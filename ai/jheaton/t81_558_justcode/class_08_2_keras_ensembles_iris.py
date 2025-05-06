@@ -56,7 +56,27 @@ def perturbation_rank(model, x, y, names, regression):
 
     for i in range(x.shape[1]):
         hold = np.array(x[:, i])
+
+        print("x before shuffle")
+        print(x)
+        x_before = pd.DataFrame(x,columns=["sl","sw","pl","pw"])
+        print(x_before)
+
         np.random.shuffle(x[:, i])
+
+        print("x after shuffle")
+        print(x)
+        x_after = pd.DataFrame(x)
+        print(x_after)
+
+        ydf = pd.DataFrame(y)
+
+
+        compare = pd.concat([x_before, x_after,ydf], axis=1)
+        # compare = pd.concat([x_before, x_after])
+        print(compare)
+
+
 
         if regression:
             pred = model.predict(x)
