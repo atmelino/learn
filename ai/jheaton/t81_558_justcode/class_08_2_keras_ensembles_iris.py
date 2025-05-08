@@ -90,8 +90,9 @@ def perturbation_rank_verbose(model, x, y, names, regression):
         hold = np.array(x[:, i])
 
         # print("x before shuffle")
-        # print(x)
+        print(x)
         x_before = pd.DataFrame(x, columns=["sl", "sw", "pl", "pw"], copy=True)
+        print(x_before.shape)
         # print(x_before)
 
         np.random.shuffle(x[:, i])
@@ -105,23 +106,73 @@ def perturbation_rank_verbose(model, x, y, names, regression):
         a = [" "] * x.shape[0]
         line = pd.DataFrame(a)
         # print(line)
-        compare = pd.concat([x_before, line, x_after, line, diff], axis=1)
-        print("Before shuffle - after shuffle - difference")
-        print(compare)
 
         # print(x_after.sub(x_before, fill_value=0))
         # print(x_after.sub(x_before))
         # print(x_after.subtract(x_before, fill_value=0))
         # print(x_after-x_before)
 
-        if regression:
-            pred = model.predict(x)
-            error = metrics.mean_squared_error(y, pred)
-        else:
-            pred = model.predict(x)
-            error = metrics.log_loss(y, pred)
-            print(pred)
+        pred = model.predict(x)
+        error = metrics.log_loss(y, pred)
+        # print(pred)
+        predict_classes = np.argmax(pred, axis=1)
+        # print(predict_classes[0])
+        # print(predict_classes.shape)
+        # arr = [i for i in predict_classes]
+        # arrp = np.array(arr)
+        # print(arrp.shape)
+        dp = pd.DataFrame(predict_classes, columns=["pr"])
+        print(dp)
 
+        expected_classes = np.argmax(y, axis=1)
+        de = pd.DataFrame(expected_classes, columns=["ex"])
+
+        dpde = pd.concat([dp, de], axis=1)
+        print(dpde)
+        print(dpde.shape)
+
+        diff = predict_classes - expected_classes
+
+        # data = [
+        #     [10, 15, 20, 25, 30, 35]
+        # ]
+        # print(data)
+
+        # t = np.array(predict_classes)
+        # dt = pd.DataFrame(t, columns=["pr"])
+
+        # rows, cols = (5, 1)
+        # arr = [[j for i in range(cols)] for j in range(rows)]
+
+        # arr = []
+        # for i in range(x.shape[0]):
+        #     arr.append([5])
+        # narr = np.array(arr)
+
+        # print(narr)
+        # print(narr.shape)
+        # dt = pd.DataFrame(narr, columns=["pr"])
+        # print(dt)
+
+
+        # b = [" "] * x.shape[0]
+        # line = pd.DataFrame(a)
+
+        # b = []
+        # for i in range(x.shape[0]):
+        #     b.append(" ")
+        # line2 = pd.DataFrame(b)
+
+
+
+
+        compare = pd.concat([x_before, line, x_after, line, diff], axis=1)
+        print("Before shuffle - after shuffle - difference")
+        print(compare)
+
+        print(f"Predictions: {predict_classes}")
+        print(f"Expected: {expected_classes}")
+        print(f"diff: {diff}")
 
         errors.append(error)
         x[:, i] = hold
