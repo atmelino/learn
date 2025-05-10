@@ -81,6 +81,9 @@ def perturbation_rank(model, x, y, names, regression):
 
 def perturbation_rank_verbose(model, x, y, names, regression):
     errors = []
+    a = [" "] * x.shape[0]
+
+    diffs=pd.DataFrame(a)
     # print(x.shape)
     # print(x.shape[1])
     # print(x)
@@ -116,8 +119,10 @@ def perturbation_rank_verbose(model, x, y, names, regression):
         de = pd.DataFrame(expected_classes, columns=["ex"])
 
         diff_pred = predict_classes - expected_classes
-        df = pd.DataFrame(diff_pred, columns=["df"])
+        df = pd.DataFrame(diff_pred, columns=["df"+str(i)])
 
+        diffs = pd.concat([diffs,df], axis=1)
+        
         compare = pd.concat(
             [x_before, line, x_after, line, diff_shuffle, dp, de, df], axis=1
         )
@@ -134,11 +139,14 @@ def perturbation_rank_verbose(model, x, y, names, regression):
     result = pd.DataFrame(data, columns=["name", "error", "importance"])
     result.sort_values(by=["importance"], ascending=[0], inplace=True)
     result.reset_index(inplace=True, drop=True)
-    return result
+    diffs.rename(columns={'df0': 'sl', 'df1': 'sw', 'df2': 'pl', 'df3': 'pw'}, inplace=True)
+
+    return (result,diffs)
 
 
 names = list(df.columns)  # x+y column names
 names.remove("species")  # remove the target(y)
 # rank = perturbation_rank(model, x_test, y_test, names, False)
-rank = perturbation_rank_verbose(model, x_test, y_test, names, False)
+rank,diffs = perturbation_rank_verbose(model, x_test, y_test, names, False)
 display(rank)
+display(diffs)
