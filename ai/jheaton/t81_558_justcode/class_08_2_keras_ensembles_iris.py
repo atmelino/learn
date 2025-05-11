@@ -47,8 +47,6 @@ correct = accuracy_score(expected_classes, predict_classes)
 print(f"Accuracy: {correct}")
 
 # Rank the features
-
-
 def perturbation_rank(model, x, y, names, regression):
     errors = []
 
@@ -76,9 +74,7 @@ def perturbation_rank(model, x, y, names, regression):
     return result
 
 
-# Rank the features
-
-
+# Rank the features - verbose
 def perturbation_rank_verbose(model, x, y, names, regression):
     errors = []
     a = [" "] * x.shape[0]
