@@ -81,8 +81,8 @@ def perturbation_rank_verbose(model, x, y, names, regression):
     errors = []
     a = [" "] * x.shape[0]
 
+    print("x.shape ", x.shape)
     diffs = pd.DataFrame(a)
-    # print(x.shape)
     # print(x.shape[1])
     # print(x)
 
@@ -95,7 +95,7 @@ def perturbation_rank_verbose(model, x, y, names, regression):
         x_before = pd.DataFrame(
             x, columns=["cy", "di", "ho", "we", "ac", "ye", "or"], copy=True
         )
-        print("x_before.shape ", x_before.shape)
+        # print("x_before.shape ", x_before.shape)
         # print(x_before)
 
         np.random.shuffle(x[:, i])
@@ -115,24 +115,32 @@ def perturbation_rank_verbose(model, x, y, names, regression):
             pred = model.predict(x)
             error = metrics.mean_squared_error(y, pred)
 
-            print("y shape ", y.shape)
-            print("pred shape ", pred.shape)
-            print(y)
-            print( pred)
-
+            y_reshaped=y.reshape(-1, 1)
+            # print("y shape ", y.shape)
+            # print(y)
+            # print("y_reshaped shape ", y_reshaped.shape)
+            # print(y_reshaped)
+            # print("pred shape ", pred.shape)
+            # print( pred)
 
             predict_values = pred
             dp = pd.DataFrame(predict_values, columns=["pr"])
-            # print(dp)
+            print("dp.shape ", dp.shape)
+            print(dp)
 
-            expected_values = y
+            expected_values = y_reshaped
             de = pd.DataFrame(expected_values, columns=["ex"])
-            # print(de)
+            print("de.shape ", de.shape)
+            print(de)
 
             # diff_pred = predict_values - expected_values
-            diff_pred = de.sub(dp)
-            # print(diff_pred)
+            # diff_pred = de.sub(dp)
+            # diff_pred = de-dp
+            # diff_pred = y_reshaped.sub(pred)
 
+            diff_pred = pred - y
+            print("diff_pred.shape ", diff_pred.shape)
+            print(diff_pred)
             df = pd.DataFrame(diff_pred, columns=["df" + str(i)])
 
             diffs = pd.concat([diffs, df], axis=1)
@@ -184,8 +192,8 @@ def perturbation_rank_verbose(model, x, y, names, regression):
 from IPython.display import display, HTML
 
 names = list(df.columns)  # x+y column names
-names.remove("name")
-names.remove("mpg")  # remove the target(y)
+# names.remove("name")
+# names.remove("mpg")  # remove the target(y)
 # rank = perturbation_rank(model, x_test, y_test, names, True)
 # display(rank)
 
