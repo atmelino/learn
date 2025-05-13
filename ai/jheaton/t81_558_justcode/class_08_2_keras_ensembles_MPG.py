@@ -178,9 +178,6 @@ def perturbation_rank_verbose(model, x, y, names, regression):
     result = pd.DataFrame(data, columns=["name", "error", "importance"])
     result.sort_values(by=["importance"], ascending=[0], inplace=True)
     result.reset_index(inplace=True, drop=True)
-    diffs.rename(
-        columns={"df0": "sl", "df1": "sw", "df2": "pl", "df3": "pw"}, inplace=True
-    )
 
     return (result, diffs)
 
