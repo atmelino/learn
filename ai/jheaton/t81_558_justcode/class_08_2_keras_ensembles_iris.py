@@ -78,8 +78,10 @@ def perturbation_rank(model, x, y, names, regression):
 def perturbation_rank_verbose(model, x, y, names, regression):
     errors = []
     a = [" "] * x.shape[0]
-
+    line = pd.DataFrame(a)
     diffs=pd.DataFrame(a)
+    names_short=["sl", "sw", "pl", "pw"]
+
     # print(x.shape)
     # print(x.shape[1])
     # print(x)
@@ -90,7 +92,7 @@ def perturbation_rank_verbose(model, x, y, names, regression):
 
         # print("x before shuffle")
         # print(x)
-        x_before = pd.DataFrame(x, columns=["sl", "sw", "pl", "pw"], copy=True)
+        x_before = pd.DataFrame(x, columns=names_short, copy=True)
         print(x_before.shape)
         # print(x_before)
 
@@ -98,12 +100,10 @@ def perturbation_rank_verbose(model, x, y, names, regression):
 
         # print("x after shuffle")
         # print(x)
-        x_after = pd.DataFrame(x, columns=["sl", "sw", "pl", "pw"], copy=True)
+        x_after = pd.DataFrame(x, columns=names_short, copy=True)
         # print(x_after)
 
         diff_shuffle = x_after.sub(x_before)
-        a = [" "] * x.shape[0]
-        line = pd.DataFrame(a)
 
         pred = model.predict(x)
         error = metrics.log_loss(y, pred)
@@ -115,7 +115,7 @@ def perturbation_rank_verbose(model, x, y, names, regression):
         de = pd.DataFrame(expected_classes, columns=["ex"])
 
         diff_pred = predict_classes - expected_classes
-        df = pd.DataFrame(diff_pred, columns=["df"+str(i)])
+        df = pd.DataFrame(diff_pred, columns=[names_short[i]])
 
         diffs = pd.concat([diffs,df], axis=1)
         
@@ -135,7 +135,6 @@ def perturbation_rank_verbose(model, x, y, names, regression):
     result = pd.DataFrame(data, columns=["name", "error", "importance"])
     result.sort_values(by=["importance"], ascending=[0], inplace=True)
     result.reset_index(inplace=True, drop=True)
-    diffs.rename(columns={'df0': 'sl', 'df1': 'sw', 'df2': 'pl', 'df3': 'pw'}, inplace=True)
 
     return (result,diffs)
 

@@ -80,20 +80,22 @@ def perturbation_rank(model, x, y, names, regression):
 def perturbation_rank_verbose(model, x, y, names, regression):
     errors = []
     a = [" "] * x.shape[0]
-
-    print("x.shape ", x.shape)
+    line = pd.DataFrame(a,columns=[" "])
     diffs = pd.DataFrame(a)
+    print(names)
+    names_short=["cy", "di", "ho", "we", "ac", "ye", "or"]
+    # print("x.shape ", x.shape)
     # print(x.shape[1])
     # print(x)
 
     for i in range(x.shape[1]):
-        print("column", i)
+        print("column:", i, "name:", names[i])
         hold = np.array(x[:, i])
 
         # print("x before shuffle")
         # print(x)
         x_before = pd.DataFrame(
-            x, columns=["cy", "di", "ho", "we", "ac", "ye", "or"], copy=True
+            x, columns=names_short, copy=True
         )
         # print("x_before.shape ", x_before.shape)
         # print(x_before)
@@ -103,19 +105,17 @@ def perturbation_rank_verbose(model, x, y, names, regression):
         # print("x after shuffle")
         # print(x)
         x_after = pd.DataFrame(
-            x, columns=["cy", "di", "ho", "we", "ac", "ye", "or"], copy=True
+            x, columns=names_short, copy=True
         )
         # print(x_after)
 
         diff_shuffle = x_after.sub(x_before)
-        a = [" "] * x.shape[0]
-        line = pd.DataFrame(a)
 
         if regression:
             pred = model.predict(x)
             error = metrics.mean_squared_error(y, pred)
 
-            y_reshaped=y.reshape(-1, 1)
+            y_reshaped = y.reshape(-1, 1)
             # print("y shape ", y.shape)
             # print(y)
             # print("y_reshaped shape ", y_reshaped.shape)
@@ -125,23 +125,19 @@ def perturbation_rank_verbose(model, x, y, names, regression):
 
             predict_values = pred
             dp = pd.DataFrame(predict_values, columns=["pr"])
-            print("dp.shape ", dp.shape)
-            print(dp)
+            # print("dp.shape ", dp.shape)
+            # print(dp)
 
             expected_values = y_reshaped
             de = pd.DataFrame(expected_values, columns=["ex"])
-            print("de.shape ", de.shape)
-            print(de)
+            # print("de.shape ", de.shape)
+            # print(de)
 
-            # diff_pred = predict_values - expected_values
-            # diff_pred = de.sub(dp)
-            # diff_pred = de-dp
-            # diff_pred = y_reshaped.sub(pred)
-
-            diff_pred = pred - y
-            print("diff_pred.shape ", diff_pred.shape)
-            print(diff_pred)
-            df = pd.DataFrame(diff_pred, columns=["df" + str(i)])
+            diff_pred = pred - y_reshaped
+            # print("diff_pred.shape ", diff_pred.shape)
+            # print(diff_pred)
+            # df = pd.DataFrame(diff_pred, columns=["df" + str(i)])
+            df = pd.DataFrame(diff_pred, columns=[names_short[i]])
 
             diffs = pd.concat([diffs, df], axis=1)
 
@@ -192,11 +188,11 @@ def perturbation_rank_verbose(model, x, y, names, regression):
 from IPython.display import display, HTML
 
 names = list(df.columns)  # x+y column names
-# names.remove("name")
-# names.remove("mpg")  # remove the target(y)
+names.remove("name")
+names.remove("mpg")  # remove the target(y)
 # rank = perturbation_rank(model, x_test, y_test, names, True)
 # display(rank)
 
 rank, diffs = perturbation_rank_verbose(model, x_test, y_test, names, True)
+display("Errors\n",diffs)
 display(rank)
-display(diffs)
