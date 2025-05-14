@@ -120,3 +120,4 @@ names = list(df_train.columns) # x+y column names
 names.remove("Activity") # remove the target(y)
 rank = perturbation_rank(model, x_test, y_test, names, False)
 display(rank[0:10])
+rank.to_csv(OUTPUT_PATH+"/rank.csv", index=False)
