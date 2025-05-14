@@ -85,37 +85,47 @@ def blend_ensemble(x, y, x_submit):
 
 
 if __name__ == '__main__':
-np.random.seed(42)
-# seed to shuffle the train set
-print("Loading data...")
-URL = "https://data.heatonresearch.com/data/t81-558/kaggle/"
-df_train = pd.read_csv(
-URL+"bio_train.csv",
-na_values=['NA', '?'])
-df_submit = pd.read_csv(
-URL+"bio_test.csv",
-na_values=['NA', '?'])
-predictors = list(df_train.columns.values)
-predictors.remove('Activity')
-x = df_train[predictors].values
-y = df_train['Activity']
-x_submit = df_submit.values
-if SHUFFLE:
-idx = np.random.permutation(y.size)
-x = x[idx]
-y = y[idx]
-submit_data = blend_ensemble(x, y, x_submit)
-submit_data = stretch(submit_data)
-####################
-# Build submit file
-####################
-ids = [id+1 for id in range(submit_data.shape[0])]
-submit_df = pd.DataFrame({'MoleculeId': ids,
-'PredictedProbability':
-submit_data[:, 1]},
-columns=['MoleculeId',
-'PredictedProbability'])
-submit_df.to_csv("submit.csv", index=False)
+
+    np.random.seed(42)
+
+    # seed to shuffle the train set
+    print("Loading data...")
+    URL = "https://data.heatonresearch.com/data/t81-558/kaggle/"
+
+
+    df_train = pd.read_csv(
+    URL+"bio_train.csv",
+    na_values=['NA', '?'])
+
+    df_submit = pd.read_csv(
+    URL+"bio_test.csv",
+    na_values=['NA', '?'])
+
+    predictors = list(df_train.columns.values)
+    predictors.remove('Activity')
+    x = df_train[predictors].values
+    y = df_train['Activity']
+    x_submit = df_submit.values
+
+    if SHUFFLE:
+        idx = np.random.permutation(y.size)
+        x = x[idx]
+        y = y[idx]
+
+    submit_data = blend_ensemble(x, y, x_submit)
+    submit_data = stretch(submit_data)
+
+    ####################
+    # Build submit file
+    ####################
+    ids = [id+1 for id in range(submit_data.shape[0])]
+    submit_df = pd.DataFrame({'MoleculeId': ids,
+        'PredictedProbability':
+        submit_data[:, 1]},
+        columns=['MoleculeId',
+        'PredictedProbability'])
+
+    submit_df.to_csv("submit.csv", index=False)
 
 
 
