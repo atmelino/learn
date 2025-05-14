@@ -90,7 +90,8 @@ if __name__ == '__main__':
 
     # seed to shuffle the train set
     print("Loading data...")
-    URL = "https://data.heatonresearch.com/data/t81-558/kaggle/"
+    # URL = "https://data.heatonresearch.com/data/t81-558/kaggle/"
+    URL = "../../../../local_data/jheaton/input/"
 
 
     df_train = pd.read_csv(
