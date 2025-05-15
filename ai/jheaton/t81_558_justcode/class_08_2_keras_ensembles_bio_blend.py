@@ -3,8 +3,8 @@ import os
 import pandas as pd
 import math
 
-# from tensorflow.keras.wrappers.scikit_learn import KerasClassifier
-from scikeras.wrappers import KerasClassifier
+from tensorflow.keras.wrappers.scikit_learn import KerasClassifier
+# from scikeras.wrappers import KerasClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import StratifiedKFold
 from sklearn.ensemble import RandomForestClassifier
