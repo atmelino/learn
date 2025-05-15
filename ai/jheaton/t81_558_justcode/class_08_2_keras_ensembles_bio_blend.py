@@ -118,6 +118,10 @@ if __name__ == "__main__":
         x = x[idx]
         y = y[idx]
 
+    print("x", x.shape)
+    print("y", y.shape)
+
+
     submit_data = blend_ensemble(x, y, x_submit)
     submit_data = stretch(submit_data)
 
