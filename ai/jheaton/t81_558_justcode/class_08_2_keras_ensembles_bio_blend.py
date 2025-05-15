@@ -2,13 +2,17 @@ import numpy as np
 import os
 import pandas as pd
 import math
-from tensorflow.keras.wrappers.scikit_learn import KerasClassifier
+#from tensorflow.keras.wrappers.scikit_learn import KerasClassifier
+from scikeras.wrappers import KerasClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import StratifiedKFold
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import ExtraTreesClassifier
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.linear_model import LogisticRegression
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Activation
+from tensorflow.keras.callbacks import EarlyStopping
 
 SHUFFLE = False
 FOLDS = 10
