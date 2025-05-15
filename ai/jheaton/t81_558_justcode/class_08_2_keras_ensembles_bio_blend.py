@@ -72,10 +72,10 @@ def blend_ensemble(x, y, x_submit):
             y_train = y[train]
             x_test = x[test]
             y_test = y[test]
-            print("x_train.shape", x_train.shape)
-            print("y_train.shape", y_train.shape)
-            print("x_test.shape", x_test.shape)
-            print("y_test.shape", y_test.shape)
+            # print("x_train.shape", x_train.shape)
+            # print("y_train.shape", y_train.shape)
+            # print("x_test.shape", x_test.shape)
+            # print("y_test.shape", y_test.shape)
             model.fit(x_train, y_train)
             pred = np.array(model.predict_proba(x_test))
             dataset_blend_train[test, j] = pred[:, 1]
@@ -118,8 +118,8 @@ if __name__ == "__main__":
         x = x[idx]
         y = y[idx]
 
-    print("x", x.shape)
-    print("y", y.shape)
+    # print("x", x.shape)
+    # print("y", y.shape)
 
 
     submit_data = blend_ensemble(x, y, x_submit)
