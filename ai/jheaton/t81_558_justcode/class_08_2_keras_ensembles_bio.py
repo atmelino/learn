@@ -41,7 +41,7 @@ def perturbation_rank(model, x, y, names, regression):
 
 
 BASE_PATH = "../../../../local_data/jheaton"
-OUTPUT_PATH = os.path.join(BASE_PATH, "class_08_2_keras_ensembles_bio")
+OUTPUT_PATH = os.path.join(BASE_PATH, "class_08_2_keras_ensembles_bio/")
 os.system("mkdir -p " + OUTPUT_PATH)
 
 # URL = "https://data.heatonresearch.com/data/t81-558/kaggle/"
@@ -112,7 +112,7 @@ submit_df = pd.DataFrame(
         "PredictedProbability": pred_submit.flatten(),
     }
 )
-submit_df.to_csv(OUTPUT_PATH+"/submit.csv", index=False)
+submit_df.to_csv(OUTPUT_PATH+"submit.csv", index=False)
 
 # Rank the features
 from IPython.display import display, HTML
@@ -120,4 +120,4 @@ names = list(df_train.columns) # x+y column names
 names.remove("Activity") # remove the target(y)
 rank = perturbation_rank(model, x_test, y_test, names, False)
 display(rank[0:10])
-rank.to_csv(OUTPUT_PATH+"/rank.csv", index=False)
+rank.to_csv(OUTPUT_PATH+"rank.csv", index=False)

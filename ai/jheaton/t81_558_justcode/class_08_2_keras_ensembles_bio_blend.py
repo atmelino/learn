@@ -56,9 +56,9 @@ def blend_ensemble(x, y, x_submit):
         RandomForestClassifier(n_estimators=100, n_jobs=-1, criterion="entropy"),
         ExtraTreesClassifier(n_estimators=100, n_jobs=-1, criterion="gini"),
         ExtraTreesClassifier(n_estimators=100, n_jobs=-1, criterion="entropy"),
-        GradientBoostingClassifier(
-            learning_rate=0.05, subsample=0.5, max_depth=6, n_estimators=50
-        ),
+        # GradientBoostingClassifier(
+        #     learning_rate=0.05, subsample=0.5, max_depth=6, n_estimators=50
+        # ),
     ]
 
     dataset_blend_train = np.zeros((x.shape[0], len(models)))
@@ -100,7 +100,7 @@ def blend_ensemble(x, y, x_submit):
 if __name__ == "__main__":
 
     BASE_PATH = "../../../../local_data/jheaton"
-    OUTPUT_PATH = os.path.join(BASE_PATH, "class_08_2_keras_ensembles_bio_blend")
+    OUTPUT_PATH = os.path.join(BASE_PATH, "class_08_2_keras_ensembles_bio_blend/")
     os.system("mkdir -p " + OUTPUT_PATH)
 
     np.random.seed(42)
