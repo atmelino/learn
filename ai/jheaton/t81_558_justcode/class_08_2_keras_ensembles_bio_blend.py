@@ -100,9 +100,7 @@ if __name__ == "__main__":
     print("Loading data...")
     # URL = "https://data.heatonresearch.com/data/t81-558/kaggle/"
     URL = "../../../../local_data/jheaton/input/"
-
     df_train = pd.read_csv(URL + "bio_train.csv", na_values=["NA", "?"])
-
     df_submit = pd.read_csv(URL + "bio_test.csv", na_values=["NA", "?"])
 
     predictors = list(df_train.columns.values)
