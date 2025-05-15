@@ -4,6 +4,7 @@ import pandas as pd
 import math
 
 from tensorflow.keras.wrappers.scikit_learn import KerasClassifier
+
 # from scikeras.wrappers import KerasClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import StratifiedKFold
@@ -98,6 +99,10 @@ def blend_ensemble(x, y, x_submit):
 
 if __name__ == "__main__":
 
+    BASE_PATH = "../../../../local_data/jheaton"
+    OUTPUT_PATH = os.path.join(BASE_PATH, "class_08_2_keras_ensembles_bio_blend")
+    os.system("mkdir -p " + OUTPUT_PATH)
+
     np.random.seed(42)
 
     # seed to shuffle the train set
@@ -121,7 +126,6 @@ if __name__ == "__main__":
     # print("x", x.shape)
     # print("y", y.shape)
 
-
     submit_data = blend_ensemble(x, y, x_submit)
     submit_data = stretch(submit_data)
 
@@ -134,4 +138,4 @@ if __name__ == "__main__":
         columns=["MoleculeId", "PredictedProbability"],
     )
 
-    submit_df.to_csv("submit.csv", index=False)
+    submit_df.to_csv(OUTPUT_PATH + "submit.csv", index=False)
