@@ -19,7 +19,7 @@ from tensorflow.keras.callbacks import EarlyStopping
 
 SHUFFLE = False
 FOLDS = 10
-QUICK= True
+SHORT= True
 
 def build_ann(input_size, classes, neurons):
     model = Sequential()
@@ -48,19 +48,31 @@ def stretch(y):
 def blend_ensemble(x, y, x_submit):
     kf = StratifiedKFold(FOLDS)
     folds = list(kf.split(x, y))
-    models = [
-        KerasClassifier(
-            build_fn=build_ann, neurons=20, input_size=x.shape[1], classes=2
-        ),
-        KNeighborsClassifier(n_neighbors=3),
-        RandomForestClassifier(n_estimators=100, n_jobs=-1, criterion="gini"),
-        RandomForestClassifier(n_estimators=100, n_jobs=-1, criterion="entropy"),
-        ExtraTreesClassifier(n_estimators=100, n_jobs=-1, criterion="gini"),
-        ExtraTreesClassifier(n_estimators=100, n_jobs=-1, criterion="entropy"),
-        # GradientBoostingClassifier(
-        #     learning_rate=0.05, subsample=0.5, max_depth=6, n_estimators=50
-        # ),
-    ]
+    if(SHORT==True):
+        models = [
+            KerasClassifier(
+                build_fn=build_ann, neurons=20, input_size=x.shape[1], classes=2
+            ),
+            KNeighborsClassifier(n_neighbors=3),
+            RandomForestClassifier(n_estimators=100, n_jobs=-1, criterion="gini"),
+            RandomForestClassifier(n_estimators=100, n_jobs=-1, criterion="entropy"),
+            ExtraTreesClassifier(n_estimators=100, n_jobs=-1, criterion="gini"),
+            ExtraTreesClassifier(n_estimators=100, n_jobs=-1, criterion="entropy"),
+        ]
+    else:
+        models = [
+            KerasClassifier(
+                build_fn=build_ann, neurons=20, input_size=x.shape[1], classes=2
+            ),
+            KNeighborsClassifier(n_neighbors=3),
+            RandomForestClassifier(n_estimators=100, n_jobs=-1, criterion="gini"),
+            RandomForestClassifier(n_estimators=100, n_jobs=-1, criterion="entropy"),
+            ExtraTreesClassifier(n_estimators=100, n_jobs=-1, criterion="gini"),
+            ExtraTreesClassifier(n_estimators=100, n_jobs=-1, criterion="entropy"),
+            GradientBoostingClassifier(
+                learning_rate=0.05, subsample=0.5, max_depth=6, n_estimators=50
+            ),
+        ]
 
     dataset_blend_train = np.zeros((x.shape[0], len(models)))
     dataset_blend_test = np.zeros((x_submit.shape[0], len(models)))
