@@ -1,4 +1,3 @@
-# Use conda deoldify environment
 print("conda environment for this program:")
 print("conda activate deoldify")
 

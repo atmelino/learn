@@ -1,3 +1,6 @@
+print("conda environment for this program:")
+print("conda activate jh_class")
+
 import os
 import pandas as pd
 import numpy as np
