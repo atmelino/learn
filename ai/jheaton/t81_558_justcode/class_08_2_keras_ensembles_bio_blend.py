@@ -57,9 +57,9 @@ def blend_ensemble(x, y, x_submit):
         RandomForestClassifier(n_estimators=100, n_jobs=-1, criterion="entropy"),
         ExtraTreesClassifier(n_estimators=100, n_jobs=-1, criterion="gini"),
         ExtraTreesClassifier(n_estimators=100, n_jobs=-1, criterion="entropy"),
-        GradientBoostingClassifier(
-            learning_rate=0.05, subsample=0.5, max_depth=6, n_estimators=50
-        ),
+        # GradientBoostingClassifier(
+        #     learning_rate=0.05, subsample=0.5, max_depth=6, n_estimators=50
+        # ),
     ]
 
     dataset_blend_train = np.zeros((x.shape[0], len(models)))
@@ -128,7 +128,9 @@ if __name__ == "__main__":
     # print("y", y.shape)
 
     submit_data = blend_ensemble(x, y, x_submit)
+    print("submit_data\n",submit_data)    
     submit_data = stretch(submit_data)
+    print("submit_data stretched\n",submit_data)    
 
     ####################
     # Build submit file
