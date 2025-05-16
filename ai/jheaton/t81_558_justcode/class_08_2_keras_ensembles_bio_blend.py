@@ -19,7 +19,7 @@ from tensorflow.keras.callbacks import EarlyStopping
 
 SHUFFLE = False
 FOLDS = 10
-
+QUICK= True
 
 def build_ann(input_size, classes, neurons):
     model = Sequential()
@@ -127,9 +127,10 @@ if __name__ == "__main__":
     # print("x", x.shape)
     # print("y", y.shape)
 
-    submit_data = blend_ensemble(x, y, x_submit)
+    submit_data_tmp = blend_ensemble(x, y, x_submit)
+    submit_data = stretch(submit_data_tmp)
+
     print("submit_data\n",submit_data)    
-    submit_data = stretch(submit_data)
     print("submit_data stretched\n",submit_data)    
 
     ####################
