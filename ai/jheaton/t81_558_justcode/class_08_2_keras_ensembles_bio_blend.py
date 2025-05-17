@@ -51,6 +51,10 @@ def stretch(y):
 def blend_ensemble(x, y, x_submit):
     kf = StratifiedKFold(FOLDS)
     folds = list(kf.split(x, y))
+
+    print("kf.split(x, y)",kf.split(x, y))
+    print("folds.shape ",np.array(folds).shape)
+    print("folds",folds)
     if(SHORT==True):
         models = [
             KerasClassifier(
