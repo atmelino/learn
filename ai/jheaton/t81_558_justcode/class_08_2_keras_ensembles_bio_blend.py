@@ -42,6 +42,9 @@ def mlogloss(y_test, preds):
 
 
 def stretch(y):
+    print("stretch() y parameter\n",y)
+    print("y.min ",y.min())    
+    print("y.max ",y.max())    
     return (y - y.min()) / (y.max() - y.min())
 
 
@@ -136,14 +139,8 @@ if __name__ == "__main__":
         x = x[idx]
         y = y[idx]
 
-    # print("x", x.shape)
-    # print("y", y.shape)
-
-    submit_data_tmp = blend_ensemble(x, y, x_submit)
-    submit_data = stretch(submit_data_tmp)
-
-    print("submit_data\n",submit_data)    
-    print("submit_data stretched\n",submit_data)    
+    submit_data_original = blend_ensemble(x, y, x_submit)
+    submit_data = stretch(submit_data_original)
 
     ####################
     # Build submit file
@@ -155,3 +152,22 @@ if __name__ == "__main__":
     )
 
     submit_df.to_csv(OUTPUT_PATH + "submit.csv", index=False)
+
+    # Debug section
+    # print("x", x.shape)
+    # print("y", y.shape)
+    # print("x_submit", x_submit.shape)
+    # print("submit_data shape\n",submit_data_original.shape)    
+    # print("submit_data\n",submit_data_original)    
+    # submit_data_original_df = pd.DataFrame(submit_data_original)
+    # submit_data_original_df.to_csv(OUTPUT_PATH + "blend_ensemble_original.csv", index=False)
+    # print("submit_data stretched shape\n",submit_data.shape)    
+    # print("submit_data\n",submit_data)    
+    # submit_data_df = pd.DataFrame(submit_data)
+    # submit_data_df.to_csv(OUTPUT_PATH + "blend_ensemble_stretched.csv", index=False)
+
+    # print("submit_data[:, 1]", submit_data[:, 1])
+
+
+
+
