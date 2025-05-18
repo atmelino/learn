@@ -19,6 +19,7 @@ from tensorflow.keras.callbacks import EarlyStopping
 
 SHUFFLE = False
 FOLDS = 10
+SHORT= True
 
 def build_ann(input_size, classes, neurons):
     model = Sequential()
@@ -41,26 +42,55 @@ def mlogloss(y_test, preds):
 
 
 def stretch(y):
+    print("stretch() y parameter\n",y)
+    print("y.min ",y.min())    
+    print("y.max ",y.max())    
     return (y - y.min()) / (y.max() - y.min())
 
 
 def blend_ensemble(x, y, x_submit):
     kf = StratifiedKFold(FOLDS)
+    kf.get_n_splits(x)
+    print(kf)
+    for i, (train_index, test_index) in enumerate(kf.split(x)):
+        print(f"Fold {i}:")
+        print(f"  Train: index={train_index}")
+        print(f"  Test:  index={test_index}")
+
+    exit()
+
+
+
     folds = list(kf.split(x, y))
 
-    models = [
-        KerasClassifier(
-            build_fn=build_ann, neurons=20, input_size=x.shape[1], classes=2
-        ),
-        KNeighborsClassifier(n_neighbors=3),
-        RandomForestClassifier(n_estimators=100, n_jobs=-1, criterion="gini"),
-        RandomForestClassifier(n_estimators=100, n_jobs=-1, criterion="entropy"),
-        ExtraTreesClassifier(n_estimators=100, n_jobs=-1, criterion="gini"),
-        ExtraTreesClassifier(n_estimators=100, n_jobs=-1, criterion="entropy"),
-        GradientBoostingClassifier(
-            learning_rate=0.05, subsample=0.5, max_depth=6, n_estimators=50
-        ),
-    ]
+    print("kf.split(x, y)",kf.split(x, y))
+    print("folds.shape ",np.array(folds).shape)
+    print("folds",folds)
+    if(SHORT==True):
+        models = [
+            KerasClassifier(
+                build_fn=build_ann, neurons=20, input_size=x.shape[1], classes=2
+            ),
+            KNeighborsClassifier(n_neighbors=3),
+            RandomForestClassifier(n_estimators=100, n_jobs=-1, criterion="gini"),
+            RandomForestClassifier(n_estimators=100, n_jobs=-1, criterion="entropy"),
+            ExtraTreesClassifier(n_estimators=100, n_jobs=-1, criterion="gini"),
+            ExtraTreesClassifier(n_estimators=100, n_jobs=-1, criterion="entropy"),
+        ]
+    else:
+        models = [
+            KerasClassifier(
+                build_fn=build_ann, neurons=20, input_size=x.shape[1], classes=2
+            ),
+            KNeighborsClassifier(n_neighbors=3),
+            RandomForestClassifier(n_estimators=100, n_jobs=-1, criterion="gini"),
+            RandomForestClassifier(n_estimators=100, n_jobs=-1, criterion="entropy"),
+            ExtraTreesClassifier(n_estimators=100, n_jobs=-1, criterion="gini"),
+            ExtraTreesClassifier(n_estimators=100, n_jobs=-1, criterion="entropy"),
+            GradientBoostingClassifier(
+                learning_rate=0.05, subsample=0.5, max_depth=6, n_estimators=50
+            ),
+        ]
 
     dataset_blend_train = np.zeros((x.shape[0], len(models)))
     dataset_blend_test = np.zeros((x_submit.shape[0], len(models)))
@@ -74,6 +104,10 @@ def blend_ensemble(x, y, x_submit):
             y_train = y[train]
             x_test = x[test]
             y_test = y[test]
+            # print("x_train.shape", x_train.shape)
+            # print("y_train.shape", y_train.shape)
+            # print("x_test.shape", x_test.shape)
+            # print("y_test.shape", y_test.shape)
             model.fit(x_train, y_train)
             pred = np.array(model.predict_proba(x_test))
             dataset_blend_train[test, j] = pred[:, 1]
@@ -134,6 +168,20 @@ if __name__ == "__main__":
 
     submit_df.to_csv(OUTPUT_PATH + "submit.csv", index=False)
 
+    # Debug section
+    # print("x", x.shape)
+    # print("y", y.shape)
+    # print("x_submit", x_submit.shape)
+    # print("submit_data shape\n",submit_data_original.shape)    
+    # print("submit_data\n",submit_data_original)    
+    # submit_data_original_df = pd.DataFrame(submit_data_original)
+    # submit_data_original_df.to_csv(OUTPUT_PATH + "blend_ensemble_original.csv", index=False)
+    # print("submit_data stretched shape\n",submit_data.shape)    
+    # print("submit_data\n",submit_data)    
+    # submit_data_df = pd.DataFrame(submit_data)
+    # submit_data_df.to_csv(OUTPUT_PATH + "blend_ensemble_stretched.csv", index=False)
+
+    # print("submit_data[:, 1]", submit_data[:, 1])
 
 
 

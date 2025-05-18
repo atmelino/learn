@@ -17,8 +17,13 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Activation
 from tensorflow.keras.callbacks import EarlyStopping
 
-SHUFFLE = False
+# Options for this run
+print_fold = True
+run_model = False
+length = 100
+folds = 2
 FOLDS = 10
+SHORT= True
 
 def build_ann(input_size, classes, neurons):
     model = Sequential()
@@ -40,27 +45,35 @@ def mlogloss(y_test, preds):
     return (-1 / len(preds)) * sum
 
 
-def stretch(y):
-    return (y - y.min()) / (y.max() - y.min())
-
-
 def blend_ensemble(x, y, x_submit):
     kf = StratifiedKFold(FOLDS)
     folds = list(kf.split(x, y))
 
-    models = [
-        KerasClassifier(
-            build_fn=build_ann, neurons=20, input_size=x.shape[1], classes=2
-        ),
-        KNeighborsClassifier(n_neighbors=3),
-        RandomForestClassifier(n_estimators=100, n_jobs=-1, criterion="gini"),
-        RandomForestClassifier(n_estimators=100, n_jobs=-1, criterion="entropy"),
-        ExtraTreesClassifier(n_estimators=100, n_jobs=-1, criterion="gini"),
-        ExtraTreesClassifier(n_estimators=100, n_jobs=-1, criterion="entropy"),
-        GradientBoostingClassifier(
-            learning_rate=0.05, subsample=0.5, max_depth=6, n_estimators=50
-        ),
-    ]
+    if(SHORT==True):
+        models = [
+            KerasClassifier(
+                build_fn=build_ann, neurons=20, input_size=x.shape[1], classes=2
+            ),
+            KNeighborsClassifier(n_neighbors=3),
+            RandomForestClassifier(n_estimators=100, n_jobs=-1, criterion="gini"),
+            RandomForestClassifier(n_estimators=100, n_jobs=-1, criterion="entropy"),
+            ExtraTreesClassifier(n_estimators=100, n_jobs=-1, criterion="gini"),
+            ExtraTreesClassifier(n_estimators=100, n_jobs=-1, criterion="entropy"),
+        ]
+    else:
+        models = [
+            KerasClassifier(
+                build_fn=build_ann, neurons=20, input_size=x.shape[1], classes=2
+            ),
+            KNeighborsClassifier(n_neighbors=3),
+            RandomForestClassifier(n_estimators=100, n_jobs=-1, criterion="gini"),
+            RandomForestClassifier(n_estimators=100, n_jobs=-1, criterion="entropy"),
+            ExtraTreesClassifier(n_estimators=100, n_jobs=-1, criterion="gini"),
+            ExtraTreesClassifier(n_estimators=100, n_jobs=-1, criterion="entropy"),
+            GradientBoostingClassifier(
+                learning_rate=0.05, subsample=0.5, max_depth=6, n_estimators=50
+            ),
+        ]
 
     dataset_blend_train = np.zeros((x.shape[0], len(models)))
     dataset_blend_test = np.zeros((x_submit.shape[0], len(models)))
@@ -74,6 +87,10 @@ def blend_ensemble(x, y, x_submit):
             y_train = y[train]
             x_test = x[test]
             y_test = y[test]
+            # print("x_train.shape", x_train.shape)
+            # print("y_train.shape", y_train.shape)
+            # print("x_test.shape", x_test.shape)
+            # print("y_test.shape", y_test.shape)
             model.fit(x_train, y_train)
             pred = np.array(model.predict_proba(x_test))
             dataset_blend_train[test, j] = pred[:, 1]
@@ -94,20 +111,34 @@ def blend_ensemble(x, y, x_submit):
     return blend.predict_proba(dataset_blend_test)
 
 
+def show_folds(x, y, x_submit):
+    kf = StratifiedKFold(FOLDS)
+    kf.get_n_splits(x)
+    print(kf)
+    for i, (train_index, test_index) in enumerate(kf.split(x,y)):
+        print(f"Fold {i}:")
+        print(f"  Train: index={train_index}")
+        print(f"  Test:  index={test_index}")
+
+    folds = list(kf.split(x, y))
+    print("folds",folds)
+
+
+
+
 if __name__ == "__main__":
 
     BASE_PATH = "../../../../local_data/jheaton"
     OUTPUT_PATH = os.path.join(BASE_PATH, "class_08_2_keras_ensembles_bio_blend/")
     os.system("mkdir -p " + OUTPUT_PATH)
 
-    np.random.seed(42)
-
-    # seed to shuffle the train set
     print("Loading data...")
-    # URL = "https://data.heatonresearch.com/data/t81-558/kaggle/"
     URL = "../../../../local_data/jheaton/input/"
     df_train = pd.read_csv(URL + "bio_train.csv", na_values=["NA", "?"])
     df_submit = pd.read_csv(URL + "bio_test.csv", na_values=["NA", "?"])
+
+    df_train = df_train.iloc[0:length]
+    df_submit = df_submit.iloc[0:length]
 
     predictors = list(df_train.columns.values)
     predictors.remove("Activity")
@@ -115,24 +146,9 @@ if __name__ == "__main__":
     y = df_train["Activity"]
     x_submit = df_submit.values
 
-    if SHUFFLE:
-        idx = np.random.permutation(y.size)
-        x = x[idx]
-        y = y[idx]
+    submit_data = show_folds(x, y, x_submit)
+    # submit_data = blend_ensemble(x, y, x_submit)
 
-    submit_data_original = blend_ensemble(x, y, x_submit)
-    submit_data = stretch(submit_data_original)
-
-    ####################
-    # Build submit file
-    ####################
-    ids = [id + 1 for id in range(submit_data.shape[0])]
-    submit_df = pd.DataFrame(
-        {"MoleculeId": ids, "PredictedProbability": submit_data[:, 1]},
-        columns=["MoleculeId", "PredictedProbability"],
-    )
-
-    submit_df.to_csv(OUTPUT_PATH + "submit.csv", index=False)
 
 
 
