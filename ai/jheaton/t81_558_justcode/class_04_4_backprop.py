@@ -99,7 +99,7 @@ model.fit(
     y_train,
     validation_data=(x_test, y_test),
     callbacks=[monitor],
-    verbose=0,
+    verbose=1,
     epochs=1000,
 )
 
