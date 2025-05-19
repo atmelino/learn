@@ -13,26 +13,30 @@ np.set_printoptions(linewidth=np.inf)
 np.set_printoptions(threshold=np.inf)
 np.set_printoptions(precision=4, suppress=True)
 
-
 pd.set_option("display.max_rows", None)
 pd.set_option("display.float_format", lambda x: f"{x:.3f}")
 
 print("pr_class_05_2_kfold_B_02")
+
+BASE_PATH = "../../../../local_data/practice/jheaton"
+OUTPUT_PATH = os.path.join(BASE_PATH, "pr_class_05_2_kfold_B_02/")
+os.system("mkdir -p " + OUTPUT_PATH)
+
 
 # Options for this run
 shuffle = False
 print_fold = True
 run_model = False
 length = 2000
-folds = 5
+number_of_folds = 5
 length = 200
-folds = 3
+number_of_folds = 3
 length = 400
-folds = 3
+number_of_folds = 3
 length = 80
-folds = 2
+number_of_folds = 2
 length = 100
-folds = 2
+number_of_folds = 2
 
 
 # Read the data set
@@ -70,7 +74,7 @@ EPOCHS = 500
 # np.argmax(pred,axis=1)
 # Cross-validate
 # Use for StratifiedKFold classification
-kf = StratifiedKFold(folds, shuffle=True, random_state=42)
+kf = StratifiedKFold(number_of_folds, shuffle=True, random_state=42)
 oos_id = []
 oos_y = []
 oos_pred = []
@@ -154,7 +158,7 @@ oos_y_compare = pd.DataFrame(oos_y_compare, columns=["test"])
 oos_pred = pd.DataFrame(oos_pred, columns=["pred"])
 # df_part = df.drop(columns=['income', 'aspect','subscriptions'])
 oosDF = pd.concat([oos_id, oos_y, oos_y_compare,oos_pred], axis=1)
-filename_write = "./output/class_5_2_kfold_B_02.csv"
+filename_write = OUTPUT_PATH+"class_5_2_kfold_B_02.csv"
 oosDF.to_csv(filename_write, index=False)
 
 # print("test vs predicted")
