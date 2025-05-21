@@ -17,11 +17,10 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Activation
 from tensorflow.keras.callbacks import EarlyStopping
 
+print("pr_class_08_2_bio_blend_fold")
+
 # Options for this run
-print_fold = True
-run_model = False
 length = 100
-folds = 2
 FOLDS = 10
 SHORT= True
 
@@ -75,12 +74,19 @@ def blend_ensemble(x, y, x_submit):
             ),
         ]
 
+    print("x.shape[0]",x.shape[0])
+    print("x.shape[1]",x.shape[1])
+    print("x_submit.shape[0]",x_submit.shape[0])
+    print("x_submit.shape[1]",x_submit.shape[1])
+    print("len(models)",len(models))
     dataset_blend_train = np.zeros((x.shape[0], len(models)))
     dataset_blend_test = np.zeros((x_submit.shape[0], len(models)))
+    # print("dataset_blend_train",dataset_blend_train)
 
     for j, model in enumerate(models):
         print("Model: {} : {}".format(j, model))
         fold_sums = np.zeros((x_submit.shape[0], len(folds)))
+
         total_loss = 0
         for i, (train, test) in enumerate(folds):
             x_train = x[train]
@@ -92,10 +98,14 @@ def blend_ensemble(x, y, x_submit):
             # print("x_test.shape", x_test.shape)
             # print("y_test.shape", y_test.shape)
             model.fit(x_train, y_train)
+
             pred = np.array(model.predict_proba(x_test))
+            # print("pred",pred)
             dataset_blend_train[test, j] = pred[:, 1]
+
             pred2 = np.array(model.predict_proba(x_submit))
             fold_sums[:, i] = pred2[:, 1]
+
             loss = mlogloss(y_test, pred)
             total_loss += loss
             print("Fold #{}: loss={}".format(i, loss))
@@ -103,6 +113,8 @@ def blend_ensemble(x, y, x_submit):
             "{}: Mean loss={}".format(model.__class__.__name__, total_loss / len(folds))
         )
         dataset_blend_test[:, j] = fold_sums.mean(1)
+
+    exit()
 
     print()
     print("Blending models.")
@@ -128,8 +140,8 @@ def show_folds(x, y, x_submit):
 
 if __name__ == "__main__":
 
-    BASE_PATH = "../../../../local_data/jheaton"
-    OUTPUT_PATH = os.path.join(BASE_PATH, "class_08_2_keras_ensembles_bio_blend/")
+    BASE_PATH = "../../../../local_data/practice/jheaton"
+    OUTPUT_PATH = os.path.join(BASE_PATH, "pr_class_08_2_bio_blend_fold/")
     os.system("mkdir -p " + OUTPUT_PATH)
 
     print("Loading data...")
@@ -137,8 +149,8 @@ if __name__ == "__main__":
     df_train = pd.read_csv(URL + "bio_train.csv", na_values=["NA", "?"])
     df_submit = pd.read_csv(URL + "bio_test.csv", na_values=["NA", "?"])
 
-    df_train = df_train.iloc[0:length]
-    df_submit = df_submit.iloc[0:length]
+    # df_train = df_train.iloc[0:length]
+    # df_submit = df_submit.iloc[0:length]
 
     predictors = list(df_train.columns.values)
     predictors.remove("Activity")
@@ -146,8 +158,8 @@ if __name__ == "__main__":
     y = df_train["Activity"]
     x_submit = df_submit.values
 
-    submit_data = show_folds(x, y, x_submit)
-    # submit_data = blend_ensemble(x, y, x_submit)
+    # submit_data = show_folds(x, y, x_submit)
+    submit_data = blend_ensemble(x, y, x_submit)
 
 
 
