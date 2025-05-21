@@ -98,7 +98,7 @@ def blend_ensemble(x, y, x_submit):
             # print("x_test.shape", x_test.shape)
             # print("y_test.shape", y_test.shape)
             model.fit(x_train, y_train)
-
+            
             pred = np.array(model.predict_proba(x_test))
             # print("pred",pred)
             dataset_blend_train[test, j] = pred[:, 1]
