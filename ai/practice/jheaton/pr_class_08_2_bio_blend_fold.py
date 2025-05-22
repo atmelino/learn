@@ -20,9 +20,10 @@ from tensorflow.keras.callbacks import EarlyStopping
 print("pr_class_08_2_bio_blend_fold")
 
 # Options for this run
-length = 100
+length = 30
 FOLDS = 10
-SHORT= True
+FOLDS = 3
+SHORT= False
 
 def build_ann(input_size, classes, neurons):
     model = Sequential()
@@ -55,9 +56,6 @@ def blend_ensemble(x, y, x_submit):
             ),
             KNeighborsClassifier(n_neighbors=3),
             RandomForestClassifier(n_estimators=100, n_jobs=-1, criterion="gini"),
-            RandomForestClassifier(n_estimators=100, n_jobs=-1, criterion="entropy"),
-            ExtraTreesClassifier(n_estimators=100, n_jobs=-1, criterion="gini"),
-            ExtraTreesClassifier(n_estimators=100, n_jobs=-1, criterion="entropy"),
         ]
     else:
         models = [
@@ -152,7 +150,8 @@ if __name__ == "__main__":
 
     print("Loading data...")
     URL = "../../../../local_data/jheaton/input/"
-    df_train = pd.read_csv(URL + "bio_train.csv", na_values=["NA", "?"])
+    # df_train = pd.read_csv(URL + "bio_train.csv", na_values=["NA", "?"])
+    df_train = pd.read_csv(URL + "bio_train_short.csv", na_values=["NA", "?"])
     df_submit = pd.read_csv(URL + "bio_test.csv", na_values=["NA", "?"])
 
     # df_train = df_train.iloc[0:length]
