@@ -89,6 +89,8 @@ def blend_ensemble(x, y, x_submit):
 
         total_loss = 0
         for i, (train, test) in enumerate(folds):
+            # print(f"  Train: index={train} size={train.shape}")
+            # print(f"  Test:  index={test} size={test.shape}")
             x_train = x[train]
             y_train = y[train]
             x_test = x[test]
@@ -97,11 +99,15 @@ def blend_ensemble(x, y, x_submit):
             # print("y_train.shape", y_train.shape)
             # print("x_test.shape", x_test.shape)
             # print("y_test.shape", y_test.shape)
+
             model.fit(x_train, y_train)
             
             pred = np.array(model.predict_proba(x_test))
             # print("pred",pred)
             dataset_blend_train[test, j] = pred[:, 1]
+            df_blend_test=pd.DataFrame(dataset_blend_train)
+            df_blend_test.to_csv(OUTPUT_PATH + "df_blend_test_m"+str(j)+"f"+str(i)+".csv", index=False)
+
 
             pred2 = np.array(model.predict_proba(x_submit))
             fold_sums[:, i] = pred2[:, 1]
