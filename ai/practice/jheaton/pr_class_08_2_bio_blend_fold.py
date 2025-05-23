@@ -109,6 +109,8 @@ def blend_ensemble(x, y, x_submit):
 
             pred2 = np.array(model.predict_proba(x_submit))
             fold_sums[:, i] = pred2[:, 1]
+            df_fold_sums=pd.DataFrame(fold_sums)
+            df_fold_sums.to_csv(OUTPUT_PATH + "df_fold_sums_m"+str(j)+"f"+str(i)+".csv", index=False)
 
             loss = mlogloss(y_test, pred)
             total_loss += loss
@@ -151,8 +153,10 @@ if __name__ == "__main__":
     print("Loading data...")
     URL = "../../../../local_data/jheaton/input/"
     # df_train = pd.read_csv(URL + "bio_train.csv", na_values=["NA", "?"])
+    # df_submit = pd.read_csv(URL + "bio_test.csv", na_values=["NA", "?"])
+
     df_train = pd.read_csv(URL + "bio_train_short.csv", na_values=["NA", "?"])
-    df_submit = pd.read_csv(URL + "bio_test.csv", na_values=["NA", "?"])
+    df_submit = pd.read_csv(URL + "bio_test_short.csv", na_values=["NA", "?"])
 
     # df_train = df_train.iloc[0:length]
     # df_submit = df_submit.iloc[0:length]
