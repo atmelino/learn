@@ -103,8 +103,8 @@ def blend_ensemble(x, y, x_submit):
             pred = np.array(model.predict_proba(x_test))
             # print("pred",pred)
             dataset_blend_train[test, j] = pred[:, 1]
-            df_blend_test=pd.DataFrame(dataset_blend_train)
-            df_blend_test.to_csv(OUTPUT_PATH + "df_blend_test_m"+str(j)+"f"+str(i)+".csv", index=False)
+            df_blend_train=pd.DataFrame(dataset_blend_train)
+            df_blend_train.to_csv(OUTPUT_PATH + "df_blend_train_m"+str(j)+"f"+str(i)+".csv", index=False)
 
 
             pred2 = np.array(model.predict_proba(x_submit))
@@ -119,6 +119,8 @@ def blend_ensemble(x, y, x_submit):
             "{}: Mean loss={}".format(model.__class__.__name__, total_loss / len(folds))
         )
         dataset_blend_test[:, j] = fold_sums.mean(1)
+        df_blend_test=pd.DataFrame(dataset_blend_test)
+        df_blend_test.to_csv(OUTPUT_PATH + "df_blend_test_m"+str(j)+".csv", index=False)
 
     exit()
 
