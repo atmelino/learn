@@ -1,13 +1,16 @@
 # HIDE OUTPUT
 import tensorflow as tf
-print(f"Tensor Flow Version: {tf.__version__}")
 import tensorflow.keras
+from transformers import pipeline
+import pandas as pd
+from urllib.request import urlopen
+
+print(f"Tensor Flow Version: {tf.__version__}")
 # print(f"Keras Version: {tensorflow.keras.__version__}")
 
 #pip install transformers
 #pip install transformers[sentencepiece]
 
-from urllib.request import urlopen
 
 ## Sentiment Analysis
 
@@ -18,8 +21,6 @@ f = urlopen(URL)
 text = f.read().decode("utf-8")
 print(text)
 
-import pandas as pd
-from transformers import pipeline
 
 classifier = pipeline("text-classification")
 outputs = classifier(text)
@@ -64,7 +65,6 @@ outputs = summarizer(text2, max_length=45,
 print(outputs[0]['summary_text'])
 
 
-from urllib.request import urlopen
 generator = pipeline("text-generation")
 outputs = generator(text, max_length=400)
 print(outputs[0]['generated_text'])
