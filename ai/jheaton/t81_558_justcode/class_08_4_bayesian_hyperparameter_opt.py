@@ -151,9 +151,9 @@ def evaluate_network(dropout, learning_rate, neuronPct, neuronShrink):
     return -m1
 
 
-# print(
-#     evaluate_network(dropout=0.2, learning_rate=1e-3, neuronPct=0.2, neuronShrink=0.2)
-# )
+print(
+    evaluate_network(dropout=0.2, learning_rate=1e-3, neuronPct=0.2, neuronShrink=0.2)
+)
 
 
 from bayes_opt import BayesianOptimization
