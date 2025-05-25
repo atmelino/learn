@@ -24,6 +24,11 @@ from bayes_opt import BayesianOptimization
 import time
 import warnings # Supress NaN warnings
 
+BASE_PATH = "../../../../local_data/jheaton"
+OUTPUT_PATH = os.path.join(BASE_PATH, "class_08_4_bayesian_hyperparameter_opt/")
+os.system("mkdir -p " + OUTPUT_PATH)
+
+
 logging.disable(logging.WARNING)
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 warnings.filterwarnings("ignore", category=RuntimeWarning)
@@ -154,6 +159,7 @@ def evaluate_network(dropout, learning_rate, neuronPct, neuronShrink):
         y_compare = np.argmax(y_test, axis=1)  # For log loss calculation
         score = metrics.log_loss(y_compare, pred)
         mean_benchmark.append(score)
+        print("mean_benchmark=",mean_benchmark)
         m1 = statistics.mean(mean_benchmark)
         m2 = statistics.mean(epochs_needed)
         mdev = statistics.pstdev(mean_benchmark)
