@@ -20,9 +20,13 @@ from sklearn.model_selection import ShuffleSplit
 from tensorflow.keras.layers import LeakyReLU, PReLU
 from tensorflow.keras.optimizers import Adam
 from scipy.stats import zscore
+from bayes_opt import BayesianOptimization
+import time
+import warnings # Supress NaN warnings
 
 logging.disable(logging.WARNING)
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
+warnings.filterwarnings("ignore", category=RuntimeWarning)
 
 # Read the data set
 df = pd.read_csv(
@@ -164,13 +168,6 @@ print(
 )
 
 
-from bayes_opt import BayesianOptimization
-import time
-
-# Supress NaN warnings
-import warnings
-
-warnings.filterwarnings("ignore", category=RuntimeWarning)
 # Bounded region of parameter space
 pbounds = {
     "dropout": (0.0, 0.499),
