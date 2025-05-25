@@ -47,8 +47,8 @@ df["subscriptions"] = zscore(df["subscriptions"])
 # Convert to numpy - Classification
 x_columns = df.columns.drop("product").drop("id")
 x = df[x_columns].values
-print("x\n", x)
-print("x.shape=",x.shape)
+# print("x\n", x)
+# print("x.shape=",x.shape)
 
 
 dummies = pd.get_dummies(df["product"])  # Classification
@@ -61,8 +61,8 @@ def generate_model(dropout, neuronPct, neuronShrink):
     # We start with some percent of 5000 starting neurons on
     # the first hidden layer.
     neuronCount = int(neuronPct * 5000)
-    print("neuronCount=",neuronCount)
-    print("x.shape[1]=",x.shape[1])
+    # print("neuronCount=",neuronCount)
+    # print("x.shape[1]=",x.shape[1])
     
     # Construct neural network
     model = Sequential()
@@ -73,7 +73,7 @@ def generate_model(dropout, neuronPct, neuronShrink):
     while neuronCount > 25 and layer < 10:
         # The first (0th) layer needs an input input_dim(neuronCount)
         if layer == 0:
-            print("neuronCount=",neuronCount)
+            # print("neuronCount=",neuronCount)
             model.add(Dense(neuronCount, input_dim=x.shape[1], activation=PReLU()))
         else:
             model.add(Dense(neuronCount, activation=PReLU()))
@@ -81,14 +81,14 @@ def generate_model(dropout, neuronPct, neuronShrink):
         # Add dropout after each hidden layer
         model.add(Dropout(dropout))
         # Shrink neuron count for each layer
-        neuronCount = neuronCount * neuronShrink
+        neuronCount = round(neuronCount * neuronShrink)
+        # neuronCount = neuronCount * neuronShrink
     model.add(Dense(y.shape[1], activation="softmax"))  # Output
     return model
 
 
 # Generate a model and see what the resulting structure looks like.
-# model = generate_model(dropout=0.2, neuronPct=0.1, neuronShrink=0.25)
-model = generate_model(dropout=0.3, neuronPct=0.3, neuronShrink=0.35)
+model = generate_model(dropout=0.2, neuronPct=0.1, neuronShrink=0.25)
 model.summary()
 
 
