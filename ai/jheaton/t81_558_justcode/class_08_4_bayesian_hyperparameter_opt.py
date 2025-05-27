@@ -22,7 +22,7 @@ from tensorflow.keras.optimizers import Adam
 from scipy.stats import zscore
 from bayes_opt import BayesianOptimization
 import time
-import warnings # Supress NaN warnings
+import warnings  # Supress NaN warnings
 
 BASE_PATH = "../../../../local_data/jheaton"
 OUTPUT_PATH = os.path.join(BASE_PATH, "class_08_4_bayesian_hyperparameter_opt/")
@@ -72,7 +72,7 @@ def generate_model(dropout, neuronPct, neuronShrink):
     neuronCount = int(neuronPct * 5000)
     # print("neuronCount=",neuronCount)
     # print("x.shape[1]=",x.shape[1])
-    
+
     # Construct neural network
     model = Sequential()
     # So long as there would have been at least 25 neurons and
@@ -97,16 +97,17 @@ def generate_model(dropout, neuronPct, neuronShrink):
 
 
 # Generate a model and see what the resulting structure looks like.
-model = generate_model(dropout=0.2, neuronPct=0.1, neuronShrink=0.25)
-model.summary()
+# model = generate_model(dropout=0.2, neuronPct=0.1, neuronShrink=0.25)
+# model.summary()
 
 
 SPLITS = 2
 EPOCHS = 500
 PATIENCE = 10
-
+TRAIN = False
 
 def evaluate_network(dropout, learning_rate, neuronPct, neuronShrink):
+    m1=0
     # Bootstrap
     # for Classification
     boot = StratifiedShuffleSplit(n_splits=SPLITS, test_size=0.1)
@@ -131,40 +132,44 @@ def evaluate_network(dropout, learning_rate, neuronPct, neuronShrink):
         y_test = np.asarray(y[test]).astype(np.float32)
 
         model = generate_model(dropout, neuronPct, neuronShrink)
-        model.compile(
-            loss="categorical_crossentropy", optimizer=Adam(learning_rate=learning_rate)
-        )
-        monitor = EarlyStopping(
-            monitor="val_loss",
-            min_delta=1e-3,
-            patience=PATIENCE,
-            verbose=0,
-            mode="auto",
-            restore_best_weights=True,
-        )
-        # Train on the bootstrap sample
-        model.fit(
-            x_train,
-            y_train,
-            validation_data=(x_test, y_test),
-            callbacks=[monitor],
-            verbose=0,
-            epochs=EPOCHS,
-        )
-        epochs = monitor.stopped_epoch
-        epochs_needed.append(epochs)
-        # Predict on the out of boot (validation)
-        pred = model.predict(x_test)
-        # Measure this bootstrap's log loss
-        y_compare = np.argmax(y_test, axis=1)  # For log loss calculation
-        score = metrics.log_loss(y_compare, pred)
-        mean_benchmark.append(score)
-        print("mean_benchmark=",mean_benchmark)
-        m1 = statistics.mean(mean_benchmark)
-        m2 = statistics.mean(epochs_needed)
-        mdev = statistics.pstdev(mean_benchmark)
-        # Record this iteration
-        time_took = time.time() - start_time
+        model.summary()
+
+        if TRAIN == True:
+            model.compile(
+                loss="categorical_crossentropy",
+                optimizer=Adam(learning_rate=learning_rate),
+            )
+            monitor = EarlyStopping(
+                monitor="val_loss",
+                min_delta=1e-3,
+                patience=PATIENCE,
+                verbose=0,
+                mode="auto",
+                restore_best_weights=True,
+            )
+            # Train on the bootstrap sample
+            model.fit(
+                x_train,
+                y_train,
+                validation_data=(x_test, y_test),
+                callbacks=[monitor],
+                verbose=0,
+                epochs=EPOCHS,
+            )
+            epochs = monitor.stopped_epoch
+            epochs_needed.append(epochs)
+            # Predict on the out of boot (validation)
+            pred = model.predict(x_test)
+            # Measure this bootstrap's log loss
+            y_compare = np.argmax(y_test, axis=1)  # For log loss calculation
+            score = metrics.log_loss(y_compare, pred)
+            mean_benchmark.append(score)
+            print("mean_benchmark=", mean_benchmark)
+            m1 = statistics.mean(mean_benchmark)
+            m2 = statistics.mean(epochs_needed)
+            mdev = statistics.pstdev(mean_benchmark)
+            # Record this iteration
+            time_took = time.time() - start_time
     tensorflow.keras.backend.clear_session()
     return -m1
 
@@ -181,6 +186,14 @@ pbounds = {
     "neuronPct": (0.01, 1),
     "neuronShrink": (0.01, 1),
 }
+
+# pbounds = {
+#     "dropout": (0.2, 0.499),
+#     "learning_rate": (0.05, 0.1),
+#     "neuronPct": (0.01, 1),
+#     "neuronShrink": (0.01, 1),
+# }
+
 optimizer = BayesianOptimization(
     f=evaluate_network,
     pbounds=pbounds,
