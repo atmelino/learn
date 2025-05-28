@@ -20,9 +20,18 @@ from sklearn.model_selection import ShuffleSplit
 from tensorflow.keras.layers import LeakyReLU, PReLU
 from tensorflow.keras.optimizers import Adam
 from scipy.stats import zscore
+from bayes_opt import BayesianOptimization
+import time
+import warnings  # Supress NaN warnings
+
+BASE_PATH = "../../../../local_data/practice/jheaton"
+OUTPUT_PATH = os.path.join(BASE_PATH, "pr_class_08_4_bayesian_hyperparameter_opt/")
+os.system("mkdir -p " + OUTPUT_PATH)
+
 
 logging.disable(logging.WARNING)
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
+warnings.filterwarnings("ignore", category=RuntimeWarning)
 
 # Read the data set
 df = pd.read_csv(
@@ -47,10 +56,13 @@ df["subscriptions"] = zscore(df["subscriptions"])
 # Convert to numpy - Classification
 x_columns = df.columns.drop("product").drop("id")
 x = df[x_columns].values
+# print("x\n", x)
+# print("x.shape=",x.shape)
+
+
 dummies = pd.get_dummies(df["product"])  # Classification
 products = dummies.columns
 y = dummies.values
-
 # print("y\n", y)
 
 
@@ -58,6 +70,9 @@ def generate_model(dropout, neuronPct, neuronShrink):
     # We start with some percent of 5000 starting neurons on
     # the first hidden layer.
     neuronCount = int(neuronPct * 5000)
+    # print("neuronCount=",neuronCount)
+    # print("x.shape[1]=",x.shape[1])
+
     # Construct neural network
     model = Sequential()
     # So long as there would have been at least 25 neurons and
@@ -67,6 +82,7 @@ def generate_model(dropout, neuronPct, neuronShrink):
     while neuronCount > 25 and layer < 10:
         # The first (0th) layer needs an input input_dim(neuronCount)
         if layer == 0:
+            # print("neuronCount=",neuronCount)
             model.add(Dense(neuronCount, input_dim=x.shape[1], activation=PReLU()))
         else:
             model.add(Dense(neuronCount, activation=PReLU()))
@@ -74,22 +90,24 @@ def generate_model(dropout, neuronPct, neuronShrink):
         # Add dropout after each hidden layer
         model.add(Dropout(dropout))
         # Shrink neuron count for each layer
-        neuronCount = neuronCount * neuronShrink
+        neuronCount = round(neuronCount * neuronShrink)
+        # neuronCount = neuronCount * neuronShrink
     model.add(Dense(y.shape[1], activation="softmax"))  # Output
     return model
 
 
 # Generate a model and see what the resulting structure looks like.
-model = generate_model(dropout=0.2, neuronPct=0.1, neuronShrink=0.25)
-model.summary()
+# model = generate_model(dropout=0.2, neuronPct=0.1, neuronShrink=0.25)
+# model.summary()
 
 
 SPLITS = 2
 EPOCHS = 500
 PATIENCE = 10
-
+TRAIN = False
 
 def evaluate_network(dropout, learning_rate, neuronPct, neuronShrink):
+    m1=0
     # Bootstrap
     # for Classification
     boot = StratifiedShuffleSplit(n_splits=SPLITS, test_size=0.1)
@@ -114,39 +132,44 @@ def evaluate_network(dropout, learning_rate, neuronPct, neuronShrink):
         y_test = np.asarray(y[test]).astype(np.float32)
 
         model = generate_model(dropout, neuronPct, neuronShrink)
-        model.compile(
-            loss="categorical_crossentropy", optimizer=Adam(learning_rate=learning_rate)
-        )
-        monitor = EarlyStopping(
-            monitor="val_loss",
-            min_delta=1e-3,
-            patience=PATIENCE,
-            verbose=0,
-            mode="auto",
-            restore_best_weights=True,
-        )
-        # Train on the bootstrap sample
-        model.fit(
-            x_train,
-            y_train,
-            validation_data=(x_test, y_test),
-            callbacks=[monitor],
-            verbose=0,
-            epochs=EPOCHS,
-        )
-        epochs = monitor.stopped_epoch
-        epochs_needed.append(epochs)
-        # Predict on the out of boot (validation)
-        pred = model.predict(x_test)
-        # Measure this bootstrap's log loss
-        y_compare = np.argmax(y_test, axis=1)  # For log loss calculation
-        score = metrics.log_loss(y_compare, pred)
-        mean_benchmark.append(score)
-        m1 = statistics.mean(mean_benchmark)
-        m2 = statistics.mean(epochs_needed)
-        mdev = statistics.pstdev(mean_benchmark)
-        # Record this iteration
-        time_took = time.time() - start_time
+        model.summary()
+
+        if TRAIN == True:
+            model.compile(
+                loss="categorical_crossentropy",
+                optimizer=Adam(learning_rate=learning_rate),
+            )
+            monitor = EarlyStopping(
+                monitor="val_loss",
+                min_delta=1e-3,
+                patience=PATIENCE,
+                verbose=0,
+                mode="auto",
+                restore_best_weights=True,
+            )
+            # Train on the bootstrap sample
+            model.fit(
+                x_train,
+                y_train,
+                validation_data=(x_test, y_test),
+                callbacks=[monitor],
+                verbose=0,
+                epochs=EPOCHS,
+            )
+            epochs = monitor.stopped_epoch
+            epochs_needed.append(epochs)
+            # Predict on the out of boot (validation)
+            pred = model.predict(x_test)
+            # Measure this bootstrap's log loss
+            y_compare = np.argmax(y_test, axis=1)  # For log loss calculation
+            score = metrics.log_loss(y_compare, pred)
+            mean_benchmark.append(score)
+            print("mean_benchmark=", mean_benchmark)
+            m1 = statistics.mean(mean_benchmark)
+            m2 = statistics.mean(epochs_needed)
+            mdev = statistics.pstdev(mean_benchmark)
+            # Record this iteration
+            time_took = time.time() - start_time
     tensorflow.keras.backend.clear_session()
     return -m1
 
@@ -156,13 +179,6 @@ def evaluate_network(dropout, learning_rate, neuronPct, neuronShrink):
 # )
 
 
-from bayes_opt import BayesianOptimization
-import time
-
-# Supress NaN warnings
-import warnings
-
-warnings.filterwarnings("ignore", category=RuntimeWarning)
 # Bounded region of parameter space
 pbounds = {
     "dropout": (0.0, 0.499),
@@ -170,6 +186,14 @@ pbounds = {
     "neuronPct": (0.01, 1),
     "neuronShrink": (0.01, 1),
 }
+
+# pbounds = {
+#     "dropout": (0.2, 0.499),
+#     "learning_rate": (0.05, 0.1),
+#     "neuronPct": (0.01, 1),
+#     "neuronShrink": (0.01, 1),
+# }
+
 optimizer = BayesianOptimization(
     f=evaluate_network,
     pbounds=pbounds,
