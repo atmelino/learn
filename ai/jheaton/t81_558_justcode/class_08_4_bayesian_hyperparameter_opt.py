@@ -74,7 +74,7 @@ def generate_model(dropout, neuronPct, neuronShrink):
         # Add dropout after each hidden layer
         model.add(Dropout(dropout))
         # Shrink neuron count for each layer
-        neuronCount = neuronCount * neuronShrink
+        neuronCount = round(neuronCount * neuronShrink)
     model.add(Dense(y.shape[1], activation="softmax"))  # Output
     return model
 
