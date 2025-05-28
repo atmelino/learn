@@ -107,7 +107,9 @@ PATIENCE = 10
 TRAIN = False
 
 def evaluate_network(dropout, learning_rate, neuronPct, neuronShrink):
-    m1=0
+    m1=.2
+
+    print("call to evaluate_network", dropout, learning_rate, neuronPct, neuronShrink)
     # Bootstrap
     # for Classification
     boot = StratifiedShuffleSplit(n_splits=SPLITS, test_size=0.1)
@@ -132,7 +134,7 @@ def evaluate_network(dropout, learning_rate, neuronPct, neuronShrink):
         y_test = np.asarray(y[test]).astype(np.float32)
 
         model = generate_model(dropout, neuronPct, neuronShrink)
-        model.summary()
+        # model.summary()
 
         if TRAIN == True:
             model.compile(
@@ -170,7 +172,7 @@ def evaluate_network(dropout, learning_rate, neuronPct, neuronShrink):
             mdev = statistics.pstdev(mean_benchmark)
             # Record this iteration
             time_took = time.time() - start_time
-    tensorflow.keras.backend.clear_session()
+        tensorflow.keras.backend.clear_session()
     return -m1
 
 
@@ -180,19 +182,20 @@ def evaluate_network(dropout, learning_rate, neuronPct, neuronShrink):
 
 
 # Bounded region of parameter space
-pbounds = {
+original_pbounds = {
     "dropout": (0.0, 0.499),
     "learning_rate": (0.0, 0.1),
     "neuronPct": (0.01, 1),
     "neuronShrink": (0.01, 1),
 }
 
-# pbounds = {
-#     "dropout": (0.2, 0.499),
-#     "learning_rate": (0.05, 0.1),
-#     "neuronPct": (0.01, 1),
-#     "neuronShrink": (0.01, 1),
-# }
+pbounds = {
+    "dropout": (0.0, 0.499),
+    "learning_rate": (0.0, 0.1),
+    "neuronPct": (0.01, 1),
+    "neuronShrink": (0.01, 0.8),
+}
+
 
 optimizer = BayesianOptimization(
     f=evaluate_network,
@@ -203,7 +206,7 @@ optimizer = BayesianOptimization(
 )
 start_time = time.time()
 optimizer.maximize(
-    init_points=10,
+    init_points=50,
     n_iter=20,
 )
 time_took = time.time() - start_time
