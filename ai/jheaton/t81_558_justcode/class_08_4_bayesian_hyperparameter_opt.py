@@ -168,7 +168,7 @@ pbounds = {
     "dropout": (0.0, 0.499),
     "learning_rate": (0.0, 0.1),
     "neuronPct": (0.01, 1),
-    "neuronShrink": (0.01, 1),
+    "neuronShrink": (0.01, 0.9),
 }
 optimizer = BayesianOptimization(
     f=evaluate_network,
