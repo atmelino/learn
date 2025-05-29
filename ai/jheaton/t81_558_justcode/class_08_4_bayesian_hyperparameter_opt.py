@@ -24,7 +24,7 @@ from bayes_opt import BayesianOptimization
 import time
 import warnings  # Supress NaN warnings
 
-BASE_PATH = "../../../../local_data/practice/jheaton"
+BASE_PATH = "../../../../local_data/jheaton"
 OUTPUT_PATH = os.path.join(BASE_PATH, "class_08_4_bayesian_hyperparameter_opt/")
 os.system("mkdir -p " + OUTPUT_PATH)
 
