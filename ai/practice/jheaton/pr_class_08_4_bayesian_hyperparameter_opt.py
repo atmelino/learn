@@ -104,7 +104,7 @@ def generate_model(dropout, neuronPct, neuronShrink):
 SPLITS = 2
 EPOCHS = 500
 PATIENCE = 10
-TRAIN = True
+TRAIN = False
 
 def evaluate_network(dropout, learning_rate, neuronPct, neuronShrink):
     m1=.2
@@ -187,6 +187,12 @@ def evaluate_network(dropout, learning_rate, neuronPct, neuronShrink):
         tensorflow.keras.backend.clear_session()
     return -m1
 
+# Nicely formatted time string
+def hms_string(sec_elapsed):
+    h = int(sec_elapsed / (60 * 60))
+    m = int((sec_elapsed % (60 * 60)) / 60)
+    s = sec_elapsed % 60
+    return f"{h}:{m:>02}:{s:>05.2f}"
 
 # print(
 #     evaluate_network(dropout=0.2, learning_rate=1e-3, neuronPct=0.2, neuronShrink=0.2)
@@ -218,8 +224,8 @@ optimizer = BayesianOptimization(
 )
 start_time = time.time()
 optimizer.maximize(
-    init_points=50,
-    n_iter=20,
+    init_points=5,
+    n_iter=2,
 )
 time_took = time.time() - start_time
 print(f"Total runtime: {hms_string(time_took)}")
