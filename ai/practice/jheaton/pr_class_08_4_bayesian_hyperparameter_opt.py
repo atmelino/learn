@@ -28,7 +28,6 @@ BASE_PATH = "../../../../local_data/practice/jheaton"
 OUTPUT_PATH = os.path.join(BASE_PATH, "pr_class_08_4_bayesian_hyperparameter_opt/")
 os.system("mkdir -p " + OUTPUT_PATH)
 
-
 logging.disable(logging.WARNING)
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 warnings.filterwarnings("ignore", category=RuntimeWarning)

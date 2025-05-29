@@ -20,9 +20,17 @@ from sklearn.model_selection import ShuffleSplit
 from tensorflow.keras.layers import LeakyReLU, PReLU
 from tensorflow.keras.optimizers import Adam
 from scipy.stats import zscore
+from bayes_opt import BayesianOptimization
+import time
+import warnings  # Supress NaN warnings
+
+BASE_PATH = "../../../../local_data/practice/jheaton"
+OUTPUT_PATH = os.path.join(BASE_PATH, "pr_class_08_4_bayesian_hyperparameter_opt/")
+os.system("mkdir -p " + OUTPUT_PATH)
 
 logging.disable(logging.WARNING)
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
+warnings.filterwarnings("ignore", category=RuntimeWarning)
 
 # Read the data set
 df = pd.read_csv(
@@ -174,14 +182,6 @@ def hms_string(sec_elapsed):
 #     evaluate_network(dropout=0.2, learning_rate=1e-3, neuronPct=0.2, neuronShrink=0.2)
 # )
 
-
-from bayes_opt import BayesianOptimization
-import time
-
-# Supress NaN warnings
-import warnings
-
-warnings.filterwarnings("ignore", category=RuntimeWarning)
 # Bounded region of parameter space
 pbounds = {
     "dropout": (0.0, 0.499),
