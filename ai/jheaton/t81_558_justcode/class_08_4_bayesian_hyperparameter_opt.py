@@ -25,7 +25,7 @@ import time
 import warnings  # Supress NaN warnings
 
 BASE_PATH = "../../../../local_data/practice/jheaton"
-OUTPUT_PATH = os.path.join(BASE_PATH, "pr_class_08_4_bayesian_hyperparameter_opt/")
+OUTPUT_PATH = os.path.join(BASE_PATH, "class_08_4_bayesian_hyperparameter_opt/")
 os.system("mkdir -p " + OUTPUT_PATH)
 
 logging.disable(logging.WARNING)
