@@ -87,9 +87,14 @@ model.summary()
 SPLITS = 2
 EPOCHS = 500
 PATIENCE = 10
+call_count = 0
 
 
 def evaluate_network(dropout, learning_rate, neuronPct, neuronShrink):
+    global call_count
+    call_count += 1
+    print(f"call {call_count} evaluate_network: dr={dropout:.4f} lr={learning_rate:.4f} nP={neuronPct:.4f} nS={neuronShrink:.4f}")
+
     # Bootstrap
     # for Classification
     boot = StratifiedShuffleSplit(n_splits=SPLITS, test_size=0.1)
@@ -140,6 +145,14 @@ def evaluate_network(dropout, learning_rate, neuronPct, neuronShrink):
         pred = model.predict(x_test)
         # Measure this bootstrap's log loss
         y_compare = np.argmax(y_test, axis=1)  # For log loss calculation
+
+        col1 = pd.DataFrame(y_compare, columns=["y_compare"])
+        col2 = pd.DataFrame(pred, columns=["p1","p2","p3","p4","p5","p6","p7"])
+        compare = pd.concat([col1, col2], axis=1)
+        compare.columns = ["y_test", "p1","p2","p3","p4","p5","p6","p7"]
+        # print(compare)
+        compare.to_csv(OUTPUT_PATH + "df_y_pred_iter"+str(call_count)+".csv", index=False)
+
         score = metrics.log_loss(y_compare, pred)
         mean_benchmark.append(score)
         m1 = statistics.mean(mean_benchmark)
