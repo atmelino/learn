@@ -101,7 +101,8 @@ call_count = 0
 def evaluate_network(dropout, learning_rate, neuronPct, neuronShrink):
     global call_count
     call_count += 1
-    print(f"call {call_count} evaluate_network: dr={dropout:.4f} lr={learning_rate:.4f} nP={neuronPct:.4f} nS={neuronShrink:.4f}")
+    # print(f"call {call_count} evaluate_network: dr={dropout:.4f} lr={learning_rate:.4f} nP={neuronPct:.4f} nS={neuronShrink:.4f}")
+    print(f"call {call_count} evaluate_network: dr={dropout} lr={learning_rate} nP={neuronPct} nS={neuronShrink}")
 
     # Bootstrap
     # for Classification
@@ -127,6 +128,7 @@ def evaluate_network(dropout, learning_rate, neuronPct, neuronShrink):
         y_test = np.asarray(y[test]).astype(np.float32)
 
         model = generate_model(dropout, neuronPct, neuronShrink)
+        model.summary()
         model.compile(
             loss="categorical_crossentropy", optimizer=Adam(learning_rate=learning_rate)
         )
