@@ -104,7 +104,7 @@ def generate_model(dropout, neuronPct, neuronShrink):
 SPLITS = 2
 EPOCHS = 500
 PATIENCE = 10
-TRAIN = False
+TRAIN = True
 
 def evaluate_network(dropout, learning_rate, neuronPct, neuronShrink):
     m1=.2
@@ -162,8 +162,20 @@ def evaluate_network(dropout, learning_rate, neuronPct, neuronShrink):
             epochs_needed.append(epochs)
             # Predict on the out of boot (validation)
             pred = model.predict(x_test)
+            print(pred)
             # Measure this bootstrap's log loss
             y_compare = np.argmax(y_test, axis=1)  # For log loss calculation
+
+            col1 = pd.DataFrame(y_compare, columns=["y_compare"])
+            col2 = pd.DataFrame(pred, columns=["p1","p2","p3","p4","p5","p6","p7"])
+            # diff = col1["y_compare"] - col2["pred"]
+            compare = pd.concat([col1, col2], axis=1)
+            compare.columns = ["y_test", "p1","p2","p3","p4","p5","p6","p7"]
+            # compare = pd.concat([col1, col2, diff], axis=1)
+            # compare.columns = ["y_test", "p1","p2","p3","p4","p5","p6","p7", "diff"]
+            print(compare)
+
+
             score = metrics.log_loss(y_compare, pred)
             mean_benchmark.append(score)
             print("mean_benchmark=", mean_benchmark)
