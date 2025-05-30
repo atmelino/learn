@@ -88,8 +88,8 @@ def generate_model(dropout, neuronPct, neuronShrink):
 
 
 # Generate a model and see what the resulting structure looks like.
-model = generate_model(dropout=0.2, neuronPct=0.1, neuronShrink=0.25)
-model.summary()
+# model = generate_model(dropout=0.2, neuronPct=0.1, neuronShrink=0.25)
+# model.summary()
 
 
 SPLITS = 2
@@ -146,7 +146,7 @@ def evaluate_network(dropout, learning_rate, neuronPct, neuronShrink):
             y_train,
             validation_data=(x_test, y_test),
             callbacks=[monitor],
-            verbose=0,
+            verbose=2,
             epochs=EPOCHS,
         )
         epochs = monitor.stopped_epoch
@@ -184,12 +184,15 @@ def hms_string(sec_elapsed):
 #     evaluate_network(dropout=0.2, learning_rate=1e-3, neuronPct=0.2, neuronShrink=0.2)
 # )
 
+# evaluate_network(dropout=0.11679448002633344, learning_rate=0.044700185567872745, neuronPct=0.5546086159149624, neuronShrink=0.8547725918091494)
+# exit()
+
 # Bounded region of parameter space
 pbounds = {
     "dropout": (0.0, 0.499),
     "learning_rate": (0.0, 0.1),
     "neuronPct": (0.01, 1),
-    "neuronShrink": (0.01, 0.9),
+    "neuronShrink": (0.01, 0.8),
 }
 optimizer = BayesianOptimization(
     f=evaluate_network,
