@@ -188,12 +188,18 @@ def hms_string(sec_elapsed):
 # exit()
 
 # Bounded region of parameter space
-pbounds = {
-    "dropout": (0.0, 0.499),
-    "learning_rate": (0.0, 0.1),
-    "neuronPct": (0.01, 1),
-    "neuronShrink": (0.01, 0.8),
+# original
+pbounds = {'dropout': (0.0, 0.499),
+'learning_rate': (0.0, 0.1),
+'neuronPct': (0.01, 1),
+'neuronShrink': (0.01, 1)
 }
+# pbounds = {
+#     "dropout": (0.0, 0.499),
+#     "learning_rate": (0.0, 0.1),
+#     "neuronPct": (0.01, 1),
+#     "neuronShrink": (0.01, 0.8),
+# }
 optimizer = BayesianOptimization(
     f=evaluate_network,
     pbounds=pbounds,
