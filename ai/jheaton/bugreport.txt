@@ -1,0 +1,24 @@
+class_08_4_bayesian_hyperparameter_opt: optimizer bounds can lead to infinite loop
+
+The bounds for neuronShrink are set to 
+code "neuronShrink": (0.01, 1),
+
+If neuronShrink is 1, the model generator basically tries to generate a model with infinite layers.
+But even with values close to 1, I have experienced crashes.
+
+For example, the 
+model = generate_model(dropout=0.2, neuronPct=0.9, neuronShrink=0.985)
+get error
+RecursionError: maximum recursion depth exceeded
+
+An upper bound of 0.9 leads to a different problem:
+When I set the variable
+pbounds = {
+    "dropout": (0.0, 0.499),
+    "learning_rate": (0.0, 0.1),
+    "neuronPct": (0.01, 1),
+    "neuronShrink": (0.01, 0.9),
+}
+
+and run
+
