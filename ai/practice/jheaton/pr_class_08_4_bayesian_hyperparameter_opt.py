@@ -103,7 +103,7 @@ def generate_model(dropout, neuronPct, neuronShrink):
 SPLITS = 2
 EPOCHS = 500
 PATIENCE = 10
-TRAIN = True
+TRAIN = False
 call_count = 0
 
 def evaluate_network(dropout, learning_rate, neuronPct, neuronShrink):
@@ -218,7 +218,8 @@ pbounds = {
 
 optimizer = BayesianOptimization(
     f=evaluate_network,
-    pbounds=pbounds,
+    # pbounds=pbounds,
+    pbounds=original_pbounds,
     verbose=2,  # verbose = 1 prints only when a maximum
     # is observed, verbose = 0 is silent
     random_state=1,
