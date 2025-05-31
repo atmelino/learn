@@ -8,8 +8,11 @@ But even with values close to 1, I have experienced crashes.
 
 For example, the 
 model = generate_model(dropout=0.2, neuronPct=0.9, neuronShrink=0.985)
+
 get error
 RecursionError: maximum recursion depth exceeded
+
+If I run the optimization, the program will crash at the 11th iteration with the same error message.
 
 An upper bound of 0.9 leads to a different problem:
 When I set the variable
@@ -21,4 +24,29 @@ pbounds = {
 }
 
 and run
+evaluate_network(dropout=0.2, learning_rate=1e-3, neuronPct=0.8, neuronShrink=0.95)
+
+get error
+ValueError: Input contains NaN.
+at the line
+        score = metrics.log_loss(y_compare, pred)
+
+Looking at the output of 
+        pred = model.predict(x_test)
+            print(pred)
+we get
+
+
+so the model.fit() completes, but it cannot generate valid predictions.
+
+
+To prevent the program from running into this problem, we can set the upper bound for neuronShrink to a lower value.
+
+So far, I have had no crashes with the following values:
+pbounds = {
+    "dropout": (0.0, 0.499),
+    "learning_rate": (0.0, 0.1),
+    "neuronPct": (0.01, 1),
+    "neuronShrink": (0.01, 0.8),
+}
 
