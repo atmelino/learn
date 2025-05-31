@@ -112,7 +112,8 @@ def evaluate_network(dropout, learning_rate, neuronPct, neuronShrink):
 
     m1=.2
     
-    print(f"call {call_count} evaluate_network: dr={dropout:.4f} lr={learning_rate:.4f} nP={neuronPct:.4f} nS={neuronShrink:.4f}")
+    # print(f"call {call_count} evaluate_network: dr={dropout:.4f} lr={learning_rate:.4f} nP={neuronPct:.4f} nS={neuronShrink:.4f}")
+    print(f"call {call_count} evaluate_network: dr={dropout} lr={learning_rate} nP={neuronPct} nS={neuronShrink}")
 
     # Bootstrap
     # for Classification
@@ -138,7 +139,7 @@ def evaluate_network(dropout, learning_rate, neuronPct, neuronShrink):
         y_test = np.asarray(y[test]).astype(np.float32)
 
         model = generate_model(dropout, neuronPct, neuronShrink)
-        # model.summary()
+        model.summary()
 
         if TRAIN == True:
             model.compile(
@@ -195,10 +196,13 @@ def hms_string(sec_elapsed):
     s = sec_elapsed % 60
     return f"{h}:{m:>02}:{s:>05.2f}"
 
-# print(
-#     evaluate_network(dropout=0.2, learning_rate=1e-3, neuronPct=0.2, neuronShrink=0.2)
-# )
-
+# evaluate_network(dropout=0.2, learning_rate=1e-3, neuronPct=0.2, neuronShrink=0.2)
+# evaluate_network(dropout=0.11679448002633344, learning_rate=0.044700185567872745, neuronPct=0.5546086159149624, neuronShrink=0.8547725918091494)
+# evaluate_network(dropout=0.2, learning_rate=1e-3, neuronPct=0.8, neuronShrink=0.90)
+# evaluate_network(dropout=0.2, learning_rate=1e-3, neuronPct=0.8, neuronShrink=0.95)
+# evaluate_network(dropout=0.45181097883636695, learning_rate=0.025462793367289474, neuronPct=0.9943774602806296, neuronShrink=0.9881956190726225)
+# evaluate_network(dropout=0.2, learning_rate=1e-3, neuronPct=0.8, neuronShrink=0.99)
+# exit()
 
 # Bounded region of parameter space
 original_pbounds = {
@@ -218,8 +222,8 @@ pbounds = {
 
 optimizer = BayesianOptimization(
     f=evaluate_network,
-    # pbounds=pbounds,
-    pbounds=original_pbounds,
+    pbounds=pbounds,
+    # pbounds=original_pbounds,
     verbose=2,  # verbose = 1 prints only when a maximum
     # is observed, verbose = 0 is silent
     random_state=1,
