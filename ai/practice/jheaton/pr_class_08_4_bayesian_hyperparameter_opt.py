@@ -110,8 +110,6 @@ call_count = 0
 def evaluate_network(dropout, learning_rate, neuronPct, neuronShrink):
     global call_count
     call_count += 1
-
-    m1=.2
     
     # print(f"call {call_count} evaluate_network: dr={dropout:.4f} lr={learning_rate:.4f} nP={neuronPct:.4f} nS={neuronShrink:.4f}")
     print(f"call {call_count} evaluate_network: dr={dropout} lr={learning_rate} nP={neuronPct} nS={neuronShrink}")
@@ -187,6 +185,8 @@ def evaluate_network(dropout, learning_rate, neuronPct, neuronShrink):
             mdev = statistics.pstdev(mean_benchmark)
             # Record this iteration
             time_took = time.time() - start_time
+        else:
+            m1=.2
         tensorflow.keras.backend.clear_session()
     return -m1
 
