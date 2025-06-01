@@ -140,7 +140,7 @@ def evaluate_network(dropout, learning_rate, neuronPct, neuronShrink):
         y_test = np.asarray(y[test]).astype(np.float32)
 
         model = generate_model(dropout, neuronPct, neuronShrink)
-        model.summary()
+        # model.summary()
 
         if TRAIN == True:
             model.compile(
@@ -172,16 +172,16 @@ def evaluate_network(dropout, learning_rate, neuronPct, neuronShrink):
             # Measure this bootstrap's log loss
             y_compare = np.argmax(y_test, axis=1)  # For log loss calculation
 
-            col1 = pd.DataFrame(y_compare, columns=["y_compare"])
-            col2 = pd.DataFrame(pred, columns=["p1","p2","p3","p4","p5","p6","p7"])
-            compare = pd.concat([col1, col2], axis=1)
-            compare.columns = ["y_test", "p1","p2","p3","p4","p5","p6","p7"]
-            print(compare)
-            compare.to_csv(OUTPUT_PATH + "df_y_pred_iter"+str(call_count)+".csv", index=False)
+            # col1 = pd.DataFrame(y_compare, columns=["y_compare"])
+            # col2 = pd.DataFrame(pred, columns=["p1","p2","p3","p4","p5","p6","p7"])
+            # compare = pd.concat([col1, col2], axis=1)
+            # compare.columns = ["y_test", "p1","p2","p3","p4","p5","p6","p7"]
+            # print(compare)
+            # compare.to_csv(OUTPUT_PATH + "df_y_pred_iter"+str(call_count)+".csv", index=False)
 
             score = metrics.log_loss(y_compare, pred)
             mean_benchmark.append(score)
-            print("mean_benchmark=", mean_benchmark)
+            # print("mean_benchmark=", mean_benchmark)
             m1 = statistics.mean(mean_benchmark)
             m2 = statistics.mean(epochs_needed)
             mdev = statistics.pstdev(mean_benchmark)
@@ -200,10 +200,10 @@ def hms_string(sec_elapsed):
 # evaluate_network(dropout=0.2, learning_rate=1e-3, neuronPct=0.2, neuronShrink=0.2)
 # evaluate_network(dropout=0.11679448002633344, learning_rate=0.044700185567872745, neuronPct=0.5546086159149624, neuronShrink=0.8547725918091494)
 # evaluate_network(dropout=0.2, learning_rate=1e-3, neuronPct=0.8, neuronShrink=0.90)
-evaluate_network(dropout=0.2, learning_rate=1e-3, neuronPct=0.8, neuronShrink=0.95)
+# evaluate_network(dropout=0.2, learning_rate=1e-3, neuronPct=0.8, neuronShrink=0.95)
 # evaluate_network(dropout=0.45181097883636695, learning_rate=0.025462793367289474, neuronPct=0.9943774602806296, neuronShrink=0.9881956190726225)
 # evaluate_network(dropout=0.2, learning_rate=1e-3, neuronPct=0.8, neuronShrink=0.99)
-exit()
+# exit()
 
 # Bounded region of parameter space
 original_pbounds = {
@@ -213,13 +213,20 @@ original_pbounds = {
     "neuronShrink": (0.01, 1),
 }
 
-pbounds = {
+pbounds_01 = {
     "dropout": (0.0, 0.499),
     "learning_rate": (0.0, 0.1),
     "neuronPct": (0.01, 1),
     "neuronShrink": (0.01, 0.8),
 }
 
+# -0.6277	0.07323	0.009234	0.1944	0.3175
+pbounds = {
+    "dropout": (0.03, 0.1),
+    "learning_rate": (0.004, 0.02),
+    "neuronPct": (0.1, 0.25),
+    "neuronShrink": (0.25, 0.35),
+}
 
 optimizer = BayesianOptimization(
     f=evaluate_network,
@@ -231,8 +238,8 @@ optimizer = BayesianOptimization(
 )
 start_time = time.time()
 optimizer.maximize(
-    init_points=5,
-    n_iter=2,
+    init_points=10,
+    n_iter=20,
 )
 time_took = time.time() - start_time
 print(f"Total runtime: {hms_string(time_took)}")

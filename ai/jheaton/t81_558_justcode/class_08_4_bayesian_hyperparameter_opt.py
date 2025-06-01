@@ -58,7 +58,6 @@ x = df[x_columns].values
 dummies = pd.get_dummies(df["product"])  # Classification
 products = dummies.columns
 y = dummies.values
-
 # print("y\n", y)
 
 
@@ -183,9 +182,6 @@ def hms_string(sec_elapsed):
 # print(
 #     evaluate_network(dropout=0.2, learning_rate=1e-3, neuronPct=0.2, neuronShrink=0.2)
 # )
-
-# evaluate_network(dropout=0.11679448002633344, learning_rate=0.044700185567872745, neuronPct=0.5546086159149624, neuronShrink=0.8547725918091494)
-# exit()
 
 # Bounded region of parameter space
 # original
