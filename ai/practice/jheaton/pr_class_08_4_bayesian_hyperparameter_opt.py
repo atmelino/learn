@@ -110,8 +110,6 @@ call_count = 0
 def evaluate_network(dropout, learning_rate, neuronPct, neuronShrink):
     global call_count
     call_count += 1
-
-    m1=.2
     
     # print(f"call {call_count} evaluate_network: dr={dropout:.4f} lr={learning_rate:.4f} nP={neuronPct:.4f} nS={neuronShrink:.4f}")
     print(f"call {call_count} evaluate_network: dr={dropout} lr={learning_rate} nP={neuronPct} nS={neuronShrink}")
@@ -168,7 +166,7 @@ def evaluate_network(dropout, learning_rate, neuronPct, neuronShrink):
             epochs_needed.append(epochs)
             # Predict on the out of boot (validation)
             pred = model.predict(x_test)
-            print(pred)
+            # print(pred)
             # Measure this bootstrap's log loss
             y_compare = np.argmax(y_test, axis=1)  # For log loss calculation
 
@@ -176,17 +174,20 @@ def evaluate_network(dropout, learning_rate, neuronPct, neuronShrink):
             col2 = pd.DataFrame(pred, columns=["p1","p2","p3","p4","p5","p6","p7"])
             compare = pd.concat([col1, col2], axis=1)
             compare.columns = ["y_test", "p1","p2","p3","p4","p5","p6","p7"]
-            print(compare)
+            # print(compare)
             compare.to_csv(OUTPUT_PATH + "df_y_pred_iter"+str(call_count)+".csv", index=False)
 
             score = metrics.log_loss(y_compare, pred)
             mean_benchmark.append(score)
-            print("mean_benchmark=", mean_benchmark)
+            # print("mean_benchmark=", mean_benchmark)
             m1 = statistics.mean(mean_benchmark)
             m2 = statistics.mean(epochs_needed)
             mdev = statistics.pstdev(mean_benchmark)
             # Record this iteration
             time_took = time.time() - start_time
+        else:
+            m1=.2
+
         tensorflow.keras.backend.clear_session()
     return -m1
 
