@@ -140,7 +140,7 @@ def evaluate_network(dropout, learning_rate, neuronPct, neuronShrink):
         y_test = np.asarray(y[test]).astype(np.float32)
 
         model = generate_model(dropout, neuronPct, neuronShrink)
-        model.summary()
+        # model.summary()
 
         if TRAIN == True:
             model.compile(
@@ -198,12 +198,12 @@ def hms_string(sec_elapsed):
     return f"{h}:{m:>02}:{s:>05.2f}"
 
 # evaluate_network(dropout=0.2, learning_rate=1e-3, neuronPct=0.2, neuronShrink=0.2)
-evaluate_network(dropout=0.11679448002633344, learning_rate=0.044700185567872745, neuronPct=0.5546086159149624, neuronShrink=0.8547725918091494)
+# evaluate_network(dropout=0.11679448002633344, learning_rate=0.044700185567872745, neuronPct=0.5546086159149624, neuronShrink=0.8547725918091494)
 # evaluate_network(dropout=0.2, learning_rate=1e-3, neuronPct=0.8, neuronShrink=0.90)
 # evaluate_network(dropout=0.2, learning_rate=1e-3, neuronPct=0.8, neuronShrink=0.95)
 # evaluate_network(dropout=0.45181097883636695, learning_rate=0.025462793367289474, neuronPct=0.9943774602806296, neuronShrink=0.9881956190726225)
 # evaluate_network(dropout=0.2, learning_rate=1e-3, neuronPct=0.8, neuronShrink=0.99)
-exit()
+# exit()
 
 # Bounded region of parameter space
 original_pbounds = {
@@ -213,12 +213,22 @@ original_pbounds = {
     "neuronShrink": (0.01, 1),
 }
 
+# pbounds = {
+#     "dropout": (0.0, 0.499),
+#     "learning_rate": (0.0, 0.1),
+#     "neuronPct": (0.01, 1),
+#     "neuronShrink": (0.01, 0.8),
+# }
+
+# -0.6277	0.07323	0.009234	0.1944	0.3175
 pbounds = {
-    "dropout": (0.0, 0.499),
-    "learning_rate": (0.0, 0.1),
-    "neuronPct": (0.01, 1),
-    "neuronShrink": (0.01, 0.8),
+    "dropout": (0.03, 0.1),
+    "learning_rate": (0.004, 0.02),
+    "neuronPct": (0.1, 0.25),
+    "neuronShrink": (0.25, 0.35),
 }
+
+			
 
 
 optimizer = BayesianOptimization(
