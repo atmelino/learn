@@ -1,52 +1,49 @@
+
 class_08_4_bayesian_hyperparameter_opt: optimizer bounds can lead to infinite loop
 
+
 The bounds for neuronShrink are set to 
-code "neuronShrink": (0.01, 1),
+`"neuronShrink": (0.01, 1),`
 
 If neuronShrink is 1, the model generator basically tries to generate a model with infinite layers.
 But even with values close to 1, I have experienced crashes.
 
-For example, the 
-model = generate_model(dropout=0.2, neuronPct=0.9, neuronShrink=0.985)
+For example, the line
+`model = generate_model(dropout=0.2, neuronPct=0.9, neuronShrink=0.985)`
+causes the error
+`RecursionError: maximum recursion depth exceeded`
 
-get error
-RecursionError: maximum recursion depth exceeded
+An upper bound of 0.95 leads to a different problem:
+When I  run
+`evaluate_network(dropout=0.2, learning_rate=1e-3, neuronPct=0.8, neuronShrink=0.95)`
 
-If I run the optimization, the program will crash at the 11th iteration with the same error message.
-
-An upper bound of 0.9 leads to a different problem:
-When I set the variable
-pbounds = {
-    "dropout": (0.0, 0.499),
-    "learning_rate": (0.0, 0.1),
-    "neuronPct": (0.01, 1),
-    "neuronShrink": (0.01, 0.9),
-}
-
-and run
-evaluate_network(dropout=0.2, learning_rate=1e-3, neuronPct=0.8, neuronShrink=0.95)
-
-get error
-ValueError: Input contains NaN.
+I get the error
+`ValueError: Input contains NaN.`
 at the line
-        score = metrics.log_loss(y_compare, pred)
+`        score = metrics.log_loss(y_compare, pred)`
 
 Looking at the output of 
-        pred = model.predict(x_test)
-            print(pred)
+`        pred = model.predict(x_test)`
+`        print(pred)`
 we get
-
-
+`[[nan nan nan ... nan nan nan]`
+`    ...`
+`[nan nan nan ... nan nan nan]]`
 so the model.fit() completes, but it cannot generate valid predictions.
 
 
 To prevent the program from running into this problem, we can set the upper bound for neuronShrink to a lower value.
 
-So far, I have had no crashes with the following values:
-pbounds = {
-    "dropout": (0.0, 0.499),
-    "learning_rate": (0.0, 0.1),
-    "neuronPct": (0.01, 1),
-    "neuronShrink": (0.01, 0.8),
-}
+So far, I have had no crashes with an upper bound of 0.8 for neuronShrink:
+`pbounds = {`
+`    "dropout": (0.0, 0.499),`
+`    "learning_rate": (0.0, 0.1),`
+`    "neuronPct": (0.01, 1),`
+`    "neuronShrink": (0.01, 0.8),`
+`}`
+
+**Which Notebook Contains this Issue**
+
+https://github.com/jeffheaton/t81_558_deep_learning/blob/master/t81_558_class_08_4_bayesian_hyperparameter_opt.ipynb
+
 
