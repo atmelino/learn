@@ -203,7 +203,10 @@ def hms_string(sec_elapsed):
 # evaluate_network(dropout=0.2, learning_rate=1e-3, neuronPct=0.8, neuronShrink=0.95)
 # evaluate_network(dropout=0.45181097883636695, learning_rate=0.025462793367289474, neuronPct=0.9943774602806296, neuronShrink=0.9881956190726225)
 # evaluate_network(dropout=0.2, learning_rate=1e-3, neuronPct=0.8, neuronShrink=0.99)
+print(evaluate_network(dropout=0.07323, learning_rate=0.009234, neuronPct=0.1944, neuronShrink=0.3175))
 # exit()
+				
+
 
 # Bounded region of parameter space
 original_pbounds = {
