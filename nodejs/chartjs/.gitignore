@@ -1,0 +1,11 @@
+node_modules
+.yarn
+.parcel-cache
+npm-debug.log
+package-lock.json
+/.eslintcache
+/.nyc_output
+/coverage
+/dist
+/output
+/releases
