@@ -166,16 +166,17 @@ def evaluate_network(dropout, learning_rate, neuronPct, neuronShrink):
             epochs_needed.append(epochs)
             # Predict on the out of boot (validation)
             pred = model.predict(x_test)
-            # print(pred)
+            print("pred",pred)
+            print("y_test",y_test)
             # Measure this bootstrap's log loss
             y_compare = np.argmax(y_test, axis=1)  # For log loss calculation
 
-            # col1 = pd.DataFrame(y_compare, columns=["y_compare"])
-            # col2 = pd.DataFrame(pred, columns=["p1","p2","p3","p4","p5","p6","p7"])
-            # compare = pd.concat([col1, col2], axis=1)
-            # compare.columns = ["y_test", "p1","p2","p3","p4","p5","p6","p7"]
-            # print(compare)
-            # compare.to_csv(OUTPUT_PATH + "df_y_pred_iter"+str(call_count)+".csv", index=False)
+            col1 = pd.DataFrame(y_compare, columns=["y_compare"])
+            col2 = pd.DataFrame(pred, columns=["p1","p2","p3","p4","p5","p6","p7"])
+            compare = pd.concat([col1, col2], axis=1)
+            compare.columns = ["y_test", "p1","p2","p3","p4","p5","p6","p7"]
+            print(compare)
+            compare.to_csv(OUTPUT_PATH + "df_y_pred_iter"+str(call_count)+".csv", index=False)
 
             score = metrics.log_loss(y_compare, pred)
             mean_benchmark.append(score)
@@ -197,13 +198,13 @@ def hms_string(sec_elapsed):
     s = sec_elapsed % 60
     return f"{h}:{m:>02}:{s:>05.2f}"
 
-# evaluate_network(dropout=0.2, learning_rate=1e-3, neuronPct=0.2, neuronShrink=0.2)
+evaluate_network(dropout=0.2, learning_rate=1e-3, neuronPct=0.2, neuronShrink=0.2)
 # evaluate_network(dropout=0.11679448002633344, learning_rate=0.044700185567872745, neuronPct=0.5546086159149624, neuronShrink=0.8547725918091494)
 # evaluate_network(dropout=0.2, learning_rate=1e-3, neuronPct=0.8, neuronShrink=0.90)
 # evaluate_network(dropout=0.2, learning_rate=1e-3, neuronPct=0.8, neuronShrink=0.95)
 # evaluate_network(dropout=0.45181097883636695, learning_rate=0.025462793367289474, neuronPct=0.9943774602806296, neuronShrink=0.9881956190726225)
 # evaluate_network(dropout=0.2, learning_rate=1e-3, neuronPct=0.8, neuronShrink=0.99)
-# exit()
+exit()
 
 # Bounded region of parameter space
 original_pbounds = {
