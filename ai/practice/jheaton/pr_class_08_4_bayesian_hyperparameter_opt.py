@@ -166,7 +166,7 @@ def evaluate_network(dropout, learning_rate, neuronPct, neuronShrink):
             epochs_needed.append(epochs)
             # Predict on the out of boot (validation)
             pred = model.predict(x_test)
-            print(pred)
+            # print(pred)
             # Measure this bootstrap's log loss
             y_compare = np.argmax(y_test, axis=1)  # For log loss calculation
 
