@@ -239,9 +239,12 @@ optimizer = BayesianOptimization(
 )
 start_time = time.time()
 optimizer.maximize(
-    init_points=10,
-    n_iter=20,
+    init_points=5,
+    n_iter=2,
 )
 time_took = time.time() - start_time
 print(f"Total runtime: {hms_string(time_took)}")
 print(optimizer.max)
+
+for i, res in enumerate(optimizer.res):
+    print("Iteration {}: \n\t{}".format(i, res))
