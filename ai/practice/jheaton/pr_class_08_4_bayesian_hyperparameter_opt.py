@@ -198,13 +198,13 @@ def hms_string(sec_elapsed):
     s = sec_elapsed % 60
     return f"{h}:{m:>02}:{s:>05.2f}"
 
-evaluate_network(dropout=0.2, learning_rate=1e-3, neuronPct=0.2, neuronShrink=0.2)
+# evaluate_network(dropout=0.2, learning_rate=1e-3, neuronPct=0.2, neuronShrink=0.2)
 # evaluate_network(dropout=0.11679448002633344, learning_rate=0.044700185567872745, neuronPct=0.5546086159149624, neuronShrink=0.8547725918091494)
 # evaluate_network(dropout=0.2, learning_rate=1e-3, neuronPct=0.8, neuronShrink=0.90)
 # evaluate_network(dropout=0.2, learning_rate=1e-3, neuronPct=0.8, neuronShrink=0.95)
 # evaluate_network(dropout=0.45181097883636695, learning_rate=0.025462793367289474, neuronPct=0.9943774602806296, neuronShrink=0.9881956190726225)
 # evaluate_network(dropout=0.2, learning_rate=1e-3, neuronPct=0.8, neuronShrink=0.99)
-exit()
+# exit()
 
 # Bounded region of parameter space
 original_pbounds = {
