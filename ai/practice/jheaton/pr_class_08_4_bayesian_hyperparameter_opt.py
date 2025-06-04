@@ -122,11 +122,9 @@ def evaluate_network(dropout, learning_rate, neuronPct, neuronShrink):
     # Track progress
     mean_benchmark = []
     epochs_needed = []
-    num = 0
     # Loop through samples
     for train, test in boot.split(x, df["product"]):
         start_time = time.time()
-        num += 1
         # Split train and test
         # x_train = x[train]
         # y_train = y[train]
@@ -166,21 +164,25 @@ def evaluate_network(dropout, learning_rate, neuronPct, neuronShrink):
             epochs_needed.append(epochs)
             # Predict on the out of boot (validation)
             pred = model.predict(x_test)
-            print("pred",pred)
-            print("y_test",y_test)
+            # print("pred",pred)
+            # print("y_test",y_test)
             # Measure this bootstrap's log loss
             y_compare = np.argmax(y_test, axis=1)  # For log loss calculation
+            pred_max = np.argmax(pred, axis=1)  # For log loss calculation
 
             col1 = pd.DataFrame(y_compare, columns=["y_compare"])
-            col2 = pd.DataFrame(pred, columns=["p1","p2","p3","p4","p5","p6","p7"])
-            compare = pd.concat([col1, col2], axis=1)
-            compare.columns = ["y_test", "p1","p2","p3","p4","p5","p6","p7"]
-            print(compare)
+            col2 = pd.DataFrame(pred_max, columns=["pred_max"])
+            col3 = pd.DataFrame(pred, columns=["p1","p2","p3","p4","p5","p6","p7"])
+            compare = pd.concat([col1, col2,col3], axis=1)
+            compare.columns = ["y_test", "pred_max","p1","p2","p3","p4","p5","p6","p7"]
+            # print(compare)
             compare.to_csv(OUTPUT_PATH + "df_y_pred_iter"+str(call_count)+".csv", index=False)
+            score = metrics.accuracy_score(y_compare, pred_max)
+            print(f"Fold score (accuracy): {score}")
 
             score = metrics.log_loss(y_compare, pred)
             mean_benchmark.append(score)
-            # print("mean_benchmark=", mean_benchmark)
+            print("mean_benchmark=", mean_benchmark)
             m1 = statistics.mean(mean_benchmark)
             m2 = statistics.mean(epochs_needed)
             mdev = statistics.pstdev(mean_benchmark)
@@ -222,12 +224,21 @@ pbounds_01 = {
 }
 
 # -0.6277	0.07323	0.009234	0.1944	0.3175
+# pbounds = {
+#     "dropout": (0.03, 0.1),
+#     "learning_rate": (0.004, 0.02),
+#     "neuronPct": (0.1, 0.25),
+#     "neuronShrink": (0.25, 0.35),
+# }
+
+# -0.6277	0.07323	0.009234	0.1944	0.3175
 pbounds = {
-    "dropout": (0.03, 0.1),
-    "learning_rate": (0.004, 0.02),
-    "neuronPct": (0.1, 0.25),
-    "neuronShrink": (0.25, 0.35),
+    "dropout": (0.07, 0.075),
+    "learning_rate": (0.009, 0.01),
+    "neuronPct": (0.18, 0.2),
+    "neuronShrink": (0.31, 0.32),
 }
+
 
 optimizer = BayesianOptimization(
     f=evaluate_network,
