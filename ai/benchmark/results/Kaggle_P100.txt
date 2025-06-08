@@ -1,0 +1,52 @@
+2025-06-08 18:19:57.829843: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:477] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1749406798.026796      35 cuda_dnn.cc:8310] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1749406798.078784      35 cuda_blas.cc:1418] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+>>   AI-Benchmark - 0.1.4.cm
+>>   Let the AI Games begin
+Python 3.11.11 (main, Dec  4 2024, 08:55:07) [GCC 11.4.0]
+I0000 00:00:1749406812.145146      35 gpu_device.cc:2022] Created device /device:GPU:0 with 15513 MB memory:  -> device: 0, name: Tesla P100-PCIE-16GB, pci bus id: 0000:00:04.0, compute capability: 6.0
+I0000 00:00:1749406812.146540      35 gpu_device.cc:2022] Created device /device:GPU:0 with 15513 MB memory:  -> device: 0, name: Tesla P100-PCIE-16GB, pci bus id: 0000:00:04.0, compute capability: 6.0
+I0000 00:00:1749406812.147291      35 gpu_device.cc:2022] Created device /device:GPU:0 with 15513 MB memory:  -> device: 0, name: Tesla P100-PCIE-16GB, pci bus id: 0000:00:04.0, compute capability: 6.0
+*  TF Version: 2.18.0
+*  Platform: Linux-6.6.56+-x86_64-with-glibc2.35
+*  CPU: N/A
+*  CPU RAM: 31 GB
+*  GPU/0: Tesla P100-PCIE-16GB
+*  GPU RAM: 15.1 GB
+*  CUDA Version: 12.5
+*  CUDA Build: V12.5.82
+The benchmark is running...
+The tests might take up to 20 minutes
+Please don't interrupt the script
+
+1/4. MobileNet-V2
+
+I0000 00:00:1749406813.321232      35 gpu_device.cc:2022] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 15513 MB memory:  -> device: 0, name: Tesla P100-PCIE-16GB, pci bus id: 0000:00:04.0, compute capability: 6.0
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1749406814.567250      35 mlir_graph_optimization_pass.cc:401] MLIR V1 optimization pass is not enabled
+I0000 00:00:1749406815.666034     118 cuda_dnn.cc:529] Loaded cuDNN version 90300
+1.1 - inference | batch=50, size=224x224: 49.7 ± 5.3 ms
+1.2 - training  | batch=50, size=224x224: 151 ± 5 ms
+
+2/4. Inception-V3
+
+I0000 00:00:1749406838.645188      35 gpu_device.cc:2022] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 15513 MB memory:  -> device: 0, name: Tesla P100-PCIE-16GB, pci bus id: 0000:00:04.0, compute capability: 6.0
+2.1 - inference | batch=20, size=346x346: 71.0 ± 0.6 ms
+2.2 - training  | batch=20, size=346x346: 228.0 ± 0.7 ms
+
+3/4. Inception-V4
+
+I0000 00:00:1749406863.974754      35 gpu_device.cc:2022] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 15513 MB memory:  -> device: 0, name: Tesla P100-PCIE-16GB, pci bus id: 0000:00:04.0, compute capability: 6.0
+3.1 - inference | batch=10, size=346x346: 65.6 ± 0.5 ms
+3.2 - training  | batch=10, size=346x346: 242.6 ± 0.6 ms
+
+4/4. Inception-ResNet-V2
+
+I0000 00:00:1749406888.789956      35 gpu_device.cc:2022] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 15513 MB memory:  -> device: 0, name: Tesla P100-PCIE-16GB, pci bus id: 0000:00:04.0, compute capability: 6.0
+4.1 - inference | batch=10, size=346x346: 90.6 ± 0.6 ms
+4.2 - training  | batch=8, size=346x346: 243.5 ± 0.6 ms
+Device Inference Score: 11681
+Device Training Score: 13607
+Device AI Score: 25288
+For more information and results, please visit http://ai-benchmark.com/alpha

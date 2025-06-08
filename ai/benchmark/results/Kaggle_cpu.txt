@@ -1,178 +1,3 @@
-*  TF Version: 2.18.0
-*  Platform: Linux-6.6.56+-x86_64-with-glibc2.35
-*  CPU: N/A
-*  CPU RAM: 31 GB
-The benchmark is running...
-The tests might take up to 20 minutes
-Please don't interrupt the script
-
-1/19. MobileNet-V2
-
-WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
-I0000 00:00:1749402183.906900      35 mlir_graph_optimization_pass.cc:401] MLIR V1 optimization pass is not enabled
-1.1 - inference | batch=50, size=224x224: 970 ± 79 ms
-1.2 - training  | batch=50, size=224x224: 3815 ± 163 ms
-
-2/19. Inception-V3
-
-2.1 - inference | batch=20, size=346x346: 2560 ± 146 ms
-2.2 - training  | batch=20, size=346x346: 10380 ± 271 ms
-
-3/19. Inception-V4
-
-3.1 - inference | batch=10, size=346x346: 2522 ± 182 ms
-3.2 - training  | batch=10, size=346x346: 9825 ± 265 ms
-
-4/19. Inception-ResNet-V2
-
-4.1 - inference | batch=10, size=346x346: 2776 ± 181 ms
-4.2 - training  | batch=8, size=346x346: 8641 ± 257 ms
-
-5/19. ResNet-V2-50
-
-5.1 - inference | batch=10, size=346x346: 1596 ± 18 ms
-5.2 - training  | batch=10, size=346x346: 5972 ± 253 ms
-
-6/19. ResNet-V2-152
-
-6.1 - inference | batch=10, size=256x256: 2382 ± 155 ms
-6.2 - training  | batch=10, size=256x256: 9442 ± 260 ms
-
-7/19. VGG-16
-
-7.1 - inference | batch=20, size=224x224: 5028 ± 256 ms
-7.2 - training  | batch=2, size=224x224: 2907 ± 154 ms
-
-8/19. SRCNN 9-5-5
-
-8.1 - inference | batch=10, size=512x512: 4162 ± 70 ms
-8.2 - inference | batch=1, size=1536x1536: 3714 ± 29 ms
-2025-06-08 17:03:00.985432: E external/local_xla/xla/stream_executor/cuda/cuda_driver.cc:152] failed call to cuInit: INTERNAL: CUDA error: Failed call to cuInit: UNKNOWN ERROR (303)
-*  TF Version: 2.18.0
-*  Platform: Linux-6.6.56+-x86_64-with-glibc2.35
-*  CPU: N/A
-*  CPU RAM: 31 GB
-The benchmark is running...
-The tests might take up to 20 minutes
-Please don't interrupt the script
-
-1/19. MobileNet-V2
-
-WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
-I0000 00:00:1749402183.906900      35 mlir_graph_optimization_pass.cc:401] MLIR V1 optimization pass is not enabled
-1.1 - inference | batch=50, size=224x224: 970 ± 79 ms
-1.2 - training  | batch=50, size=224x224: 3815 ± 163 ms
-
-2/19. Inception-V3
-
-2.1 - inference | batch=20, size=346x346: 2560 ± 146 ms
-2.2 - training  | batch=20, size=346x346: 10380 ± 271 ms
-
-3/19. Inception-V4
-
-3.1 - inference | batch=10, size=346x346: 2522 ± 182 ms
-3.2 - training  | batch=10, size=346x346: 9825 ± 265 ms
-
-4/19. Inception-ResNet-V2
-
-4.1 - inference | batch=10, size=346x346: 2776 ± 181 ms
-4.2 - training  | batch=8, size=346x346: 8641 ± 257 ms
-
-5/19. ResNet-V2-50
-
-5.1 - inference | batch=10, size=346x346: 1596 ± 18 ms
-5.2 - training  | batch=10, size=346x346: 5972 ± 253 ms
-
-6/19. ResNet-V2-152
-
-6.1 - inference | batch=10, size=256x256: 2382 ± 155 ms
-6.2 - training  | batch=10, size=256x256: 9442 ± 260 ms
-
-7/19. VGG-16
-
-7.1 - inference | batch=20, size=224x224: 5028 ± 256 ms
-7.2 - training  | batch=2, size=224x224: 2907 ± 154 ms
-
-8/19. SRCNN 9-5-5
-
-8.1 - inference | batch=10, size=512x512: 4162 ± 70 ms
-8.2 - inference | batch=1, size=1536x1536: 3714 ± 29 ms
-8.3 - training  | batch=10, size=512x512: 25400 ± 2324 ms
-
-9/19. VGG-19 Super-Res
-
-9.1 - inference | batch=10, size=256x256: 8682 ± 259 ms
-9.2 - inference | batch=1, size=1024x1024: 13783 ± 243 ms
-9.3 - training  | batch=10, size=224x224: 26233 ± 36 ms
-
-10/19. ResNet-SRGAN
-
-2025-06-08 17:03:00.985432: E external/local_xla/xla/stream_executor/cuda/cuda_driver.cc:152] failed call to cuInit: INTERNAL: CUDA error: Failed call to cuInit: UNKNOWN ERROR (303)
-*  TF Version: 2.18.0
-*  Platform: Linux-6.6.56+-x86_64-with-glibc2.35
-*  CPU: N/A
-*  CPU RAM: 31 GB
-The benchmark is running...
-The tests might take up to 20 minutes
-Please don't interrupt the script
-
-1/19. MobileNet-V2
-
-WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
-I0000 00:00:1749402183.906900      35 mlir_graph_optimization_pass.cc:401] MLIR V1 optimization pass is not enabled
-1.1 - inference | batch=50, size=224x224: 970 ± 79 ms
-1.2 - training  | batch=50, size=224x224: 3815 ± 163 ms
-
-2/19. Inception-V3
-
-2.1 - inference | batch=20, size=346x346: 2560 ± 146 ms
-2.2 - training  | batch=20, size=346x346: 10380 ± 271 ms
-
-3/19. Inception-V4
-
-3.1 - inference | batch=10, size=346x346: 2522 ± 182 ms
-3.2 - training  | batch=10, size=346x346: 9825 ± 265 ms
-
-4/19. Inception-ResNet-V2
-
-4.1 - inference | batch=10, size=346x346: 2776 ± 181 ms
-4.2 - training  | batch=8, size=346x346: 8641 ± 257 ms
-
-5/19. ResNet-V2-50
-
-5.1 - inference | batch=10, size=346x346: 1596 ± 18 ms
-5.2 - training  | batch=10, size=346x346: 5972 ± 253 ms
-
-6/19. ResNet-V2-152
-
-6.1 - inference | batch=10, size=256x256: 2382 ± 155 ms
-6.2 - training  | batch=10, size=256x256: 9442 ± 260 ms
-
-7/19. VGG-16
-
-7.1 - inference | batch=20, size=224x224: 5028 ± 256 ms
-7.2 - training  | batch=2, size=224x224: 2907 ± 154 ms
-
-8/19. SRCNN 9-5-5
-
-8.1 - inference | batch=10, size=512x512: 4162 ± 70 ms
-8.2 - inference | batch=1, size=1536x1536: 3714 ± 29 ms
-8.3 - training  | batch=10, size=512x512: 25400 ± 2324 ms
-
-9/19. VGG-19 Super-Res
-
-9.1 - inference | batch=10, size=256x256: 8682 ± 259 ms
-9.2 - inference | batch=1, size=1024x1024: 13783 ± 243 ms
-9.3 - training  | batch=10, size=224x224: 26233 ± 36 ms
-
-10/19. ResNet-SRGAN
-
-10.1 - inference | batch=10, size=512x512: 6662 ± 228 ms
-10.2 - inference | batch=1, size=1536x1536: 6053 ± 243 ms
-10.3 - training  | batch=5, size=512x512: 11815 ± 296 ms
-
-11/19. ResNet-DPED
-
 2025-06-08 17:03:00.985432: E external/local_xla/xla/stream_executor/cuda/cuda_driver.cc:152] failed call to cuInit: INTERNAL: CUDA error: Failed call to cuInit: UNKNOWN ERROR (303)
 *  TF Version: 2.18.0
 *  Platform: Linux-6.6.56+-x86_64-with-glibc2.35
@@ -246,4 +71,65 @@ I0000 00:00:1749402183.906900      35 mlir_graph_optimization_pass.cc:401] MLIR 
 12/19. U-Net
 
 12.1 - inference | batch=4, size=512x512: 16238 ± 249 ms
+12.2 - inference | batch=1, size=1024x1024: 16432 ± 343 ms
+12.3 - training  | batch=4, size=256x256: 14341 ± 259 ms
+
+13/19. Nvidia-SPADE
+
+13.1 - inference | batch=5, size=128x128: 5730 ± 259 ms
+13.2 - training  | batch=1, size=128x128: 5684 ± 154 ms
+
+14/19. ICNet
+
+14.1 - inference | batch=5, size=1024x1536: 3391 ± 162 ms
+14.2 - training  | batch=10, size=1024x1536: 8574 ± 86 ms
+
+15/19. PSPNet
+
+15.1 - inference | batch=5, size=720x720: 32672 ± 2746 ms
+15.2 - training  | batch=1, size=512x512: 11401 ± 327 ms
+
+16/19. DeepLab
+
+
+1/2. MobileNet-V2
+
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1749404469.791342      35 mlir_graph_optimization_pass.cc:401] MLIR V1 optimization pass is not enabled
+1.1 - inference | batch=50, size=224x224: 1084 ± 71 ms
+1.2 - training  | batch=50, size=224x224: 4268 ± 269 ms
+
+2/2. Inception-V3
+
+2.1 - inference | batch=20, size=346x346: 2823 ± 204 ms
+2.2 - training  | batch=20, size=346x346: 11099 ± 367 ms
+Device Inference Score: 456
+Device Training Score: 392
+Device AI Score: 848
+
+
+
+16/4. DeepLab
+
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1749404813.280281      35 mlir_graph_optimization_pass.cc:401] MLIR V1 optimization pass is not enabled
+16.1 - inference | batch=2, size=512x512: 7294 ± 280 ms
+16.2 - training  | batch=1, size=384x384: 7282 ± 265 ms
+
+17/4. Pixel-RNN
+
+17.1 - inference | batch=50, size=64x64: 4364 ± 128 ms
+17.2 - training  | batch=10, size=64x64: 1767 ± 42 ms
+
+
+19/1. GNMT-Translation
+
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1749405243.696873      35 mlir_graph_optimization_pass.cc:401] MLIR V1 optimization pass is not enabled
+19.1 - inference | batch=1, size=1x20: 2113 ± 30 ms
+Device Inference Score: 913
+Device Training Score: 0
+Device AI Score: 913
+
+
 
