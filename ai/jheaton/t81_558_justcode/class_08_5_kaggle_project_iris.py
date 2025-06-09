@@ -9,15 +9,13 @@ from tensorflow.keras.callbacks import EarlyStopping
 
 
 BASE_PATH = "../../../../local_data/jheaton"
-DATA_PATH = os.path.join(BASE_PATH, "input")
+DATA_PATH = os.path.join(BASE_PATH, "input/")
 OUTPUT_PATH = os.path.join(BASE_PATH, "class_08_5_kaggle_project_iris/")
 os.system("mkdir -p " + OUTPUT_PATH)
 
 
 # df_train = pd.read_csv("https://data.heatonresearch.com/data/t81-558/datasets/"+"kaggle_iris_train.csv", na_values=['NA','?'])
-df_train = pd.read_csv(
-    os.path.join(DATA_PATH, "kaggle_iris_train.csv"), na_values=["NA", "?"]
-)
+df_train = pd.read_csv(DATA_PATH+ "kaggle_iris_train.csv", na_values=["NA", "?"])
 print(df_train)
 
 # Encode feature vector
@@ -55,7 +53,7 @@ model.fit(
     y_train,
     validation_data=(x_test, y_test),
     callbacks=[monitor],
-    verbose=0,
+    verbose=1,
     epochs=1000,
 )
 
@@ -65,3 +63,29 @@ from sklearn import metrics
 pred = model.predict(x_test)
 score = metrics.log_loss(y_test, pred)
 print("Log loss score: {}".format(score))
+
+# Generate Kaggle submit file
+# Encode feature vector
+# df_test = pd.read_csv("https://data.heatonresearch.com/data/t81-558/datasets/"+"kaggle_iris_test.csv", na_values=['NA','?'])
+df_test = pd.read_csv(DATA_PATH+"kaggle_iris_test.csv", na_values=['NA','?'])
+
+# Convert to numpy - Classification
+ids = df_test['id']
+df_test.drop('id', axis=1, inplace=True)
+x = df_test[['sepal_l', 'sepal_w', 'petal_l', 'petal_w']].values
+y = dummies.values
+
+# Generate predictions
+pred = model.predict(x)
+#pred
+
+# Create submission data set
+df_submit = pd.DataFrame(pred)
+df_submit.insert(0,'id',ids)
+df_submit.columns = ['id','species-0','species-1','species-2']
+
+# Write submit file locally
+df_submit.to_csv(OUTPUT_PATH+"iris_submit.csv", index=False)
+print(df_submit[:5])
+
+
