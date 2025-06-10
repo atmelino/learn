@@ -73,11 +73,9 @@ df_test = pd.read_csv(DATA_PATH+"kaggle_iris_test.csv", na_values=['NA','?'])
 ids = df_test['id']
 df_test.drop('id', axis=1, inplace=True)
 x = df_test[['sepal_l', 'sepal_w', 'petal_l', 'petal_w']].values
-y = dummies.values
 
 # Generate predictions
 pred = model.predict(x)
-#pred
 
 # Create submission data set
 df_submit = pd.DataFrame(pred)
