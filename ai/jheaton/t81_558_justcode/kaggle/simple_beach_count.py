@@ -78,15 +78,38 @@ monitor = EarlyStopping(monitor='val_loss', min_delta=1e-3, patience=5, verbose=
         restore_best_weights=True)
 history = model.fit(train_generator,  
   verbose = 1, 
-  validation_data=val_generator, callbacks=[monitor], epochs=25)
-
-
-
+  validation_data=val_generator, callbacks=[monitor], epochs=1)
 
 
 # save entire network to HDF5 (save everything, suggested)
-print("Ssaving model to ",OUTPUT_PATH+"/simple_beach_count.h5")
+print("Saving model to ",OUTPUT_PATH+"/simple_beach_count.h5")
 model.save(OUTPUT_PATH+"/simple_beach_count.h5")
 model.save(OUTPUT_PATH+"/simple_beach_count.keras")
+
+# Generate Submission File
+# df_test = pd.read_csv(os.path.join(PATH,"test.csv"),na_values=['NA', '?'])
+df_test = pd.read_csv(DATA_PATH+ "test.csv",na_values=['NA', '?'])
+
+test_datagen = ImageDataGenerator(rescale = 1./255)
+
+test_generator = validation_datagen.flow_from_dataframe(
+        dataframe=df_test,
+        directory=DATA_PATH,
+        x_col="filename",
+        batch_size=1,
+        shuffle=False,
+        target_size=(256, 256),
+        class_mode=None)
+
+test_generator.reset()
+pred = model.predict(test_generator,steps=len(df_test))
+
+df_submit = pd.DataFrame({'id':df_test['id'],'clip_count':pred.flatten()})
+# df_submit.to_csv("/kaggle/working/submit.csv",index=False)
+df_submit.to_csv(OUTPUT_PATH+"submit.csv",index=False)
+
+
+
+
 
 
