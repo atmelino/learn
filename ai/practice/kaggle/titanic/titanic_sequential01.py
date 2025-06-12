@@ -9,6 +9,7 @@ import requests
 import numpy as np
 from sklearn import metrics
 from sklearn.metrics import accuracy_score
+import time
 
 BASE_PATH = "../../../../../local_data/kaggle/titanic/"
 DATA_PATH = os.path.join(BASE_PATH, "input/")
@@ -60,10 +61,16 @@ model.fit(
     epochs=1000,
 )
 
+# save entire network to HDF5 (save everything, suggested)
+timestr = time.strftime("%Y%m%d-%H%M%S")
+print(timestr)
+print("Saving model to ", OUTPUT_PATH + "/titanic_sequential01.h5")
+model.save(OUTPUT_PATH + "/titanic_sequential01_" + timestr + ".h5")
+
 # Predict
 pred = model.predict(x_test)
 print(pred)
-pred2=np.round(pred)
+pred2 = np.round(pred)
 print(pred2)
 
 
@@ -80,7 +87,7 @@ diff = col1["y_test"] - col3["pred2"]
 # print(col2)
 # print(diff)
 compare = pd.concat([col1, col2, col3, diff], axis=1)
-compare.columns=["y_test","pred","pred2","diff"]
+compare.columns = ["y_test", "pred", "pred2", "diff"]
 compare.to_csv(OUTPUT_PATH + "compare.csv", index=False)
 print(compare)
 
