@@ -19,18 +19,16 @@ os.system("mkdir -p " + OUTPUT_PATH)
 df = pd.read_csv(DATA_PATH + "train.csv", na_values=["NA", "?"])
 print(df)
 
-# Handle missing value
-# df['horsepower'] = df['horsepower'].fillna(df['horsepower'].median())
+# Convert to numpy - regression
 df["Sex"] = df["Sex"].str.replace("female", "1")
 df["Sex"] = df["Sex"].str.replace("male", "0")
 df["Sex"] = pd.to_numeric(df["Sex"])
 print(df)
 
-# exit()
-
-
 # Pandas to Numpy
-x = df[["Sex", "Pclass", "Fare"]].values
+features = ["Sex", "Pclass", "Fare"]
+# x = df[["Sex", "Pclass", "Fare"]].values
+x = df[features].values
 y = df["Survived"].values  # regression
 
 # Split into train/test
@@ -69,9 +67,9 @@ model.save(OUTPUT_PATH + "/titanic_sequential01_" + timestr + ".h5")
 
 # Predict
 pred = model.predict(x_test)
-print(pred)
+# print(pred)
 pred2 = np.round(pred)
-print(pred2)
+# print(pred2)
 
 
 # Measure RMSE error. RMSE is common for regression.
@@ -91,43 +89,38 @@ compare.columns = ["y_test", "pred", "pred2", "diff"]
 compare.to_csv(OUTPUT_PATH + "compare.csv", index=False)
 print(compare)
 
-
 correct = accuracy_score(pred2, y_test)
 print(f"Accuracy: {correct}")
 
-exit()
-
 
 # Generate Kaggle submit file
-# Encode feature vector
 df_test = pd.read_csv(DATA_PATH + "test.csv", na_values=["NA", "?"])
+print(df_test)
 
 # Convert to numpy - regression
-ids = df_test["id"]
-df_test.drop("id", axis=1, inplace=True)
-# Handle missing value
-df_test["horsepower"] = df_test["horsepower"].fillna(df["horsepower"].median())
-x = df_test[
-    [
-        "cylinders",
-        "displacement",
-        "horsepower",
-        "weight",
-        "acceleration",
-        "year",
-        "origin",
-    ]
-].values
+df_test["Sex"] = df_test["Sex"].str.replace("female", "1")
+df_test["Sex"] = df_test["Sex"].str.replace("male", "0")
+df_test["Sex"] = pd.to_numeric(df["Sex"])
+print(df_test)
 
-# Generate predictions
-pred = model.predict(x)
+X_test = df_test[features].values
+
+predictions = model.predict(X_test)
+# print(predictions)
+predictions2 = np.round(predictions)
 
 # Create submission data set
-df_submit = pd.DataFrame(pred)
-df_submit.insert(0, "id", ids)
-df_submit.columns = ["id", "mpg"]
+df_submit = pd.DataFrame(predictions2)
+df_submit.insert(0,'PassengerId',df_test.PassengerId)
+df_submit.columns = ['PassengerId','Survived']
 
-# Write submit file locally
-# df_submit.to_csv("auto_submit.csv", index=False)
-df_submit.to_csv(OUTPUT_PATH + "auto_submit.csv", index=False)
+# df_submit = pd.DataFrame({'PassengerId': df_test.PassengerId, 'Survived': predictions})
+
+
+df_submit.to_csv(OUTPUT_PATH +'submission.csv', index=False)
 print(df_submit[:5])
+print("Your submission was successfully saved!")
+
+
+# exit()
+

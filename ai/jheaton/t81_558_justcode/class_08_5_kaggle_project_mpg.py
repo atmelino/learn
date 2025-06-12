@@ -62,6 +62,7 @@ x = df_test[['cylinders', 'displacement', 'horsepower', 'weight','acceleration',
 
 # Generate predictions
 pred = model.predict(x)
+print("pred\n",pred)
 
 # Create submission data set
 df_submit = pd.DataFrame(pred)
