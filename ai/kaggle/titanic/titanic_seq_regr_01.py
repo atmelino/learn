@@ -13,7 +13,7 @@ import time
 
 BASE_PATH = "../../../../../local_data/kaggle/titanic/"
 DATA_PATH = os.path.join(BASE_PATH, "input/")
-OUTPUT_PATH = os.path.join(BASE_PATH, "sequential01/")
+OUTPUT_PATH = os.path.join(BASE_PATH, "titanic_seq_regr_01/")
 os.system("mkdir -p " + OUTPUT_PATH)
 
 df = pd.read_csv(DATA_PATH + "train.csv", na_values=["NA", "?"])
@@ -26,7 +26,7 @@ df["Sex"] = pd.to_numeric(df["Sex"])
 print(df)
 
 # Pandas to Numpy
-features = ["Sex", "Pclass", "Fare"]
+features = ["Sex", "Age", "Pclass", "Fare"]
 # x = df[["Sex", "Pclass", "Fare"]].values
 x = df[features].values
 y = df["Survived"].values  # regression
@@ -63,7 +63,7 @@ model.fit(
 timestr = time.strftime("%Y%m%d-%H%M%S")
 print(timestr)
 print("Saving model to ", OUTPUT_PATH + "/titanic_sequential01.h5")
-model.save(OUTPUT_PATH + "/titanic_sequential01_" + timestr + ".h5")
+model.save(OUTPUT_PATH + "/titanic_seq_regr_01_" + timestr + ".h5")
 
 # Predict
 pred = model.predict(x_test)
