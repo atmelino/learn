@@ -11,24 +11,28 @@ from sklearn import metrics
 from sklearn.metrics import accuracy_score
 import time
 
-BASE_PATH = "../../../../../local_data/kaggle/titanic/"
+BASE_PATH = "../../../../local_data/kaggle/titanic/"
 DATA_PATH = os.path.join(BASE_PATH, "input/")
 OUTPUT_PATH = os.path.join(BASE_PATH, "titanic_seq_regr_01/")
 os.system("mkdir -p " + OUTPUT_PATH)
 
 df = pd.read_csv(DATA_PATH + "train.csv", na_values=["NA", "?"])
-print(df)
+# print(df)
 
 # Convert to numpy - regression
 df["Sex"] = df["Sex"].str.replace("female", "1")
 df["Sex"] = df["Sex"].str.replace("male", "0")
 df["Sex"] = pd.to_numeric(df["Sex"])
-print(df)
+# print(df)
 
 # Pandas to Numpy
-features = ["Sex", "Age", "Pclass", "Fare"]
+# features = ["Sex", "Age", "Pclass", "Fare"]
+features = ["Sex", "Pclass", "Fare"]
+# features = ["Sex",  "Fare"]
+# features = ["Sex"]
 # x = df[["Sex", "Pclass", "Fare"]].values
 x = df[features].values
+print(x)
 y = df["Survived"].values  # regression
 
 # Split into train/test
@@ -108,19 +112,22 @@ X_test = df_test[features].values
 predictions = model.predict(X_test)
 # print(predictions)
 predictions2 = np.round(predictions)
+# print(predictions2)
+predictions3=np.int_(predictions2)
+# print(predictions3)
+
 
 # Create submission data set
-df_submit = pd.DataFrame(predictions2)
-df_submit.insert(0,'PassengerId',df_test.PassengerId)
-df_submit.columns = ['PassengerId','Survived']
+df_submit = pd.DataFrame(predictions3)
+df_submit.insert(0, "PassengerId", df_test.PassengerId)
+df_submit.columns = ["PassengerId", "Survived"]
 
 # df_submit = pd.DataFrame({'PassengerId': df_test.PassengerId, 'Survived': predictions})
 
 
-df_submit.to_csv(OUTPUT_PATH +'submission.csv', index=False)
+df_submit.to_csv(OUTPUT_PATH + "submission.csv", index=False)
 print(df_submit[:5])
 print("Your submission was successfully saved!")
 
 
 # exit()
-
