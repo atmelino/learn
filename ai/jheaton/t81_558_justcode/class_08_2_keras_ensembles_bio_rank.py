@@ -44,25 +44,23 @@ def perturbation_rank(model, x, y, names, regression):
 
 
 BASE_PATH = "../../../../local_data/jheaton"
+DATA_PATH = os.path.join(BASE_PATH, "input/")
 OUTPUT_PATH = os.path.join(BASE_PATH, "class_08_2_keras_ensembles_bio/")
 os.system("mkdir -p " + OUTPUT_PATH)
 
-# URL = "https://data.heatonresearch.com/data/t81-558/kaggle/"
-URL = "../../../../local_data/jheaton/input/"
-
-df_train = pd.read_csv(URL + "bio_train.csv", na_values=["NA", "?"])
-df_test = pd.read_csv(URL + "bio_test.csv", na_values=["NA", "?"])
+df_train = pd.read_csv(DATA_PATH + "bio_train.csv", na_values=["NA", "?"])
+df_test = pd.read_csv(DATA_PATH + "bio_test.csv", na_values=["NA", "?"])
 print("df_train.shape: ", df_train.shape)
+# print(df_train)
 print("df_test.shape: ", df_test.shape)
-
-# activity_classes = df_train["Activity"]
-
 
 # Encode feature vector
 # Convert to numpy - Classification
 x_columns = df_train.columns.drop("Activity")
 x = df_train[x_columns].values
+print("x=\n",x)
 y = df_train["Activity"].values  # Classification
+print("y=\n",y)
 x_submit = df_test[x_columns].values.astype(np.float32)
 
 print("x.shape: ", x.shape)

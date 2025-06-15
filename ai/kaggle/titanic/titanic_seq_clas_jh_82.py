@@ -31,10 +31,16 @@ print("df_test.shape: ", df_test.shape)
 # Encode feature vector
 # Convert to numpy - Classification
 x_columns = df_train.columns.drop("PassengerId").drop("Survived").drop("Name").drop("Cabin").drop("Ticket")
+
+# Generate dummies for Sex
+x_columns = pd.concat([x_columns,pd.get_dummies(x_columns['Sex'],prefix="Sex")],axis=1)
+x_columns.drop('Sex', axis=1, inplace=True)
+
+
 x = df_train[x_columns].values
-print(x)
+print("x=\n",x)
 y = df_train["Survived"].values  # Classification
-print(y)
+print("y=\n",y)
 # x_submit = df_test[x_columns].values.astype(np.float32)
 
 print("x.shape: ", x.shape)
