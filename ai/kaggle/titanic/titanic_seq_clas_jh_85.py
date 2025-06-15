@@ -1,3 +1,5 @@
+# Based on class 8.5 iris
+
 # conda environment for this program:
 # conda activate jh_class
 
@@ -9,29 +11,32 @@ import numpy as np
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Activation
 from tensorflow.keras.callbacks import EarlyStopping
+from sklearn import metrics
+from sklearn.metrics import accuracy_score
 
 
-BASE_PATH = "../../../../local_data/jheaton"
+BASE_PATH = "../../../../local_data/kaggle/titanic/"
 DATA_PATH = os.path.join(BASE_PATH, "input/")
-OUTPUT_PATH = os.path.join(BASE_PATH, "class_08_5_kaggle_project_iris/")
+OUTPUT_PATH = os.path.join(BASE_PATH, "titanic_seq_clas_01 copy/")
 os.system("mkdir -p " + OUTPUT_PATH)
 
 
 # df_train = pd.read_csv("https://data.heatonresearch.com/data/t81-558/datasets/"+"kaggle_iris_train.csv", na_values=['NA','?'])
-df_train = pd.read_csv(DATA_PATH+ "kaggle_iris_train.csv", na_values=["NA", "?"])
+df_train = pd.read_csv(DATA_PATH+ "train.csv", na_values=["NA", "?"])
 print(df_train)
 
 # Encode feature vector
-df_train.drop("id", axis=1, inplace=True)
-num_classes = len(df_train.groupby("species").species.nunique())
+num_classes = len(df_train.groupby("Survived").Survived.nunique())
 print("Number of classes: {}".format(num_classes))
 
 # Convert to numpy - Classification
-x = df_train[["sepal_l", "sepal_w", "petal_l", "petal_w"]].values
+# features = ["Sex", "Pclass", "Fare"]
+features = ["Pclass", "Fare"]
+x = df_train[features].values
 print(x)
-dummies = pd.get_dummies(df_train["species"])  # Classification
-species = dummies.columns
-y = dummies.values
+# dummies = pd.get_dummies(df_train["Survived"])  # Classification
+# y = dummies.values
+y = df_train["Survived"]
 print(y)
 
 # Split into train/test
@@ -62,12 +67,31 @@ model.fit(
     epochs=1000,
 )
 
-from sklearn import metrics
 
 # Calculate multi log loss error
 pred = model.predict(x_test)
 score = metrics.log_loss(y_test, pred)
 print("Log loss score: {}".format(score))
+
+# Calculate accuracy
+# col1 = pd.DataFrame(y_test, columns=["y_test"])
+# col2 = pd.DataFrame(pred, columns=["pred"])
+# col3 = pd.DataFrame(pred2, columns=["pred2"])
+# diff = col1["y_test"] - col3["pred2"]
+# print(col1)
+# print(col2)
+# print(diff)
+# compare = pd.concat([col1, col2, col3, diff], axis=1)
+# compare.columns = ["y_test", "pred", "pred2", "diff"]
+# compare.to_csv(OUTPUT_PATH + "compare.csv", index=False)
+# print(compare)
+pred=pred.flatten()
+print("pred\n",pred)
+print("y_test\n",y_test)
+correct = accuracy_score(pred, y_test)
+print(f"Accuracy: {correct}")
+
+
 
 # Generate Kaggle submit file
 # Encode feature vector

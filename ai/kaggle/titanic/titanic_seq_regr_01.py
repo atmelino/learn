@@ -1,3 +1,6 @@
+# conda environment for this program:
+# conda activate jh_class
+
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Activation
 from sklearn.model_selection import train_test_split
@@ -80,7 +83,7 @@ pred2 = np.round(pred)
 score = np.sqrt(metrics.mean_squared_error(pred, y_test))
 print("Final score (RMSE): {}".format(score))
 
-
+# Calculate accuracy
 col1 = pd.DataFrame(y_test, columns=["y_test"])
 col2 = pd.DataFrame(pred, columns=["pred"])
 col3 = pd.DataFrame(pred2, columns=["pred2"])
