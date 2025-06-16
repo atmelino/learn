@@ -135,8 +135,30 @@ print("X_test=\n",X_test)
 predictions = model.predict(X_test)
 print("submit predictions=\n",predictions)
 
+# def round_half_up(x):
+#     if x<0.1:
+#         return 0
+#     else:
+#         return int(x + 0.5)
+
+# pred=pred.apply(round_half_up)
+
+# predictions[predictions > 0.5]=1
+# predictions[predictions <= 0.5]=0
+# print(predictions)
+
+predictions = model.predict(X_test)
+# print(predictions)
+predictions2 = np.round(predictions)
+# print(predictions2)
+predictions3=np.int_(predictions2)
+# print(predictions3)
+
+
+
+
 # Create submission data set
-df_submit = pd.DataFrame(predictions)
+df_submit = pd.DataFrame(predictions3)
 df_submit.insert(0, "PassengerId", df_test.PassengerId)
 df_submit.columns = ["PassengerId", "Survived"]
 
