@@ -19,7 +19,7 @@ from tensorflow.keras.callbacks import EarlyStopping
 
 BASE_PATH = "../../../../local_data/kaggle/titanic/"
 DATA_PATH = os.path.join(BASE_PATH, "input/")
-OUTPUT_PATH = os.path.join(BASE_PATH, "titanic_seq_regr_01/")
+OUTPUT_PATH = os.path.join(BASE_PATH, "titanic_seq_clas_jh_82/")
 os.system("mkdir -p " + OUTPUT_PATH)
 
 df_train = pd.read_csv(DATA_PATH + "train.csv", na_values=["NA", "?"])
@@ -43,6 +43,8 @@ x_columns = pd.concat([x_columns,pd.get_dummies(x_columns['Sex'],prefix="Sex")],
 x_columns.drop('Sex', axis=1, inplace=True)
 x_columns = pd.concat([x_columns,pd.get_dummies(x_columns['SibSp'],prefix="SibSp")],axis=1)
 x_columns.drop('SibSp', axis=1, inplace=True)
+# x_columns = pd.concat([x_columns,pd.get_dummies(x_columns['Parch'],prefix="Parch")],axis=1)
+# x_columns.drop('Parch', axis=1, inplace=True)
 print("x_columns=\n",x_columns)
 
 x = x_columns.values
@@ -68,6 +70,8 @@ model.compile(loss="binary_crossentropy", optimizer="adam")
 monitor = EarlyStopping(
     monitor="val_loss", min_delta=1e-3, patience=5, verbose=1, mode="auto"
 )
+# model.summary()
+
 model.fit(
     x_train,
     y_train,
@@ -81,25 +85,66 @@ print("Fitting done...")
 # Predict
 pred = model.predict(x_test).flatten()
 
+col1 = pd.DataFrame(y_test, columns=["y_test"])
+col2 = pd.DataFrame(pred, columns=["pred"])
+diff = col1["y_test"] - col2["pred"]
+compare = pd.concat([col1, col2, diff], axis=1)
+compare.columns=["y_test","pred","diff"]
+print(compare)
+
+
+
 # Clip so that min is never exactly 0, max never 1
 pred = np.clip(pred, a_min=1e-6, a_max=(1 - 1e-6))
 print("Validation logloss: {}".format(sklearn.metrics.log_loss(y_test, pred)))
 
 # Evaluate success using accuracy
 pred = pred > 0.5  # If greater than 0.5 probability, then true
+
+col1 = pd.DataFrame(y_test, columns=["y_test"])
+col2 = pd.DataFrame(pred, columns=["pred"])
+diff = col1["y_test"] - col2["pred"]
+compare = pd.concat([col1, col2, diff], axis=1)
+compare.columns=["y_test","pred","diff"]
+print(compare)
+compare.to_csv(OUTPUT_PATH + "compare.csv", index=False)
+
 score = metrics.accuracy_score(y_test, pred)
 print("Validation accuracy score: {}".format(score))
 
-# Build real submit file
-pred_submit = model.predict(x_submit)
 
-# Clip so that min is never exactly 0, max never 1 (would be a NaN score)
-pred = np.clip(pred, a_min=1e-6, a_max=(1 - 1e-6))
-submit_df = pd.DataFrame(
-    {
-        "MoleculeId": [x + 1 for x in range(len(pred_submit))],
-        "PredictedProbability": pred_submit.flatten(),
-    }
-)
-submit_df.to_csv(OUTPUT_PATH+"submit.csv", index=False)
+# Generate Kaggle submit file
+print("Generate Kaggle submit file")
+df_test = pd.read_csv(DATA_PATH + "test.csv", na_values=["NA", "?"])
+print(df_test)
+
+x_columns =df_test[features]
+print("x_columns=\n",x_columns)
+
+x_columns = pd.concat([x_columns,pd.get_dummies(x_columns['Pclass'],prefix="Pclass")],axis=1)
+x_columns.drop('Pclass', axis=1, inplace=True)
+x_columns = pd.concat([x_columns,pd.get_dummies(x_columns['Sex'],prefix="Sex")],axis=1)
+x_columns.drop('Sex', axis=1, inplace=True)
+x_columns = pd.concat([x_columns,pd.get_dummies(x_columns['SibSp'],prefix="SibSp")],axis=1)
+x_columns.drop('SibSp', axis=1, inplace=True)
+print("x_columns=\n",x_columns)
+
+X_test = x_columns.values
+print("X_test=\n",X_test)
+
+predictions = model.predict(X_test)
+print("submit predictions=\n",predictions)
+
+# Create submission data set
+df_submit = pd.DataFrame(predictions)
+df_submit.insert(0, "PassengerId", df_test.PassengerId)
+df_submit.columns = ["PassengerId", "Survived"]
+
+# df_submit = pd.DataFrame({'PassengerId': df_test.PassengerId, 'Survived': predictions})
+
+
+df_submit.to_csv(OUTPUT_PATH + "submission.csv", index=False)
+print(df_submit[:5])
+print("Your submission was successfully saved!")
+
 
