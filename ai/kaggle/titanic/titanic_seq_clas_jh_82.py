@@ -23,18 +23,36 @@ OUTPUT_PATH = os.path.join(BASE_PATH, "titanic_seq_regr_01/")
 os.system("mkdir -p " + OUTPUT_PATH)
 
 df_train = pd.read_csv(DATA_PATH + "train.csv", na_values=["NA", "?"])
-df_test = pd.read_csv(DATA_PATH + "test.csv", na_values=["NA", "?"])
 print("df_train.shape: ", df_train.shape)
-print(df_train)
+print("df_train=\n",df_train)
+df_train.drop('PassengerId', axis=1, inplace=True)
+print("df_train=\n",df_train)
+
+# df_train.drop("PassengerId").drop("Survived").drop("Name").drop("Cabin").drop("Ticket")
+# print("df_train=\n",df_train)
+df_train = pd.concat([df_train,pd.get_dummies(df_train['Sex'],prefix="Sex")],axis=1)
+df_train.drop('Sex', axis=1, inplace=True)
+print("df_train=\n",df_train)
+
+# pd.get_dummies(df_train['Sex'],prefix="Sex")
+
+df_test = pd.read_csv(DATA_PATH + "test.csv", na_values=["NA", "?"])
 print("df_test.shape: ", df_test.shape)
 
 # Encode feature vector
 # Convert to numpy - Classification
-x_columns = df_train.columns.drop("PassengerId").drop("Survived").drop("Name").drop("Cabin").drop("Ticket")
+# x_columns = df_train.columns.drop("PassengerId").drop("Survived").drop("Name").drop("Cabin").drop("Ticket")
 
 # Generate dummies for Sex
-x_columns = pd.concat([x_columns,pd.get_dummies(x_columns['Sex'],prefix="Sex")],axis=1)
-x_columns.drop('Sex', axis=1, inplace=True)
+
+
+# x_columns = pd.concat([x_columns,pd.get_dummies(x_columns['Sex'],prefix="Sex")],axis=1)
+# x_columns.drop('Sex', axis=1, inplace=True)
+
+
+features = ["Pclass", "Sex", "SibSp", "Parch"]
+x = pd.get_dummies(train_data[features])
+
 
 
 x = df_train[x_columns].values
