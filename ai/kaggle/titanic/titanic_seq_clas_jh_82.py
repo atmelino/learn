@@ -25,19 +25,19 @@ os.system("mkdir -p " + OUTPUT_PATH)
 df_train = pd.read_csv(DATA_PATH + "train.csv", na_values=["NA", "?"])
 print("df_train.shape: ", df_train.shape)
 print("df_train=\n",df_train)
-df_train.drop('PassengerId', axis=1, inplace=True)
-print("df_train=\n",df_train)
+# df_train.drop('PassengerId', axis=1, inplace=True)
+# print("df_train=\n",df_train)
 
 # df_train.drop("PassengerId").drop("Survived").drop("Name").drop("Cabin").drop("Ticket")
 # print("df_train=\n",df_train)
-df_train = pd.concat([df_train,pd.get_dummies(df_train['Sex'],prefix="Sex")],axis=1)
-df_train.drop('Sex', axis=1, inplace=True)
-print("df_train=\n",df_train)
+# df_train = pd.concat([df_train,pd.get_dummies(df_train['Sex'],prefix="Sex")],axis=1)
+# df_train.drop('Sex', axis=1, inplace=True)
+# print("df_train=\n",df_train)
 
 # pd.get_dummies(df_train['Sex'],prefix="Sex")
 
-df_test = pd.read_csv(DATA_PATH + "test.csv", na_values=["NA", "?"])
-print("df_test.shape: ", df_test.shape)
+# df_test = pd.read_csv(DATA_PATH + "test.csv", na_values=["NA", "?"])
+# print("df_test.shape: ", df_test.shape)
 
 # Encode feature vector
 # Convert to numpy - Classification
@@ -50,12 +50,50 @@ print("df_test.shape: ", df_test.shape)
 # x_columns.drop('Sex', axis=1, inplace=True)
 
 
-features = ["Pclass", "Sex", "SibSp", "Parch"]
-x = pd.get_dummies(train_data[features])
+# features = ["Pclass", "Sex", "SibSp", "Parch"]
+features = ["Pclass", "Sex", "SibSp"]
+x_columns =df_train[features]
+print("x_columns=\n",x_columns)
+
+# for feature in features:
+#     print(feature)
+#     df_train = pd.concat([df_train,pd.get_dummies(df_train[feature],prefix=feature)],axis=1)
+#     df_train.drop(feature, axis=1, inplace=True)
+#     print("df_train=\n",df_train)
+
+# df_train.drop('PassengerId', axis=1, inplace=True)
+# df_train.drop('Survived', axis=1, inplace=True)
+# df_train.drop('Name', axis=1, inplace=True)
+# df_train.drop('SibSp', axis=1, inplace=True)
+# df_train.drop('Parch', axis=1, inplace=True)
+# df_train.drop('Ticket', axis=1, inplace=True)
+# df_train.drop('Cabin', axis=1, inplace=True)
+# df_train.drop('Embarked', axis=1, inplace=True)
+
+x_columns = pd.concat([x_columns,pd.get_dummies(x_columns['Pclass'],prefix="Pclass")],axis=1)
+x_columns.drop('Pclass', axis=1, inplace=True)
+x_columns = pd.concat([x_columns,pd.get_dummies(x_columns['Sex'],prefix="Sex")],axis=1)
+x_columns.drop('Sex', axis=1, inplace=True)
+x_columns = pd.concat([x_columns,pd.get_dummies(x_columns['SibSp'],prefix="SibSp")],axis=1)
+x_columns.drop('SibSp', axis=1, inplace=True)
+print("x_columns=\n",x_columns)
+
+# Missing values for Age
+# med = x_columns['Age'].median()
+# x_columns['Age'] = df['Age'].fillna(med)
+
+# Age=x_columns['Age']
+# print("Age=\n",Age)
 
 
 
-x = df_train[x_columns].values
+# X_train = np.asarray(X_train).astype(np.float32)
+
+
+# x_columns = pd.get_dummies(df_train[features] )
+# print("x_columns=\n",x_columns)
+
+x = x_columns.values
 print("x=\n",x)
 y = df_train["Survived"].values  # Classification
 print("y=\n",y)
@@ -113,10 +151,3 @@ submit_df = pd.DataFrame(
 )
 submit_df.to_csv(OUTPUT_PATH+"submit.csv", index=False)
 
-# Rank the features
-from IPython.display import display, HTML
-names = list(df_train.columns) # x+y column names
-names.remove("Activity") # remove the target(y)
-rank = perturbation_rank(model, x_test, y_test, names, False)
-display(rank[0:10])
-rank.to_csv(OUTPUT_PATH+"rank.csv", index=False)
