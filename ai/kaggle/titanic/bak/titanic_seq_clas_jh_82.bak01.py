@@ -16,7 +16,6 @@ import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Activation
 from tensorflow.keras.callbacks import EarlyStopping
-import time
 
 BASE_PATH = "../../../../local_data/kaggle/titanic/"
 DATA_PATH = os.path.join(BASE_PATH, "input/")
@@ -27,62 +26,56 @@ df_train = pd.read_csv(DATA_PATH + "train.csv", na_values=["NA", "?"])
 print("df_train.shape: ", df_train.shape)
 print("df_train=\n",df_train)
 
-
-#  PassengerId	Survived	Pclass	Name	Sex	Age	SibSp	Parch	Ticket	Fare	Cabin	Embarked
-
 # features = ["Pclass", "Sex", "SibSp", "Parch"]
 # features = ["Pclass", "Sex", "SibSp"]
 features = ["Pclass", "Sex", "SibSp","Fare"]
 features = ["Pclass", "Sex", "SibSp","Fare", "Parch"]
-features = ["Sex"]
-features = ["Pclass"]
-features = ["Fare"]
-features = ["Parch"]
-features = ["SibSp"]
-
 x_columns =df_train[features]
 print("x_columns=\n",x_columns)
 
-if "Pclass" in features:
-    x_columns = pd.concat([x_columns,pd.get_dummies(x_columns['Pclass'],prefix="Pclass")],axis=1)
-    x_columns.drop('Pclass', axis=1, inplace=True)
+# for feature in features:
+#     print(feature)
+#     df_train = pd.concat([df_train,pd.get_dummies(df_train[feature],prefix=feature)],axis=1)
+#     df_train.drop(feature, axis=1, inplace=True)
+#     print("df_train=\n",df_train)
 
-if "Sex" in features:
-    x_columns = pd.concat([x_columns,pd.get_dummies(x_columns['Sex'],prefix="Sex")],axis=1)
-    x_columns.drop('Sex', axis=1, inplace=True)
+fare_bins=pd.qcut(df_train["Fare"],5)
+# print("fare_bins\n",fare_bins)
+df_fare_bins=pd.DataFrame(fare_bins,columns=["Fare"])
+# df_fare_bins=pd.DataFrame(fare_bins)
+df_fare_bins = df_fare_bins.rename(columns={'fare_bins': 'Fare'})
+# print("df_fare_bins\n",df_fare_bins)
 
-if "SibSp" in features:
-    x_columns = pd.concat([x_columns,pd.get_dummies(x_columns['SibSp'],prefix="SibSp")],axis=1)
-    x_columns.drop('SibSp', axis=1, inplace=True)
 
-if "Parch" in features:
-    x_columns = pd.concat([x_columns,pd.get_dummies(x_columns['Parch'],prefix="Parch")],axis=1)
-    x_columns.drop('Parch', axis=1, inplace=True)
-
-if "Fare" in features:
-    fare_bins=pd.qcut(df_train["Fare"],5)
-    # print("fare_bins\n",fare_bins)
-    df_fare_bins=pd.DataFrame(fare_bins,columns=["Fare"])
-    # df_fare_bins=pd.DataFrame(fare_bins)
-    df_fare_bins = df_fare_bins.rename(columns={'fare_bins': 'Fare'})
-    # print("df_fare_bins\n",df_fare_bins)
-    x_columns = pd.concat([x_columns,pd.get_dummies(df_fare_bins['Fare'],prefix="Fare")],axis=1)
-    x_columns.drop('Fare', axis=1, inplace=True)
-
-# print("x_columns=\n",x_columns)
+x_columns = pd.concat([x_columns,pd.get_dummies(df_fare_bins['Fare'],prefix="Fare")],axis=1)
+x_columns.drop('Fare', axis=1, inplace=True)
+x_columns = pd.concat([x_columns,pd.get_dummies(x_columns['Pclass'],prefix="Pclass")],axis=1)
+x_columns.drop('Pclass', axis=1, inplace=True)
+x_columns = pd.concat([x_columns,pd.get_dummies(x_columns['Sex'],prefix="Sex")],axis=1)
+x_columns.drop('Sex', axis=1, inplace=True)
+x_columns = pd.concat([x_columns,pd.get_dummies(x_columns['SibSp'],prefix="SibSp")],axis=1)
+x_columns.drop('SibSp', axis=1, inplace=True)
+x_columns = pd.concat([x_columns,pd.get_dummies(x_columns['Parch'],prefix="Parch")],axis=1)
+x_columns.drop('Parch', axis=1, inplace=True)
+print("x_columns=\n",x_columns)
 x_columns.to_csv(OUTPUT_PATH + "x_columns.csv", index=False)
-# print(x_columns.columns[0])
-# true_count = x_columns[x_columns.columns[0]].sum()
-# true_counts = [x_columns[name].sum() for name in x_columns.columns] 
-# print(true_counts)
+
+print(x_columns.columns[0])
+true_count = x_columns[x_columns.columns[0]].sum()
+
+true_counts = [x_columns[name].sum() for name in x_columns.columns] 
+print(true_counts)
+
 
 x = x_columns.values
-# print("x=\n",x)
+print("x=\n",x)
 y = df_train["Survived"].values  # Classification
-# print("y=\n",y)
+print("y=\n",y)
+# x_submit = df_test[x_columns].values.astype(np.float32)
 
 print("x.shape: ", x.shape)
 print("y.shape: ", y.shape)
+# print("x_submit.shape: ", x_submit.shape)
 
 # Split into train/test
 x_train, x_test, y_train, y_test = train_test_split(
@@ -119,6 +112,8 @@ pred = model.predict(x_test).flatten()
 # compare.columns=["y_test","pred","diff"]
 # print(compare)
 
+
+
 # Clip so that min is never exactly 0, max never 1
 pred = np.clip(pred, a_min=1e-6, a_max=(1 - 1e-6))
 print("Validation logloss: {}".format(sklearn.metrics.log_loss(y_test, pred)))
@@ -136,19 +131,6 @@ compare.to_csv(OUTPUT_PATH + "compare.csv", index=False)
 
 score = metrics.accuracy_score(y_test, pred)
 print("Validation accuracy score: {}".format(score))
-
-# save entire network to HDF5 (save everything, suggested)
-timestr = time.strftime("%Y%m%d-%H%M%S")
-# print(timestr)
-# accuracy= f"{score:.3f}"
-# print(accuracy)
-filename= f"acc_{score:.3f}_date_{timestr}.h5"
-print(filename)
-fullpath= f"{OUTPUT_PATH}/{filename}"
-print("Saving model to ", filename)
-model.save(fullpath)
-
-
 
 exit()
 
