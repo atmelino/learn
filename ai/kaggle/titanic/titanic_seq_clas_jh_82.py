@@ -34,11 +34,19 @@ print("df_train=\n",df_train)
 # features = ["Pclass", "Sex", "SibSp"]
 features = ["Pclass", "Sex", "SibSp","Fare"]
 features = ["Pclass", "Sex", "SibSp","Fare", "Parch"]
-features = ["Sex"]
-features = ["Pclass"]
-features = ["Fare"]
-features = ["Parch"]
-features = ["SibSp"]
+features = ["Pclass"]          # Validation accuracy score: 0.6995515695067265
+features = ["Sex"]                                  # 0.7847533632286996   
+features = ["SibSp"]                                # 0.6591928251121076
+features = ["Fare"]                                 # 0.6860986547085202    
+features = ["Parch"]                                # 0.6053811659192825
+features = ["Pclass", "Sex"]                        # 0.7847533632286996
+features = ["Sex", "SibSp"]                         # 0.8071748878923767
+features = ["Sex", "Fare"]                          # 0.7847533632286996
+features = ["Sex", "Parch"]                         # 0.7847533632286996
+features = ["Sex", "Fare", "Parch"]                 # 0.7847533632286996
+features = ["Sex", "SibSp","Parch"]                 # 0.8071748878923767
+
+
 
 x_columns =df_train[features]
 print("x_columns=\n",x_columns)
@@ -69,7 +77,7 @@ if "Fare" in features:
     x_columns = pd.concat([x_columns,pd.get_dummies(df_fare_bins['Fare'],prefix="Fare")],axis=1)
     x_columns.drop('Fare', axis=1, inplace=True)
 
-# print("x_columns=\n",x_columns)
+print("x_columns=\n",x_columns)
 x_columns.to_csv(OUTPUT_PATH + "x_columns.csv", index=False)
 # print(x_columns.columns[0])
 # true_count = x_columns[x_columns.columns[0]].sum()
