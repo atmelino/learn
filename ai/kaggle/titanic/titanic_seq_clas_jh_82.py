@@ -27,7 +27,9 @@ print("df_train.shape: ", df_train.shape)
 print("df_train=\n",df_train)
 
 # features = ["Pclass", "Sex", "SibSp", "Parch"]
-features = ["Pclass", "Sex", "SibSp"]
+# features = ["Pclass", "Sex", "SibSp"]
+features = ["Pclass", "Sex", "SibSp","Fare"]
+features = ["Pclass", "Sex", "SibSp","Fare", "Parch"]
 x_columns =df_train[features]
 print("x_columns=\n",x_columns)
 
@@ -37,15 +39,33 @@ print("x_columns=\n",x_columns)
 #     df_train.drop(feature, axis=1, inplace=True)
 #     print("df_train=\n",df_train)
 
+fare_bins=pd.qcut(df_train["Fare"],5)
+# print("fare_bins\n",fare_bins)
+df_fare_bins=pd.DataFrame(fare_bins,columns=["Fare"])
+# df_fare_bins=pd.DataFrame(fare_bins)
+df_fare_bins = df_fare_bins.rename(columns={'fare_bins': 'Fare'})
+# print("df_fare_bins\n",df_fare_bins)
+
+
+x_columns = pd.concat([x_columns,pd.get_dummies(df_fare_bins['Fare'],prefix="Fare")],axis=1)
+x_columns.drop('Fare', axis=1, inplace=True)
 x_columns = pd.concat([x_columns,pd.get_dummies(x_columns['Pclass'],prefix="Pclass")],axis=1)
 x_columns.drop('Pclass', axis=1, inplace=True)
 x_columns = pd.concat([x_columns,pd.get_dummies(x_columns['Sex'],prefix="Sex")],axis=1)
 x_columns.drop('Sex', axis=1, inplace=True)
 x_columns = pd.concat([x_columns,pd.get_dummies(x_columns['SibSp'],prefix="SibSp")],axis=1)
 x_columns.drop('SibSp', axis=1, inplace=True)
-# x_columns = pd.concat([x_columns,pd.get_dummies(x_columns['Parch'],prefix="Parch")],axis=1)
-# x_columns.drop('Parch', axis=1, inplace=True)
+x_columns = pd.concat([x_columns,pd.get_dummies(x_columns['Parch'],prefix="Parch")],axis=1)
+x_columns.drop('Parch', axis=1, inplace=True)
 print("x_columns=\n",x_columns)
+x_columns.to_csv(OUTPUT_PATH + "x_columns.csv", index=False)
+
+print(x_columns.columns[0])
+true_count = x_columns[x_columns.columns[0]].sum()
+
+true_counts = [x_columns[name].sum() for name in x_columns.columns] 
+print(true_counts)
+
 
 x = x_columns.values
 print("x=\n",x)
@@ -85,12 +105,12 @@ print("Fitting done...")
 # Predict
 pred = model.predict(x_test).flatten()
 
-col1 = pd.DataFrame(y_test, columns=["y_test"])
-col2 = pd.DataFrame(pred, columns=["pred"])
-diff = col1["y_test"] - col2["pred"]
-compare = pd.concat([col1, col2, diff], axis=1)
-compare.columns=["y_test","pred","diff"]
-print(compare)
+# col1 = pd.DataFrame(y_test, columns=["y_test"])
+# col2 = pd.DataFrame(pred, columns=["pred"])
+# diff = col1["y_test"] - col2["pred"]
+# compare = pd.concat([col1, col2, diff], axis=1)
+# compare.columns=["y_test","pred","diff"]
+# print(compare)
 
 
 
@@ -106,11 +126,13 @@ col2 = pd.DataFrame(pred, columns=["pred"])
 diff = col1["y_test"] - col2["pred"]
 compare = pd.concat([col1, col2, diff], axis=1)
 compare.columns=["y_test","pred","diff"]
-print(compare)
+print("Predictions\n",compare)
 compare.to_csv(OUTPUT_PATH + "compare.csv", index=False)
 
 score = metrics.accuracy_score(y_test, pred)
 print("Validation accuracy score: {}".format(score))
+
+exit()
 
 
 # Generate Kaggle submit file
@@ -133,7 +155,7 @@ X_test = x_columns.values
 print("X_test=\n",X_test)
 
 predictions = model.predict(X_test)
-print("submit predictions=\n",predictions)
+# print("submit predictions=\n",predictions)
 
 # def round_half_up(x):
 #     if x<0.1:
