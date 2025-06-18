@@ -30,8 +30,6 @@ print("df_train=\n",df_train)
 
 #  PassengerId	Survived	Pclass	Name	Sex	Age	SibSp	Parch	Ticket	Fare	Cabin	Embarked
 
-# features = ["Pclass", "Sex", "SibSp", "Parch"]
-# features = ["Pclass", "Sex", "SibSp"]
 features = ["Pclass", "Sex", "SibSp","Fare"]
 features = ["Pclass", "Sex", "SibSp","Fare", "Parch"]
 features = ["Pclass"]          # Validation accuracy score: 0.6995515695067265
