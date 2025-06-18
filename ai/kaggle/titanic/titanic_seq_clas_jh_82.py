@@ -45,6 +45,7 @@ features = ["Sex", "Fare"]                          # 0.7847533632286996
 features = ["Sex", "Parch"]                         # 0.7847533632286996
 features = ["Sex", "Fare", "Parch"]                 # 0.7847533632286996
 features = ["Sex", "SibSp","Parch"]                 # 0.8071748878923767
+features = ["Sex", "SibSp","Parch","Age"]                 # 0.8071748878923767
 
 
 
@@ -59,12 +60,28 @@ if "Sex" in features:
     x_columns = pd.concat([x_columns,pd.get_dummies(x_columns['Sex'],prefix="Sex")],axis=1)
     x_columns.drop('Sex', axis=1, inplace=True)
 
+if "Age" in features:
+    # Missing values for income
+    print("Age column before fillna\n",x_columns["Age"])
+    med = x_columns["Age"].median()
+    x_columns["Age"] = x_columns["Age"].fillna(med)
+    print("Age column after fillna\n",x_columns["Age"])
+    age_bins=pd.qcut(x_columns["Age"],10,duplicates='drop')
+    print("age_bins\n",age_bins)
+    df_age_bins=pd.DataFrame(age_bins,columns=["Age"])
+    df_age_bins=pd.DataFrame(age_bins)
+    df_age_bins = df_age_bins.rename(columns={'age_bins': 'Age'})
+    print("df_age_bins\n",df_age_bins)
+    x_columns = pd.concat([x_columns,pd.get_dummies(df_age_bins['Age'],prefix="Age")],axis=1)
+    x_columns.drop('Age', axis=1, inplace=True)
+
 if "SibSp" in features:
     x_columns = pd.concat([x_columns,pd.get_dummies(x_columns['SibSp'],prefix="SibSp")],axis=1)
     x_columns.drop('SibSp', axis=1, inplace=True)
 
 if "Parch" in features:
     x_columns = pd.concat([x_columns,pd.get_dummies(x_columns['Parch'],prefix="Parch")],axis=1)
+    x_columns['Parch9'] = False
     x_columns.drop('Parch', axis=1, inplace=True)
 
 if "Fare" in features:
@@ -93,8 +110,11 @@ print("x.shape: ", x.shape)
 print("y.shape: ", y.shape)
 
 # Split into train/test
+# x_train, x_test, y_train, y_test = train_test_split(
+#     x, y, test_size=0.25, random_state=42
+# )
 x_train, x_test, y_train, y_test = train_test_split(
-    x, y, test_size=0.25, random_state=42
+    x, y, test_size=0.25
 )
 print("Fitting/Training...")
 model = Sequential()
@@ -140,7 +160,7 @@ diff = col1["y_test"] - col2["pred"]
 compare = pd.concat([col1, col2, diff], axis=1)
 compare.columns=["y_test","pred","diff"]
 print("Predictions\n",compare)
-compare.to_csv(OUTPUT_PATH + "compare.csv", index=False)
+compare.to_csv(OUTPUT_PATH + "predictions.csv", index=False)
 
 score = metrics.accuracy_score(y_test, pred)
 print("Validation accuracy score: {}".format(score))
@@ -157,47 +177,5 @@ print("Saving model to ", filename)
 model.save(fullpath)
 
 
-
-exit()
-
-
-# Generate Kaggle submit file
-print("Generate Kaggle submit file")
-df_test = pd.read_csv(DATA_PATH + "test.csv", na_values=["NA", "?"])
-print(df_test)
-
-x_columns =df_test[features]
-print("x_columns=\n",x_columns)
-
-x_columns = pd.concat([x_columns,pd.get_dummies(x_columns['Pclass'],prefix="Pclass")],axis=1)
-x_columns.drop('Pclass', axis=1, inplace=True)
-x_columns = pd.concat([x_columns,pd.get_dummies(x_columns['Sex'],prefix="Sex")],axis=1)
-x_columns.drop('Sex', axis=1, inplace=True)
-x_columns = pd.concat([x_columns,pd.get_dummies(x_columns['SibSp'],prefix="SibSp")],axis=1)
-x_columns.drop('SibSp', axis=1, inplace=True)
-print("x_columns=\n",x_columns)
-
-X_test = x_columns.values
-print("X_test=\n",X_test)
-
-predictions = model.predict(X_test)
-# print("submit predictions=\n",predictions)
-
-predictions = model.predict(X_test)
-# print(predictions)
-predictions2 = np.round(predictions)
-# print(predictions2)
-predictions3=np.int_(predictions2)
-# print(predictions3)
-
-
-# Create submission data set
-df_submit = pd.DataFrame(predictions3)
-df_submit.insert(0, "PassengerId", df_test.PassengerId)
-df_submit.columns = ["PassengerId", "Survived"]
-
-df_submit.to_csv(OUTPUT_PATH + "submission.csv", index=False)
-print(df_submit[:5])
-print("Your submission was successfully saved!")
 
 
