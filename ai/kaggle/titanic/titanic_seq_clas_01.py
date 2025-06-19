@@ -17,6 +17,10 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Activation
 from tensorflow.keras.callbacks import EarlyStopping
 import time
+import logging
+# logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
+
 
 BASE_PATH = "../../../../local_data/kaggle/titanic/"
 DATA_PATH = os.path.join(BASE_PATH, "input/")
@@ -24,8 +28,9 @@ OUTPUT_PATH = os.path.join(BASE_PATH, "titanic_seq_clas_jh_82/")
 os.system("mkdir -p " + OUTPUT_PATH)
 
 df_train = pd.read_csv(DATA_PATH + "train.csv", na_values=["NA", "?"])
-print("df_train.shape: ", df_train.shape)
-print("df_train=\n",df_train)
+# print("df_train=\n",df_train)
+logging.debug(df_train)
+
 
 
 #  PassengerId	Survived	Pclass	Name	Sex	Age	SibSp	Parch	Ticket	Fare	Cabin	Embarked
@@ -42,13 +47,12 @@ features = ["Sex", "SibSp"]                         # 0.8071748878923767
 features = ["Sex", "Fare"]                          # 0.7847533632286996
 features = ["Sex", "Parch"]                         # 0.7847533632286996
 features = ["Sex", "Fare", "Parch"]                 # 0.7847533632286996
+features = ["Sex", "SibSp","Parch","Age"]           # 0.8071748878923767
 features = ["Sex", "SibSp","Parch"]                 # 0.8071748878923767
-features = ["Sex", "SibSp","Parch","Age"]                 # 0.8071748878923767
-
 
 
 x_columns =df_train[features]
-print("x_columns=\n",x_columns)
+logging.debug(x_columns)
 
 if "Pclass" in features:
     x_columns = pd.concat([x_columns,pd.get_dummies(x_columns['Pclass'],prefix="Pclass")],axis=1)
@@ -92,7 +96,7 @@ if "Fare" in features:
     x_columns = pd.concat([x_columns,pd.get_dummies(df_fare_bins['Fare'],prefix="Fare")],axis=1)
     x_columns.drop('Fare', axis=1, inplace=True)
 
-print("x_columns=\n",x_columns)
+# print("x_columns=\n",x_columns)
 x_columns.to_csv(OUTPUT_PATH + "x_columns.csv", index=False)
 # print(x_columns.columns[0])
 # true_count = x_columns[x_columns.columns[0]].sum()
@@ -104,8 +108,8 @@ x = x_columns.values
 y = df_train["Survived"].values  # Classification
 # print("y=\n",y)
 
-print("x.shape: ", x.shape)
-print("y.shape: ", y.shape)
+logging.debug(x.shape)
+logging.debug(y.shape)
 
 # Split into train/test
 # x_train, x_test, y_train, y_test = train_test_split(
@@ -130,7 +134,7 @@ model.fit(
     y_train,
     validation_data=(x_test, y_test),
     callbacks=[monitor],
-    verbose=1,
+    verbose=0,
     epochs=1000,
 )
 print("Fitting done...")

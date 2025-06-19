@@ -29,6 +29,7 @@ print("Generate Kaggle submit file")
 df_test = pd.read_csv(DATA_PATH + "test.csv", na_values=["NA", "?"])
 print(df_test)
 
+
 #  PassengerId	Survived	Pclass	Name	Sex	Age	SibSp	Parch	Ticket	Fare	Cabin	Embarked
 
 # features = ["Pclass", "Sex", "SibSp", "Parch"]
