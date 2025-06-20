@@ -1,5 +1,5 @@
 # Based on jheaton class class_08_2_keras_ensembles_bio_rank
-
+# and jheaton class 
 print("conda environment for this program:")
 print("conda activate jh_class")
 
@@ -22,6 +22,21 @@ from sklearn.model_selection import StratifiedKFold
 
 # logging.basicConfig(level=logging.INFO)
 logging.basicConfig(level=logging.DEBUG)
+
+# Options for this run
+shuffle = False
+print_fold = True
+run_model = False
+length = 2000
+number_of_folds = 5
+length = 200
+number_of_folds = 3
+length = 400
+number_of_folds = 3
+length = 80
+number_of_folds = 2
+length = 100
+number_of_folds = 2
 
 
 BASE_PATH = "../../../../local_data/kaggle/titanic/"
@@ -113,10 +128,72 @@ y = df_train["Survived"].values  # Classification
 logging.debug(x.shape)
 logging.debug(y.shape)
 
-
-
+EPOCHS = 500
 
 kf = StratifiedKFold(number_of_folds, shuffle=True, random_state=42)
+fold = 0
+
+oos_id = []
+oos_y = []
+oos_pred = []
+fold = 0
+# Must specify y StratifiedKFold for
+for train, test in kf.split(x, df_train["Survived"]):
+    fold += 1
+    print(f"Fold #{fold}")
+    if print_fold == True:
+        # print(f"  Train: index={train}")
+        # print(f"  Test:  index={test}")
+        print(f"  Train: index={train} size={train.shape}")
+        print(f"  Test:  index={test} size={test.shape}")
+
+    myarr1 = []
+    myarr2 = []
+    for i in test:
+        # print(i,df["product"][i])
+        myarr1.append(i+1)
+        myarr2.append(df_train["Survived"][i])
+    col_id = pd.DataFrame(myarr1, columns=["PassengerId"])
+    col_p = pd.DataFrame(myarr2, columns=["Survived"])
+    # print(col_p)
+
+    x_train = np.asarray(x[train]).astype(np.float32)
+    y_train = np.asarray(y[train]).astype(np.float32)
+    x_test = np.asarray(x[test]).astype(np.float32)
+    y_test = np.asarray(y[test]).astype(np.float32)
+
+    model = Sequential()
+    # Hidden 1
+    model.add(Dense(50, input_dim=x.shape[1], activation="relu"))
+    model.add(Dense(25, activation="relu"))  # Hidden 2
+    model.add(Dense(1, activation="sigmoid"))
+    model.compile(loss="binary_crossentropy", optimizer="adam")
+    model.fit(
+        x_train, y_train, validation_data=(x_test, y_test), verbose=0, epochs=EPOCHS
+    )
+
+    pred = model.predict(x_test)
+
+    col_y_test = pd.DataFrame(y_test, columns=["y_test"])
+    col_pred = pd.DataFrame(pred, columns=["pred"])
+    fold_pred = pd.concat([col_id, col_y_test, col_p, col_pred], axis=1)
+    print("shape of pred", pred.shape)
+    print("Prediction:")
+    print(fold_pred)
+
+    oos_id.append(myarr1)
+    oos_y.append(y_test)
+    # raw probabilities to chosen class (highest probability)
+    pred = np.argmax(pred, axis=1)
+    oos_pred.append(pred)
+
+    # Measure this fold's accuracy
+    # y_compare = np.argmax(y_test, axis=1)  # For accuracy calculation
+    # matches=np.count_nonzero(y_compare==pred)
+    # score = metrics.accuracy_score(y_compare, pred)
+    score = metrics.accuracy_score(y_test, pred)
+    # print(f"matches: {matches}")
+    print("Validation accuracy score: {}".format(score))
 
 
 
@@ -131,6 +208,11 @@ kf = StratifiedKFold(number_of_folds, shuffle=True, random_state=42)
 
 
 
+
+
+
+
+exit()
 
 # Split into train/test
 # x_train, x_test, y_train, y_test = train_test_split(
