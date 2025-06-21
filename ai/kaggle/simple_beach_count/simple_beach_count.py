@@ -4,9 +4,9 @@ import pandas as pd
 # PATH = "/kaggle/input/applications-of-deep-learning-wustlspring-2023/beach/beach/"
 # !conda install -y -c conda-forge keras-preprocessing
 
-BASE_PATH = "../../../../../local_data/jheaton/"
-DATA_PATH = os.path.join(BASE_PATH, "beach/beach/")
-OUTPUT_PATH = os.path.join(BASE_PATH, "kaggle/simple_beach_count/")
+BASE_PATH = "../../../../local_data/kaggle/"
+DATA_PATH = BASE_PATH+ "simple_beach_count/beach/beach/"
+OUTPUT_PATH = os.path.join(BASE_PATH, "simple_beach_count/")
 os.system("mkdir -p " + OUTPUT_PATH)
 
 # df = pd.read_csv(os.path.join(PATH, "train.csv"),na_values=['NA', '?'])
