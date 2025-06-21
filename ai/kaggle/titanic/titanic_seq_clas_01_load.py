@@ -47,6 +47,8 @@ features = ["Sex", "Fare"]                          # 0.7847533632286996
 features = ["Sex", "Parch"]                         # 0.7847533632286996
 features = ["Sex", "Fare", "Parch"]                 # 0.7847533632286996
 features = ["Sex", "SibSp","Parch"]                 # 0.8071748878923767
+features = ["Sex", "SibSp", "Parch", "Fare"] 
+# features = ["Sex", "SibSp", "Parch", "Fare", "Age"] 
 
 
 x_columns =df_test[features]
@@ -60,6 +62,23 @@ if "Sex" in features:
     x_columns = pd.concat([x_columns,pd.get_dummies(x_columns['Sex'],prefix="Sex")],axis=1)
     x_columns.drop('Sex', axis=1, inplace=True)
 
+if "Age" in features:
+    # Missing values for income
+    print("Age column before fillna\n", x_columns["Age"])
+    med = x_columns["Age"].median()
+    x_columns["Age"] = x_columns["Age"].fillna(med)
+    print("Age column after fillna\n", x_columns["Age"])
+    age_bins = pd.qcut(x_columns["Age"], 10, duplicates="drop")
+    print("age_bins\n", age_bins)
+    df_age_bins = pd.DataFrame(age_bins, columns=["Age"])
+    df_age_bins = pd.DataFrame(age_bins)
+    df_age_bins = df_age_bins.rename(columns={"age_bins": "Age"})
+    print("df_age_bins\n", df_age_bins)
+    x_columns = pd.concat(
+        [x_columns, pd.get_dummies(df_age_bins["Age"], prefix="Age")], axis=1
+    )
+    x_columns.drop("Age", axis=1, inplace=True)
+
 if "SibSp" in features:
     x_columns = pd.concat([x_columns,pd.get_dummies(x_columns['SibSp'],prefix="SibSp")],axis=1)
     x_columns.drop('SibSp', axis=1, inplace=True)
@@ -69,7 +88,7 @@ if "Parch" in features:
     x_columns.drop('Parch', axis=1, inplace=True)
 
 if "Fare" in features:
-    fare_bins=pd.qcut(df_train["Fare"],5)
+    fare_bins=pd.qcut(x_columns["Fare"],5)
     # print("fare_bins\n",fare_bins)
     df_fare_bins=pd.DataFrame(fare_bins,columns=["Fare"])
     # df_fare_bins=pd.DataFrame(fare_bins)
@@ -89,7 +108,11 @@ filename= "acc_0.807_date_20250617-142852_sex_sib_parch.h5"
 filename= "acc_0.798_date_20250617-203145.h5"
 filename= "acc_0.830_date_20250617-210343.h5"
 filename= "acc_0.857_date_20250617-211202.h5"
-filename= "acc_0.851_fold_6_date_20250620-194601.h5"
+# filename= "acc_0.851_fold_6_date_20250620-194601.h5"
+# filename= "acc_0.831_fold_6_date_20250620-205309.h5"
+# filename= "acc_0.858_fold_6_date_20250620-210421.h5"
+# filename= "acc_0.846_fold_1_date_20250620-211453.h5"
+filename= "acc_0.858_loss_0.410_fold_6_date_20250620-212525.h5"
 
 
 print(filename)

@@ -54,6 +54,7 @@ features = ["Sex", "Fare", "Parch"]  # 0.7847533632286996
 features = ["Sex", "SibSp", "Parch", "Age"]  # 0.8071748878923767
 features = ["Sex", "SibSp", "Parch"]  # 0.8071748878923767
 features = ["Sex", "SibSp", "Parch", "Fare"] 
+# features = ["Sex", "SibSp", "Parch", "Fare", "Age"] 
 
 
 x_columns = df_train[features]
@@ -102,7 +103,7 @@ if "Parch" in features:
     x_columns.drop("Parch", axis=1, inplace=True)
 
 if "Fare" in features:
-    fare_bins = pd.qcut(df_train["Fare"], 5)
+    fare_bins = pd.qcut(x_columns["Fare"], 5)
     # print("fare_bins\n",fare_bins)
     df_fare_bins = pd.DataFrame(fare_bins, columns=["Fare"])
     # df_fare_bins=pd.DataFrame(fare_bins)
@@ -154,7 +155,7 @@ for train, test in kf.split(x, df_train["Survived"].values):
     model.add(Dense(1, activation="sigmoid"))
     model.compile(loss="binary_crossentropy", optimizer="adam")
     monitor = EarlyStopping(
-        monitor="val_loss", min_delta=1e-3, patience=5, verbose=1, mode="auto"
+        monitor="val_loss", min_delta=1e-3, patience=10, verbose=1, mode="auto"
     )
     # model.summary()
 
@@ -173,7 +174,8 @@ for train, test in kf.split(x, df_train["Survived"].values):
 
     # Clip so that min is never exactly 0, max never 1
     pred = np.clip(pred, a_min=1e-6, a_max=(1 - 1e-6))
-    print("Validation logloss: {}".format(sklearn.metrics.log_loss(y_test, pred)))
+    logloss=sklearn.metrics.log_loss(y_test, pred)
+    print("Validation logloss: {}".format(logloss))
 
     # Evaluate success using accuracy
     pred = pred > 0.5  # If greater than 0.5 probability, then true
@@ -183,7 +185,7 @@ for train, test in kf.split(x, df_train["Survived"].values):
 
     # save entire network to HDF5 (save everything, suggested)
     timestr = time.strftime("%Y%m%d-%H%M%S")
-    filename = f"acc_{score:.3f}_fold_{fold}_date_{timestr}.h5"
+    filename = f"acc_{score:.3f}_loss_{logloss:.3f}_fold_{fold}_date_{timestr}.h5"
     print(filename)
     fullpath = f"{OUTPUT_PATH}/{filename}"
     print("Saving model to ", filename)
