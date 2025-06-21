@@ -20,7 +20,7 @@ from tensorflow.keras.models import load_model
 
 BASE_PATH = "../../../../local_data/kaggle/titanic/"
 DATA_PATH = os.path.join(BASE_PATH, "input/")
-OUTPUT_PATH = os.path.join(BASE_PATH, "titanic_seq_clas_jh_82/")
+OUTPUT_PATH = os.path.join(BASE_PATH, "titanic_seq_clas_01/")
 os.system("mkdir -p " + OUTPUT_PATH)
 
 
@@ -89,11 +89,12 @@ filename= "acc_0.807_date_20250617-142852_sex_sib_parch.h5"
 filename= "acc_0.798_date_20250617-203145.h5"
 filename= "acc_0.830_date_20250617-210343.h5"
 filename= "acc_0.857_date_20250617-211202.h5"
+filename= "acc_0.851_fold_6_date_20250620-194601.h5"
 
 
 print(filename)
-fullpath= f"{OUTPUT_PATH}/{filename}"
-print("Loading model from ", filename)
+fullpath= f"{OUTPUT_PATH}{filename}"
+print("Loading model from ", fullpath)
 model = load_model(fullpath)
 
 predictions = model.predict(X_test)
