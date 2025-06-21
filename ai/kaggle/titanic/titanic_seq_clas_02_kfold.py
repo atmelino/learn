@@ -53,6 +53,7 @@ features = ["Sex", "Parch"]  # 0.7847533632286996
 features = ["Sex", "Fare", "Parch"]  # 0.7847533632286996
 features = ["Sex", "SibSp", "Parch", "Age"]  # 0.8071748878923767
 features = ["Sex", "SibSp", "Parch"]  # 0.8071748878923767
+features = ["Sex", "SibSp", "Parch", "Fare"] 
 
 
 x_columns = df_train[features]

@@ -14,6 +14,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import re
 import os
+import logging
 
 from sklearn.metrics import accuracy_score, roc_auc_score, precision_score, recall_score, f1_score
 from sklearn.model_selection import train_test_split
@@ -31,14 +32,23 @@ from xgboost import XGBClassifier
 from lightgbm import LGBMClassifier
 from catboost import CatBoostClassifier
 
+# logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
+
 BASE_PATH = "../../../../local_data/kaggle/titanic/"
 DATA_PATH = os.path.join(BASE_PATH, "input/")
-OUTPUT_PATH = os.path.join(BASE_PATH, "titanic_seq_clas_02_kfold/")
+OUTPUT_PATH = os.path.join(BASE_PATH, "polar_snow09/")
 os.system("mkdir -p " + OUTPUT_PATH)
 
 # load train and test data
 train = pd.read_csv(DATA_PATH + "train.csv")
 test = pd.read_csv(DATA_PATH + "test.csv")
 
-train.isnull().sum()
+logging.debug("missing in train",train.isnull().sum())
+logging.debug("missing in test")
+logging.debug(test.isnull().sum())
+
+
+
+
 
