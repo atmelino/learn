@@ -1,158 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Income Prediction Model</title>
+    <link type="text/css" href="styles.css" media="all" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tensorflow/4.10.0/tf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            margin: 0;
-            padding: 20px;
-            min-height: 100vh;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 30px;
-            font-size: 2.5em;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .controls {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 15px;
-        }
-        button {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            font-size: 14px;
-        }
-        .train-btn {
-            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
-            color: white;
-        }
-        .train-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
-        }
-        .predict-btn {
-            background: linear-gradient(45deg, #4ecdc4, #44a08d);
-            color: white;
-        }
-        .predict-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(78, 205, 196, 0.3);
-        }
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        .stat-card {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-        }
-        .stat-value {
-            font-size: 2em;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .prediction-section {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-        }
-        .input-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        input, select {
-            padding: 12px;
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: border-color 0.3s ease;
-        }
-        input:focus, select:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-        .charts {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 30px;
-        }
-        .chart-container {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        .log {
-            height: 200px;
-            overflow-y: auto;
-            background: #2d3748;
-            color: #e2e8f0;
-            padding: 15px;
-            border-radius: 10px;
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
-            margin-top: 20px;
-        }
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 20px;
-        }
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 10px;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>🧠 Income Prediction AI Model</h1>
-        
+
         <div class="controls">
             <button class="train-btn" onclick="trainModel()">🚀 Train Model (1000 epochs)</button>
             <button class="predict-btn" onclick="makePrediction()">🔮 Make Prediction</button>
@@ -192,7 +55,8 @@
                 <input type="number" id="retail_dense" placeholder="Retail Density" step="0.001">
                 <input type="number" id="crime" placeholder="Crime Rate" step="0.001">
             </div>
-            <div id="predictionResult" style="font-size: 1.2em; font-weight: bold; text-align: center; margin-top: 15px;"></div>
+            <div id="predictionResult"
+                style="font-size: 1.2em; font-weight: bold; text-align: center; margin-top: 15px;"></div>
         </div>
 
         <div class="loading" id="loading">
@@ -279,12 +143,28 @@
         }
 
         async function loadData() {
+            // CSV data
+            const csvData = `id,job,area,income,aspect,subscriptions,dist_healthy,save_rate,dist_unhealthy,age,pop_dense,retail_dense,crime,product
+1,vv,c,50876.0,13.1,1,9.017895490336436,35,11.738934944499087,49,0.8858267716535433,0.4921259842519685,0.07109995817649518,b
+2,kd,c,60369.0,18.625,2,7.766642806012884,59,6.805395531825207,51,0.8740157480314961,0.3425196850393701,0.4008085877596543,c
+3,pe,c,55126.0,34.766666666666666,1,3.632068718682892,6,13.671771813966558,44,0.9448818897637795,0.7244094488188977,0.20772340722152516,b
+4,11,c,51690.0,15.808333333333332,1,5.37294201861131,16,4.333286497119573,50,0.889763779527559,0.4448818897637795,0.36121566987313536,b
+5,kl,d,28347.0,40.94166666666666,3,3.822476735862563,20,5.9671209779401435,38,0.7440944881889764,0.6614173228346457,0.06803290115711697,a
+6,e2,c,70854.0,40.4,1,14.893342877594847,87,20.340592946466206,43,0.8661417322834646,0.6732283464566929,0.47358148612853757,d
+7,kl,d,38726.0,30.974999999999998,3,3.822476735862563,33,9.480399044541238,39,0.9763779527559056,0.8740157480314961,0.09215112226404573,f
+8,nb,a,55162.0,26.96666666666667,2,4.31209735146743,17,29.21989602360545,44,1.0,0.7244094488188977,0.1628328453924439,b
+9,al,c,67311.0,32.38333333333333,0,25.09377236936292,169,10.927357032457495,45,0.952755905511811,0.6811023622047244,0.09633347274501604,c
+10,pe,a,63344.0,38.233333333333334,1,2.816034359341446,3,21.915694815231138,42,0.8976377952755905,0.7244094488188977,0.1739857800083647,c`;
+
             try {
-                const response = await window.fs.readFile('jh-simple-dataset.csv', { encoding: 'utf8' });
+                // const response = await window.fs.readFile('./jh-simple-dataset.csv', { encoding: 'utf8' });
+                const response = csvData;
+
                 const lines = response.trim().split('\n');
                 const headers = lines[0].split(',');
-                
+
                 const data = [];
+
                 for (let i = 1; i < lines.length; i++) {
                     const values = lines[i].split(',');
                     const row = {};
@@ -293,10 +173,10 @@
                     });
                     data.push(row);
                 }
-                
+
                 // Filter out rows with missing income data and prepare features
                 const validData = data.filter(row => row.income && row.income !== '' && !isNaN(parseFloat(row.income)));
-                
+
                 trainedData = validData.map(row => ({
                     features: [
                         parseFloat(row.aspect) || 0,
@@ -315,7 +195,7 @@
                 document.getElementById('dataPoints').textContent = trainedData.length;
                 log(`✅ Data loaded successfully: ${trainedData.length} valid records`);
                 log(`📊 Features: aspect, subscriptions, dist_healthy, save_rate, dist_unhealthy, age, pop_dense, retail_dense, crime`);
-                
+
             } catch (error) {
                 log(`❌ Error loading data: ${error.message}`);
             }
@@ -324,12 +204,12 @@
         function normalizeData(data) {
             const features = data.map(d => d.features);
             const incomes = data.map(d => d.income);
-            
+
             // Calculate mean and std for each feature
             const numFeatures = features[0].length;
             const featureMeans = [];
             const featureStds = [];
-            
+
             for (let i = 0; i < numFeatures; i++) {
                 const values = features.map(f => f[i]);
                 const mean = values.reduce((a, b) => a + b, 0) / values.length;
@@ -337,19 +217,19 @@
                 featureMeans.push(mean);
                 featureStds.push(std);
             }
-            
+
             // Normalize income
             const incomeMean = incomes.reduce((a, b) => a + b, 0) / incomes.length;
             const incomeStd = Math.sqrt(incomes.map(x => Math.pow(x - incomeMean, 2)).reduce((a, b) => a + b, 0) / incomes.length);
-            
+
             scaler = { featureMeans, featureStds, incomeMean, incomeStd };
-            
-            const normalizedFeatures = features.map(f => 
+
+            const normalizedFeatures = features.map(f =>
                 f.map((val, i) => (val - featureMeans[i]) / (featureStds[i] || 1))
             );
-            
+
             const normalizedIncomes = incomes.map(income => (income - incomeMean) / incomeStd);
-            
+
             return { features: normalizedFeatures, incomes: normalizedIncomes };
         }
 
@@ -361,17 +241,17 @@
 
             document.getElementById('loading').style.display = 'block';
             const startTime = Date.now();
-            
+
             try {
                 log('🚀 Starting model training...');
-                
+
                 // Normalize data
                 const normalizedData = normalizeData(trainedData);
-                
+
                 // Prepare tensors
                 const xs = tf.tensor2d(normalizedData.features);
                 const ys = tf.tensor2d(normalizedData.incomes, [normalizedData.incomes.length, 1]);
-                
+
                 // Create model
                 model = tf.sequential({
                     layers: [
@@ -383,18 +263,18 @@
                         tf.layers.dense({ units: 1, activation: 'linear' })
                     ]
                 });
-                
+
                 model.compile({
                     optimizer: tf.train.adam(0.001),
                     loss: 'meanSquaredError',
                     metrics: ['mae']
                 });
-                
+
                 log(`🏗️ Model architecture created with ${model.countParams()} parameters`);
-                
+
                 // Training with callbacks
                 trainingHistory = { loss: [], accuracy: [] };
-                
+
                 await model.fit(xs, ys, {
                     epochs: 1000,
                     batchSize: 32,
@@ -404,32 +284,32 @@
                         onEpochEnd: (epoch, logs) => {
                             if (epoch % 50 === 0) {
                                 log(`Epoch ${epoch + 1}/1000 - Loss: ${logs.loss.toFixed(4)} - Val Loss: ${logs.val_loss.toFixed(4)}`);
-                                
+
                                 trainingHistory.loss.push(logs.loss);
                                 trainingHistory.accuracy.push(1 / (1 + logs.val_loss)); // Approximate accuracy metric
-                                
+
                                 // Update charts
                                 if (epoch % 100 === 0) {
                                     updateCharts(epoch);
                                 }
-                                
+
                                 document.getElementById('epochsCompleted').textContent = epoch + 1;
                             }
                         }
                     }
                 });
-                
+
                 xs.dispose();
                 ys.dispose();
-                
+
                 const endTime = Date.now();
                 const trainingTime = Math.round((endTime - startTime) / 1000);
                 document.getElementById('trainingTime').textContent = `${trainingTime}s`;
                 document.getElementById('modelAccuracy').textContent = '95%'; // Approximate
-                
+
                 log('✅ Model training completed successfully!');
                 log(`⏱️ Training time: ${trainingTime} seconds`);
-                
+
             } catch (error) {
                 log(`❌ Training error: ${error.message}`);
             } finally {
@@ -440,11 +320,11 @@
         function updateCharts(epoch) {
             if (trainingHistory.loss.length > 0) {
                 const epochs = trainingHistory.loss.map((_, i) => (i + 1) * 100);
-                
+
                 lossChart.data.labels = epochs;
                 lossChart.data.datasets[0].data = trainingHistory.loss;
                 lossChart.update();
-                
+
                 accuracyChart.data.labels = epochs;
                 accuracyChart.data.datasets[0].data = trainingHistory.accuracy;
                 accuracyChart.update();
@@ -470,21 +350,21 @@
             ];
 
             // Normalize features
-            const normalizedFeatures = features.map((val, i) => 
+            const normalizedFeatures = features.map((val, i) =>
                 (val - scaler.featureMeans[i]) / (scaler.featureStds[i] || 1)
             );
 
             const prediction = model.predict(tf.tensor2d([normalizedFeatures]));
             const normalizedResult = await prediction.data();
-            
+
             // Denormalize result
             const predictedIncome = normalizedResult[0] * scaler.incomeStd + scaler.incomeMean;
-            
-            document.getElementById('predictionResult').innerHTML = 
+
+            document.getElementById('predictionResult').innerHTML =
                 `💰 Predicted Income: <span style="color: #667eea;">$${Math.round(predictedIncome).toLocaleString()}</span>`;
-            
+
             log(`🔮 Prediction made: $${Math.round(predictedIncome).toLocaleString()}`);
-            
+
             prediction.dispose();
         }
 
@@ -495,30 +375,30 @@
             }
             scaler = null;
             trainingHistory = { loss: [], accuracy: [] };
-            
+
             document.getElementById('epochsCompleted').textContent = '0';
             document.getElementById('modelAccuracy').textContent = '0%';
             document.getElementById('trainingTime').textContent = '0s';
             document.getElementById('predictionResult').innerHTML = '';
             document.getElementById('trainingLog').innerHTML = '';
-            
+
             if (lossChart) {
                 lossChart.data.labels = [];
                 lossChart.data.datasets[0].data = [];
                 lossChart.update();
             }
-            
+
             if (accuracyChart) {
                 accuracyChart.data.labels = [];
                 accuracyChart.data.datasets[0].data = [];
                 accuracyChart.update();
             }
-            
+
             log('🔄 Model reset successfully');
         }
 
         // Initialize on page load
-        window.onload = function() {
+        window.onload = function () {
             initCharts();
             loadData();
             log('🎉 Income Prediction Model initialized');
@@ -526,4 +406,5 @@
         };
     </script>
 </body>
+
 </html>
