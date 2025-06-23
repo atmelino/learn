@@ -33,7 +33,7 @@ model.add(Dense(50, input_dim=x.shape[1], activation="relu"))  # Hidden 1
 model.add(Dense(25, activation="relu"))  # Hidden 2
 model.add(Dense(y.shape[1], activation="softmax"))  # Output
 model.compile(loss="categorical_crossentropy", optimizer="adam")
-model.fit(x, y, verbose=2, epochs=100)
+model.fit(x, y, verbose=0, epochs=100)
 
 from sklearn.metrics import accuracy_score
 pred = model.predict(x)
@@ -70,6 +70,35 @@ model3.summary()
 model3.add(Dense(1)) # Output
 model3.compile(loss='mean_squared_error', optimizer='adam')
 model3.summary()
+
+
+# Convert to numpy - Classification
+x = df_cost[['sepal_l', 'sepal_w', 'petal_l', 'petal_w']].values
+y = df_cost.cost.values
+# Train the last layer of the network
+model3.fit(x,y,verbose=0,epochs=100)
+
+from sklearn.metrics import accuracy_score
+pred = model3.predict(x)
+
+# logging.debug(pred)
+# logging.debug(y)
+col1 = pd.DataFrame(y, columns=["y"])
+col2 = pd.DataFrame(pred, columns=["pred"])
+diff = col1["y"] - col2["pred"]
+compare = pd.concat([col1, col2, diff], axis=1)
+compare.columns = ["y", "pred", "diff"]
+print(compare)
+
+
+score = np.sqrt(metrics.mean_squared_error(pred,y))
+print(f"Final score (RMSE): {score}")
+
+
+
+
+
+
 
 
 
