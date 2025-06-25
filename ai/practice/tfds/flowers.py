@@ -16,6 +16,8 @@ flowers_root = tf.keras.utils.get_file(
     untar=True)
 flowers_root = pathlib.Path(flowers_root)
 
+for item in flowers_root.glob("*"):
+  print(item.name)
 
 list_ds = tf.data.Dataset.list_files(str(flowers_root/'*/*'))
 
