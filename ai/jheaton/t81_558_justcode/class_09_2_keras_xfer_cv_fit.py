@@ -4,6 +4,7 @@ from tensorflow import keras
 from tensorflow.keras import layers
 import logging, os
 import matplotlib.pyplot as plt
+import time
 
 logging.basicConfig(level=logging.INFO)
 # logging.basicConfig(level=logging.DEBUG)
@@ -138,7 +139,49 @@ model.compile(
     loss=keras.losses.BinaryCrossentropy(from_logits=True),
     metrics=[keras.metrics.BinaryAccuracy()],
 )
-epochs = 20
+epochs = 1
 model.fit(train_ds, epochs=epochs, validation_data=validation_ds)
 
+timestr = time.strftime("%Y%m%d-%H%M%S")
+# filename = f"acc_{score:.3f}_date_{timestr}.h5"
+filename = f"epochs_{epochs:.3f}_date_{timestr}.h5"
+fullpath = f"{OUTPUT_PATH}{filename}"
+print("Saving model to ", filename)
+model.save(fullpath)
 
+
+
+# Predict
+
+test_ds, ds_info = tfds.load(
+        "cats_vs_dogs",
+        data_dir=DATA_PATH,
+        split='train',
+        with_info=True,
+)
+print(test_ds)
+
+
+size = (150, 150)
+train_ds = train_ds.map(lambda x, y: (tf.image.resize(x, size), y))
+print(test_ds)
+
+
+batch_size = 32
+test_ds = test_ds.cache().batch(batch_size).prefetch(buffer_size=10)
+print(test_ds)
+
+
+
+# test_ds= tfds.load(
+#     "cats_vs_dogs",
+#     data_dir=DATA_PATH,
+#     # split=["train[:40%]", "train[40%:50%]"],
+#     with_info=True,
+# )# Include labels
+
+
+# pred = model.predict(test_ds)
+pred = model.predict(train_ds)
+
+print(pred)
