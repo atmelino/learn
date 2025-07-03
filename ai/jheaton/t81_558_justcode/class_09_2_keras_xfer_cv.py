@@ -38,8 +38,10 @@ fig.savefig(filename)
 plt.close(fig)
 
 size = (150, 150)
-train_ds = train_ds.map(lambda x, y: (tf.image.resize(x, size)/ 255.0, y))
-validation_ds = validation_ds.map(lambda x, y: (tf.image.resize(x, size)/ 255.0, y))
+# train_ds = train_ds.map(lambda x, y: (tf.image.resize(x, size)/ 255.0, y))
+# validation_ds = validation_ds.map(lambda x, y: (tf.image.resize(x, size)/ 255.0, y))
+train_ds = train_ds.map(lambda x, y: (tf.image.resize(x, size), y))
+validation_ds = validation_ds.map(lambda x, y: (tf.image.resize(x, size), y))
 
 num_train = tf.data.experimental.cardinality(train_ds)
 num_test = tf.data.experimental.cardinality(validation_ds)
@@ -83,7 +85,8 @@ data_augmentation = keras.Sequential(
 import numpy as np
 for images, labels in train_ds.take(1):
     fig = plt.figure(figsize=(10, 10))
-    first_image = images[0]*255.0
+    # first_image = images[0]*255.0
+    first_image = images[0]
     # print("first_image.shape=",first_image.shape)
     for i in range(9):
         ax = plt.subplot(3, 3, i + 1)
