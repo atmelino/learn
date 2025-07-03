@@ -82,7 +82,7 @@ data_augmentation = keras.Sequential(
 
 import numpy as np
 for images, labels in train_ds.take(1):
-    plt.figure(figsize=(10, 10))
+    fig = plt.figure(figsize=(10, 10))
     first_image = images[0]*255.0
     # print("first_image.shape=",first_image.shape)
     for i in range(9):
@@ -94,6 +94,9 @@ for images, labels in train_ds.take(1):
         plt.imshow(augmented_image[0].numpy().astype("int32"))
         plt.title(int(labels[0]))
         plt.axis("off")
+    filename = OUTPUT_PATH + "plot_04.png"
+    fig.savefig(filename)
+    plt.close(fig)
 
 base_model = keras.applications.Xception(
     weights="imagenet", # Load weights pre-trained on ImageNet.
