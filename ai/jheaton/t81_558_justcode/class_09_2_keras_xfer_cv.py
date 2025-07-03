@@ -8,9 +8,9 @@ import matplotlib.pyplot as plt
 logging.basicConfig(level=logging.INFO)
 # logging.basicConfig(level=logging.DEBUG)
 
-BASE_PATH = "../../../../local_data/practice/"
+BASE_PATH = "../../../../local_data/jheaton/"
 DATA_PATH = "../../../../local_data/tfds/"
-OUTPUT_PATH = BASE_PATH+"pr_class_09_2_keras_xfer_cv/"
+OUTPUT_PATH = BASE_PATH+"class_09_2_keras_xfer_cv/"
 os.system("mkdir -p " + OUTPUT_PATH)
 
 (train_ds, validation_ds), metadata= tfds.load(
@@ -83,8 +83,8 @@ data_augmentation = keras.Sequential(
 import numpy as np
 for images, labels in train_ds.take(1):
     plt.figure(figsize=(10, 10))
-    # first_image = images[0]*255.0
-    print("first_image.shape=",first_image.shape)
+    first_image = images[0]*255.0
+    # print("first_image.shape=",first_image.shape)
     for i in range(9):
         ax = plt.subplot(3, 3, i + 1)
         augmented_image = data_augmentation(

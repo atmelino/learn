@@ -13,9 +13,9 @@ import logging, os
 logging.basicConfig(level=logging.INFO)
 # logging.basicConfig(level=logging.DEBUG)
 
-BASE_PATH = "../../../../local_data/practice/tfds/"
+BASE_PATH = "../../../../local_data/jheaton/"
 DATA_PATH = "../../../../local_data/tfds/"
-OUTPUT_PATH = BASE_PATH+"pr_class_09_2_fchollet/"
+OUTPUT_PATH = BASE_PATH+"class_09_2_fchollet/"
 os.system("mkdir -p " + OUTPUT_PATH)
 
 tfds.disable_progress_bar()
