@@ -150,38 +150,3 @@ print("Saving model to ", filename)
 model.save(fullpath)
 
 
-
-# Predict
-
-test_ds, ds_info = tfds.load(
-        "cats_vs_dogs",
-        data_dir=DATA_PATH,
-        split='train',
-        with_info=True,
-)
-print(test_ds)
-
-
-size = (150, 150)
-train_ds = train_ds.map(lambda x, y: (tf.image.resize(x, size), y))
-print(test_ds)
-
-
-batch_size = 32
-test_ds = test_ds.cache().batch(batch_size).prefetch(buffer_size=10)
-print(test_ds)
-
-
-
-# test_ds= tfds.load(
-#     "cats_vs_dogs",
-#     data_dir=DATA_PATH,
-#     # split=["train[:40%]", "train[40%:50%]"],
-#     with_info=True,
-# )# Include labels
-
-
-# pred = model.predict(test_ds)
-pred = model.predict(train_ds)
-
-print(pred)
