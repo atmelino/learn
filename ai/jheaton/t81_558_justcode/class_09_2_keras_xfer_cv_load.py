@@ -63,10 +63,10 @@ model.summary()
 
 # pred = model.predict(test_ds)
 pred = model.predict(train_ds)
-print(pred)
+# print(pred)
 
 col2 = pd.DataFrame(pred[0:20], columns=["p1"])
-print(col2)
+# print(col2)
 
 compare = pd.concat([col1, col2], axis=1)
 # compare.columns = ["y_test", "p1","p2","p3","p4","p5","p6","p7"]
