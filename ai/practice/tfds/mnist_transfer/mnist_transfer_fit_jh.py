@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 logging.basicConfig(level=logging.INFO)
 # logging.basicConfig(level=logging.DEBUG)
 
-BASE_PATH = "../../../../../local_data/jheaton/"
+BASE_PATH = "../../../../../local_data/pratice/tfds"
 DATA_PATH = "../../../../../local_data/tfds/"
 OUTPUT_PATH = BASE_PATH+"mnist_transfer_fit_jh/"
 os.system("mkdir -p " + OUTPUT_PATH)
