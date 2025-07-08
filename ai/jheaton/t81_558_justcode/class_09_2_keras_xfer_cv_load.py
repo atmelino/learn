@@ -42,12 +42,6 @@ col1 = c1['label']
 # col1 = pd.DataFrame(train_ds, columns=["image","train_ds"])
 print(col1)
 
-
-
-
-# exit()
-
-
 size = (150, 150)
 train_ds = train_ds.map(lambda x, y: (tf.image.resize(x, size), y))
 print(train_ds)
@@ -66,7 +60,6 @@ model.summary()
 
 
 # Predict
-
 
 # pred = model.predict(test_ds)
 pred = model.predict(train_ds)
