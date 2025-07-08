@@ -10,11 +10,11 @@ os.system("mkdir -p " + OUTPUT_PATH)
 
 # Load the dataset
 (train_dataset, test_dataset), metadata = tfds.load(
-    data_dir=DATA_PATH,
     'cats_vs_dogs',
+    data_dir=DATA_PATH,
     split=['train[:80%]', 'train[80%:]'],
     with_info=True,
-    as_supervised=True,
+    as_supervised=True
 )
 
 # Preprocess the data
