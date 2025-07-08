@@ -7,11 +7,12 @@ from tensorflow import keras
 from tensorflow.keras import layers
 import logging, os
 import matplotlib.pyplot as plt
+import pandas as pd
 
 logging.basicConfig(level=logging.INFO)
 # logging.basicConfig(level=logging.DEBUG)
 
-BASE_PATH = "../../../../../local_data/pratice/tfds"
+BASE_PATH = "../../../../../local_data/practice/tfds/"
 DATA_PATH = "../../../../../local_data/tfds/"
 OUTPUT_PATH = BASE_PATH+"mnist_transfer_fit_jh/"
 os.system("mkdir -p " + OUTPUT_PATH)
@@ -105,7 +106,7 @@ model.compile(
     loss=keras.losses.BinaryCrossentropy(from_logits=True),
     metrics=[keras.metrics.BinaryAccuracy()],
 )
-epochs = 2
+epochs = 1
 model.fit(train_ds, epochs=epochs, validation_data=validation_ds)
 
 
@@ -122,3 +123,16 @@ model.fit(train_ds, epochs=epochs, validation_data=validation_ds)
 # )
 
 
+c1=tfds.as_dataframe(train_ds.take(5000), metadata)
+col1 = c1['label']
+print(col1.shape)
+
+pred = model.predict(train_ds)
+print("pred\n",pred)
+# col2 = pd.DataFrame(pred, columns=["p0","p1","p2","p3","p4","p5","p6","p7","p8","p9"])
+col2 = pd.DataFrame(pred, columns=["label"])
+# print(col2)
+
+compare = pd.concat([col1, col2], axis=1)
+print(compare)
+compare.to_csv(OUTPUT_PATH + "pred_train.csv", index=False)
