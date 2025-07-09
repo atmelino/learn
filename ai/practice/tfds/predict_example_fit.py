@@ -71,7 +71,7 @@ model.save(fullpath)
 
 
 # Make predictions
-predictions = model.predict(test_dataset)
+predictions = model.predict(test_dataset[0:100])
 print(predictions)
 
 for images, labels in test_dataset:
