@@ -27,6 +27,11 @@ def preprocess(image, label):
 train_dataset = train_dataset.map(preprocess)
 test_dataset = test_dataset.map(preprocess)
 
+batch_size = 32
+train_dataset = train_dataset.cache().batch(batch_size).prefetch(buffer_size=10)
+test_dataset = test_dataset.cache().batch(batch_size).prefetch(buffer_size=10)
+
+
 # Apply data augmentation
 def augment(image, label):
     image = tf.image.random_flip_left_right(image)
@@ -34,6 +39,7 @@ def augment(image, label):
     return image, label
 
 train_dataset = train_dataset.map(augment)
+
 
 # Model prediction
 model = tf.keras.models.Sequential([
@@ -49,7 +55,19 @@ model = tf.keras.models.Sequential([
 model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
 # Train the model
-model.fit(train_dataset, epochs=10)
+epochs=1
+model.fit(train_dataset, epochs=epochs)
 
 # Make predictions
 predictions = model.predict(test_dataset)
+print(predictions)
+
+for images, labels in test_dataset:
+    preds = model.predict(images)
+    print(preds)
+    # Compare preds with labels
+
+for images, labels in train_dataset:
+    preds = model.predict(images)
+    print(preds)
+    # Compare preds with labels

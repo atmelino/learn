@@ -62,8 +62,7 @@ plt.close(fig)
 
 batch_size = 32
 train_ds = train_ds.cache().batch(batch_size).prefetch(buffer_size=10)
-validation_ds = validation_ds.cache() \
-.batch(batch_size).prefetch(buffer_size=10)
+validation_ds = validation_ds.cache().batch(batch_size).prefetch(buffer_size=10)
 
 import matplotlib.pyplot as plt
 
