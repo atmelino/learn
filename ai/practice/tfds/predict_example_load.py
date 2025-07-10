@@ -69,8 +69,8 @@ print(test_dataset)
 # print(collabels)
 # exit()
 
-
 filename = "epochs_5.000_date_20250708-215035.h5"
+filename = "epochs_1.000_date_20250708-214731.h5"
 
 
 fullpath = f"{OUTPUT_PATH}{filename}"
@@ -81,14 +81,15 @@ model.summary()
 
 # Make predictions
 predictions = model.predict(test_dataset)
-print(predictions)
+# print(predictions)
 
 
 
-allpred=[]
+allpreds=np.empty(0)
 alllabels=np.empty(0)
 
 for images, labels in test_dataset:
+    # print("labels\n",labels)
     numpy_labels = labels.numpy()
     # print(numpy_labels)    
     # print(numpy_labels.shape)   
@@ -100,28 +101,28 @@ for images, labels in test_dataset:
 
     preds = model.predict(images)
     # print("preds\n",preds)
-    # colpred = pd.DataFrame(preds, columns=["p0"])
-    # print(colpred)
-    # compare = pd.concat([collabels, colpred], axis=1)
-    # print(compare)
-    # print("labels\n",labels)
-    allpred.append(preds)
+    print("preds.shape",preds.shape)   
+    allpreds = np.append(allpreds, preds)
+    print("allpreds.shape=",allpreds.shape)
 
-print(alllabels.shape)
+print("alllabels.shape=",alllabels.shape)
 collabels = pd.DataFrame(alllabels, columns=["l"])
 print(collabels)
 
-# print(allpred.shape)
+print("allpreds.shape=",allpreds.shape)
 # allpred1=allpred.reshape(allpred,shape)
 # print(allpred1.shape)
-
-colpred = pd.DataFrame( allpred, columns=["p0"])
+colpreds = pd.DataFrame( allpreds, columns=["pred"])
 # print(colpred)
 
+diff = collabels["l"] - colpreds["pred"]
+print(diff)
 
-compare = pd.concat([collabels, colpred], axis=1)
+compare = pd.concat([collabels, colpreds], axis=1)
+compare = pd.concat([collabels, colpreds,diff], axis=1)
+compare.columns = ["l", "pred", "diff"]
+print(compare)
+
 compare.to_csv(OUTPUT_PATH + "pred_test.csv", index=False)    
-
-
 
 
