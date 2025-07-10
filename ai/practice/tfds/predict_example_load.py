@@ -107,7 +107,7 @@ for images, labels in test_dataset:
 
 print("alllabels.shape=",alllabels.shape)
 collabels = pd.DataFrame(alllabels, columns=["l"])
-print(collabels)
+print("collabels=",collabels)
 
 print("allpreds.shape=",allpreds.shape)
 # allpred1=allpred.reshape(allpred,shape)
@@ -115,16 +115,24 @@ print("allpreds.shape=",allpreds.shape)
 colpreds = pd.DataFrame( allpreds, columns=["pred"])
 # print(colpred)
 
-diff = collabels["l"] - colpreds["pred"]
-print(diff)
 
-pnorm=colpreds["pred"] = colpreds["pred"] > 0.5  # If greater than 0.5 probability, then true
-print(pnorm)
+# pnorm = colpreds["pred"] > 0.5  # If greater than 0.5 probability, then true
+# print(pnorm)
+
+pnorm = colpreds["pred"].apply(lambda x: 1 if x > 0.5 else 0)
+print("pnorm=\n",pnorm)
+pnorm = pd.DataFrame( pnorm.values, columns=["pnorm"])
+print("pnorm=\n",pnorm)
 
 
-compare = pd.concat([collabels, colpreds], axis=1)
-compare = pd.concat([collabels, colpreds,diff], axis=1)
-compare.columns = ["l", "pred", "diff"]
+diff = collabels["l"] - pnorm["pnorm"]
+# diff = collabels - pnorm
+print("diff=\n",diff)
+
+
+# compare = pd.concat([collabels, colpreds], axis=1)
+compare = pd.concat([collabels, colpreds,pnorm,diff], axis=1)
+compare.columns = ["l", "pred", "pnorm","diff"]
 print(compare)
 
 compare.to_csv(OUTPUT_PATH + "pred_test.csv", index=False)    
