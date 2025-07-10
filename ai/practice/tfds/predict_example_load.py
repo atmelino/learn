@@ -118,6 +118,10 @@ colpreds = pd.DataFrame( allpreds, columns=["pred"])
 diff = collabels["l"] - colpreds["pred"]
 print(diff)
 
+pnorm=colpreds["pred"] = colpreds["pred"] > 0.5  # If greater than 0.5 probability, then true
+print(pnorm)
+
+
 compare = pd.concat([collabels, colpreds], axis=1)
 compare = pd.concat([collabels, colpreds,diff], axis=1)
 compare.columns = ["l", "pred", "diff"]
