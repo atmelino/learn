@@ -1,9 +1,13 @@
+# Explanation of prediction output when activation is sigmoid:
+# https://forum.freecodecamp.org/t/model-predict-output/470349
+
 import tensorflow as tf
 import tensorflow_datasets as tfds
 import logging, os
 import pandas as pd
 import time
 from sklearn import metrics
+import numpy as np
 
 BASE_PATH = "../../../../local_data/practice/tfds/"
 DATA_PATH = "../../../../local_data/tfds/"
@@ -58,52 +62,42 @@ model = tf.keras.models.Sequential([
 model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
 # Train the model
-epochs=1
+epochs=8
 model.fit(train_dataset, epochs=epochs)
 
-score = metrics.accuracy_score(y_test, pred)
+
+# Make predictions
+# predictions = model.predict(test_dataset)
+
+allpreds=np.empty(0)
+alllabels=np.empty(0)
+
+for images, labels in train_dataset:
+    alllabels = np.append(alllabels, labels.numpy().flatten())
+    allpreds = np.append(allpreds, model.predict(images).flatten())
+
+allpnorms = np.where(allpreds > 0.5, 1, 0)
+
+score = metrics.accuracy_score(alllabels, allpnorms)
 print("Validation accuracy score: {}".format(score))
+
+collabels = pd.DataFrame(alllabels, columns=["l"])
+colpreds = pd.DataFrame( allpreds, columns=["pred"])
+pnorm = pd.DataFrame( allpnorms, columns=["pnorm"])
+diff = collabels["l"] - pnorm["pnorm"]
+
+compare = pd.concat([collabels, colpreds,pnorm,diff], axis=1)
+compare.columns = ["l", "pred", "pnorm","diff"]
+print(compare)
+
+compare.to_csv(OUTPUT_PATH + "pred_train_fit.csv", index=False)    
 
 
 timestr = time.strftime("%Y%m%d-%H%M%S")
 # filename = f"acc_{score:.3f}_date_{timestr}.h5"
-filename = f"epochs_{epochs:.3f}_date_{timestr}.h5"
+filename = f"acc_{score:.3f}_epochs_{epochs:.3f}_date_{timestr}.h5"
 fullpath = f"{OUTPUT_PATH}{filename}"
 print("Saving model to ", filename)
 model.save(fullpath)
 
 
-# Make predictions
-predictions = model.predict(test_dataset[0:100])
-print(predictions)
-
-for images, labels in test_dataset:
-    collabels = pd.DataFrame(labels, columns=["l"])
-    # print(collabels)
-    preds = model.predict(images)
-    colpred = pd.DataFrame(preds, columns=["p0"])
-    # print(colpred)
-    compare = pd.concat([collabels, colpred], axis=1)
-    # print(compare)
-    # print("labels\n",labels)
-    # print("preds\n",preds)
-    
-compare.to_csv(OUTPUT_PATH + "pred_test.csv", index=False)    
-
-
-
-# ds = train_ds.take(20)
-# print("type(image), type(label), label,info.features['label'].names[label]=")
-# for image, label in tfds.as_numpy(ds):
-#   print(type(image), type(label), label,info.features["label"].names[label])
-
-
-
-
-# for images, labels in train_dataset:
-#     preds = model.predict(images)
-#     print(preds)
-    # Compare preds with labels
-
-# Explanation of prediction output when activation is sigmoid:
-# https://forum.freecodecamp.org/t/model-predict-output/470349

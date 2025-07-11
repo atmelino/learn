@@ -8,6 +8,7 @@ import pandas as pd
 import time
 from tensorflow.keras.models import load_model
 import numpy as np
+from sklearn import metrics
 
 BASE_PATH = "../../../../local_data/practice/tfds/"
 DATA_PATH = "../../../../local_data/tfds/"
@@ -55,28 +56,30 @@ model.summary()
 
 # Make predictions
 predictions = model.predict(test_dataset)
-# print(predictions)
 
 allpreds=np.empty(0)
 alllabels=np.empty(0)
 
 for images, labels in test_dataset:
     alllabels = np.append(alllabels, labels.numpy().flatten())
-    allpreds = np.append(allpreds, model.predict(images))
+    allpreds = np.append(allpreds, model.predict(images).flatten())
+
+allpnorms = np.where(allpreds > 0.5, 1, 0)
+
+score = metrics.accuracy_score(alllabels, allpnorms)
+print("Validation accuracy score: {}".format(score))
+
 
 collabels = pd.DataFrame(alllabels, columns=["l"])
 colpreds = pd.DataFrame( allpreds, columns=["pred"])
-
-pnorm = colpreds["pred"].apply(lambda x: 1 if x > 0.5 else 0)
-pnorm = pd.DataFrame( pnorm.values, columns=["pnorm"])
-
+pnorm = pd.DataFrame( allpnorms, columns=["pnorm"])
 diff = collabels["l"] - pnorm["pnorm"]
 
 compare = pd.concat([collabels, colpreds,pnorm,diff], axis=1)
 compare.columns = ["l", "pred", "pnorm","diff"]
 print(compare)
 
-compare.to_csv(OUTPUT_PATH + "pred_test.csv", index=False)    
+compare.to_csv(OUTPUT_PATH + "pred_test_load.csv", index=False)    
 
 
 
