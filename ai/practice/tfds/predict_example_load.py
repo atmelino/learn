@@ -29,33 +29,6 @@ os.system("mkdir -p " + OUTPUT_PATH)
 print(f"Number of test samples: {test_dataset.cardinality()}")
 
 
-
-
-ds = test_dataset.take(-1)
-print("type(image), type(label), label,info.features['label'].names[label]=")
-for image, label in tfds.as_numpy(ds):
-  print(type(image), type(label), label,metadata.features["label"].names[label])
-
-
-ds_np = tfds.as_numpy(ds)
-print(ds_np)
-
-
-
-
-
-
-
-
-# ds_np = tfds.as_numpy(test_dataset)
-# print(ds_np)
-
-# train_examples, train_labels = tfds.as_numpy(test_dataset)
-# print(train_labels)
-
-
-exit()
-
 # Preprocess the data
 def preprocess(image, label):
     image = tf.cast(image, tf.float32)
@@ -70,44 +43,27 @@ batch_size = 64
 train_dataset = train_dataset.cache().batch(batch_size).prefetch(buffer_size=10)
 test_dataset = test_dataset.cache().batch(batch_size).prefetch(buffer_size=10)
 
-print(test_dataset)
-
+# Load model
 filename = "epochs_5.000_date_20250708-215035.h5"
 filename = "acc_0.966_epochs_8.000_date_20250710-211155.h5"
-
+filename = "acc_0.703_epochs_1.000_date_20250711-141215.h5"
+filename = "acc_0.742_epochs_1.000_date_20250711-142521.h5"
 fullpath = f"{OUTPUT_PATH}{filename}"
 model = load_model(fullpath)
 model.summary()
 
 
-
-
-
-
-
-
 # Make predictions
 predictions = model.predict(test_dataset)
-# print(predictions.flatten())
-# allpreds=np.empty(0)
 allpreds=predictions.flatten()
-
-
-print(test_dataset.label)
-
-
+allpnorms = np.where(allpreds > 0.5, 1, 0)
 
 alllabels=np.empty(0)
-
 for images, labels in test_dataset:
     alllabels = np.append(alllabels, labels.numpy().flatten())
-    # allpreds = np.append(allpreds, model.predict(images).flatten())
-
-allpnorms = np.where(allpreds > 0.5, 1, 0)
 
 score = metrics.accuracy_score(alllabels, allpnorms)
 print("Validation accuracy score: {}".format(score))
-
 
 collabels = pd.DataFrame(alllabels, columns=["l"])
 colpreds = pd.DataFrame( allpreds, columns=["pred"])

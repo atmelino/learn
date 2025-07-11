@@ -19,7 +19,8 @@ os.system("mkdir -p " + OUTPUT_PATH)
 (train_dataset, test_dataset), metadata = tfds.load(
     'cats_vs_dogs',
     data_dir=DATA_PATH,
-    split=['train[:80%]', 'train[80%:]'],
+    # split=['train[:80%]', 'train[80%:]'],
+    split=['train[:80%]', 'train[99%:]'],
     with_info=True,
     as_supervised=True
 )
@@ -62,21 +63,18 @@ model = tf.keras.models.Sequential([
 model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
 # Train the model
-epochs=8
+epochs=1
 model.fit(train_dataset, epochs=epochs)
 
 
 # Make predictions
-# predictions = model.predict(test_dataset)
-
-allpreds=np.empty(0)
-alllabels=np.empty(0)
-
-for images, labels in train_dataset:
-    alllabels = np.append(alllabels, labels.numpy().flatten())
-    allpreds = np.append(allpreds, model.predict(images).flatten())
-
+predictions = model.predict(test_dataset)
+allpreds=predictions.flatten()
 allpnorms = np.where(allpreds > 0.5, 1, 0)
+
+alllabels=np.empty(0)
+for images, labels in test_dataset:
+    alllabels = np.append(alllabels, labels.numpy().flatten())
 
 score = metrics.accuracy_score(alllabels, allpnorms)
 print("Validation accuracy score: {}".format(score))
@@ -90,11 +88,10 @@ compare = pd.concat([collabels, colpreds,pnorm,diff], axis=1)
 compare.columns = ["l", "pred", "pnorm","diff"]
 print(compare)
 
-compare.to_csv(OUTPUT_PATH + "pred_train_fit.csv", index=False)    
+compare.to_csv(OUTPUT_PATH + "pred_test_fit.csv", index=False)    
 
-
+# Save model
 timestr = time.strftime("%Y%m%d-%H%M%S")
-# filename = f"acc_{score:.3f}_date_{timestr}.h5"
 filename = f"acc_{score:.3f}_epochs_{epochs:.3f}_date_{timestr}.h5"
 fullpath = f"{OUTPUT_PATH}{filename}"
 print("Saving model to ", filename)
