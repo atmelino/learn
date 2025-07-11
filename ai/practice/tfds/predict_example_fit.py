@@ -3,6 +3,7 @@ import tensorflow_datasets as tfds
 import logging, os
 import pandas as pd
 import time
+from sklearn import metrics
 
 BASE_PATH = "../../../../local_data/practice/tfds/"
 DATA_PATH = "../../../../local_data/tfds/"
@@ -57,8 +58,12 @@ model = tf.keras.models.Sequential([
 model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
 # Train the model
-epochs=5
+epochs=1
 model.fit(train_dataset, epochs=epochs)
+
+score = metrics.accuracy_score(y_test, pred)
+print("Validation accuracy score: {}".format(score))
+
 
 timestr = time.strftime("%Y%m%d-%H%M%S")
 # filename = f"acc_{score:.3f}_date_{timestr}.h5"
@@ -66,8 +71,6 @@ filename = f"epochs_{epochs:.3f}_date_{timestr}.h5"
 fullpath = f"{OUTPUT_PATH}{filename}"
 print("Saving model to ", filename)
 model.save(fullpath)
-
-
 
 
 # Make predictions

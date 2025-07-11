@@ -44,6 +44,31 @@ test_dataset = test_dataset.cache().batch(batch_size).prefetch(buffer_size=10)
 
 print(test_dataset)
 
+# exit()
+
+# alllabels=[]
+# alllabels=np.empty(0)
+
+# for images, labels in test_dataset:
+#     print("labels\n",labels)
+    
+#     # Convert the tensor to a NumPy array
+#     numpy_labels = labels.numpy()
+#     print(numpy_labels)    
+#     print(numpy_labels.shape)   
+
+#     numpy_labels1=numpy_labels.reshape(numpy_labels.shape[0],1)
+#     print(numpy_labels1)    
+#     print(numpy_labels1.shape)   
+
+#     alllabels = np.append(alllabels, numpy_labels)
+#     print(alllabels.shape)
+
+# print(alllabels.shape)
+# collabels = pd.DataFrame(alllabels, columns=["l"])
+# print(collabels)
+# exit()
+
 filename = "epochs_5.000_date_20250708-215035.h5"
 filename = "epochs_1.000_date_20250708-214731.h5"
 
@@ -53,25 +78,59 @@ model = load_model(fullpath)
 model.summary()
 
 
+
 # Make predictions
 predictions = model.predict(test_dataset)
 # print(predictions)
+
+
 
 allpreds=np.empty(0)
 alllabels=np.empty(0)
 
 for images, labels in test_dataset:
-    alllabels = np.append(alllabels, labels.numpy().flatten())
-    allpreds = np.append(allpreds, model.predict(images))
+    # print("labels\n",labels)
+    numpy_labels = labels.numpy().flatten()
+    # print(numpy_labels)    
+    # print(numpy_labels.shape)   
+    # numpy_labels1=numpy_labels.reshape(numpy_labels.shape[0],1)
+    # print(numpy_labels1)    
+    # print(numpy_labels1.shape)   
+    alllabels = np.append(alllabels, numpy_labels)
+    print("alllabels.shape=",alllabels.shape)
 
+    preds = model.predict(images)
+    # print("preds\n",preds)
+    print("preds.shape",preds.shape)   
+    allpreds = np.append(allpreds, preds)
+    print("allpreds.shape=",allpreds.shape)
+
+print("alllabels.shape=",alllabels.shape)
 collabels = pd.DataFrame(alllabels, columns=["l"])
+print("collabels=",collabels)
+
+print("allpreds.shape=",allpreds.shape)
+# allpred1=allpred.reshape(allpred,shape)
+# print(allpred1.shape)
 colpreds = pd.DataFrame( allpreds, columns=["pred"])
+# print(colpred)
+
+
+# pnorm = colpreds["pred"] > 0.5  # If greater than 0.5 probability, then true
+# print(pnorm)
 
 pnorm = colpreds["pred"].apply(lambda x: 1 if x > 0.5 else 0)
+print("pnorm=\n",pnorm)
 pnorm = pd.DataFrame( pnorm.values, columns=["pnorm"])
+print("pnorm=\n",pnorm)
+
 
 diff = collabels["l"] - pnorm["pnorm"]
+# diff = collabels - pnorm
+print("diff=\n",diff)
 
+
+# compare = pd.concat([collabels, colpreds], axis=1)
 compare = pd.concat([collabels, colpreds,pnorm,diff], axis=1)
 compare.columns = ["l", "pred", "pnorm","diff"]
 print(compare)
@@ -79,47 +138,3 @@ print(compare)
 compare.to_csv(OUTPUT_PATH + "pred_test.csv", index=False)    
 
 
-
-
-# with debug output
-# allpreds=np.empty(0)
-# alllabels=np.empty(0)
-
-# for images, labels in test_dataset:
-#     # print("labels\n",labels)
-#     numpy_labels = labels.numpy().flatten()
-#     # print(numpy_labels)    
-#     # print(numpy_labels.shape)   
-#     # numpy_labels1=numpy_labels.reshape(numpy_labels.shape[0],1)
-#     # print(numpy_labels1)    
-#     # print(numpy_labels1.shape)   
-#     alllabels = np.append(alllabels, numpy_labels)
-#     print("alllabels.shape=",alllabels.shape)
-
-#     preds = model.predict(images)
-#     # print("preds\n",preds)
-#     print("preds.shape",preds.shape)   
-#     allpreds = np.append(allpreds, preds)
-#     print("allpreds.shape=",allpreds.shape)
-
-# print("alllabels.shape=",alllabels.shape)
-# collabels = pd.DataFrame(alllabels, columns=["l"])
-# print("collabels=",collabels)
-
-# print("allpreds.shape=",allpreds.shape)
-# # allpred1=allpred.reshape(allpred,shape)
-# # print(allpred1.shape)
-# colpreds = pd.DataFrame( allpreds, columns=["pred"])
-# # print(colpred)
-# pnorm = colpreds["pred"] > 0.5  # If greater than 0.5 probability, then true
-# print(pnorm)
-
-# pnorm = colpreds["pred"].apply(lambda x: 1 if x > 0.5 else 0)
-# print("pnorm=\n",pnorm)
-# pnorm = pd.DataFrame( pnorm.values, columns=["pnorm"])
-# print("pnorm=\n",pnorm)
-
-
-# diff = collabels["l"] - pnorm["pnorm"]
-# # diff = collabels - pnorm
-# print("diff=\n",diff)

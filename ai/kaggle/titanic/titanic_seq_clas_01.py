@@ -155,7 +155,9 @@ pred = model.predict(x_test).flatten()
 # col1 = pd.DataFrame(y_test, columns=["y_test"])
 # col2 = pd.DataFrame(pred, columns=["pred"])
 # diff = col1["y_test"] - col2["pred"]
-# compare = pd.concat([col1, col2, diff], axis=1)
+# compare = pd.concat([col1, col2, diff], axis=1)score = metrics.accuracy_score(y_test, pred)
+print("Validation accuracy score: {}".format(score))
+
 # compare.columns=["y_test","pred","diff"]
 # print(compare)
 
