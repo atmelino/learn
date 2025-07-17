@@ -19,8 +19,8 @@ os.system("mkdir -p " + OUTPUT_PATH)
 (train_dataset, test_dataset), metadata = tfds.load(
     'cats_vs_dogs',
     data_dir=DATA_PATH,
-    # split=['train[:80%]', 'train[80%:]'],
-    split=['train[:80%]', 'train[99%:]'],
+    split=['train[:80%]', 'train[80%:]'],
+    # split=['train[:80%]', 'train[99%:]'],
     with_info=True,
     as_supervised=True
 )
@@ -63,7 +63,7 @@ model = tf.keras.models.Sequential([
 model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
 # Train the model
-epochs=1
+epochs=10
 model.fit(train_dataset, epochs=epochs)
 
 
@@ -77,7 +77,7 @@ for images, labels in test_dataset:
     alllabels = np.append(alllabels, labels.numpy().flatten())
 
 score = metrics.accuracy_score(alllabels, allpnorms)
-print("Validation accuracy score: {}".format(score))
+print("test dataset accuracy score: {}".format(score))
 
 collabels = pd.DataFrame(alllabels, columns=["l"])
 colpreds = pd.DataFrame( allpreds, columns=["pred"])
