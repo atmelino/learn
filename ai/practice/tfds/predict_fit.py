@@ -17,8 +17,7 @@ os.system("mkdir -p " + OUTPUT_PATH)
 
 # Load the dataset
 (train_dataset, test_dataset), metadata = tfds.load(
-    # 'cats_vs_dogs',
-    'mnist',
+    'cats_vs_dogs',
     data_dir=DATA_PATH,
     # split=['train[:80%]', 'train[80%:]'],
     split=['train[:80%]', 'train[99%:]'],
