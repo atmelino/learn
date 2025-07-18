@@ -6,12 +6,11 @@ import tensorflow_datasets as tfds
 import logging, os
 import pandas as pd
 import time
-from tensorflow.keras.models import load_model
-import numpy as np
 from sklearn import metrics
+import numpy as np
 
-BASE_PATH = "../../../../local_data/practice/tfds/"
-DATA_PATH = "../../../../local_data/tfds/"
+BASE_PATH = "../../../../../local_data/practice/tfds/"
+DATA_PATH = "../../../../../local_data/tfds/"
 OUTPUT_PATH = BASE_PATH+"predict_example_01/"
 os.system("mkdir -p " + OUTPUT_PATH)
 
@@ -20,14 +19,11 @@ os.system("mkdir -p " + OUTPUT_PATH)
 (train_dataset, test_dataset), metadata = tfds.load(
     'cats_vs_dogs',
     data_dir=DATA_PATH,
-    # split=['train[:80%]', 'train[80%:]'],
-    split=['train[:80%]', 'train[99%:]'],
+    split=['train[:80%]', 'train[80%:]'],
+    # split=['train[:80%]', 'train[99%:]'],
     with_info=True,
     as_supervised=True
 )
-
-print(f"Number of test samples: {test_dataset.cardinality()}")
-
 
 # Preprocess the data
 def preprocess(image, label):
@@ -39,18 +35,36 @@ def preprocess(image, label):
 train_dataset = train_dataset.map(preprocess)
 test_dataset = test_dataset.map(preprocess)
 
-batch_size = 64
+batch_size = 32
 train_dataset = train_dataset.cache().batch(batch_size).prefetch(buffer_size=10)
 test_dataset = test_dataset.cache().batch(batch_size).prefetch(buffer_size=10)
 
-# Load model
-filename = "epochs_5.000_date_20250708-215035.h5"
-filename = "acc_0.966_epochs_8.000_date_20250710-211155.h5"
-filename = "acc_0.703_epochs_1.000_date_20250711-141215.h5"
-filename = "acc_0.742_epochs_1.000_date_20250711-142521.h5"
-fullpath = f"{OUTPUT_PATH}{filename}"
-model = load_model(fullpath)
-model.summary()
+
+# Apply data augmentation
+def augment(image, label):
+    image = tf.image.random_flip_left_right(image)
+    image = tf.image.random_brightness(image, 0.1)
+    return image, label
+
+train_dataset = train_dataset.map(augment)
+
+
+# Model prediction
+model = tf.keras.models.Sequential([
+    tf.keras.layers.Conv2D(32, (3,3), activation='relu', input_shape=(256, 256, 3)),
+    tf.keras.layers.MaxPooling2D(2,2),
+    tf.keras.layers.Conv2D(64, (3,3), activation='relu'),
+    tf.keras.layers.MaxPooling2D(2,2),
+    tf.keras.layers.Flatten(),
+    tf.keras.layers.Dense(512, activation='relu'),
+    tf.keras.layers.Dense(1, activation='sigmoid')
+])
+
+model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+
+# Train the model
+epochs=10
+model.fit(train_dataset, epochs=epochs)
 
 
 # Make predictions
@@ -63,7 +77,7 @@ for images, labels in test_dataset:
     alllabels = np.append(alllabels, labels.numpy().flatten())
 
 score = metrics.accuracy_score(alllabels, allpnorms)
-print("Validation accuracy score: {}".format(score))
+print("test dataset accuracy score: {}".format(score))
 
 collabels = pd.DataFrame(alllabels, columns=["l"])
 colpreds = pd.DataFrame( allpreds, columns=["pred"])
@@ -74,8 +88,13 @@ compare = pd.concat([collabels, colpreds,pnorm,diff], axis=1)
 compare.columns = ["l", "pred", "pnorm","diff"]
 print(compare)
 
-compare.to_csv(OUTPUT_PATH + "pred_test_load.csv", index=False)    
+compare.to_csv(OUTPUT_PATH + "pred_test_fit.csv", index=False)    
 
-
+# Save model
+timestr = time.strftime("%Y%m%d-%H%M%S")
+filename = f"acc_{score:.3f}_epochs_{epochs:.3f}_date_{timestr}.h5"
+fullpath = f"{OUTPUT_PATH}{filename}"
+print("Saving model to ", filename)
+model.save(fullpath)
 
 
