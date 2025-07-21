@@ -14,7 +14,7 @@ logging.basicConfig(level=logging.INFO)
 
 BASE_PATH = "../../../../../local_data/practice/tfds/"
 DATA_PATH = "../../../../../local_data/tfds/"
-OUTPUT_PATH = BASE_PATH+"mnist_transfer_fit_jh/"
+OUTPUT_PATH = BASE_PATH+"mnist_transfer_fit/"
 os.system("mkdir -p " + OUTPUT_PATH)
 
 (train_ds, validation_ds), metadata= tfds.load(
