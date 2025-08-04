@@ -1,5 +1,6 @@
-import tensorflow_hub as hub
+# https://arxiv.org/abs/1803.11175
 
+# import tensorflow_hub as hub
 # embed = hub.Module("https://tfhub.dev/google/"
 # "universal-sentence-encoder/1")
 # embedding = embed([
@@ -8,6 +9,8 @@ import tensorflow_hub as hub
 # print(embedding)
 
 
+
+# https://www.kaggle.com/models/google/universal-sentence-encoder/tensorFlow2
 
 # embed = hub.Module("https://kaggle.com/models/google/universal-sentence-encoder/frameworks/TensorFlow1/variations/universal-sentence-encoder/versions/1")
 # embeddings = embed([
