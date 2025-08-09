@@ -8,14 +8,13 @@
 
 
 # cmd = f"python /content/stylegan2-ada-pytorch/projector.py "\
-# f"--save-video 0 --num-steps 1000 --outdir=out_source "\
-# f"--target=cropped_source.png --network={NETWORK}"
+# f"--save-video 0 --num-steps 1000 --outdir=out_target "\
+# f"--target=cropped_target.png --network={NETWORK}"
 # !{cmd}
-
 
 code_path="../../../../local_data/packages/stylegan2-ada-pytorch/projector.py"
 outdir_path="../../../../local_data/jheaton/class_09_4_facial_points"
-data_path="../../../../local_data/jheaton/class_09_4_facial_points/cropped_source.png"
+data_path="../../../../local_data/jheaton/class_09_4_facial_points/cropped_target.png"
 network_path="../../../../local_data/packages/stylegan2_pretrained/ffhq.pkl"
 
   
