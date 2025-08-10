@@ -3,7 +3,7 @@ print("conda environment for this program:")
 print("conda activate stylegan3")
 
 import sys
-sys.path.insert(0, "../../../../local_data//stylegan3")
+sys.path.insert(0, "../../../../local_data/stylegan3")
 import pickle
 import os
 import numpy as np
