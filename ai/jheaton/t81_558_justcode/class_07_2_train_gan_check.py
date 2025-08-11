@@ -8,6 +8,7 @@ from os.path import isfile, join
 import os
 from PIL import Image
 from tqdm.notebook import tqdm
+
 IMAGE_PATH = '../../../../local_data/jheaton/class_07_2_train_gan/images/dogs'
 
 files = [f for f in listdir(IMAGE_PATH) if isfile(join(IMAGE_PATH, f))]
