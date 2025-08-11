@@ -32,21 +32,6 @@ def expand_seed(seeds, vector_size):
         result.append( rnd.randn(1, vector_size) )
     return result
 
-# def generate_image(G, z, truncation_psi):
-#     print("generate_image 1 called")
-#     # Render images for dlatents initialized from random seeds.
-#     Gs_kwargs = {
-#         "output_transform": dict(func=tflib.convert_images_to_uint8, nchw_to_nhwc=True),
-#         "randomize_noise": False,
-#     }
-#     if truncation_psi is not None:
-#         Gs_kwargs["truncation_psi"] = truncation_psi
-
-#     label = np.zeros([1] + G.input_shapes[1][1:])
-#     # [minibatch, height, width, channel]
-#     images = G.run(z, label, **G_kwargs)
-#     return images[0]
-
 def generate_image(
     device, G, z, truncation_psi=1.0, noise_mode="const", class_idx=None
 ):
