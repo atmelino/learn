@@ -24,14 +24,14 @@ array_2d = x.reshape(6, 6)
 # print(array_2d)
 
 df_x = pd.DataFrame(array_2d)
-print("input x\n",df_x)
+print("input x\n", df_x)
 
 # Convert y2 to dummy variables
 y2 = np.zeros((y.shape[0], max_features), dtype=np.float32)
 # print(y2)
 
 y2[np.arange(y.shape[0]), y] = 1.0
-print("learning target\n",y2)
+print("learning target\n", y2)
 
 print("Build model...")
 model = Sequential()
@@ -48,10 +48,22 @@ print("Train...")
 model.fit(x, y2, epochs=200)
 
 pred = model.predict(x)
-print("prediction\n",pred)
-
+print("prediction\n", pred)
 
 
 predict_classes = np.argmax(pred, axis=1)
 print("Predicted classes: {}", predict_classes)
 print("Expected classes: {}", y)
+
+xnew = [
+    [[2], [2], [0], [0], [0], [0]],
+    [[0], [0], [0], [2], [2], [0]],
+    [[0], [0], [0], [0], [1], [1]],
+    [[0], [3], [3], [0], [0], [0]],
+    [[0], [0], [0], [2], [2], [0]],
+    [[0], [0], [1], [1], [0], [0]],
+]
+prednew = model.predict(xnew)
+print("prediction\n", prednew)
+predict_classesnew = np.argmax(prednew, axis=1)
+print("Predicted classes: {}", predict_classesnew)
