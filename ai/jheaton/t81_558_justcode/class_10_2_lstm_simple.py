@@ -67,3 +67,20 @@ prednew = model.predict(xnew)
 print("prediction\n", prednew)
 predict_classesnew = np.argmax(prednew, axis=1)
 print("Predicted classes: {}", predict_classesnew)
+
+
+
+def runit(model, inp):
+    inp = np.array(inp,dtype=np.float32)
+    pred = model.predict(inp)
+    return np.argmax(pred[0])
+
+
+print( runit( model, [[[0],[0],[0],[0],[0],[1]]] ))
+
+print( runit( model, [[[0],[2],[0],[0],[0],[0]]] ))
+print( runit( model, [[[0],[2],[2],[0],[0],[0]]] ))
+
+
+
+print( runit( model, [[[0],[0],[3],[0],[0],[0]]] ))
