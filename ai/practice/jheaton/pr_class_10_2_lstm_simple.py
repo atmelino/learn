@@ -41,11 +41,24 @@ model.summary()
 
 # exit()
 
-
 # try using different optimizers and different optimizer configs
 model.compile(loss="binary_crossentropy", optimizer="adam", metrics=["accuracy"])
 print("Train...")
 model.fit(x, y2, epochs=200)
+
+def runit(model, inp):
+    inp = np.array(inp,dtype=np.float32)
+    pred = model.predict(inp)
+    return np.argmax(pred[0])
+
+
+print( runit( model,x))
+
+
+
+exit()
+
+
 
 pred = model.predict(x)
 np.set_printoptions(suppress=True, precision=3)
@@ -72,10 +85,6 @@ print("Predicted classes: {}", predict_classesnew)
 print("Expected classes: {}", yexpected)
 
 
-def runit(model, inp):
-    inp = np.array(inp,dtype=np.float32)
-    pred = model.predict(inp)
-    return np.argmax(pred[0])
 
 print( runit( model,xnew ))
 
