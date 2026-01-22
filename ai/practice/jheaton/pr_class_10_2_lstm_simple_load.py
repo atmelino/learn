@@ -45,6 +45,21 @@ print("Predicted classes: {}", predict_classes)
 print("Expected classes: {}", y)
 
 
+# xnew = [
+#     [[2], [2], [0], [0], [0], [0]],
+#     [[0], [0], [0], [2], [2], [0]],
+#     [[0], [0], [0], [0], [1], [1]],
+#     [[0], [3], [3], [0], [0], [0]],
+#     [[0], [0], [0], [2], [2], [0]],
+#     [[0], [0], [1], [1], [0], [0]],
+# ]
+# yexpected = np.array([2, 2, 1, 3, 2, 1], dtype=np.int32)
+# prednew = model.predict(xnew)
+# print("prediction\n", prednew)
+# predict_classesnew = np.argmax(prednew, axis=1)
+# print("Predicted classes: {}", predict_classesnew)
+# print("Expected classes: {}", yexpected)
+
 exit()
 
 
@@ -56,38 +71,6 @@ def runit(model, inp):
 
 
 print( runit( model,x))
-
-
-pred = model.predict(x)
-np.set_printoptions(suppress=True, precision=3)
-print("prediction\n", pred)
-
-
-predict_classes = np.argmax(pred, axis=1)
-print("Predicted classes: {}", predict_classes)
-print("Expected classes: {}", y)
-
-
-exit()
-
-
-
-xnew = [
-    [[2], [2], [0], [0], [0], [0]],
-    [[0], [0], [0], [2], [2], [0]],
-    [[0], [0], [0], [0], [1], [1]],
-    [[0], [3], [3], [0], [0], [0]],
-    [[0], [0], [0], [2], [2], [0]],
-    [[0], [0], [1], [1], [0], [0]],
-]
-yexpected = np.array([2, 2, 1, 3, 2, 1], dtype=np.int32)
-prednew = model.predict(xnew)
-print("prediction\n", prednew)
-predict_classesnew = np.argmax(prednew, axis=1)
-print("Predicted classes: {}", predict_classesnew)
-print("Expected classes: {}", yexpected)
-
-
 
 print( runit( model,xnew ))
 
