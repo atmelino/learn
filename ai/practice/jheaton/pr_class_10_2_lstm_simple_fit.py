@@ -60,10 +60,11 @@ acc      = history.history[     'accuracy' ]
 # Save model
 timestr = time.strftime("%Y%m%d-%H%M%S")
 filename = f"acc_{acc[-1]:.3f}_epochs_{epochs}_date_{timestr}.h5"
-filename="pr_class_10_2_lstm_simple.h5"
-
 fullpath = f"{OUTPUT_PATH}{filename}"
 print("Saving model to ", filename)
+model.save(fullpath)
+filename="pr_class_10_2_lstm_simple.h5"
+fullpath = f"{OUTPUT_PATH}{filename}"
 model.save(fullpath)
 
 

@@ -8,26 +8,24 @@ import logging, os
 from tensorflow.keras.models import load_model
 
 BASE_PATH = "../../../../local_data/practice/jheaton/"
-OUTPUT_PATH = BASE_PATH+"pr_class_10_2_lstm_simple/"
-print("OUTPUT_PATH=",OUTPUT_PATH)
-
-max_features = 4  # 0,1,2,3 (total of 4)
-y = np.array([1, 2, 3, 2, 3, 1], dtype=np.int32)
-# Convert y2 to dummy variables
-y2 = np.zeros((y.shape[0], max_features), dtype=np.float32)
-# print(y2)
-y2[np.arange(y.shape[0]), y] = 1.0
-print("learning target\n", y2)
+OUTPUT_PATH = BASE_PATH + "pr_class_10_2_lstm_simple/"
+print("OUTPUT_PATH=", OUTPUT_PATH)
 
 
-filename="pr_class_10_2_lstm_simple.h5"
+filename = "pr_class_10_2_lstm_simple.h5"
 fullpath = f"{OUTPUT_PATH}{filename}"
 model = load_model(fullpath)
 model.summary()
 
 
+def runit(model, inp):
+    inp = np.array(inp, dtype=np.float32)
+    pred = model.predict(inp)
+    # return np.argmax(pred[0])
+    return np.argmax(pred, axis=1)
 
-x = [
+
+x_train = [
     [[0], [1], [1], [0], [0], [0]],
     [[0], [0], [0], [2], [2], [0]],
     [[0], [0], [0], [0], [3], [3]],
@@ -35,63 +33,49 @@ x = [
     [[0], [0], [3], [3], [0], [0]],
     [[0], [0], [0], [0], [1], [1]],
 ]
-x = np.array(x, dtype=np.float32)
+y = np.array([1, 2, 3, 2, 3, 1], dtype=np.int32)
+p=runit(model, x_train)
+print(p, " - Prediction")
+print(y, " - Expected classes")
+print(f"Accuracy: {np.mean(p == y) * 100:.2f}%")
 
-pred = model.predict(x)
-np.set_printoptions(suppress=True, precision=3)
-print("prediction\n", pred)
-predict_classes = np.argmax(pred, axis=1)
-print("Predicted classes: {}", predict_classes)
-print("Expected classes: {}", y)
+x1 = [
+    [[2], [2], [0], [0], [0], [0]],
+    [[0], [0], [0], [2], [2], [0]],
+    [[0], [0], [0], [0], [1], [1]],
+    [[0], [3], [3], [0], [0], [0]],
+    [[0], [0], [0], [2], [2], [0]],
+    [[0], [0], [1], [1], [0], [0]],
+]
+y1 = np.array([2, 2, 1, 3, 2, 1], dtype=np.int32)
+p1=runit(model, x_train)
+print(p1, " - Prediction")
+print(y1, " - Expected classes")
+print(f"Accuracy: {np.mean(p1 == y1) * 100:.2f}%")
 
-
-# xnew = [
-#     [[2], [2], [0], [0], [0], [0]],
-#     [[0], [0], [0], [2], [2], [0]],
-#     [[0], [0], [0], [0], [1], [1]],
-#     [[0], [3], [3], [0], [0], [0]],
-#     [[0], [0], [0], [2], [2], [0]],
-#     [[0], [0], [1], [1], [0], [0]],
-# ]
-# yexpected = np.array([2, 2, 1, 3, 2, 1], dtype=np.int32)
-# prednew = model.predict(xnew)
-# print("prediction\n", prednew)
-# predict_classesnew = np.argmax(prednew, axis=1)
-# print("Predicted classes: {}", predict_classesnew)
-# print("Expected classes: {}", yexpected)
-
-exit()
-
-
-
-def runit(model, inp):
-    inp = np.array(inp,dtype=np.float32)
-    pred = model.predict(inp)
-    return np.argmax(pred[0])
-
-
-print( runit( model,x))
-
-print( runit( model,xnew ))
 
 print("Single number in sequence")
-x2new = [
+x3 = [
     [[0], [0], [0], [0], [0], [1]],
     [[0], [2], [0], [0], [0], [0]],
     [[0], [0], [0], [0], [2], [0]],
     [[0], [0], [3], [0], [0], [0]],
 ]
-x2new = np.array(x2new, dtype=np.float32)
-yexpected = np.array([1, 2, 2, 3,], dtype=np.int32)
-prednew = model.predict(x2new)
-print("prediction\n", prednew)
-predict_classesnew = np.argmax(prednew, axis=1)
-print("Predicted classes: {}", predict_classesnew)
-print("Expected classes: {}", yexpected)
+y3 = np.array(
+    [
+        1,
+        2,
+        2,
+        3,
+    ],
+    dtype=np.int32,
+)
+
+print(runit(model, x3), " - Prediction")
+print(y3, " - Expected classes")
 
 
-
-print( runit( model, [[[0],[0],[0],[0],[0],[1]]] ))
-print( runit( model, [[[0],[2],[0],[0],[0],[0]]] ))
-print( runit( model, [[[0],[2],[2],[0],[0],[0]]] ))
-print( runit( model, [[[0],[0],[3],[0],[0],[0]]] ))
+print(runit(model, [[[0], [0], [0], [0], [0], [1]]]))
+print(runit(model, [[[0], [2], [0], [0], [0], [0]]]))
+print(runit(model, [[[0], [2], [2], [0], [0], [0]]]))
+print(runit(model, [[[0], [0], [3], [0], [0], [0]]]))
