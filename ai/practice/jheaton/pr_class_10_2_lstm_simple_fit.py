@@ -58,14 +58,35 @@ acc      = history.history[     'accuracy' ]
 # print(acc)
 
 # Save model
+# timestr = time.strftime("%Y%m%d-%H%M%S")
+# filename = f"acc_{acc[-1]:.3f}_epochs_{epochs}_date_{timestr}.h5"
+# fullpath = f"{OUTPUT_PATH}{filename}"
+# print("Saving model to ", filename)
+# model.save(fullpath)
+# filename="pr_class_10_2_lstm_simple.h5"
+# fullpath = f"{OUTPUT_PATH}{filename}"
+# model.save(fullpath)
+
+# Save model
+filename_static="pr_class_10_2_lstm_simple.h5"
 timestr = time.strftime("%Y%m%d-%H%M%S")
-filename = f"acc_{acc[-1]:.3f}_epochs_{epochs}_date_{timestr}.h5"
-fullpath = f"{OUTPUT_PATH}{filename}"
-print("Saving model to ", filename)
-model.save(fullpath)
-filename="pr_class_10_2_lstm_simple.h5"
-fullpath = f"{OUTPUT_PATH}{filename}"
-model.save(fullpath)
+filename_time = f"acc_{acc[-1]:.3f}_epochs_{epochs}_date_{timestr}.h5"
+fullpath = f"{OUTPUT_PATH}{filename_static}"
+print("Saving model to ", fullpath)
+model.save(fullpath+".h5")
+model.save(fullpath+".keras")
+
+
+# model.save(OUTPUT_PATH+"/"+filename_time+".h5")
+# model.save(OUTPUT_PATH+"/"+filename_time+".keras")
+# fullpath = f"{OUTPUT_PATH}{filename}"
+# print("Saving model to ", filename)
+# model.save(fullpath)
+# fullpath = f"{OUTPUT_PATH}{filename}"
+# model.save(fullpath)
+
+# model.save(OUTPUT_PATH+"/catdog01.h5")
+# model.save(OUTPUT_PATH+"/catdog01.keras")
 
 
 pred = model.predict(x)
