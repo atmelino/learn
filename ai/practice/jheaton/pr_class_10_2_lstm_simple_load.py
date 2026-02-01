@@ -12,7 +12,8 @@ OUTPUT_PATH = BASE_PATH + "pr_class_10_2_lstm_simple/"
 print("OUTPUT_PATH=", OUTPUT_PATH)
 
 
-filename = "pr_class_10_2_lstm_simple.h5"
+# filename = "pr_class_10_2_lstm_simple.h5"
+filename = "pr_class_10_2_lstm_simple.keras"
 fullpath = f"{OUTPUT_PATH}{filename}"
 model = load_model(fullpath)
 model.summary()
@@ -24,7 +25,7 @@ def runit(model, inp):
     # return np.argmax(pred[0])
     return np.argmax(pred, axis=1)
 
-
+# Predict the original training data
 x_train = [
     [[0], [1], [1], [0], [0], [0]],
     [[0], [0], [0], [2], [2], [0]],
