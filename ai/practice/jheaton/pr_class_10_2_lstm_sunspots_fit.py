@@ -7,11 +7,12 @@ from tensorflow.keras.layers import LSTM
 from tensorflow.keras.datasets import imdb
 from tensorflow.keras.callbacks import EarlyStopping
 import numpy as np
+import time
 
-BASE_PATH = "../../../../local_data/jheaton/"
-DATA_PATH = BASE_PATH + "class_10_2_lstm_sunspots/"
-OUTPUT_PATH = BASE_PATH + "class_10_2_lstm_sunspots/"
-
+BASE_PATH = "../../../../local_data/practice/jheaton/"
+DATA_PATH = BASE_PATH + "pr_class_10_2_lstm_sunspots/"
+OUTPUT_PATH = BASE_PATH + "pr_class_10_2_lstm_sunspots/"
+print("OUTPUT_PATH=", OUTPUT_PATH)
 os.system("mkdir -p " + OUTPUT_PATH)
 
 
@@ -99,17 +100,32 @@ monitor = EarlyStopping(
     restore_best_weights=True,
 )
 print("Train...")
-model.fit(
+epochs=1
+history = model.fit(
     x_train,
     y_train,
     validation_data=(x_test, y_test),
     callbacks=[monitor],
     verbose=2,
-    epochs=1000,
+    epochs=epochs,
 )
 
+# list all data in history
+print(history.history.keys())
+val_loss     = history.history["val_loss"]
 
 from sklearn import metrics
 pred = model.predict(x_test)
 score = np.sqrt(metrics.mean_squared_error(pred,y_test))
 print("Score (RMSE): {}".format(score))
+
+# Save model
+timestr = time.strftime("%Y%m%d-%H%M%S")
+filename_time = f"sunspots_val_loss_{val_loss[-1]:.2f}_epochs_{epochs}_date_{timestr}"
+filename_static = "pr_class_10_2_lstm_sunspots"
+fullpath = f"{OUTPUT_PATH}{filename_static}"
+print("Saving model to ", fullpath)
+model.save(fullpath + ".keras")
+fullpath = f"{OUTPUT_PATH}{filename_time}"
+print("Saving model to ", fullpath)
+model.save(fullpath + ".keras")
