@@ -41,13 +41,6 @@ print(df[0:10])
 print("Ending file:")
 print(df[-10:])
 
-start_id = max(df[df["obs_num"] == 0].index.tolist()) + 1  # Find the last zer
-print(start_id)
-df = df[start_id:]  # Trim the rows that have missing observations
-
-print("New Starting file:")
-print(df[0:10])
-
 df["sn_value"] = df["sn_value"].astype(float)
 df_train = df[df["year"] < 2000]
 df_test = df[df["year"] >= 2000]
@@ -100,7 +93,7 @@ monitor = EarlyStopping(
     restore_best_weights=True,
 )
 print("Train...")
-epochs=1
+epochs=20
 history = model.fit(
     x_train,
     y_train,
