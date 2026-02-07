@@ -33,8 +33,8 @@ names = [
     "obs_num",
     "unused1",
 ]
-# datafile = "https://data.heatonresearch.com/data/t81-558/SN_d_tot_V2.0.csv"
-datafile = DATA_PATH + "SN_d_tot_V2.0.csv"
+# Use data file that has empty datapoints removed
+datafile = DATA_PATH + "SN_d_tot_V2.0_trimmed.csv"
 df = pd.read_csv(
     datafile,
     sep=";",
@@ -43,9 +43,8 @@ df = pd.read_csv(
     na_values=["-1"],
     index_col=False,
 )
-start_id = max(df[df["obs_num"] == 0].index.tolist()) + 1  # Find the last zer
-df = df[start_id:]  # Trim the rows that have missing observations
 print(df)
+
 df["sn_value"] = df["sn_value"].astype(float)
 df_train = df[df["year"] < 2000]
 df_test = df[df["year"] >= 2000]
@@ -73,6 +72,27 @@ x_train_size=x_train.shape
 x_test_size=x_test.shape
 print("Shape of training set: {}".format(x_train_size))
 print("Shape of test set: {}".format(x_test_size))
+print(x_train[0])
+print(x_train[1])
+df_x_train = pd.DataFrame(x_train.reshape(x_train_size[0], 10))
+print(df_x_train)
+df_y_train = pd.DataFrame(y_train,columns=["y"])
+print(df_y_train)
+
+
+
+exit()
+
+
+
+# Predict training data
+pred = model.predict(x_train)
+print(pred)
+
+
+
+
+
 
 array_2d = x_test.reshape(x_test_size[0], 10)
 df_x_test = pd.DataFrame(array_2d)
