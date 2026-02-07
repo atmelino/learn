@@ -26,8 +26,8 @@ names = [
     "obs_num",
     "unused1",
 ]
-# datafile = "https://data.heatonresearch.com/data/t81-558/SN_d_tot_V2.0.csv"
-datafile = DATA_PATH + "SN_d_tot_V2.0.csv"
+# Use data file that has empty datapoints removed
+datafile = DATA_PATH + "SN_d_tot_V2.0_trimmed.csv"
 df = pd.read_csv(
     datafile,
     sep=";",
