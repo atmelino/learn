@@ -70,6 +70,12 @@ print(x[0])
 print(x[1])
 
 
+pred = model.predict(x[0])
+print("prediction",pred)
+
+
+
+exit()
 # display expected and predicted values
 df_x = pd.DataFrame(x.reshape(x_size[0], 10))
 print(df_x)
