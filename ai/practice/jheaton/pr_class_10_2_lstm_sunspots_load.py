@@ -83,19 +83,22 @@ predict_sequence(1)
 
 
 
+def predict_set():
+    # display expected and predicted values
+    df_x = pd.DataFrame(x.reshape(x_size[0], 10))
+    # print(df_x)
+    df_y = pd.DataFrame(y,columns=["y"])
+    # print(df_y)
+    pred = model.predict(x)
+    df_pred=pd.DataFrame(pred,columns=["pred"])
+    # print(df_pred)
+    compare = pd.concat([df_x, df_y,df_pred], axis=1)
+    # compare.columns = ["l", "pred", "pnorm","diff"]
+    print("Sliding window of 10 inputs and expected y of x_test\n", compare)
+
+predict_set()
 
 exit()
-# display expected and predicted values
-df_x = pd.DataFrame(x.reshape(x_size[0], 10))
-print(df_x)
-df_y = pd.DataFrame(y,columns=["y"])
-print(df_y)
-pred = model.predict(x)
-df_pred=pd.DataFrame(pred,columns=["pred"])
-print(df_pred)
-compare = pd.concat([df_x, df_y,df_pred], axis=1)
-# compare.columns = ["l", "pred", "pnorm","diff"]
-print("Sliding window of 10 inputs and expected y of x_test\n", compare)
 
 
 
