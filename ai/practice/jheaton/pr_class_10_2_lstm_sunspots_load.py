@@ -46,7 +46,7 @@ print(df)
 
 df["sn_value"] = df["sn_value"].astype(float)
 spots = df["sn_value"].tolist()
-
+print(spots)
 
 def to_sequences(seq_size, obs):
     x = []
@@ -69,9 +69,18 @@ print("Shape of inference set: {}".format(x_size))
 print(x[0])
 print(x[1])
 
-
 pred = model.predict(x[0])
-print("prediction",pred)
+print("prediction\n",pred)
+
+
+
+x0=spots[0:10]
+print(x0)
+x0 = array(x0)
+
+x_input = x0.reshape(1, 10, 1)
+print("reshaped input for inference\n", x_input)
+
 
 
 
