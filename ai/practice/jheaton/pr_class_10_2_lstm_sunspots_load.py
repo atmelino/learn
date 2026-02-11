@@ -7,6 +7,7 @@ import pandas as pd
 import logging, os
 from tensorflow.keras.models import load_model
 from sklearn import metrics
+from numpy import array
 
 BASE_PATH = "../../../../local_data/practice/jheaton/"
 DATA_PATH = BASE_PATH + "pr_class_10_2_lstm_sunspots/"
@@ -65,21 +66,20 @@ def to_sequences(seq_size, obs):
 SEQUENCE_SIZE = 10
 x,y = to_sequences(SEQUENCE_SIZE, spots)
 x_size=x.shape
-print("Shape of inference set: {}".format(x_size))
-print(x[0])
-print(x[1])
 
-pred = model.predict(x[0])
-print("prediction\n",pred)
+def predict_sequence(sequence_number):
+    sequence=spots[sequence_number:sequence_number+SEQUENCE_SIZE]
+    print(sequence)
+    sequence = array(sequence)
+    x_input = sequence.reshape(1, 10, 1)
+    print("reshaped input for inference\n", x_input)
+    x_input_size = x_input.shape
+    print("Shape of inference set: {}".format(x_input_size))
+    yhat = model.predict(x_input, verbose=1)
+    print("model prediction\n", yhat)
 
-
-
-x0=spots[0:10]
-print(x0)
-x0 = array(x0)
-
-x_input = x0.reshape(1, 10, 1)
-print("reshaped input for inference\n", x_input)
+predict_sequence(0)
+predict_sequence(1)
 
 
 
