@@ -34,7 +34,8 @@ names = [
     "unused1",
 ]
 # Use partial data file
-datafile = DATA_PATH + "SN_d_tot_V2.0_short1.csv"
+# datafile = DATA_PATH + "SN_d_tot_V2.0_short1.csv"
+datafile = DATA_PATH + "SN_d_tot_V2.0_trimmed.csv"
 df = pd.read_csv(
     datafile,
     sep=";",
@@ -47,7 +48,8 @@ print(df)
 
 df["sn_value"] = df["sn_value"].astype(float)
 spots = df["sn_value"].tolist()
-print(spots)
+# print(spots)
+
 
 def to_sequences(seq_size, obs):
     x = []
@@ -62,13 +64,30 @@ def to_sequences(seq_size, obs):
         y.append(after_window)
     return np.array(x), np.array(y)
 
+
 # Predict training data
 SEQUENCE_SIZE = 10
-x,y = to_sequences(SEQUENCE_SIZE, spots)
-x_size=x.shape
+x, y = to_sequences(SEQUENCE_SIZE, spots)
+x_size = x.shape
+
 
 def predict_sequence(sequence_number):
-    sequence=spots[sequence_number:sequence_number+SEQUENCE_SIZE]
+    sequence = spots[sequence_number : sequence_number + SEQUENCE_SIZE]
+    # print(sequence)
+    sequence = array(sequence)
+    x_input = sequence.reshape(1, 10, 1)
+    print("reshaped input for inference\n", x_input)
+    x_input_size = x_input.shape
+    print("Shape of inference set: {}".format(x_input_size))
+    yhat = model.predict(x_input, verbose=1)
+    print("model prediction\n", yhat)
+
+
+predict_sequence(0)
+predict_sequence(1)
+
+
+def predict_sequence_fixed(sequence):
     print(sequence)
     sequence = array(sequence)
     x_input = sequence.reshape(1, 10, 1)
@@ -78,29 +97,30 @@ def predict_sequence(sequence_number):
     yhat = model.predict(x_input, verbose=1)
     print("model prediction\n", yhat)
 
-predict_sequence(0)
-predict_sequence(1)
 
+predict_sequence_fixed(
+    [353.0, 240.0, 275.0, 352.0, 268.0, 285.0, 343.0, 340.0, 238.0, 287.0]
+)
+predict_sequence_fixed(
+    [240.0, 275.0, 352.0, 268.0, 285.0, 343.0, 340.0, 238.0, 287.0, 294.0]
+)
 
 
 def predict_set():
     # display expected and predicted values
     df_x = pd.DataFrame(x.reshape(x_size[0], 10))
     # print(df_x)
-    df_y = pd.DataFrame(y,columns=["y"])
+    df_y = pd.DataFrame(y, columns=["y"])
     # print(df_y)
     pred = model.predict(x)
-    df_pred=pd.DataFrame(pred,columns=["pred"])
+    df_pred = pd.DataFrame(pred, columns=["pred"])
     # print(df_pred)
-    compare = pd.concat([df_x, df_y,df_pred], axis=1)
+    compare = pd.concat([df_x, df_y, df_pred], axis=1)
     # compare.columns = ["l", "pred", "pnorm","diff"]
     print("Sliding window of 10 inputs and expected y of x_test\n", compare)
+    compare.to_csv(OUTPUT_PATH + "pred.csv", index=False)
+
 
 predict_set()
 
 exit()
-
-
-
-
-
