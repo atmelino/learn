@@ -68,15 +68,21 @@ print(df_combined)
 
 print('Vectorization...')
 x = np.zeros((len(sentences), maxlen, len(chars)), dtype=bool)
-print(x.shape)
 y = np.zeros((len(sentences), len(chars)), dtype=bool)
 for i, sentence in enumerate(sentences):
     for t, char in enumerate(sentence):
         x[i, t, char_indices[char]] = 1
     y[i, char_indices[next_chars[i]]] = 1
 
+print("shape of x",x.shape)
 print(x)
+print("shape of y",y.shape)
+print(y)
 
+x_view=x*1
+print("x\n",x_view)
+y_view=x*1
+print("y\n",y_view)
 
 
 
