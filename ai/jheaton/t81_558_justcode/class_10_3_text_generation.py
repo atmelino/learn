@@ -75,14 +75,16 @@ for i, sentence in enumerate(sentences):
     y[i, char_indices[next_chars[i]]] = 1
 
 print("shape of x",x.shape)
-print(x)
+# print(x)
 print("shape of y",y.shape)
-print(y)
+# print(y)
+
+np.set_printoptions(threshold=np.inf, linewidth=130)
 
 x_view=x*1
-print("x\n",x_view)
-y_view=x*1
-print("y\n",y_view)
+print("x\n",x_view[:2])
+y_view=y*1
+print("y\n",y_view[:2])
 
 
 
