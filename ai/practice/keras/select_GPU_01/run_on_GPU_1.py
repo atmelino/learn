@@ -2,7 +2,7 @@ import tensorflow as tf
 print("Num GPUs Available: ", len(tf.config.experimental.list_physical_devices('GPU')))
 
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"  # Replace with the IDs of your available GPUs
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"  # Replace with the IDs of your available GPUs
 
 from keras.models import Sequential
 from keras.layers import Dense
@@ -11,7 +11,7 @@ from keras.utils import to_categorical
 import tensorflow as tf
 
 # Create a MirroredStrategy.
-strategy = tf.distribute.MirroredStrategy()
+# strategy = tf.distribute.MirroredStrategy()
 
 num_gpus = 1  # Replace with the number of available GPUs
 
@@ -26,16 +26,28 @@ x_val = x_val.reshape(-1, 784).astype('float32') / 255
 y_train = to_categorical(y_train, 10)
 y_val = to_categorical(y_val, 10)
 
-with strategy.scope():
-    # Define your Keras model
-    model = Sequential()
-    model.add(Dense(64, input_dim=784, activation='relu'))
-    model.add(Dense(10, activation='softmax'))
+# with strategy.scope():
+#     # Define your Keras model
+#     model = Sequential()
+#     model.add(Dense(64, input_dim=784, activation='relu'))
+#     model.add(Dense(10, activation='softmax'))
 
-    # Compile the model
-    model.compile(loss='categorical_crossentropy',
-                  optimizer='rmsprop',
-                  metrics=['accuracy'])
+#     # Compile the model
+#     model.compile(loss='categorical_crossentropy',
+#                   optimizer='rmsprop',
+#                   metrics=['accuracy'])
+
+
+
+# Define your Keras model
+model = Sequential()
+model.add(Dense(64, input_dim=784, activation='relu'))
+model.add(Dense(10, activation='softmax'))
+
+# Compile the model
+model.compile(loss='categorical_crossentropy',
+                optimizer='rmsprop',
+                metrics=['accuracy'])
 
 # Train the model on your data
 model.fit(x_train, y_train,
