@@ -9,7 +9,7 @@ print("Num GPUs Available: ", len(tf.config.experimental.list_physical_devices("
 tf.debugging.set_log_device_placement(False)
 
 try:
-    # Specify an invalid GPU device
+    # Specify the GPU device
     print('Using /device:GPU:1')
     with tf.device("/device:GPU:1"):
         a = tf.constant([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
@@ -20,8 +20,7 @@ try:
             # print(i)
             # print (i, end="\r")
             print(f"{i} of {max}", end="\r")
-            # for i in range(0,10000000):
-            #     print(i)
+
             c = tf.matmul(a, b)
 except RuntimeError as e:
     print(e)
