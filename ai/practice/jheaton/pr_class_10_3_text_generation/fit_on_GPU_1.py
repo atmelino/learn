@@ -16,6 +16,7 @@ import requests
 import re
 import os
 import pandas as pd
+import time
 
 BASE_PATH = "../../../../../local_data/"
 DATA_PATH = BASE_PATH + "jheaton/input/"
@@ -23,34 +24,16 @@ OUTPUT_PATH = BASE_PATH + "practice/jheaton/pr_class_10_3_text_generation/"
 
 os.system("mkdir -p " + OUTPUT_PATH)
 
-
-# r = requests.get(
-#     "https://data.heatonresearch.com/data/t81-558/text/treasure_island.txt"
-# )
-# raw_text = r.text
-# print("raw text\n",raw_text[0:100])
-
 filepath=DATA_PATH+"treasure_island.txt"
 print(filepath)
 raw_text = open(filepath, 'r').read()
-print(raw_text[0:1000])
-
 
 processed_text = raw_text.lower()
-print("lowered text\n", processed_text[:100])
 processed_text = re.sub(r"[^\x00-\x7f]", r"", processed_text)
-# print("non ASCII removed\n",processed_text[:100])
-# print('corpus length:', len(processed_text))
-# print("set of text\n",set(processed_text))
 chars = sorted(list(set(processed_text)))
-# print("sorted list of set of text\n",chars)
-print("total chars:", len(chars))
 
 char_indices = dict((c, i) for i, c in enumerate(chars))
 indices_char = dict((i, c) for i, c in enumerate(chars))
-
-print("char_indices\n", char_indices)
-# print("indices_char\n",indices_char)
 
 
 # cut the text in semi-redundant sequences of maxlen characters
@@ -61,9 +44,6 @@ next_chars = []
 for i in range(0, len(processed_text) - maxlen, step):
     sentences.append(processed_text[i : i + maxlen])
     next_chars.append(processed_text[i + maxlen])
-print("nb sequences:", len(sentences))
-# for sentence in sentences[:20]:
-#     print(sentence)
 
 df_sentences = pd.DataFrame(sentences, columns=["x_train"])
 # print(df_sentences)
@@ -80,18 +60,8 @@ for i, sentence in enumerate(sentences):
         x[i, t, char_indices[char]] = 1
     y[i, char_indices[next_chars[i]]] = 1
 
-print("shape of x", x.shape)
-# print(x)
-print("shape of y", y.shape)
-# print(y)
 
 np.set_printoptions(threshold=np.inf, linewidth=130)
-
-x_view = x * 1
-print("x\n", x_view[:2])
-y_view = y * 1
-print("y\n", y_view[:2])
-
 
 
 print("Num GPUs Available: ", len(tf.config.experimental.list_physical_devices("GPU")))
@@ -126,29 +96,48 @@ try:
 
 
         def on_epoch_end(epoch, _):
-            # Function invoked at end of each epoch. Prints generated text.
             print("******************************************************")
-            print("----- Generating text after Epoch: %d" % epoch)
-            start_index = random.randint(0, len(processed_text) - maxlen - 1)
-            for temperature in [0.2, 0.5, 1.0, 1.2]:
-                print("----- temperature:", temperature)
-                generated = ""
-                sentence = processed_text[start_index : start_index + maxlen]
-                generated += sentence
-                print('----- Generating with seed: "' + sentence + '"')
-                sys.stdout.write(generated)
-                for i in range(400):
-                    x_pred = np.zeros((1, maxlen, len(chars)))
-                    for t, char in enumerate(sentence):
-                        x_pred[0, t, char_indices[char]] = 1.0
-                    preds = model.predict(x_pred, verbose=0)[0]
-                    next_index = sample(preds, temperature)
-                    next_char = indices_char[next_index]
-                    generated += next_char
-                    sentence = sentence[1:] + next_char
-                    sys.stdout.write(next_char)
-                    sys.stdout.flush()
-            print()
+            print("----- saving model after Epoch: %d" % epoch)
+
+
+            # Save model
+            timestr = time.strftime("%Y%m%d-%H%M%S")
+            # filename_time = f"treasure_val_loss_{val_loss[-1]:.2f}_epochs_{epochs}_date_{timestr}"
+            filename_time = f"treasure_epochs_{epoch:04d}_date_{timestr}"
+            filename_static = "pr_class_10_3_text_generation"
+            fullpath = f"{OUTPUT_PATH}{filename_static}"
+            print("Saving model to ", fullpath)
+            model.save(fullpath + ".keras")
+            fullpath = f"{OUTPUT_PATH}{filename_time}"
+            print("Saving model to ", fullpath)
+            model.save(fullpath + ".keras")
+
+
+
+
+            # # Function invoked at end of each epoch. Prints generated text.
+            # print("******************************************************")
+            # print("----- Generating text after Epoch: %d" % epoch)
+            # start_index = random.randint(0, len(processed_text) - maxlen - 1)
+            # for temperature in [0.2, 0.5, 1.0, 1.2]:
+            #     print("----- temperature:", temperature)
+            #     generated = ""
+            #     sentence = processed_text[start_index : start_index + maxlen]
+            #     generated += sentence
+            #     print('----- Generating with seed: "' + sentence + '"')
+            #     sys.stdout.write(generated)
+            #     for i in range(400):
+            #         x_pred = np.zeros((1, maxlen, len(chars)))
+            #         for t, char in enumerate(sentence):
+            #             x_pred[0, t, char_indices[char]] = 1.0
+            #         preds = model.predict(x_pred, verbose=0)[0]
+            #         next_index = sample(preds, temperature)
+            #         next_char = indices_char[next_index]
+            #         generated += next_char
+            #         sentence = sentence[1:] + next_char
+            #         sys.stdout.write(next_char)
+            #         sys.stdout.flush()
+            # print()
 
 
         # Ignore useless W0819 warnings generated by TensorFlow 2.0.
@@ -159,8 +148,10 @@ try:
         os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
         # Fit the model
         print_callback = LambdaCallback(on_epoch_end=on_epoch_end)
-        model.fit(x, y, batch_size=128, epochs=60, callbacks=[print_callback])
+        history = model.fit(x, y, batch_size=128, epochs=60, callbacks=[print_callback])
 
+        # print(history.history.keys())
+        # val_loss     = history.history["val_loss"]
 
 
 
