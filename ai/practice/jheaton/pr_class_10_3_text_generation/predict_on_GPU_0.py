@@ -38,8 +38,12 @@ try:
 
 
         def sample(preds, temperature=1.0):
+
+            print("sample function")
+            print(preds)
             # helper function to sample an index from a probability array
             preds = np.asarray(preds).astype("float64")
+
             preds = np.log(preds) / temperature
             exp_preds = np.exp(preds)
             preds = exp_preds / np.sum(exp_preds)
@@ -52,24 +56,35 @@ try:
             print("******************************************************")
             print("----- Generating text" )
             start_index = random.randint(0, len(processed_text) - maxlen - 1)
-            for temperature in [0.2, 0.5, 1.0, 1.2]:
+            # for temperature in [0.2, 0.5, 1.0, 1.2]:
+            for temperature in [0.2, 1.0]:
                 print("----- temperature:", temperature)
                 generated = ""
                 sentence = processed_text[start_index : start_index + maxlen]
                 generated += sentence
                 print('----- Generating with seed: "' + sentence + '"')
                 sys.stdout.write(generated)
+                sys.stdout.write('\n')
+                print('----- end of seed')
+                
+                print('----- generated text')
                 for i in range(400):
                     x_pred = np.zeros((1, maxlen, len(chars)))
                     for t, char in enumerate(sentence):
                         x_pred[0, t, char_indices[char]] = 1.0
                     preds = model.predict(x_pred, verbose=0)[0]
                     next_index = sample(preds, temperature)
+
+                    # print(next_index)
+
                     next_char = indices_char[next_index]
                     generated += next_char
                     sentence = sentence[1:] + next_char
                     sys.stdout.write(next_char)
                     sys.stdout.flush()
+                sys.stdout.write('\n')
+                print('----- end of generated text')
+
             print()
 
         filepath=DATA_PATH+"treasure_island.txt"
