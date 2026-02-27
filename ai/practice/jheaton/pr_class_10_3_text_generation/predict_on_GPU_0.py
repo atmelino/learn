@@ -38,7 +38,9 @@ try:
 
 
         def sample(preds, temperature=1.0):
-
+            print("preds shape",preds.shape)
+            np.set_printoptions(linewidth=np.inf)
+            np.set_printoptions(precision=3, suppress=True)
             print("sample function")
             print(preds)
             # helper function to sample an index from a probability array
