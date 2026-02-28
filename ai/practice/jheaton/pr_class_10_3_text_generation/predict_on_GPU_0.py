@@ -38,7 +38,7 @@ try:
 
 
         def sample(preds, temperature=1.0):
-            print("preds shape",preds.shape)
+            # print("preds shape",preds.shape)
             np.set_printoptions(linewidth=np.inf)
             np.set_printoptions(precision=3, suppress=True)
             print("sample function")
@@ -50,6 +50,8 @@ try:
             exp_preds = np.exp(preds)
             preds = exp_preds / np.sum(exp_preds)
             probas = np.random.multinomial(1, preds, 1)
+            index= np.argmax(probas)
+            print("index",index)
             return np.argmax(probas)
 
 
@@ -96,14 +98,13 @@ try:
         processed_text = raw_text.lower()
         processed_text = re.sub(r"[^\x00-\x7f]", r"", processed_text)
         chars = sorted(list(set(processed_text)))
+        print("number of different characters ", len(chars))
+        print("chars", chars)
 
         char_indices = dict((c, i) for i, c in enumerate(chars))
         indices_char = dict((i, c) for i, c in enumerate(chars))
 
         maxlen = 40
-
-
-
 
 
         on_epoch_end()
