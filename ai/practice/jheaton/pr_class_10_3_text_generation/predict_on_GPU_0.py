@@ -40,13 +40,22 @@ try:
         def sample(preds, temperature=1.0):
             # print("preds shape",preds.shape)
             np.set_printoptions(linewidth=np.inf)
-            np.set_printoptions(precision=3, suppress=True)
-            print("sample function")
-            print(preds)
+            # np.set_printoptions(precision=3)
+            np.set_printoptions(floatmode='fixed')
+            np.set_printoptions(suppress=True)
+            # print("sample function")
+            # print("original preds",preds)
             # helper function to sample an index from a probability array
             preds = np.asarray(preds).astype("float64")
+            print("np array preds\n",preds)
+
+            preds_logs=np.log(preds)
+            print("log preds\n",preds_logs)
 
             preds = np.log(preds) / temperature
+            print("log and temperature preds\n",preds)
+
+
             exp_preds = np.exp(preds)
             preds = exp_preds / np.sum(exp_preds)
             probas = np.random.multinomial(1, preds, 1)
