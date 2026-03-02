@@ -34,13 +34,13 @@ try:
         filename_static = "pr_class_10_3_text_generation.keras"
         fullpath = f"{OUTPUT_PATH}{filename_static}"
         model = load_model(fullpath)
-        model.summary()
+        # model.summary()
 
 
         def sample(preds, temperature=1.0):
             # print("preds shape",preds.shape)
             np.set_printoptions(linewidth=np.inf)
-            np.set_printoptions(linewidth=100)
+            np.set_printoptions(linewidth=160)
             # np.set_printoptions(precision=3)
             np.set_printoptions(floatmode='fixed')
             np.set_printoptions(suppress=True)
@@ -61,9 +61,12 @@ try:
 
             print("sum of exp preds",np.sum(exp_preds))
             preds = exp_preds / np.sum(exp_preds)
-
+            print("normalized exponent preds\n",preds)
 
             probas = np.random.multinomial(1, preds, 1)
+            print("probas preds\n",probas)
+
+
             index= np.argmax(probas)
             print("index",index)
             return np.argmax(probas)
@@ -73,9 +76,18 @@ try:
             # Function invoked at end of each epoch. Prints generated text.
             print("******************************************************")
             print("----- Generating text" )
-            start_index = random.randint(0, len(processed_text) - maxlen - 1)
+            # start_index = random.randint(0, len(processed_text) - maxlen - 1)
+            start_index = 1000
+            print("start_index",start_index)
+
+
             # for temperature in [0.2, 0.5, 1.0, 1.2]:
-            for temperature in [0.2, 1.0]:
+            # for temperature in [0.2, 1.0]:
+            # for temperature in [1.0]:
+            # for temperature in [0.2]:
+            # for temperature in [0.1]:
+            # for temperature in [5]:
+            for temperature in [0.5]:
                 print("----- temperature:", temperature)
                 generated = ""
                 sentence = processed_text[start_index : start_index + maxlen]
@@ -86,7 +98,9 @@ try:
                 print('----- end of seed')
                 
                 print('----- generated text')
-                for i in range(400):
+                # for i in range(400):
+                # for i in range(4):
+                for i in range(1):
                     x_pred = np.zeros((1, maxlen, len(chars)))
                     for t, char in enumerate(sentence):
                         x_pred[0, t, char_indices[char]] = 1.0
