@@ -87,7 +87,8 @@ try:
             # for temperature in [0.2]:
             # for temperature in [0.1]:
             # for temperature in [5]:
-            for temperature in [0.5]:
+            # for temperature in [0.5]:
+            for temperature in [2.]:
                 print("----- temperature:", temperature)
                 generated = ""
                 sentence = processed_text[start_index : start_index + maxlen]
