@@ -36,6 +36,7 @@ try:
         model = load_model(fullpath)
         # model.summary()
 
+        buckets = np.zeros(60) 
 
         def sample(preds, temperature=1.0):
             # print("preds shape",preds.shape)
@@ -48,7 +49,7 @@ try:
             # print("original preds",preds)
             # helper function to sample an index from a probability array
             preds = np.asarray(preds).astype("float64")
-            print("np array preds\n",preds)
+            # print("np array preds\n",preds)
 
             # preds_logs=np.log(preds)
             # print("log preds\n",preds_logs)
@@ -57,15 +58,17 @@ try:
             # print("log and temperature preds\n",preds)
 
             exp_preds = np.exp(preds)
-            print("exponent preds\n",exp_preds)
+            # print("exponent preds\n",exp_preds)
 
-            print("sum of exp preds",np.sum(exp_preds))
+            # print("sum of exp preds",np.sum(exp_preds))
             preds = exp_preds / np.sum(exp_preds)
-            print("normalized exponent preds\n",preds)
+            # print("normalized exponent preds\n",preds)
 
             probas = np.random.multinomial(1, preds, 1)
             print("probas preds\n",probas)
 
+            buckets+=probas
+            print("buckets\n",buckets)
 
             index= np.argmax(probas)
             print("index",index)
@@ -74,11 +77,11 @@ try:
 
         def on_epoch_end():
             # Function invoked at end of each epoch. Prints generated text.
-            print("******************************************************")
-            print("----- Generating text" )
+            # print("******************************************************")
+            # print("----- Generating text" )
             # start_index = random.randint(0, len(processed_text) - maxlen - 1)
             start_index = 1000
-            print("start_index",start_index)
+            # print("start_index",start_index)
 
 
             # for temperature in [0.2, 0.5, 1.0, 1.2]:
@@ -93,12 +96,12 @@ try:
                 generated = ""
                 sentence = processed_text[start_index : start_index + maxlen]
                 generated += sentence
-                print('----- Generating with seed: "' + sentence + '"')
-                sys.stdout.write(generated)
-                sys.stdout.write('\n')
-                print('----- end of seed')
+                # print('----- Generating with seed: "' + sentence + '"')
+                # sys.stdout.write(generated)
+                # sys.stdout.write('\n')
+                # print('----- end of seed')
                 
-                print('----- generated text')
+                # print('----- generated text')
                 # for i in range(400):
                 # for i in range(4):
                 for i in range(1):
@@ -116,7 +119,7 @@ try:
                     sys.stdout.write(next_char)
                     sys.stdout.flush()
                 sys.stdout.write('\n')
-                print('----- end of generated text')
+                # print('----- end of generated text')
 
             print()
 
@@ -136,7 +139,8 @@ try:
         maxlen = 40
 
 
-        on_epoch_end()
+        for i in range(10):
+            on_epoch_end()
 
 
 except RuntimeError as e:
