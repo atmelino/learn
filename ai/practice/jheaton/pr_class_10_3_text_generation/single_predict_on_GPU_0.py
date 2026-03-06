@@ -36,6 +36,9 @@ try:
         model = load_model(fullpath)
         # model.summary()
 
+        buckets = np.zeros(59) 
+        print("buckets\n",buckets)
+
         def sample(preds, temperature=1.0):
             # print("preds shape",preds.shape)
             np.set_printoptions(linewidth=np.inf)
@@ -63,38 +66,63 @@ try:
             # print("normalized exponent preds\n",preds)
 
             probas = np.random.multinomial(1, preds, 1)
-            # print("probas preds\n",probas)
+            print("probas preds\n",probas)
 
             index= np.argmax(probas)
-            # print("index",index)
+            print("index",index)
+
+            buckets[index]+=1
+            print("buckets\n",buckets)
 
             return np.argmax(probas)
 
 
         def on_epoch_end():
             # Function invoked at end of each epoch. Prints generated text.
-            print("******************************************************")
-            print("----- Generating text")
-            start_index = random.randint(0, len(processed_text) - maxlen - 1)
-            for temperature in [0.2]:
+            # print("******************************************************")
+            # print("----- Generating text" )
+            # start_index = random.randint(0, len(processed_text) - maxlen - 1)
+            start_index = 1000
+            # print("start_index",start_index)
+
+
             # for temperature in [0.2, 0.5, 1.0, 1.2]:
+            # for temperature in [0.2, 1.0]:
+            # for temperature in [1.0]:
+            # for temperature in [0.2]:
+            # for temperature in [0.1]:
+            # for temperature in [5]:
+            # for temperature in [0.5]:
+            for temperature in [2.]:
                 print("----- temperature:", temperature)
                 generated = ""
                 sentence = processed_text[start_index : start_index + maxlen]
                 generated += sentence
-                print('----- Generating with seed: "' + sentence + '"')
-                sys.stdout.write(generated)
-                for i in range(100):
+                # print('----- Generating with seed: "' + sentence + '"')
+                # sys.stdout.write(generated)
+                # sys.stdout.write('\n')
+                # print('----- end of seed')
+                
+                # print('----- generated text')
+                # for i in range(400):
+                # for i in range(4):
+                for i in range(1):
                     x_pred = np.zeros((1, maxlen, len(chars)))
                     for t, char in enumerate(sentence):
                         x_pred[0, t, char_indices[char]] = 1.0
                     preds = model.predict(x_pred, verbose=0)[0]
                     next_index = sample(preds, temperature)
+
+                    # print(next_index)
+
                     next_char = indices_char[next_index]
                     generated += next_char
                     sentence = sentence[1:] + next_char
                     sys.stdout.write(next_char)
                     sys.stdout.flush()
+                sys.stdout.write('\n')
+                # print('----- end of generated text')
+
             print()
 
         filepath=DATA_PATH+"treasure_island.txt"
@@ -113,7 +141,8 @@ try:
         maxlen = 40
 
 
-        on_epoch_end()
+        for i in range(100):
+            on_epoch_end()
 
 
 except RuntimeError as e:
