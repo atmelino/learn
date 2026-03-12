@@ -61,7 +61,9 @@ print("Shape of training y: {}".format(y_train.shape))
 print("Shape of test set: {}".format(x_test.shape))
 
 
-print(x_train)
+# print(x_train)
 x_tr=np.reshape(x_train,(55150,10))
 print(x_tr)
+x_te=np.reshape(x_test,(6381,10))
+print(x_te)
 
