@@ -138,3 +138,11 @@ model.fit(
     callbacks=callbacks,
 )
 model.evaluate(x_test, y_test, verbose=1)
+
+
+
+from sklearn import metrics
+pred = model.predict(x_test)
+score = np.sqrt(metrics.mean_squared_error(pred,y_test))
+print("Score (RMSE): {}".format(score))
+
