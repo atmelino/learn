@@ -15,7 +15,7 @@ from sklearn import metrics
 #     "https://data.heatonresearch.com/data/t81-558/auto-mpg.csv",
 #     na_values=['NA', '?'])
 
-DATA_PATH = "../../../../../local_data/jheaton/input/"
+DATA_PATH = "../../../../../../local_data/jheaton/input/"
 
 df = pd.read_csv(DATA_PATH+"auto-mpg.csv", na_values=["NA", "?"])
 print(df)
@@ -49,8 +49,8 @@ tf.debugging.set_log_device_placement(False)
 
 try:
     # Specify the GPU device
-    print('Using /device:GPU:1')
-    with tf.device("/device:GPU:1"):
+    print('Using /device:GPU:0')
+    with tf.device("/device:GPU:0"):
 
         # Build the neural network
         model = Sequential()
