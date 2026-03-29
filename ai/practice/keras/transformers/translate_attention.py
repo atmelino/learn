@@ -25,7 +25,10 @@ DATA_PATH = BASE_PATH + "translate_attention/"
 OUTPUT_PATH = BASE_PATH + "translate_attention/"
 os.system("mkdir -p " + OUTPUT_PATH)
 
-print("DATA_PATH=",DATA_PATH)
+print("DATA_PATH=", DATA_PATH)
+print("origin=", DATA_PATH + "spa-eng.zip")
+
+
 class ShapeChecker:
     def __init__(self):
         # Keep a cache of every axis-name seen
@@ -59,7 +62,7 @@ class ShapeChecker:
 path_to_zip = tf.keras.utils.get_file(
     "spa-eng.zip",
     # origin="http://storage.googleapis.com/download.tensorflow.org/data/spa-eng.zip",
-    origin=DATA_PATH+"spa-eng.zip",
+    origin=DATA_PATH + "spa-eng.zip",
     extract=True,
 )
 
@@ -87,9 +90,6 @@ print(context_raw[:10])
 print(target_raw[:10])
 
 
-
-
-
 BUFFER_SIZE = len(context_raw)
 BATCH_SIZE = 64
 
@@ -98,29 +98,31 @@ print(is_train)
 
 
 train_raw = (
-    tf.data.Dataset
-    .from_tensor_slices((context_raw[is_train], target_raw[is_train]))
+    tf.data.Dataset.from_tensor_slices((context_raw[is_train], target_raw[is_train]))
     # .shuffle(BUFFER_SIZE)
-    .batch(BATCH_SIZE))
+    .batch(BATCH_SIZE)
+)
 val_raw = (
-    tf.data.Dataset
-    .from_tensor_slices((context_raw[~is_train], target_raw[~is_train]))
+    tf.data.Dataset.from_tensor_slices((context_raw[~is_train], target_raw[~is_train]))
     # .shuffle(BUFFER_SIZE)
-    .batch(BATCH_SIZE))
+    .batch(BATCH_SIZE)
+)
 
 
 for example_context_strings, example_target_strings in train_raw.take(1):
-  print(example_context_strings[:5])
-  print()
-  print(example_target_strings[:5])
-  break
+    print(example_context_strings[:5])
+    print()
+    print(example_target_strings[:5])
+    break
 
 
 # Convert to pandas Dataframe for viewing
 # pd.set_option("display.max_columns", None)
 pd.set_option("display.max_colwidth", None)
 
-df_train_raw = tf.data.Dataset.from_tensor_slices((context_raw[is_train], target_raw[is_train]))
+df_train_raw = tf.data.Dataset.from_tensor_slices(
+    (context_raw[is_train], target_raw[is_train])
+)
 print(df_train_raw)
 # print(train_raw.shape)
 # ds = tf.data.Dataset.from_tensor_slices(train_raw)
@@ -128,4 +130,3 @@ print(df_train_raw)
 ds_data = [x for x in train_raw.take(5).as_numpy_iterator()]
 df = pd.DataFrame(ds_data)
 print(df.head())
-
