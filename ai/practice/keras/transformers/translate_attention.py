@@ -5,8 +5,6 @@
 # conda install -c conda-forge einops -y
 # pip install tensorflow-text
 
-
-
 import keras
 from keras import layers
 import os
@@ -20,14 +18,12 @@ import matplotlib.ticker as ticker
 import tensorflow as tf
 import tensorflow_text as tf_text
 import pathlib
-
+import pandas as pd
 
 BASE_PATH = "../../../../../local_data/practice/keras/transformers/"
 DATA_PATH = BASE_PATH + "translate_attention/"
 OUTPUT_PATH = BASE_PATH + "translate_attention/"
-
 os.system("mkdir -p " + OUTPUT_PATH)
-
 
 class ShapeChecker:
     def __init__(self):
@@ -82,23 +78,33 @@ def load_data(path):
 
 
 target_raw, context_raw = load_data(path_to_file)
-print(context_raw[-1])
-print(target_raw[-1])
+# print(context_raw[-1])
+# print(target_raw[-1])
+
+print("first ten lines")
+print(context_raw[:10])
+print(target_raw[:10])
+
+
+
+
 
 BUFFER_SIZE = len(context_raw)
 BATCH_SIZE = 64
 
 is_train = np.random.uniform(size=(len(target_raw),)) < 0.8
+print(is_train)
+
 
 train_raw = (
     tf.data.Dataset
     .from_tensor_slices((context_raw[is_train], target_raw[is_train]))
-    .shuffle(BUFFER_SIZE)
+    # .shuffle(BUFFER_SIZE)
     .batch(BATCH_SIZE))
 val_raw = (
     tf.data.Dataset
     .from_tensor_slices((context_raw[~is_train], target_raw[~is_train]))
-    .shuffle(BUFFER_SIZE)
+    # .shuffle(BUFFER_SIZE)
     .batch(BATCH_SIZE))
 
 
@@ -107,4 +113,18 @@ for example_context_strings, example_target_strings in train_raw.take(1):
   print()
   print(example_target_strings[:5])
   break
+
+
+# Convert to pandas Dataframe for viewing
+# pd.set_option("display.max_columns", None)
+pd.set_option("display.max_colwidth", None)
+
+df_train_raw = tf.data.Dataset.from_tensor_slices((context_raw[is_train], target_raw[is_train]))
+print(df_train_raw)
+# print(train_raw.shape)
+# ds = tf.data.Dataset.from_tensor_slices(train_raw)
+
+ds_data = [x for x in train_raw.take(5).as_numpy_iterator()]
+df = pd.DataFrame(ds_data)
+print(df.head())
 
