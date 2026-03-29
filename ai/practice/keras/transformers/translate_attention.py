@@ -25,48 +25,30 @@ DATA_PATH = BASE_PATH + "translate_attention/"
 OUTPUT_PATH = BASE_PATH + "translate_attention/"
 os.system("mkdir -p " + OUTPUT_PATH)
 
-print("DATA_PATH=", DATA_PATH)
-print("origin=", DATA_PATH + "spa-eng.zip")
 
+local = False
+local = True
+if local == False:
+    print("get dataset from Internet")
+    path_to_zip = tf.keras.utils.get_file(
+        "spa-eng.zip",
+        origin="http://storage.googleapis.com/download.tensorflow.org/data/spa-eng.zip",
+        extract=True,
+    )
+    # path_to_file = pathlib.Path(path_to_zip).parent / "spa-eng/spa.txt"
+    path_to_file = pathlib.Path(path_to_zip) / "spa-eng/spa.txt"
+else:
+    print("get dataset local")
+    # print("DATA_PATH=", DATA_PATH)
+    myorigin = DATA_PATH + "spa-eng.zip"
+    # print("origin=", myorigin)
+    fullPath = os.path.abspath(myorigin)  # or similar, depending on your scenario
+    print(fullPath)
+    # print('file://'+fullPath)
+    path_to_zip = fullPath
+    path_to_file = pathlib.Path(path_to_zip).parent / "spa-eng/spa.txt"
 
-class ShapeChecker:
-    def __init__(self):
-        # Keep a cache of every axis-name seen
-        self.shapes = {}
-
-    def __call__(self, tensor, names, broadcast=False):
-        if not tf.executing_eagerly():
-            return
-
-        parsed = einops.parse_shape(tensor, names)
-
-        for name, new_dim in parsed.items():
-            old_dim = self.shapes.get(name, None)
-
-            if broadcast and new_dim == 1:
-                continue
-
-            if old_dim is None:
-                # If the axis name is new, add its length to the cache.
-                self.shapes[name] = new_dim
-                continue
-
-            if new_dim != old_dim:
-                raise ValueError(
-                    f"Shape mismatch for dimension: '{name}'\n"
-                    f"    found: {new_dim}\n"
-                    f"    expected: {old_dim}\n"
-                )
-
-
-path_to_zip = tf.keras.utils.get_file(
-    "spa-eng.zip",
-    # origin="http://storage.googleapis.com/download.tensorflow.org/data/spa-eng.zip",
-    origin=DATA_PATH + "spa-eng.zip",
-    extract=True,
-)
-
-path_to_file = pathlib.Path(path_to_zip).parent / "spa-eng/spa.txt"
+print("path_to_zip=", path_to_zip)
 
 
 def load_data(path):
@@ -130,3 +112,33 @@ print(df_train_raw)
 ds_data = [x for x in train_raw.take(5).as_numpy_iterator()]
 df = pd.DataFrame(ds_data)
 print(df.head())
+
+
+class ShapeChecker:
+    def __init__(self):
+        # Keep a cache of every axis-name seen
+        self.shapes = {}
+
+    def __call__(self, tensor, names, broadcast=False):
+        if not tf.executing_eagerly():
+            return
+
+        parsed = einops.parse_shape(tensor, names)
+
+        for name, new_dim in parsed.items():
+            old_dim = self.shapes.get(name, None)
+
+            if broadcast and new_dim == 1:
+                continue
+
+            if old_dim is None:
+                # If the axis name is new, add its length to the cache.
+                self.shapes[name] = new_dim
+                continue
+
+            if new_dim != old_dim:
+                raise ValueError(
+                    f"Shape mismatch for dimension: '{name}'\n"
+                    f"    found: {new_dim}\n"
+                    f"    expected: {old_dim}\n"
+                )
