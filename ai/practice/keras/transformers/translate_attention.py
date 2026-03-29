@@ -25,6 +25,7 @@ DATA_PATH = BASE_PATH + "translate_attention/"
 OUTPUT_PATH = BASE_PATH + "translate_attention/"
 os.system("mkdir -p " + OUTPUT_PATH)
 
+print("DATA_PATH=",DATA_PATH)
 class ShapeChecker:
     def __init__(self):
         # Keep a cache of every axis-name seen
