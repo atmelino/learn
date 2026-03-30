@@ -108,12 +108,12 @@ for example_context_strings, example_target_strings in train_raw.take(1):
     print()
     print(example_target_strings[:n_items])
     break
-print("next batch")
-for example_context_strings, example_target_strings in train_raw.take(1):
-    print(example_context_strings[:n_items])
-    print()
-    print(example_target_strings[:n_items])
-    break
+# print("next batch")
+# for example_context_strings, example_target_strings in train_raw.take(1):
+#     print(example_context_strings[:n_items])
+#     print()
+#     print(example_target_strings[:n_items])
+#     break
 
 # Convert to pandas Dataframe for viewing
 # pd.set_option("display.max_columns", None)
@@ -129,6 +129,36 @@ pd.set_option("display.max_colwidth", None)
 # ds_data = [x for x in train_raw.take(5).as_numpy_iterator()]
 # df = pd.DataFrame(ds_data)
 # print(df.head())
+
+
+for example_context_strings, example_target_strings in train_raw.take(1):
+    df1 = pd.DataFrame(example_context_strings[:n_items])
+    df2 = pd.DataFrame(example_target_strings[:n_items])
+    break
+
+df = pd.concat([df1, df2], axis=1)
+
+# print(df.head())
+print(df)
+
+
+
+
+exit()
+
+
+
+max_vocab_size = 5000
+
+context_text_processor = tf.keras.layers.TextVectorization(
+    standardize=tf_lower_and_split_punct,
+    max_tokens=max_vocab_size,
+    ragged=True)
+
+
+
+
+
 
 
 class ShapeChecker:
