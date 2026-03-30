@@ -76,7 +76,7 @@ BUFFER_SIZE = len(context_raw)
 BATCH_SIZE = 64
 
 is_train = np.random.uniform(size=(len(target_raw),)) < 0.8
-print(is_train)
+print("is_train",is_train)
 
 
 train_raw = (
@@ -90,6 +90,7 @@ val_raw = (
     .batch(BATCH_SIZE)
 )
 
+exit()
 
 for example_context_strings, example_target_strings in train_raw.take(1):
     print(example_context_strings[:5])

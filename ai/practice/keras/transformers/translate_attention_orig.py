@@ -45,3 +45,29 @@ def load_data(path):
 
 target_raw, context_raw = load_data(path_to_file)
 print(context_raw[-1])
+print(target_raw[-1])
+
+BUFFER_SIZE = len(context_raw)
+BATCH_SIZE = 64
+
+is_train = np.random.uniform(size=(len(target_raw),)) < 0.8
+
+train_raw = (
+    tf.data.Dataset
+    .from_tensor_slices((context_raw[is_train], target_raw[is_train]))
+    .shuffle(BUFFER_SIZE)
+    .batch(BATCH_SIZE))
+val_raw = (
+    tf.data.Dataset
+    .from_tensor_slices((context_raw[~is_train], target_raw[~is_train]))
+    .shuffle(BUFFER_SIZE)
+    .batch(BATCH_SIZE))
+
+for example_context_strings, example_target_strings in train_raw.take(1):
+  print(example_context_strings[:5])
+  print()
+  print(example_target_strings[:5])
+  break
+
+
+
