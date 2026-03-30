@@ -64,6 +64,8 @@ def load_data(path):
 
 
 target_raw, context_raw = load_data(path_to_file)
+n_lines=len(target_raw)
+print("number of lines=",n_lines)
 # print(context_raw[-1])
 # print(target_raw[-1])
 
@@ -74,10 +76,18 @@ print(target_raw[:10])
 
 BUFFER_SIZE = len(context_raw)
 BATCH_SIZE = 64
+BATCH_SIZE = 32
 
-is_train = np.random.uniform(size=(len(target_raw),)) < 0.8
-print("is_train",is_train)
 
+random_index=True
+random_index=False
+if(random_index==True):
+    is_train = np.random.uniform(size=(len(target_raw),)) < 0.8
+    print("is_train",is_train)
+    print("len is_train",len(is_train))
+else:
+    is_train = np.full(n_lines, True) 
+    print("is_train",is_train)
 
 train_raw = (
     tf.data.Dataset.from_tensor_slices((context_raw[is_train], target_raw[is_train]))
@@ -90,29 +100,35 @@ val_raw = (
     .batch(BATCH_SIZE)
 )
 
-exit()
-
+# exit()
+n_items=200
+print("First %d items"% n_items)
 for example_context_strings, example_target_strings in train_raw.take(1):
-    print(example_context_strings[:5])
+    print(example_context_strings[:n_items])
     print()
-    print(example_target_strings[:5])
+    print(example_target_strings[:n_items])
     break
-
+print("next batch")
+for example_context_strings, example_target_strings in train_raw.take(1):
+    print(example_context_strings[:n_items])
+    print()
+    print(example_target_strings[:n_items])
+    break
 
 # Convert to pandas Dataframe for viewing
 # pd.set_option("display.max_columns", None)
 pd.set_option("display.max_colwidth", None)
 
-df_train_raw = tf.data.Dataset.from_tensor_slices(
-    (context_raw[is_train], target_raw[is_train])
-)
-print(df_train_raw)
+# df_train_raw = tf.data.Dataset.from_tensor_slices(
+#     (context_raw[is_train], target_raw[is_train])
+# )
+# print(df_train_raw)
 # print(train_raw.shape)
 # ds = tf.data.Dataset.from_tensor_slices(train_raw)
 
-ds_data = [x for x in train_raw.take(5).as_numpy_iterator()]
-df = pd.DataFrame(ds_data)
-print(df.head())
+# ds_data = [x for x in train_raw.take(5).as_numpy_iterator()]
+# df = pd.DataFrame(ds_data)
+# print(df.head())
 
 
 class ShapeChecker:
