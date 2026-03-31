@@ -69,5 +69,50 @@ for example_context_strings, example_target_strings in train_raw.take(1):
   print(example_target_strings[:5])
   break
 
+example_text = tf.constant('¿Todavía está en casa?')
+
+print(example_text.numpy())
+print(tf_text.normalize_utf8(example_text, 'NFKD').numpy())
+
+
+def tf_lower_and_split_punct(text):
+  # Split accented characters.
+  text = tf_text.normalize_utf8(text, 'NFKD')
+  text = tf.strings.lower(text)
+  # Keep space, a to z, and select punctuation.
+  text = tf.strings.regex_replace(text, '[^ a-z.?!,¿]', '')
+  # Add spaces around punctuation.
+  text = tf.strings.regex_replace(text, '[.?!,¿]', r' \0 ')
+  # Strip whitespace.
+  text = tf.strings.strip(text)
+
+  text = tf.strings.join(['[START]', text, '[END]'], separator=' ')
+  return text
+
+print(example_text.numpy().decode())
+print(tf_lower_and_split_punct(example_text).numpy().decode())
+
+max_vocab_size = 5000
+
+target_text_processor = tf.keras.layers.TextVectorization(
+    standardize=tf_lower_and_split_punct,
+    max_tokens=max_vocab_size,
+    ragged=True)
+
+target_text_processor.adapt(train_raw.map(lambda context, target: target))
+target_text_processor.get_vocabulary()[:10]
+
+context_text_processor = tf.keras.layers.TextVectorization(
+    standardize=tf_lower_and_split_punct,
+    max_tokens=max_vocab_size,
+    ragged=True)
+
+
+context_text_processor.adapt(train_raw.map(lambda context, target: context))
+
+# Here are the first 10 words from the vocabulary:
+context_text_processor.get_vocabulary()[:10]
+
+
 
 
