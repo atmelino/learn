@@ -100,18 +100,18 @@ target_text_processor = tf.keras.layers.TextVectorization(
     ragged=True)
 
 target_text_processor.adapt(train_raw.map(lambda context, target: target))
-target_text_processor.get_vocabulary()[:10]
+# target_text_processor.get_vocabulary()[:10]
 
-context_text_processor = tf.keras.layers.TextVectorization(
-    standardize=tf_lower_and_split_punct,
-    max_tokens=max_vocab_size,
-    ragged=True)
+# context_text_processor = tf.keras.layers.TextVectorization(
+#     standardize=tf_lower_and_split_punct,
+#     max_tokens=max_vocab_size,
+#     ragged=True)
 
 
-context_text_processor.adapt(train_raw.map(lambda context, target: context))
+# context_text_processor.adapt(train_raw.map(lambda context, target: context))
 
-# Here are the first 10 words from the vocabulary:
-context_text_processor.get_vocabulary()[:10]
+# # Here are the first 10 words from the vocabulary:
+# context_text_processor.get_vocabulary()[:10]
 
 
 
