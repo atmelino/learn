@@ -27,3 +27,5 @@ dataset_dir = utils.get_file(
 
 dataset_dir = pathlib.Path(dataset_dir).parent
 
+print(list(dataset_dir.iterdir()))
+
