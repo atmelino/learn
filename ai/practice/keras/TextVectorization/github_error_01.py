@@ -25,3 +25,9 @@ if __name__ == "__main__":
     dataset_test()
 
 
+import tensorflow as tf
+
+range_ds = tf.data.Dataset.range(10)
+
+for d in range_ds:
+   print(d)
