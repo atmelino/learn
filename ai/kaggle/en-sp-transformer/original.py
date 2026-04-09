@@ -31,7 +31,8 @@ class Config:
     embed_dim = 256
     latent_dim = 256
     num_heads = 4
-    epochs = 30 # Number of Epochs to train
+    # epochs = 30 # Number of Epochs to train
+    epochs = 1 # Number of Epochs to train
     # is_training = False
     is_training = True
 config = Config()
@@ -246,12 +247,21 @@ transformer.summary()
 keras.utils.plot_model(transformer, show_shapes=True)
 
 
+class LossAndErrorPrintingCallback(tf.keras.callbacks.Callback):
+    def on_epoch_end(self, epoch, logs=None):
+        # print(f"The average loss for epoch {epoch} is {logs['loss']:.7f} "
+        #       f"and mean absolute error is {logs['mean_absolute_error']:.7f}.")
+        print(f"\nend of epoch {epoch}, loss= {logs['loss']:.7f} ")
+# Usage in model.fit
+# model.fit(x_train, y_train, epochs=2, verbose=0, 
+#           callbacks=[LossAndErrorPrintingCallback()])   
+
 if config.is_training:
     checkpoints = tf.keras.callbacks.ModelCheckpoint(
-        "model.tf", 
+        filepath=OUTPUT_PATH+"model.tf", 
         monitor="val_accuracy", 
         mode="max", 
-        save_best_only=True
+        save_best_only=True,
     )
     early_stop = tf.keras.callbacks.EarlyStopping(
         patience=10,
@@ -259,10 +269,11 @@ if config.is_training:
         mode="min",
         restore_best_weights=True
     )
-    transformer.fit(train_ds, epochs=config.epochs, validation_data=valid_ds, callbacks=[checkpoints, early_stop])
-    transformer.load_weights("model.tf")
+    transformer.fit(train_ds, epochs=config.epochs, validation_data=valid_ds, callbacks=[checkpoints, early_stop,LossAndErrorPrintingCallback()])
+    transformer.load_weights(OUTPUT_PATH+"model.tf")
 else:
-    transformer.load_weights("../input/english-spanish-translation-transformer-model/model.tf")
+    # transformer.load_weights("../input/english-spanish-translation-transformer-model/model.tf")
+    transformer.load_weights(OUTPUT_PATH+"model.tf")
 
 
 
