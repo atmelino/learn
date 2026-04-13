@@ -34,8 +34,8 @@ class Config:
     latent_dim = 256
     num_heads = 4
     # epochs = 30 # Number of Epochs to train
-    epochs = 1 # Number of Epochs to train
-    # epochs = 4  # Number of Epochs to train
+    # epochs = 1 # Number of Epochs to train
+    epochs = 4  # Number of Epochs to train
     # is_training = False
     is_training = True
 

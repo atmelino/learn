@@ -41,8 +41,8 @@ class Config:
 
 config = Config()
 
-# data = pd.read_csv("/kaggle/input/englishspanish-translation-dataset/data.csv")
 data = pd.read_csv(DATA_PATH + "data.csv")
+# data = pd.read_csv(DATA_PATH + "custom_data.csv")
 print(data.head())
 
 data["spanish"] = data["spanish"].apply(lambda item: "[start] " + item + " [end]")
@@ -268,72 +268,9 @@ transformer.summary()
 keras.utils.plot_model(transformer, show_shapes=True)
 
 
-class LossAndErrorPrintingCallback(tf.keras.callbacks.Callback):
-    def on_epoch_end(self, epoch, logs=None):
-        # print(f"The average loss for epoch {epoch} is {logs['loss']:.7f} "
-        #       f"and mean absolute error is {logs['mean_absolute_error']:.7f}.")
-        print(f"\nend of epoch {epoch}, loss= {logs['loss']:.7f} ")
-
-
-# Usage in model.fit
-# model.fit(x_train, y_train, epochs=2, verbose=0,
-#           callbacks=[LossAndErrorPrintingCallback()])
-
-whole_model_save = False
-if whole_model_save == True:
-    if config.is_training:
-        checkpoints = tf.keras.callbacks.ModelCheckpoint(
-            # filepath=OUTPUT_PATH+"model.tf",
-            filepath="model.tf",
-            monitor="val_accuracy",
-            mode="max",
-            save_best_only=True,
-        )
-        early_stop = tf.keras.callbacks.EarlyStopping(
-            patience=10, monitor="val_loss", mode="min", restore_best_weights=True
-        )
-        transformer.fit(
-            train_ds,
-            epochs=config.epochs,
-            validation_data=valid_ds,
-            callbacks=[checkpoints, early_stop, LossAndErrorPrintingCallback()],
-        )
-        print("load weights in if-block (training) ")
-        # transformer.load_weights(OUTPUT_PATH+"model.tf")
-
-        transformer = tf.keras.models.load_model("model.tf")
-
-        # transformer.load_weights("model.tf")
-    else:
-        # transformer.load_weights("../input/english-spanish-translation-transformer-model/model.tf")
-        transformer.load_weights(OUTPUT_PATH + "model.tf")
-
-else:
-    checkpoint_filepath = OUTPUT_PATH + "model.keras"
-    if config.is_training:
-        checkpoints = tf.keras.callbacks.ModelCheckpoint(
-            filepath=checkpoint_filepath,
-            monitor="val_accuracy",
-            mode="max",
-            save_best_only=True,
-            save_weights_only=True,
-        )
-        early_stop = tf.keras.callbacks.EarlyStopping(
-            patience=10, monitor="val_loss", mode="min", restore_best_weights=True
-        )
-        transformer.fit(
-            train_ds,
-            epochs=config.epochs,
-            validation_data=valid_ds,
-            callbacks=[checkpoints, early_stop, LossAndErrorPrintingCallback()],
-        )
-        print("load weights in if-block (training) ")
-        # transformer.load_weights(OUTPUT_PATH+"model.tf")
-        transformer.load_weights(checkpoint_filepath)
-    else:
-        # transformer.load_weights("../input/english-spanish-translation-transformer-model/model.tf")
-        transformer.load_weights(checkpoint_filepath)
-
+checkpoint_filepath = OUTPUT_PATH + "translate_fit.keras"
+print("loading transformer model from",checkpoint_filepath)
+transformer.load_weights(checkpoint_filepath)
 
 print(transformer.evaluate(valid_ds, return_dict=True))
 
