@@ -1,5 +1,6 @@
 # https://www.kaggle.com/code/lonnieqin/english-spanish-translation-transformer
 
+
 import pandas as pd
 import tensorflow as tf
 from tensorflow.keras.layers import TextVectorization
@@ -11,8 +12,8 @@ import numpy as np
 from tensorflow import keras
 from tensorflow.keras import layers
 import sklearn
-from sklearn.model_selection import train_test_split
 import os
+from sklearn.model_selection import train_test_split
 
 print(f"Tensorflow Version:{tf.__version__}")
 
@@ -30,10 +31,11 @@ class Config:
     embed_dim = 256
     latent_dim = 256
     num_heads = 4
-    # epochs = 30  # Number of Epochs to train
-    epochs = 1  # Number of Epochs to train
-    # is_training = False
-    is_training = True
+    # epochs = 30 # Number of Epochs to train
+    # epochs = 1 # Number of Epochs to train
+    epochs = 4  # Number of Epochs to train
+    is_training = False
+    # is_training = True
 
 
 config = Config()
@@ -47,7 +49,7 @@ print(data.head())
 
 strip_chars = string.punctuation + "¿"
 strip_chars = strip_chars.replace("[", "").replace("]", "")
-print("strip characters", strip_chars)
+print("strip characters",strip_chars)
 
 
 def spanish_standardize(input_string):
@@ -96,7 +98,7 @@ def make_dataset(df, batch_size, mode):
 train, valid = train_test_split(
     data, test_size=config.validation_split, random_state=42
 )
-print("training data shape=", train.shape, " validation data shape=", valid.shape)
+print("training data shape=",train.shape," validation data shape=", valid.shape)
 
 print("convert data to tf.data.Dataset")
 train_ds = make_dataset(train, batch_size=config.batch_size, mode="train")
@@ -266,25 +268,103 @@ transformer.summary()
 keras.utils.plot_model(transformer, show_shapes=True)
 
 
-checkpoint_filepath = OUTPUT_PATH + "model.tf"
-if config.is_training:
-    checkpoints = tf.keras.callbacks.ModelCheckpoint(
-        filepath=checkpoint_filepath,
-        monitor="val_accuracy",
-        mode="max",
-        save_best_only=True,
-    )
-    early_stop = tf.keras.callbacks.EarlyStopping(
-        patience=10, monitor="val_loss", mode="min", restore_best_weights=True
-    )
-    transformer.fit(
-        train_ds,
-        epochs=config.epochs,
-        validation_data=valid_ds,
-        callbacks=[checkpoints, early_stop],
-    )
-    transformer.load_weights("model.tf")
+class LossAndErrorPrintingCallback(tf.keras.callbacks.Callback):
+    def on_epoch_end(self, epoch, logs=None):
+        # print(f"The average loss for epoch {epoch} is {logs['loss']:.7f} "
+        #       f"and mean absolute error is {logs['mean_absolute_error']:.7f}.")
+        print(f"\nend of epoch {epoch}, loss= {logs['loss']:.7f} ")
+
+
+# Usage in model.fit
+# model.fit(x_train, y_train, epochs=2, verbose=0,
+#           callbacks=[LossAndErrorPrintingCallback()])
+
+whole_model_save = False
+if whole_model_save == True:
+    if config.is_training:
+        checkpoints = tf.keras.callbacks.ModelCheckpoint(
+            # filepath=OUTPUT_PATH+"model.tf",
+            filepath="model.tf",
+            monitor="val_accuracy",
+            mode="max",
+            save_best_only=True,
+        )
+        early_stop = tf.keras.callbacks.EarlyStopping(
+            patience=10, monitor="val_loss", mode="min", restore_best_weights=True
+        )
+        transformer.fit(
+            train_ds,
+            epochs=config.epochs,
+            validation_data=valid_ds,
+            callbacks=[checkpoints, early_stop, LossAndErrorPrintingCallback()],
+        )
+        print("load weights in if-block (training) ")
+        # transformer.load_weights(OUTPUT_PATH+"model.tf")
+
+        transformer = tf.keras.models.load_model("model.tf")
+
+        # transformer.load_weights("model.tf")
+    else:
+        # transformer.load_weights("../input/english-spanish-translation-transformer-model/model.tf")
+        transformer.load_weights(OUTPUT_PATH + "model.tf")
+
 else:
-    transformer.load_weights(
-        "../input/english-spanish-translation-transformer-model/model.tf"
-    )
+    checkpoint_filepath = OUTPUT_PATH + "model.keras"
+    if config.is_training:
+        checkpoints = tf.keras.callbacks.ModelCheckpoint(
+            filepath=checkpoint_filepath,
+            monitor="val_accuracy",
+            mode="max",
+            save_best_only=True,
+            save_weights_only=True,
+        )
+        early_stop = tf.keras.callbacks.EarlyStopping(
+            patience=10, monitor="val_loss", mode="min", restore_best_weights=True
+        )
+        transformer.fit(
+            train_ds,
+            epochs=config.epochs,
+            validation_data=valid_ds,
+            callbacks=[checkpoints, early_stop, LossAndErrorPrintingCallback()],
+        )
+        print("load weights in if-block (training) ")
+        # transformer.load_weights(OUTPUT_PATH+"model.tf")
+        transformer.load_weights(checkpoint_filepath)
+    else:
+        # transformer.load_weights("../input/english-spanish-translation-transformer-model/model.tf")
+        transformer.load_weights(checkpoint_filepath)
+
+
+print(transformer.evaluate(valid_ds, return_dict=True))
+
+# Translation
+spanish_vocab = spanish_vectorization.get_vocabulary()
+spanish_index_lookup = dict(zip(range(len(spanish_vocab)), spanish_vocab))
+
+
+def remove_start_and_end_token(sentence):
+    return sentence.replace("[start] ", "").replace(" [end]", "")
+
+
+def decode_sequence(transformer, input_sentence):
+    tokenized_input_sentence = english_vectorization([input_sentence])
+    decoded_sentence = "[start]"
+    for i in range(config.sequence_length):
+        tokenized_target_sentence = spanish_vectorization([decoded_sentence])[:, :-1]
+        predictions = transformer([tokenized_input_sentence, tokenized_target_sentence])
+
+        sampled_token_index = np.argmax(predictions[0, i, :])
+        sampled_token = spanish_index_lookup[sampled_token_index]
+        decoded_sentence += " " + sampled_token
+
+        if sampled_token == "[end]":
+            break
+    return remove_start_and_end_token(decoded_sentence)
+
+
+for i in np.random.choice(len(data), 10):
+    item = data.iloc[i]
+    translated = decode_sequence(transformer, item["english"])
+    print("English   :", remove_start_and_end_token(item["english"]))
+    print("Spanish   :", remove_start_and_end_token(item["spanish"]))
+    print("Translated:", translated)

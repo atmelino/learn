@@ -14,6 +14,7 @@ from tensorflow.keras import layers
 import sklearn
 import os
 from sklearn.model_selection import train_test_split
+from tensorflow.keras.models import load_model
 
 print(f"Tensorflow Version:{tf.__version__}")
 
@@ -32,14 +33,17 @@ class Config:
     embed_dim = 256
     latent_dim = 256
     num_heads = 4
-    # epochs = 30 # Number of Epochs to train
-    # epochs = 1 # Number of Epochs to train
-    epochs = 4  # Number of Epochs to train
-    is_training = False
-    # is_training = True
 
 
 config = Config()
+
+
+checkpoint_filepath = OUTPUT_PATH + "translate_fit.keras"
+print("loading transformer model from",checkpoint_filepath)
+# transformer.load_weights(checkpoint_filepath)
+transformer = load_model(checkpoint_filepath)
+
+
 
 data = pd.read_csv(DATA_PATH + "data.csv")
 # data = pd.read_csv(DATA_PATH + "custom_data.csv")
