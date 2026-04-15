@@ -41,7 +41,18 @@ config = Config()
 checkpoint_filepath = OUTPUT_PATH + "translate_fit.keras"
 print("loading transformer model from",checkpoint_filepath)
 # transformer.load_weights(checkpoint_filepath)
-transformer = load_model(checkpoint_filepath)
+# transformer = load_model(checkpoint_filepath)
+
+transformer = load_model(
+    checkpoint_filepath,
+    custom_objects={
+        "PositionalEmbedding": PositionalEmbedding,
+        "TransformerEncoder": TransformerEncoder,
+        "TransformerDecoder": TransformerDecoder,
+    }
+)
+
+
 
 
 

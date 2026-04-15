@@ -265,14 +265,9 @@ transformer = get_transformer(config)
 transformer.summary()
 keras.utils.plot_model(transformer, show_shapes=True)
 
-
-checkpoint_filepath = OUTPUT_PATH + "model.tf"
 if config.is_training:
     checkpoints = tf.keras.callbacks.ModelCheckpoint(
-        filepath=checkpoint_filepath,
-        monitor="val_accuracy",
-        mode="max",
-        save_best_only=True,
+        filepath="model.keras", monitor="val_accuracy", mode="max", save_best_only=True
     )
     early_stop = tf.keras.callbacks.EarlyStopping(
         patience=10, monitor="val_loss", mode="min", restore_best_weights=True
@@ -283,8 +278,43 @@ if config.is_training:
         validation_data=valid_ds,
         callbacks=[checkpoints, early_stop],
     )
-    transformer.load_weights("model.tf")
+    transformer.load_weights("model.keras")
 else:
     transformer.load_weights(
         "../input/english-spanish-translation-transformer-model/model.tf"
     )
+
+
+print(transformer.evaluate(valid_ds, return_dict=True))
+
+
+spanish_vocab = spanish_vectorization.get_vocabulary()
+spanish_index_lookup = dict(zip(range(len(spanish_vocab)), spanish_vocab))
+
+
+def remove_start_and_end_token(sentence):
+    return sentence.replace("[start] ", "").replace(" [end]", "")
+
+
+def decode_sequence(transformer, input_sentence):
+    tokenized_input_sentence = english_vectorization([input_sentence])
+    decoded_sentence = "[start]"
+    for i in range(config.sequence_length):
+        tokenized_target_sentence = spanish_vectorization([decoded_sentence])[:, :-1]
+        predictions = transformer([tokenized_input_sentence, tokenized_target_sentence])
+
+        sampled_token_index = np.argmax(predictions[0, i, :])
+        sampled_token = spanish_index_lookup[sampled_token_index]
+        decoded_sentence += " " + sampled_token
+
+        if sampled_token == "[end]":
+            break
+    return remove_start_and_end_token(decoded_sentence)
+
+
+for i in np.random.choice(len(data), 100):
+    item = data.iloc[i]
+    translated = decode_sequence(transformer, item["english"])
+    print("English:", remove_start_and_end_token(item["english"]))
+    print("Spanish:", remove_start_and_end_token(item["spanish"]))
+    print("Translated:", translated)
