@@ -166,8 +166,8 @@ transformer = load_model(
 
 print(transformer.summary())
 
-data = pd.read_csv(DATA_PATH + "data.csv")
-# data = pd.read_csv(DATA_PATH + "custom_data.csv")
+# data = pd.read_csv(DATA_PATH + "data.csv")
+data = pd.read_csv(DATA_PATH + "custom_data.csv")
 print(data.head())
 
 
