@@ -166,10 +166,22 @@ transformer = load_model(
 
 print(transformer.summary())
 
-# data = pd.read_csv(DATA_PATH + "data.csv")
-data = pd.read_csv(DATA_PATH + "custom_data.csv")
-print(data.head())
 
+# Create spanish vocabulary
+# vocab_file=DATA_PATH + "data.csv"
+# print("vocab file=",vocab_file)
+# vocab = pd.read_csv(data_file)
+# print(vocab.head())
+
+
+
+data_file=DATA_PATH + "custom_data.csv"
+data_file=DATA_PATH + "data_short.csv"
+data_file=DATA_PATH + "data.csv"
+data = pd.read_csv(data_file)
+print("data file=",data_file)
+print("shape of data",data.shape)
+print(data.head())
 
 data["spanish"] = data["spanish"].apply(lambda item: "[start] " + item + " [end]")
 print(data.head())
@@ -183,7 +195,6 @@ def spanish_standardize(input_string):
     lowercase = tf.strings.lower(input_string)
     return tf.strings.regex_replace(lowercase, "[%s]" % re.escape(strip_chars), "")
 
-
 english_vectorization = TextVectorization(
     max_tokens=config.vocab_size,
     output_mode="int",
@@ -195,57 +206,49 @@ spanish_vectorization = TextVectorization(
     output_sequence_length=config.sequence_length + 1,
     standardize=spanish_standardize,
 )
-print("Starting adapt")
-english_vectorization.adapt(list(data["english"]))
+print("Starting adapt spanish")
+# english_vectorization.adapt(list(data["english"]))
 spanish_vectorization.adapt(list(data["spanish"]))
 print("adapt complete")
 
 
-def preprocess(english, spanish):
-    english = english_vectorization(english)
-    spanish = spanish_vectorization(spanish)
-    return (
-        {"encoder_inputs": english, "decoder_inputs": spanish[:, :-1]},
-        spanish[:, 1:],
-    )
 
 
-def make_dataset(df, batch_size, mode):
-    dataset = tf.data.Dataset.from_tensor_slices(
-        (list(df["english"]), list(df["spanish"]))
-    )
-    if mode == "train":
-        dataset = dataset.shuffle(batch_size * 4)
-    dataset = dataset.batch(batch_size)
-    dataset = dataset.map(preprocess)
-    dataset = dataset.prefetch(tf.data.AUTOTUNE).cache()
-    return dataset
 
 
-train, valid = train_test_split(
-    data, test_size=config.validation_split, random_state=42
+prompt_data_file=DATA_PATH + "custom_data.csv"
+prompt_data_file=DATA_PATH + "data.csv"
+prompt_data_file=DATA_PATH + "data_short.csv"
+prompt_data = pd.read_csv(prompt_data_file)
+print("prompt data file=",prompt_data_file)
+print("shape of prompt data",prompt_data.shape)
+print(prompt_data.head())
+
+
+english_vectorization = TextVectorization(
+    max_tokens=config.vocab_size,
+    output_mode="int",
+    output_sequence_length=config.sequence_length,
 )
-print(train.shape, valid.shape)
 
-train_ds = make_dataset(train, batch_size=config.batch_size, mode="train")
-valid_ds = make_dataset(valid, batch_size=config.batch_size, mode="valid")
-
-for batch in train_ds.take(1):
-    print(batch)
+print("Starting adapt english prompt")
+english_vectorization.adapt(list(prompt_data["english"]))
+print("adapt complete")
 
 
 
-print(transformer.evaluate(valid_ds, return_dict=True))
+
+
 
 
 # Translation
 spanish_vocab = spanish_vectorization.get_vocabulary()
+# print(spanish_vocab)
+print("length of spanish_vocab",len(spanish_vocab))
 spanish_index_lookup = dict(zip(range(len(spanish_vocab)), spanish_vocab))
-
 
 def remove_start_and_end_token(sentence):
     return sentence.replace("[start] ", "").replace(" [end]", "")
-
 
 def decode_sequence(transformer, input_sentence):
     tokenized_input_sentence = english_vectorization([input_sentence])
@@ -263,8 +266,11 @@ def decode_sequence(transformer, input_sentence):
     return remove_start_and_end_token(decoded_sentence)
 
 
-for i in np.random.choice(len(data), 10):
-    item = data.iloc[i]
+start_index=0
+end_index=5
+# for i in np.random.choice(len(data), 10):
+for i in range(start_index, end_index):
+    item = prompt_data.iloc[i]
     translated = decode_sequence(transformer, item["english"])
     print("English   :", remove_start_and_end_token(item["english"]))
     print("Spanish   :", remove_start_and_end_token(item["spanish"]))
@@ -273,3 +279,13 @@ for i in np.random.choice(len(data), 10):
 
 
 
+# Evaluate validation accuracy
+# train, valid = train_test_split(
+#     data, test_size=config.validation_split, random_state=42
+# )
+# print(train.shape, valid.shape)
+# train_ds = make_dataset(train, batch_size=config.batch_size, mode="train")
+# valid_ds = make_dataset(valid, batch_size=config.batch_size, mode="valid")
+# for batch in train_ds.take(1):
+#     print(batch)
+# print(transformer.evaluate(valid_ds, return_dict=True))
