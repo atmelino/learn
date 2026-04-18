@@ -210,7 +210,7 @@ def write_list(filename, data):
     with open(filename, 'w') as file:
         file.write(content)
 
-write_list("english_vocab.txt", english_vocab)
+# write_list("english_vocab.txt", english_vocab)
 
 # Encode the prompt
 prompt_data_file=DATA_PATH + "data_short.csv"
@@ -246,7 +246,7 @@ def decode_sequence(transformer, input_sentence):
 
 
 start_index=0
-end_index=5
+end_index=10
 # for i in np.random.choice(len(data), 10):
 for i in range(start_index, end_index):
     item = prompt_data.iloc[i]
