@@ -201,7 +201,16 @@ english_vectorization.adapt(list(data["english"]))
 spanish_vectorization.adapt(list(data["spanish"]))
 print("adapt complete")
 
+english_vocab = english_vectorization.get_vocabulary()
+# print(english_vocab)
+print("length of english_vocab",len(english_vocab))
 
+def write_list(filename, data):
+    content = '\n'.join(str(item) for item in data)    
+    with open(filename, 'w') as file:
+        file.write(content)
+
+write_list("english_vocab.txt", english_vocab)
 
 # Encode the prompt
 prompt_data_file=DATA_PATH + "data_short.csv"
