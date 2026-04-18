@@ -1,6 +1,5 @@
 # https://www.kaggle.com/code/lonnieqin/english-spanish-translation-transformer
 
-
 import pandas as pd
 import tensorflow as tf
 from tensorflow.keras.layers import TextVectorization
@@ -21,7 +20,6 @@ print(f"Tensorflow Version:{tf.__version__}")
 BASE_PATH = "../../../../local_data/kaggle/"
 DATA_PATH = BASE_PATH + "en-sp-transformer/"
 OUTPUT_PATH = BASE_PATH + "en-sp-transformer/"
-
 os.system("mkdir -p " + OUTPUT_PATH)
 
 checkpoint_filepath = OUTPUT_PATH + "translate_fit.keras"
@@ -175,13 +173,12 @@ print(transformer.summary())
 
 
 
-data_file=DATA_PATH + "custom_data.csv"
-data_file=DATA_PATH + "data_short.csv"
 data_file=DATA_PATH + "data.csv"
 data = pd.read_csv(data_file)
 print("data file=",data_file)
 print("shape of data",data.shape)
 print(data.head())
+print(data.iloc[51089])
 
 data["spanish"] = data["spanish"].apply(lambda item: "[start] " + item + " [end]")
 print(data.head())
@@ -207,17 +204,13 @@ spanish_vectorization = TextVectorization(
     standardize=spanish_standardize,
 )
 print("Starting adapt spanish")
-# english_vectorization.adapt(list(data["english"]))
+english_vectorization.adapt(list(data["english"]))
 spanish_vectorization.adapt(list(data["spanish"]))
 print("adapt complete")
 
 
 
 
-
-
-prompt_data_file=DATA_PATH + "custom_data.csv"
-prompt_data_file=DATA_PATH + "data.csv"
 prompt_data_file=DATA_PATH + "data_short.csv"
 prompt_data = pd.read_csv(prompt_data_file)
 print("prompt data file=",prompt_data_file)
@@ -225,14 +218,8 @@ print("shape of prompt data",prompt_data.shape)
 print(prompt_data.head())
 
 
-english_vectorization = TextVectorization(
-    max_tokens=config.vocab_size,
-    output_mode="int",
-    output_sequence_length=config.sequence_length,
-)
-
 print("Starting adapt english prompt")
-english_vectorization.adapt(list(prompt_data["english"]))
+# english_vectorization.adapt(list(prompt_data["english"]))
 print("adapt complete")
 
 
