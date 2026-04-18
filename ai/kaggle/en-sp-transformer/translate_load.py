@@ -166,13 +166,6 @@ print(transformer.summary())
 
 
 # Create spanish vocabulary
-# vocab_file=DATA_PATH + "data.csv"
-# print("vocab file=",vocab_file)
-# vocab = pd.read_csv(data_file)
-# print(vocab.head())
-
-
-
 data_file=DATA_PATH + "data.csv"
 data = pd.read_csv(data_file)
 print("data file=",data_file)
@@ -210,22 +203,12 @@ print("adapt complete")
 
 
 
-
+# Encode the prompt
 prompt_data_file=DATA_PATH + "data_short.csv"
 prompt_data = pd.read_csv(prompt_data_file)
 print("prompt data file=",prompt_data_file)
 print("shape of prompt data",prompt_data.shape)
 print(prompt_data.head())
-
-
-print("Starting adapt english prompt")
-# english_vectorization.adapt(list(prompt_data["english"]))
-print("adapt complete")
-
-
-
-
-
 
 
 # Translation
