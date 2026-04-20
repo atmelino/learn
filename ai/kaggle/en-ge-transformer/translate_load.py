@@ -19,8 +19,8 @@ from tensorflow.keras.models import load_model
 print(f"Tensorflow Version:{tf.__version__}")
 
 BASE_PATH = "../../../../local_data/kaggle/"
-DATA_PATH = BASE_PATH + "en-sp-transformer/"
-OUTPUT_PATH = BASE_PATH + "en-sp-transformer/"
+DATA_PATH = BASE_PATH + "en-ge-transformer/"
+OUTPUT_PATH = BASE_PATH + "en-ge-transformer/"
 os.system("mkdir -p " + OUTPUT_PATH)
 
 
@@ -159,21 +159,21 @@ transformer = load_model(
 print(transformer.summary())
 
 
-# extract spanish vocabulary from data file 
+# extract german vocabulary from data file 
 data_file=DATA_PATH + "data.csv"
 data = pd.read_csv(data_file)
 print("data file=",data_file)
 print("shape of data",data.shape)
 print(data.head())
 print(data.iloc[51089])
-data["spanish"] = data["spanish"].apply(lambda item: "[start] " + item + " [end]")
+data["german"] = data["german"].apply(lambda item: "[start] " + item + " [end]")
 print(data.head())
 strip_chars = string.punctuation + "¿"
 strip_chars = strip_chars.replace("[", "").replace("]", "")
 print(strip_chars)
 
 
-def spanish_standardize(input_string):
+def german_standardize(input_string):
     lowercase = tf.strings.lower(input_string)
     return tf.strings.regex_replace(lowercase, "[%s]" % re.escape(strip_chars), "")
 
@@ -182,15 +182,15 @@ english_vectorization = TextVectorization(
     output_mode="int",
     output_sequence_length=config.sequence_length,
 )
-spanish_vectorization = TextVectorization(
+german_vectorization = TextVectorization(
     max_tokens=config.vocab_size,
     output_mode="int",
     output_sequence_length=config.sequence_length + 1,
-    standardize=spanish_standardize,
+    standardize=german_standardize,
 )
-print("Starting adapt spanish")
+print("Starting adapt german")
 english_vectorization.adapt(list(data["english"]))
-spanish_vectorization.adapt(list(data["spanish"]))
+german_vectorization.adapt(list(data["german"]))
 print("adapt complete")
 
 english_vocab = english_vectorization.get_vocabulary()
@@ -213,10 +213,10 @@ print(prompt_data.head())
 
 
 # Translation
-spanish_vocab = spanish_vectorization.get_vocabulary()
-# print(spanish_vocab)
-print("length of spanish_vocab",len(spanish_vocab))
-spanish_index_lookup = dict(zip(range(len(spanish_vocab)), spanish_vocab))
+german_vocab = german_vectorization.get_vocabulary()
+# print(german_vocab)
+print("length of german_vocab",len(german_vocab))
+german_index_lookup = dict(zip(range(len(german_vocab)), german_vocab))
 
 def remove_start_and_end_token(sentence):
     return sentence.replace("[start] ", "").replace(" [end]", "")
@@ -225,11 +225,11 @@ def decode_sequence(transformer, input_sentence):
     tokenized_input_sentence = english_vectorization([input_sentence])
     decoded_sentence = "[start]"
     for i in range(config.sequence_length):
-        tokenized_target_sentence = spanish_vectorization([decoded_sentence])[:, :-1]
+        tokenized_target_sentence = german_vectorization([decoded_sentence])[:, :-1]
         predictions = transformer([tokenized_input_sentence, tokenized_target_sentence])
 
         sampled_token_index = np.argmax(predictions[0, i, :])
-        sampled_token = spanish_index_lookup[sampled_token_index]
+        sampled_token = german_index_lookup[sampled_token_index]
         decoded_sentence += " " + sampled_token
 
         if sampled_token == "[end]":
@@ -244,6 +244,6 @@ for i in range(start_index, end_index):
     item = prompt_data.iloc[i]
     translated = decode_sequence(transformer, item["english"])
     print("English   :", remove_start_and_end_token(item["english"]))
-    print("Spanish   :", remove_start_and_end_token(item["spanish"]))
+    print("german   :", remove_start_and_end_token(item["german"]))
     print("Translated:", translated)
 
