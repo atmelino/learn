@@ -1,4 +1,5 @@
 # https://www.kaggle.com/code/lonnieqin/english-spanish-translation-transformer
+# conda activate jh_class
 
 import pandas as pd
 import tensorflow as tf
@@ -22,10 +23,6 @@ DATA_PATH = BASE_PATH + "en-sp-transformer/"
 OUTPUT_PATH = BASE_PATH + "en-sp-transformer/"
 os.system("mkdir -p " + OUTPUT_PATH)
 
-checkpoint_filepath = OUTPUT_PATH + "translate_fit.keras"
-print("loading transformer model from",checkpoint_filepath)
-# transformer.load_weights(checkpoint_filepath)
-# transformer = load_model(checkpoint_filepath)
 
 class Config:
     vocab_size = 16000  # Vocabulary Size
@@ -153,6 +150,8 @@ class TransformerDecoder(layers.Layer):
         )
         return tf.tile(mask, mult)
 
+checkpoint_filepath = OUTPUT_PATH + "translate_fit.keras"
+print("loading transformer model from",checkpoint_filepath)
 transformer = load_model(
     checkpoint_filepath,
     custom_objects={
@@ -165,17 +164,15 @@ transformer = load_model(
 print(transformer.summary())
 
 
-# Create spanish vocabulary
+# extract spanish vocabulary from data file 
 data_file=DATA_PATH + "data.csv"
 data = pd.read_csv(data_file)
 print("data file=",data_file)
 print("shape of data",data.shape)
 print(data.head())
 print(data.iloc[51089])
-
 data["spanish"] = data["spanish"].apply(lambda item: "[start] " + item + " [end]")
 print(data.head())
-
 strip_chars = string.punctuation + "¿"
 strip_chars = strip_chars.replace("[", "").replace("]", "")
 print(strip_chars)
@@ -255,16 +252,3 @@ for i in range(start_index, end_index):
     print("Spanish   :", remove_start_and_end_token(item["spanish"]))
     print("Translated:", translated)
 
-
-
-
-# Evaluate validation accuracy
-# train, valid = train_test_split(
-#     data, test_size=config.validation_split, random_state=42
-# )
-# print(train.shape, valid.shape)
-# train_ds = make_dataset(train, batch_size=config.batch_size, mode="train")
-# valid_ds = make_dataset(valid, batch_size=config.batch_size, mode="valid")
-# for batch in train_ds.take(1):
-#     print(batch)
-# print(transformer.evaluate(valid_ds, return_dict=True))
